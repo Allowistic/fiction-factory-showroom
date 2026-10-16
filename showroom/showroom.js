@@ -57,8 +57,7 @@ function setView(n) { const v = VIEWS[n]; if (!v) return; cullOverride = n === '
   if (ceilingGroup) ceilingGroup.visible = n !== 'plan'; }
 function spawnRig(i = 0) { const s = SPAWNS[i % SPAWNS.length]; rig.position.set(s.x, 0, s.z); rig.rotation.y = Math.PI + s.yaw; } // XR camera looks -Z; spawn faces +Z
 renderer.xr.addEventListener('sessionstart', () => { spawnRig(0); setLow(true); placePanel(); applyPreset(presetNow); });
-renderer.xr.addEventListener('sessionend', () => applyPreset(presetNow));
-renderer.xr.addEventListener('sessionend', () => { rig.position.set(0, 0, 0); rig.rotation.y = 0; setLow(low); setView('vestibule'); });
+renderer.xr.addEventListener('sessionend', () => { rig.position.set(0, 0, 0); rig.rotation.y = 0; setLow(low); applyPreset(presetNow); setView('hall'); }); // N2/N3: one exit handler, back to the desktop spawn
 
 // ---------- textures ----------
 const rnd = (() => { let s = 11; return () => ((s = (s * 16807) % 2147483647) / 2147483647); })();
@@ -178,7 +177,8 @@ const washMat = new THREE.ShaderMaterial({
       float f=pow(1.-vv,2.4)*smoothstep(0.,.06,vv+.02); vec3 o=pow(c,vec3(1./2.2))*f*gain; o=o/(1.+o); gl_FragColor=vec4(o,1.); }`,
   transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide,
 });
-{ const gs = [], seg = low ? 48 : 120;
+const washSet = {}; // F5: full (120 seg) for desktop, lod (48 seg) for ?low/XR; setLow() swaps
+for (const seg of [120, 48]) { const gs = [];
   for (const g of segs) { const u0 = g.s0 / P, u1 = (g.s0 + g.len) / P;
     for (const [surf, depth] of [['ceil', 1.3], ['wall', 0.18]]) { const pos = [], uu = [], vv = [], idx = [];
       for (let i = 0; i <= seg; i++) { const t = i / seg, x = g.a[0] + (g.b[0] - g.a[0]) * t, z = g.a[1] + (g.b[1] - g.a[1]) * t;
@@ -186,7 +186,7 @@ const washMat = new THREE.ShaderMaterial({
           uu.push(u0 + (u1 - u0) * t); vv.push(surf === 'ceil' ? j : j * 0.6); }
         if (i < seg) { const k = i * 2; idx.push(k, k + 1, k + 2, k + 1, k + 3, k + 2); } }
       const b = new THREE.BufferGeometry(); b.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); b.setAttribute('u', new THREE.Float32BufferAttribute(uu, 1)); b.setAttribute('v', new THREE.Float32BufferAttribute(vv, 1)); b.setIndex(idx); gs.push(b); } }
-  const m = new THREE.Mesh(mergeGeometries(gs), washMat); m.renderOrder = 2; m.frustumCulled = false; ceilingG.add(m); }
+  const m = new THREE.Mesh(mergeGeometries(gs), washMat); m.renderOrder = 2; m.frustumCulled = false; m.visible = (seg === 48) === low; washSet[seg] = m; ceilingG.add(m); }
 
 // ---------- passage + cantina (separate groups for room culling) ----------
 const passage = buildPassage(THREE, mergeGeometries, M); scene.add(passage);
@@ -568,7 +568,7 @@ function unmerge() { if (!merged) return; merged.batches.forEach(m => { m.remove
 let mergeT = 0; const scheduleMerge = (ms = 1200) => { clearTimeout(mergeT); mergeT = setTimeout(() => { if (lowNow) { staticMerge(); status(true); } }, ms); };
 THREE.DefaultLoadingManager.onLoad = () => scheduleMerge(); THREE.DefaultLoadingManager.onProgress = () => scheduleMerge();
 const PIX = Q.has('pixels'); // F3: desktop uses the LED ribbon too (90k tris saved); ?pixels brings back the per-pixel strip
-function setLow(on) { const was = lowNow; lowNow = on; applyCantSet(); pixels.visible = !on && PIX; ledRibbon.visible = on || !PIX; bracketGroup.visible = !on;
+function setLow(on) { const was = lowNow; lowNow = on; washSet[120].visible = !on; washSet[48].visible = on; applyCantSet(); pixels.visible = !on && PIX; ledRibbon.visible = on || !PIX; bracketGroup.visible = !on;
   ringMesh.visible = store.get().labels || renderer.xr.isPresenting;
   applySignSet(); if (on && !was) scheduleMerge(0); if (!on && was) unmerge(); applyNeonMode(); statusFrames = 2; } // B6: refresh status right after the transition
 setLow(low); if (low) scheduleMerge(0);
@@ -626,7 +626,7 @@ applyPreset('dusk'); setView('hall');
 let tvCss = null; const tvCorners = [[-1, 1], [1, 1], [1, -1], [-1, -1]].map(([sx, sy]) => new THREE.Vector3(-sx * TV.w / 2, sy * TV.h / 2, 0)); // TL, TR, BR, BL as seen from the room (screen faces -Z local)
 if (!Q.has('notv')) { const f = document.createElement('iframe'); f.dataset.src = TV.url; f.title = 'Bombshell Discovery'; f.id = 'tv-frame';
   Object.assign(f.style, { position: 'fixed', left: '0', top: '0', width: '1280px', height: '720px', border: '0', background: '#000', transformOrigin: '0 0', zIndex: '2', display: 'none' });
-  f.setAttribute('referrerpolicy', 'no-referrer'); f.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-forms'); document.body.appendChild(f);
+  f.setAttribute('referrerpolicy', 'no-referrer'); f.setAttribute('sandbox', 'allow-scripts allow-popups allow-forms'); document.body.appendChild(f);
   const anchor = new THREE.Object3D(); anchor.position.set(...TV.pos); cantina.add(anchor); tvCss = { element: f, anchor }; }
 const _tv = new THREE.Vector3();
 function homography(src, dst) { // 4-point projective map -> CSS matrix3d (column-major)

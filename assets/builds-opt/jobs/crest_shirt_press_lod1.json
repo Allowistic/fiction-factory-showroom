@@ -1,0 +1,31 @@
+{
+  "id": "crest_shirt_press",
+  "out": "/workspace/loft-xr/assets/builds-opt/crest_shirt_press_lod1.glb",
+  "target_tris": 1000,
+  "orient": "flat_face",
+  "description": "Thin heat-press shirt crest, grey base with white overlay",
+  "source": "/workspace/bombshell-crest/variant_shirt_press",
+  "name": "Bombshell Shirt Press Crest",
+  "parts": [
+    {
+      "path": "/workspace/bombshell-crest/variant_shirt_press/print/stl/Grey_base.stl",
+      "name": "Grey",
+      "color": [
+        0.45,
+        0.45,
+        0.47
+      ],
+      "roughness": 0.6
+    },
+    {
+      "path": "/workspace/bombshell-crest/variant_shirt_press/print/stl/White_top.stl",
+      "name": "White",
+      "color": [
+        0.92,
+        0.92,
+        0.93
+      ],
+      "roughness": 0.55
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "out": "/workspace/loft-xr/assets/builds-opt/crest_fridge_only_lod1.glb",
+  "dims_mm": [
+    54.908,
+    7.05,
+    64.429
+  ],
+  "tris": 1156,
+  "parts": 1,
+  "orient": "flat_face",
+  "stl_unit_mm": 1.0,
+  "method": "remesh+tex512",
+  "texture": "/workspace/loft-xr/assets/builds-opt/tex/crest_fridge_only.png"
+}

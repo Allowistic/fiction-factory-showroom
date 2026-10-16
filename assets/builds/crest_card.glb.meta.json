@@ -1,0 +1,11 @@
+{
+  "out": "/workspace/loft-xr/assets/builds/crest_card.glb",
+  "dims_mm": [
+    53.98,
+    7.05,
+    85.6
+  ],
+  "tris": 17998,
+  "parts": 2,
+  "orient": "flat_face"
+}

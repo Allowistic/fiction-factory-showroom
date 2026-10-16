@@ -1,0 +1,12 @@
+{
+  "out": "/workspace/loft-xr/assets/builds-opt/hope_relief.glb",
+  "dims_mm": [
+    36.0,
+    0.75,
+    33.261
+  ],
+  "tris": 5000,
+  "parts": 1,
+  "orient": "flat_face",
+  "stl_unit_mm": 25.4
+}

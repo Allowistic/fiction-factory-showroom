@@ -1,0 +1,35 @@
+{
+  "out": "/workspace/loft-xr/assets/builds-opt/hope_neon.glb",
+  "tris": 1864,
+  "overlays": "hope_relief.glb",
+  "frame": "same as hope_relief.glb (914.4 x 19.05 x 844.83 mm, bottom-center origin, +Y up, front +Z, meters)",
+  "source": "/workspace/hope/v4_8_final/HOPE_neon_layout_FRONT_reference.svg (v4.8; PROFILE matches HOPE_relief_v4_8p7_release.stl frame, offset x-1in, y=34.278in-y)",
+  "colors": {
+    "white": {
+      "mesh": "neon_white",
+      "hex": "#FFE9C4",
+      "source": "/workspace/hope/render4.py GLOW (v4 pattern renderer; render-intent glow, not a manufacturer spec)"
+    },
+    "red": {
+      "mesh": "neon_red",
+      "hex": "#FF2020",
+      "source": "/workspace/hope/render4.py GLOW (v4 pattern renderer; render-intent glow, not a manufacturer spec)"
+    },
+    "purple": {
+      "mesh": "neon_purple",
+      "hex": "#A633FF",
+      "source": "/workspace/hope/render4.py GLOW (v4 pattern renderer; render-intent glow, not a manufacturer spec)"
+    }
+  },
+  "tube_diameter_mm": {
+    "white": 12.0,
+    "red": 12.0,
+    "purple": 9.14
+  },
+  "tube_source": "outputs4.py:199 \"12 mm / 10 mm tube\"; render4.py stack: white 12 mm, red r=0.236in (12 mm), purple r=0.18in (9.14 mm, \"8-10 mm\")",
+  "tube_sides": 4,
+  "simplify_tol_in": 0.14,
+  "placement": "tube centre = local relief surface max + 0.5r (sits in/at grooves); red/purple float over acrylic area as designed",
+  "draco": true,
+  "lod1": null
+}

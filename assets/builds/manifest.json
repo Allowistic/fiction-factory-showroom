@@ -1,0 +1,224 @@
+{
+  "version": 1,
+  "generated": "2026-10-15T15:38:12-07:00",
+  "conventions": {
+    "format": "GLB",
+    "up": "+Y",
+    "forward": "+Z",
+    "units": "meters",
+    "textures_max": 1024,
+    "max_tris_per_model": 50000,
+    "max_tris_shelf": 300000,
+    "compression": "draco",
+    "materials": "simple PBR baseColor/roughness/metallic (no textures)"
+  },
+  "totals": {
+    "models": 13,
+    "tris": 232444,
+    "bytes": 2578840,
+    "mb": 2.46
+  },
+  "skipped": [
+    {
+      "name": "Tommy checker sleeves",
+      "reason": "No STL/3MF under /workspace; tommy folders only have photos / KEEP-IT-FLYING.md"
+    }
+  ],
+  "builds": [
+    {
+      "file": "crest_L_magnet_v2.glb",
+      "name": "Bombshell Crest (plaque)",
+      "scale": 1.0,
+      "dims_mm": {
+        "x": 154.0,
+        "y": 10.5,
+        "z": 178.82
+      },
+      "tris": 21998,
+      "bytes": 180496,
+      "description": "Bombshell Discovery crest, beveled plaque with four magnet pockets",
+      "source": "/workspace/bombshell-crest/variant_L_magnet_v2",
+      "date": "2026-10-15T15:35:10-07:00"
+    },
+    {
+      "file": "crest_card.glb",
+      "name": "Bombshell Crest Card",
+      "scale": 1.0,
+      "dims_mm": {
+        "x": 53.98,
+        "y": 7.05,
+        "z": 85.6
+      },
+      "tris": 17998,
+      "bytes": 155280,
+      "description": "Credit-card crest plaque with Est. 2026 and dual magnet pockets",
+      "source": "/workspace/bombshell-crest/variant_card",
+      "date": "2026-10-15T15:35:08-07:00"
+    },
+    {
+      "file": "crest_fridge_only.glb",
+      "name": "Bombshell Crest Magnet",
+      "scale": 1.0,
+      "dims_mm": {
+        "x": 54.91,
+        "y": 7.05,
+        "z": 64.43
+      },
+      "tris": 15998,
+      "bytes": 145452,
+      "description": "Crest-only fridge magnet, shield silhouette with bolt pocket",
+      "source": "/workspace/bombshell-crest/variant_fridge_crest_only",
+      "date": "2026-10-15T15:35:03-07:00"
+    },
+    {
+      "file": "crest_magnet_flatstack.glb",
+      "name": "Bombshell Flatstack Magnet",
+      "scale": 1.0,
+      "dims_mm": {
+        "x": 58.27,
+        "y": 4.8,
+        "z": 68.6
+      },
+      "tris": 13998,
+      "bytes": 127184,
+      "description": "Flat-stack fridge magnet, grey base white top, dual 6x1.9 pockets",
+      "source": "/workspace/bombshell-crest/variant_magnet_flatstack",
+      "date": "2026-10-15T15:34:56-07:00"
+    },
+    {
+      "file": "crest_shirt_press.glb",
+      "name": "Bombshell Shirt Press Crest",
+      "scale": 1.0,
+      "dims_mm": {
+        "x": 90.0,
+        "y": 0.8,
+        "z": 105.95
+      },
+      "tris": 9998,
+      "bytes": 79000,
+      "description": "Thin heat-press shirt crest, grey base with white overlay",
+      "source": "/workspace/bombshell-crest/variant_shirt_press",
+      "date": "2026-10-15T15:34:57-07:00"
+    },
+    {
+      "file": "rocket_d1.glb",
+      "name": "Rocket Lamp D1 Surplus Courier",
+      "scale": 1.0,
+      "dims_mm": {
+        "x": 181.56,
+        "y": 181.56,
+        "z": 225.0
+      },
+      "tris": 31992,
+      "bytes": 376360,
+      "description": "ShadyAF D1 rocket lamp base, multi-color assembled",
+      "source": "/workspace/shadyaf/rocket-base/clay/D1_surplus_courier",
+      "date": "2026-10-15T15:35:18-07:00"
+    },
+    {
+      "file": "rocket_d2.glb",
+      "name": "Rocket Lamp D2 Pulp Needle",
+      "scale": 1.0,
+      "dims_mm": {
+        "x": 178.19,
+        "y": 178.19,
+        "z": 226.0
+      },
+      "tris": 27992,
+      "bytes": 344852,
+      "description": "ShadyAF D2 rocket lamp base, multi-color assembled",
+      "source": "/workspace/shadyaf/rocket-base/clay/D2_pulp_needle",
+      "date": "2026-10-15T15:35:19-07:00"
+    },
+    {
+      "file": "holddown_m6_kit.glb",
+      "name": "3018 M6 Hold-Down Kit",
+      "scale": 1.0,
+      "dims_mm": {
+        "x": 308.5,
+        "y": 26.83,
+        "z": 34.0
+      },
+      "tris": 2376,
+      "bytes": 20728,
+      "description": "M6 hold-down arm, heel blocks A/B, and knob laid out as a kit",
+      "source": "/workspace/cnc-3018/holddown/test_set_m6",
+      "date": "2026-10-15T15:35:15-07:00"
+    },
+    {
+      "file": "wingnut_1_4_20.glb",
+      "name": "1/4-20 Wing Nut",
+      "scale": 1.0,
+      "dims_mm": {
+        "x": 50.8,
+        "y": 14.66,
+        "z": 9.53
+      },
+      "tris": 12000,
+      "bytes": 146052,
+      "description": "Printable 1/4-20 wing nut for CNC hold-downs",
+      "source": "/workspace/cnc-3018/holddown/wingnut_1-4-20/wingnut_1-4-20.stl",
+      "date": "2026-10-15T15:35:16-07:00"
+    },
+    {
+      "file": "bini_fillet_clipped.glb",
+      "name": "Bini Corner Fillet",
+      "scale": 1.0,
+      "dims_mm": {
+        "x": 50.8,
+        "y": 50.8,
+        "z": 101.6
+      },
+      "tris": 320,
+      "bytes": 3084,
+      "description": "Marcos Bini corner cove fillet, clipped solid, square ends",
+      "source": "/workspace/campbell-creek/bini-fillets/v3_clipped/bini_fillet_B_clip_onend.stl",
+      "date": "2026-10-15T15:34:55-07:00"
+    },
+    {
+      "file": "night_owls_owl.glb",
+      "name": "Night Owls Owl",
+      "scale": 1.0,
+      "dims_mm": {
+        "x": 169.58,
+        "y": 212.68,
+        "z": 180.97
+      },
+      "tris": 5776,
+      "bytes": 63624,
+      "description": "Night Owls one-piece owl print",
+      "source": "/workspace/night-owls/clay_build/print/P0_onepiece_owl.stl",
+      "date": "2026-10-15T15:35:17-07:00"
+    },
+    {
+      "file": "hope_relief.glb",
+      "name": "HOPE Relief Sign",
+      "scale": 1.0,
+      "dims_mm": {
+        "x": 914.4,
+        "y": 19.05,
+        "z": 844.83
+      },
+      "tris": 31998,
+      "bytes": 419584,
+      "description": "HOPE skull-and-antlers relief sign (v4.8.7 release), 36\u00d734 in",
+      "source": "/workspace/hope/clay/HOPE_relief_v4_8p7_release.stl",
+      "date": "2026-10-15T15:38:06-07:00"
+    },
+    {
+      "file": "vw_t1_restomod.glb",
+      "name": "VW T1 Restomod",
+      "scale": 1.0,
+      "dims_mm": {
+        "x": 181.64,
+        "y": 85.4,
+        "z": 75.51
+      },
+      "tris": 40000,
+      "bytes": 517144,
+      "description": "1:18 VW T1 restomod one-piece body",
+      "source": "/workspace/vw-t1-restomod/clay_build/print/vw_t1_restomod_1to18_onepiece.stl",
+      "date": "2026-10-15T15:37:12-07:00"
+    }
+  ]
+}

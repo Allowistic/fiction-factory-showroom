@@ -1,0 +1,11 @@
+{
+  "out": "/workspace/loft-xr/assets/builds/rocket_d2.glb",
+  "dims_mm": [
+    178.191,
+    178.191,
+    226.0
+  ],
+  "tris": 27992,
+  "parts": 7,
+  "orient": "rocket_z"
+}

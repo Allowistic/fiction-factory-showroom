@@ -1,0 +1,31 @@
+{
+  "id": "crest_magnet_flatstack",
+  "out": "/workspace/loft-xr/assets/builds-opt/crest_magnet_flatstack_lod1.glb",
+  "target_tris": 1000,
+  "orient": "flat_face",
+  "description": "Flat-stack fridge magnet, grey base white top, dual 6x1.9 pockets",
+  "source": "/workspace/bombshell-crest/variant_magnet_flatstack",
+  "name": "Bombshell Flatstack Magnet",
+  "parts": [
+    {
+      "path": "/workspace/bombshell-crest/variant_magnet_flatstack/print/stl/Grey.stl",
+      "name": "Grey",
+      "color": [
+        0.45,
+        0.45,
+        0.47
+      ],
+      "roughness": 0.6
+    },
+    {
+      "path": "/workspace/bombshell-crest/variant_magnet_flatstack/print/stl/White.stl",
+      "name": "White",
+      "color": [
+        0.92,
+        0.92,
+        0.93
+      ],
+      "roughness": 0.55
+    }
+  ]
+}

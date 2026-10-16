@@ -1,0 +1,147 @@
+{
+ "_note": "PLACEHOLDER footprints (Mira LAYOUT_SPEC.md + Mira v0 feedback). Machine outer sizes NOT LOGGED (Max/Tally): X1C ~0.39x0.39x0.46 + AMS ~0.21 tall are approximate. Units m; position = floor center [x,z]; w along X, d along Z (before rotationY degrees). kind: table | block | enclosure | wallshelf.",
+ "placeholder": true,
+ "items": [
+  {
+   "name": "Design desk",
+   "kind": "table",
+   "w": 1.5,
+   "d": 0.75,
+   "h": 0.75,
+   "position": [
+    1.2,
+    0.5
+   ],
+   "color": "#8a5a2e",
+   "model": {
+    "file": "kenney_desk.glb"
+   }
+  },
+  {
+   "name": "Assembly bench",
+   "kind": "table",
+   "w": 1.2,
+   "d": 0.6,
+   "h": 0.9,
+   "position": [
+    3.0,
+    2.0
+   ],
+   "color": "#a07a52",
+   "top": "butcher"
+  },
+  {
+   "name": "Printer stand (0.3 m rear clearance)",
+   "kind": "table",
+   "w": 0.5,
+   "d": 0.5,
+   "h": 0.72,
+   "position": [
+    5.45,
+    0.75
+   ],
+   "color": "#3a3d42",
+   "model": {
+    "file": "kenney_bookcaseOpenLow.glb"
+   }
+  },
+  {
+   "name": "Bambu Lab X1 Carbon + AMS (size PLACEHOLDER)",
+   "kind": "block",
+   "w": 0.39,
+   "d": 0.39,
+   "position": [
+    5.45,
+    0.75
+   ],
+   "elevation": 0.72,
+   "rotationY": -90,
+   "parts": [
+    {
+     "h": 0.457,
+     "color": "#4a4d53"
+    },
+    {
+     "h": 0.21,
+     "color": "#6a6e76"
+    }
+   ]
+  },
+  {
+   "name": "Make bench",
+   "kind": "table",
+   "w": 0.6,
+   "d": 1.4,
+   "h": 0.9,
+   "position": [
+    5.7,
+    2.0
+   ],
+   "color": "#a07a52",
+   "top": "butcher"
+  },
+  {
+   "name": "SainSmart 3018-PRO in enclosure (size PLACEHOLDER)",
+   "kind": "enclosure",
+   "w": 0.5,
+   "d": 0.55,
+   "h": 0.45,
+   "position": [
+    5.7,
+    1.85
+   ],
+   "elevation": 0.9,
+   "inner": {
+    "w": 0.33,
+    "d": 0.4,
+    "h": 0.25,
+    "color": "#1d1f22"
+   },
+   "model": {
+    "file": "cnc.glb",
+    "w": 0.33,
+    "d": 0.4,
+    "h": 0.25,
+    "keep": [
+     1,
+     2
+    ]
+   }
+  },
+  {
+   "name": "Filament / bits shelves",
+   "kind": "wallshelf",
+   "w": 0.3,
+   "d": 2.3,
+   "position": [
+    5.85,
+    1.55
+   ],
+   "levels": [
+    1.8,
+    2.15
+   ],
+   "color": "#b58a5e",
+   "spools": true
+  },
+  {
+   "name": "Desk chair",
+   "kind": "prop",
+   "w": 0.55,
+   "d": 0.55,
+   "h": 0.95,
+   "position": [
+    1.2,
+    1.15
+   ],
+   "rotationY": 180,
+   "color": "#2a2c30",
+   "model": {
+    "file": "kenney_chairDesk.glb",
+    "tint": "#c4561f"
+   }
+  }
+ ],
+ "_props": "model/extras = GLB in assets/props/ (see CREDITS.md), non-uniformly fit to w x h x d; box stays as fallback if load fails.",
+ "_style": "1970s pass (Mira/Vincent): butcher-block bench tops, orange swivel chair; machines stay modern."
+}

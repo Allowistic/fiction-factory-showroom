@@ -1,0 +1,12 @@
+{
+  "out": "/workspace/loft-xr/assets/builds-opt/crest_magnet_flatstack.glb",
+  "dims_mm": [
+    58.27,
+    4.8,
+    68.6
+  ],
+  "tris": 1998,
+  "parts": 2,
+  "orient": "flat_face",
+  "stl_unit_mm": 1.0
+}

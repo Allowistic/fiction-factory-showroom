@@ -1,0 +1,21 @@
+{
+  "id": "night_owls_owl",
+  "out": "/workspace/loft-xr/assets/builds-opt/night_owls_owl.glb",
+  "target_tris": 5000,
+  "orient": "upright_y",
+  "name": "Night Owls Owl",
+  "description": "Night Owls one-piece owl print",
+  "source": "/workspace/night-owls/clay_build/print/P0_onepiece_owl.stl",
+  "parts": [
+    {
+      "path": "/workspace/night-owls/clay_build/print/P0_onepiece_owl.stl",
+      "name": "Owl",
+      "color": [
+        0.55,
+        0.38,
+        0.22
+      ],
+      "roughness": 0.65
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "id": "holddown_m6_kit",
+  "out": "/workspace/loft-xr/assets/builds-opt/holddown_m6_kit.glb",
+  "target_tris": 2000,
+  "orient": "as_is",
+  "name": "3018 M6 Hold-Down Kit",
+  "description": "M6 hold-down arm, heel blocks A/B, and knob laid out as a kit",
+  "source": "/workspace/cnc-3018/holddown/test_set_m6",
+  "parts": [
+    {
+      "path": "/workspace/cnc-3018/holddown/test_set_m6/holddown_arm.stl",
+      "name": "Arm",
+      "color": [
+        0.25,
+        0.25,
+        0.28
+      ],
+      "roughness": 0.5,
+      "offset_mm": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "path": "/workspace/cnc-3018/holddown/test_set_m6/heel_block_A.stl",
+      "name": "HeelA",
+      "color": [
+        0.35,
+        0.35,
+        0.38
+      ],
+      "roughness": 0.5,
+      "offset_mm": [
+        60,
+        0,
+        0
+      ]
+    },
+    {
+      "path": "/workspace/cnc-3018/holddown/test_set_m6/heel_block_B.stl",
+      "name": "HeelB",
+      "color": [
+        0.35,
+        0.35,
+        0.38
+      ],
+      "roughness": 0.5,
+      "offset_mm": [
+        90,
+        0,
+        0
+      ]
+    },
+    {
+      "path": "/workspace/cnc-3018/holddown/test_set_m6/knob_m6.stl",
+      "name": "Knob",
+      "color": [
+        0.15,
+        0.15,
+        0.16
+      ],
+      "roughness": 0.4,
+      "offset_mm": [
+        120,
+        0,
+        0
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "out": "/workspace/loft-xr/assets/builds-opt/crest_shirt_press.glb",
+  "dims_mm": [
+    90.0,
+    0.8,
+    105.955
+  ],
+  "tris": 1998,
+  "parts": 2,
+  "orient": "flat_face",
+  "stl_unit_mm": 1.0
+}

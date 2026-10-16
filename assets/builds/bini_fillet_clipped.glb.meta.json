@@ -1,0 +1,11 @@
+{
+  "out": "/workspace/loft-xr/assets/builds/bini_fillet_clipped.glb",
+  "dims_mm": [
+    50.8,
+    50.8,
+    101.6
+  ],
+  "tris": 320,
+  "parts": 1,
+  "orient": "as_is"
+}

@@ -1,0 +1,11 @@
+{
+  "out": "/workspace/loft-xr/assets/builds/wingnut_1_4_20.glb",
+  "dims_mm": [
+    50.8,
+    14.665,
+    9.525
+  ],
+  "tris": 12000,
+  "parts": 1,
+  "orient": "as_is"
+}

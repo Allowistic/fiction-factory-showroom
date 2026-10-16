@@ -1,0 +1,88 @@
+{
+  "id": "rocket_d2",
+  "out": "/workspace/loft-xr/assets/builds-opt/rocket_d2.glb",
+  "target_tris": 5000,
+  "orient": "rocket_z",
+  "name": "Rocket Lamp D2 Pulp Needle",
+  "description": "ShadyAF D2 rocket lamp base, multi-color assembled",
+  "source": "/workspace/shadyaf/rocket-base/clay/D2_pulp_needle",
+  "parts": [
+    {
+      "path": "/workspace/shadyaf/rocket-base/clay/D2_pulp_needle/color_volumes/D2_A1_tail_unit__slot1_pulp_cream.stl",
+      "name": "Cream",
+      "color": [
+        0.9,
+        0.84,
+        0.72
+      ],
+      "roughness": 0.65,
+      "metallic": 0.0
+    },
+    {
+      "path": "/workspace/shadyaf/rocket-base/clay/D2_pulp_needle/color_volumes/D2_A1_tail_unit__slot2_faded_vermilion.stl",
+      "name": "Vermilion",
+      "color": [
+        0.75,
+        0.25,
+        0.2
+      ],
+      "roughness": 0.6,
+      "metallic": 0.0
+    },
+    {
+      "path": "/workspace/shadyaf/rocket-base/clay/D2_pulp_needle/color_volumes/D2_A1_tail_unit__slot3_navy_ink.stl",
+      "name": "Navy",
+      "color": [
+        0.12,
+        0.18,
+        0.32
+      ],
+      "roughness": 0.55,
+      "metallic": 0.0
+    },
+    {
+      "path": "/workspace/shadyaf/rocket-base/clay/D2_pulp_needle/color_volumes/D2_A2_nose__slot1_pulp_cream.stl",
+      "name": "CreamNose",
+      "color": [
+        0.9,
+        0.84,
+        0.72
+      ],
+      "roughness": 0.65,
+      "metallic": 0.0
+    },
+    {
+      "path": "/workspace/shadyaf/rocket-base/clay/D2_pulp_needle/color_volumes/D2_A2_nose__slot3_navy_ink.stl",
+      "name": "NavyNose",
+      "color": [
+        0.12,
+        0.18,
+        0.32
+      ],
+      "roughness": 0.55,
+      "metallic": 0.0
+    },
+    {
+      "path": "/workspace/shadyaf/rocket-base/clay/D2_pulp_needle/color_volumes/D2_A2_nose__slot4_matte_nickel.stl",
+      "name": "NickelNose",
+      "color": [
+        0.68,
+        0.68,
+        0.7
+      ],
+      "roughness": 0.45,
+      "metallic": 0.3
+    },
+    {
+      "path": "/workspace/shadyaf/rocket-base/clay/D2_pulp_needle/color_volumes/D2_A3_nozzle_cap__slot4_matte_nickel.stl",
+      "name": "NickelCap",
+      "color": [
+        0.68,
+        0.68,
+        0.7
+      ],
+      "roughness": 0.45,
+      "metallic": 0.3
+    }
+  ]
+}

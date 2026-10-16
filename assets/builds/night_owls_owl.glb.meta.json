@@ -1,0 +1,11 @@
+{
+  "out": "/workspace/loft-xr/assets/builds/night_owls_owl.glb",
+  "dims_mm": [
+    169.584,
+    212.677,
+    180.969
+  ],
+  "tris": 5776,
+  "parts": 1,
+  "orient": "upright_y"
+}

@@ -1,0 +1,12 @@
+{
+  "out": "/workspace/loft-xr/assets/builds-opt/vw_t1_restomod.glb",
+  "dims_mm": [
+    181.638,
+    85.4,
+    75.508
+  ],
+  "tris": 5000,
+  "parts": 1,
+  "orient": "upright_y",
+  "stl_unit_mm": 1.0
+}

@@ -1,0 +1,12 @@
+{
+  "out": "/workspace/loft-xr/assets/builds-opt/crest_L_magnet_v2_lod1.glb",
+  "dims_mm": [
+    154.0,
+    10.5,
+    178.818
+  ],
+  "tris": 996,
+  "parts": 2,
+  "orient": "flat_face",
+  "stl_unit_mm": 1.0
+}

@@ -1,0 +1,11 @@
+{
+  "out": "/workspace/loft-xr/assets/builds/crest_fridge_only.glb",
+  "dims_mm": [
+    54.908,
+    7.05,
+    64.429
+  ],
+  "tris": 15998,
+  "parts": 2,
+  "orient": "flat_face"
+}

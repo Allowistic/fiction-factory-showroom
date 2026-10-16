@@ -1,0 +1,302 @@
+{
+  "version": 1,
+  "generated": "2026-10-15T16:49:15-07:00",
+  "variant": "quest-opt",
+  "conventions": {
+    "format": "GLB",
+    "up": "+Y",
+    "forward": "+Z",
+    "units": "meters",
+    "textures_max": 512,
+    "max_tris_per_model": 5000,
+    "max_tris_shelf": 60000,
+    "lod1_target_tris": 1000,
+    "compression": "draco",
+    "materials": "simple PBR; crest_card/fridge use 512 baked albedo on remesh"
+  },
+  "totals": {
+    "models": 13,
+    "tris": 42554,
+    "bytes": 1164668,
+    "mb": 1.11,
+    "lod1_tris": 12042,
+    "lod1_mb": 0.74
+  },
+  "contact_sheet": "contact_sheet.png",
+  "skipped": [
+    {
+      "name": "Tommy checker sleeves",
+      "reason": "No STL/3MF under /workspace; tommy folders only have photos / KEEP-IT-FLYING.md"
+    }
+  ],
+  "builds": [
+    {
+      "file": "crest_L_magnet_v2.glb",
+      "name": "Bombshell Crest (plaque)",
+      "scale": 1.0,
+      "lod1": "crest_L_magnet_v2_lod1.glb",
+      "dims_mm": {
+        "x": 154.0,
+        "y": 10.5,
+        "z": 178.82
+      },
+      "tris": 4998,
+      "tris_lod1": 996,
+      "bytes": 51580,
+      "bytes_lod1": 17132,
+      "description": "Bombshell Discovery crest, beveled plaque with four magnet pockets",
+      "source": "/workspace/bombshell-crest/variant_L_magnet_v2",
+      "date": "2026-10-15T16:37:30-07:00",
+      "method": "decimate"
+    },
+    {
+      "file": "crest_card.glb",
+      "name": "Bombshell Crest Card",
+      "scale": 1.0,
+      "lod1": "crest_card_lod1.glb",
+      "dims_mm": {
+        "x": 53.98,
+        "y": 7.05,
+        "z": 85.6
+      },
+      "tris": 2140,
+      "tris_lod1": 1178,
+      "bytes": 317844,
+      "bytes_lod1": 298632,
+      "description": "Credit-card crest plaque with Est. 2026 and dual magnet pockets",
+      "source": "/workspace/bombshell-crest/variant_card",
+      "date": "2026-10-15T16:47:20-07:00",
+      "method": "remesh+tex512"
+    },
+    {
+      "file": "crest_fridge_only.glb",
+      "name": "Bombshell Crest Magnet",
+      "scale": 1.0,
+      "lod1": "crest_fridge_only_lod1.glb",
+      "dims_mm": {
+        "x": 54.91,
+        "y": 7.05,
+        "z": 64.43
+      },
+      "tris": 2088,
+      "tris_lod1": 1156,
+      "bytes": 323716,
+      "bytes_lod1": 304560,
+      "description": "Crest-only fridge magnet, shield silhouette with bolt pocket",
+      "source": "/workspace/bombshell-crest/variant_fridge_crest_only",
+      "date": "2026-10-15T16:48:26-07:00",
+      "method": "remesh+tex512"
+    },
+    {
+      "file": "crest_magnet_flatstack.glb",
+      "name": "Bombshell Flatstack Magnet",
+      "scale": 1.0,
+      "lod1": "crest_magnet_flatstack_lod1.glb",
+      "dims_mm": {
+        "x": 58.27,
+        "y": 4.8,
+        "z": 68.6
+      },
+      "tris": 1998,
+      "tris_lod1": 998,
+      "bytes": 27532,
+      "bytes_lod1": 16016,
+      "description": "Flat-stack fridge magnet, grey base white top, dual 6x1.9 pockets",
+      "source": "/workspace/bombshell-crest/variant_magnet_flatstack",
+      "date": "2026-10-15T16:36:55-07:00",
+      "method": "decimate"
+    },
+    {
+      "file": "crest_shirt_press.glb",
+      "name": "Bombshell Shirt Press Crest",
+      "scale": 1.0,
+      "lod1": "crest_shirt_press_lod1.glb",
+      "dims_mm": {
+        "x": 90.0,
+        "y": 0.8,
+        "z": 105.95
+      },
+      "tris": 1998,
+      "tris_lod1": 998,
+      "bytes": 24708,
+      "bytes_lod1": 15688,
+      "description": "Thin heat-press shirt crest, grey base with white overlay",
+      "source": "/workspace/bombshell-crest/variant_shirt_press",
+      "date": "2026-10-15T16:36:52-07:00",
+      "method": "decimate"
+    },
+    {
+      "file": "rocket_d1.glb",
+      "name": "Rocket Lamp D1 Surplus Courier",
+      "scale": 1.0,
+      "lod1": "rocket_d1_lod1.glb",
+      "dims_mm": {
+        "x": 181.56,
+        "y": 181.56,
+        "z": 225.0
+      },
+      "tris": 5018,
+      "tris_lod1": 898,
+      "bytes": 80728,
+      "bytes_lod1": 22744,
+      "description": "ShadyAF D1 rocket lamp base, multi-color assembled",
+      "source": "/workspace/shadyaf/rocket-base/clay/D1_surplus_courier",
+      "date": "2026-10-15T16:37:37-07:00",
+      "method": "decimate"
+    },
+    {
+      "file": "rocket_d2.glb",
+      "name": "Rocket Lamp D2 Pulp Needle",
+      "scale": 1.0,
+      "lod1": "rocket_d2_lod1.glb",
+      "dims_mm": {
+        "x": 178.19,
+        "y": 178.19,
+        "z": 226.0
+      },
+      "tris": 5000,
+      "tris_lod1": 896,
+      "bytes": 80432,
+      "bytes_lod1": 21336,
+      "description": "ShadyAF D2 rocket lamp base, multi-color assembled",
+      "source": "/workspace/shadyaf/rocket-base/clay/D2_pulp_needle",
+      "date": "2026-10-15T16:37:41-07:00",
+      "method": "decimate"
+    },
+    {
+      "file": "holddown_m6_kit.glb",
+      "name": "3018 M6 Hold-Down Kit",
+      "scale": 1.0,
+      "lod1": "holddown_m6_kit_lod1.glb",
+      "dims_mm": {
+        "x": 308.5,
+        "y": 26.83,
+        "z": 34.0
+      },
+      "tris": 1996,
+      "tris_lod1": 806,
+      "bytes": 20332,
+      "bytes_lod1": 13048,
+      "description": "M6 hold-down arm, heel blocks A/B, and knob laid out as a kit",
+      "source": "/workspace/cnc-3018/holddown/test_set_m6",
+      "date": "2026-10-15T16:36:49-07:00",
+      "method": "decimate"
+    },
+    {
+      "file": "wingnut_1_4_20.glb",
+      "name": "1/4-20 Wing Nut",
+      "scale": 1.0,
+      "lod1": "wingnut_1_4_20_lod1.glb",
+      "dims_mm": {
+        "x": 50.8,
+        "y": 14.66,
+        "z": 9.53
+      },
+      "tris": 1998,
+      "tris_lod1": 998,
+      "bytes": 29480,
+      "bytes_lod1": 16076,
+      "description": "Printable 1/4-20 wing nut for CNC hold-downs",
+      "source": "/workspace/cnc-3018/holddown/wingnut_1-4-20/wingnut_1-4-20.stl",
+      "date": "2026-10-15T16:36:58-07:00",
+      "method": "decimate"
+    },
+    {
+      "file": "bini_fillet_clipped.glb",
+      "name": "Bini Corner Fillet",
+      "scale": 1.0,
+      "lod1": "bini_fillet_clipped_lod1.glb",
+      "dims_mm": {
+        "x": 50.8,
+        "y": 50.8,
+        "z": 101.6
+      },
+      "tris": 320,
+      "tris_lod1": 120,
+      "bytes": 3084,
+      "bytes_lod1": 2256,
+      "description": "Marcos Bini corner cove fillet, clipped solid, square ends",
+      "source": "/workspace/campbell-creek/bini-fillets/v3_clipped/bini_fillet_B_clip_onend.stl",
+      "date": "2026-10-15T16:36:46-07:00",
+      "method": "decimate"
+    },
+    {
+      "file": "night_owls_owl.glb",
+      "name": "Night Owls Owl",
+      "scale": 1.0,
+      "lod1": "night_owls_owl_lod1.glb",
+      "dims_mm": {
+        "x": 169.58,
+        "y": 212.68,
+        "z": 180.97
+      },
+      "tris": 5000,
+      "tris_lod1": 1000,
+      "bytes": 58116,
+      "bytes_lod1": 15812,
+      "description": "Night Owls one-piece owl print",
+      "source": "/workspace/night-owls/clay_build/print/P0_onepiece_owl.stl",
+      "date": "2026-10-15T16:37:34-07:00",
+      "method": "decimate"
+    },
+    {
+      "file": "hope_relief.glb",
+      "name": "HOPE Relief Sign",
+      "scale": 1.0,
+      "lod1": "hope_relief_lod1.glb",
+      "dims_mm": {
+        "x": 914.4,
+        "y": 19.05,
+        "z": 844.83
+      },
+      "tris": 8000,
+      "tris_lod1": 2500,
+      "bytes": 113248,
+      "bytes_lod1": 38468,
+      "description": "HOPE skull-and-antlers relief sign (v4.8.7 release), 36\u00d734 in",
+      "source": "/workspace/hope/clay/HOPE_relief_v4_8p7_release.stl",
+      "date": "2026-10-16T07:50:34-07:00",
+      "method": "decimate"
+    },
+    {
+      "file": "vw_t1_restomod.glb",
+      "name": "VW T1 Restomod",
+      "scale": 1.0,
+      "lod1": "vw_t1_restomod_lod1.glb",
+      "dims_mm": {
+        "x": 181.64,
+        "y": 85.4,
+        "z": 75.51
+      },
+      "tris": 5000,
+      "tris_lod1": 998,
+      "bytes": 73800,
+      "bytes_lod1": 16832,
+      "description": "1:18 VW T1 restomod one-piece body",
+      "source": "/workspace/vw-t1-restomod/clay_build/print/vw_t1_restomod_1to18_onepiece.stl",
+      "date": "2026-10-15T16:41:09-07:00",
+      "method": "decimate"
+    },
+    {
+      "file": "hope_neon.glb",
+      "name": "Antlers of HOPE neon overlay",
+      "scale": 1.0,
+      "overlay_of": "hope_relief.glb",
+      "lod1": null,
+      "dims_mm": {
+        "x": 914.4,
+        "y": 19.05,
+        "z": 844.83
+      },
+      "tris": 1864,
+      "bytes": 10180,
+      "emissive": true,
+      "colors": {
+        "white": "#FFE9C4",
+        "red": "#FF2020",
+        "purple": "#A633FF"
+      },
+      "svg": "hope_neon.svg"
+    }
+  ]
+}

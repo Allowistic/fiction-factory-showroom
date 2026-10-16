@@ -1,0 +1,2086 @@
+==== START bini_fillet_clipped.glb 2026-10-15T16:36:44-07:00 ====
+               total        used        free      shared  buff/cache   available
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 320 dims_mm=[50.80000305175781, 50.80000305175781, 101.5999984741211] orient=as_is
+TOTAL_TRIS_AFTER 320
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:36:46 | INFO: Starting glTF 2.0 export
+16:36:46 | INFO: Extracting primitive: bini_fillet_B_clip_onend
+16:36:46 | INFO: Primitives created: 1
+16:36:46 | INFO: Draco encoder: Encoding mesh Fillet.
+16:36:46 | INFO: Finished glTF 2.0 export in 0.014237165451049805 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/bini_fillet_clipped.glb", "dims_mm": [50.8, 50.8, 101.6], "tris": 320, "parts": 1, "orient": "as_is", "stl_unit_mm": 1.0}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 8.27 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 508 vertices, 960 indices, raw size: 13968, encoded size: 1964, compression ratio: 7.11
+
+Blender quit
+-rw-r--r-- 1 box box 3.1K Oct 15 16:36 /workspace/loft-xr/assets/builds-opt/bini_fillet_clipped.glb
+==== START bini_fillet_clipped_lod1.glb 2026-10-15T16:36:46-07:00 ====
+               total        used        free      shared  buff/cache   available
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 320 dims_mm=[50.80000305175781, 50.80000305175781, 101.5999984741211] orient=as_is
+TOTAL_TRIS_AFTER 120
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:36:47 | INFO: Starting glTF 2.0 export
+16:36:47 | INFO: Extracting primitive: bini_fillet_B_clip_onend
+16:36:47 | INFO: Primitives created: 1
+16:36:47 | INFO: Draco encoder: Encoding mesh Fillet.
+16:36:47 | INFO: Finished glTF 2.0 export in 0.014912605285644531 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/bini_fillet_clipped_lod1.glb", "dims_mm": [50.8, 50.8, 101.6], "tris": 120, "parts": 1, "orient": "as_is", "stl_unit_mm": 1.0}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 3.52 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 234 vertices, 360 indices, raw size: 6336, encoded size: 1134, compression ratio: 5.59
+
+Blender quit
+-rw-r--r-- 1 box box 2.3K Oct 15 16:36 /workspace/loft-xr/assets/builds-opt/bini_fillet_clipped_lod1.glb
+==== START holddown_m6_kit.glb 2026-10-15T16:36:48-07:00 ====
+               total        used        free      shared  buff/cache   available
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 2376 dims_mm=[308.5, 26.83319854736328, 34.0] orient=as_is
+TOTAL_TRIS_AFTER 1996
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:36:49 | INFO: Starting glTF 2.0 export
+16:36:49 | INFO: Extracting primitive: holddown_arm
+16:36:49 | INFO: Primitives created: 1
+16:36:49 | INFO: Extracting primitive: heel_block_A
+16:36:49 | INFO: Primitives created: 1
+16:36:49 | INFO: Extracting primitive: heel_block_B
+16:36:49 | INFO: Primitives created: 1
+16:36:49 | INFO: Extracting primitive: knob_m6
+16:36:49 | INFO: Primitives created: 1
+16:36:49 | INFO: Draco encoder: Encoding mesh Arm.
+16:36:49 | INFO: Draco encoder: Encoding mesh HeelA.
+16:36:49 | INFO: Draco encoder: Encoding mesh HeelB.
+16:36:49 | INFO: Draco encoder: Encoding mesh Knob.
+16:36:49 | INFO: Finished glTF 2.0 export in 0.022357940673828125 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/holddown_m6_kit.glb", "dims_mm": [308.5, 26.833, 34.0], "tris": 1996, "parts": 4, "orient": "as_is", "stl_unit_mm": 1.0}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 5.75 ms
+Timer 'STL Import' took 0.28 ms
+Timer 'STL Import' took 0.27 ms
+Timer 'STL Import' took 3.13 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1230 vertices, 2010 indices, raw size: 33204, encoded size: 4961, compression ratio: 6.69
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 372 vertices, 588 indices, raw size: 9936, encoded size: 1701, compression ratio: 5.84
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 348 vertices, 546 indices, raw size: 9348, encoded size: 1627, compression ratio: 5.75
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1760 vertices, 2844 indices, raw size: 47928, encoded size: 8728, compression ratio: 5.49
+
+Blender quit
+-rw-r--r-- 1 box box 20K Oct 15 16:36 /workspace/loft-xr/assets/builds-opt/holddown_m6_kit.glb
+==== START holddown_m6_kit_lod1.glb 2026-10-15T16:36:49-07:00 ====
+               total        used        free      shared  buff/cache   available
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 2376 dims_mm=[308.5, 26.83319854736328, 34.0] orient=as_is
+TOTAL_TRIS_AFTER 806
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:36:50 | INFO: Starting glTF 2.0 export
+16:36:50 | INFO: Extracting primitive: holddown_arm
+16:36:50 | INFO: Primitives created: 1
+16:36:50 | INFO: Extracting primitive: heel_block_A
+16:36:50 | INFO: Primitives created: 1
+16:36:50 | INFO: Extracting primitive: heel_block_B
+16:36:50 | INFO: Primitives created: 1
+16:36:50 | INFO: Extracting primitive: knob_m6
+16:36:50 | INFO: Primitives created: 1
+16:36:50 | INFO: Draco encoder: Encoding mesh Arm.
+16:36:50 | INFO: Draco encoder: Encoding mesh HeelA.
+16:36:50 | INFO: Draco encoder: Encoding mesh HeelB.
+16:36:50 | INFO: Draco encoder: Encoding mesh Knob.
+16:36:50 | INFO: Finished glTF 2.0 export in 0.025146961212158203 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/holddown_m6_kit_lod1.glb", "dims_mm": [308.5, 26.833, 34.0], "tris": 806, "parts": 4, "orient": "as_is", "stl_unit_mm": 1.0}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 2.11 ms
+Timer 'STL Import' took 0.37 ms
+Timer 'STL Import' took 0.32 ms
+Timer 'STL Import' took 0.85 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 604 vertices, 804 indices, raw size: 16056, encoded size: 3120, compression ratio: 5.15
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 162 vertices, 240 indices, raw size: 4344, encoded size: 993, compression ratio: 4.37
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 178 vertices, 240 indices, raw size: 4728, encoded size: 1082, compression ratio: 4.37
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 820 vertices, 1134 indices, raw size: 21948, encoded size: 4526, compression ratio: 4.85
+
+Blender quit
+-rw-r--r-- 1 box box 13K Oct 15 16:36 /workspace/loft-xr/assets/builds-opt/holddown_m6_kit_lod1.glb
+==== START crest_shirt_press.glb 2026-10-15T16:36:50-07:00 ====
+               total        used        free      shared  buff/cache   available
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 37880 dims_mm=[90.0, 0.8000046610832214, 105.95451358477379] orient=flat_face
+TOTAL_TRIS_AFTER 1998
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:36:52 | INFO: Starting glTF 2.0 export
+16:36:52 | INFO: Extracting primitive: Grey_base
+16:36:52 | INFO: Primitives created: 1
+16:36:52 | INFO: Extracting primitive: White_top
+16:36:52 | INFO: Primitives created: 1
+16:36:52 | INFO: Draco encoder: Encoding mesh Grey.
+16:36:52 | INFO: Draco encoder: Encoding mesh White.
+16:36:52 | INFO: Finished glTF 2.0 export in 0.018019437789916992 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_shirt_press.glb", "dims_mm": [90.0, 0.8, 105.955], "tris": 1998, "parts": 2, "orient": "flat_face", "stl_unit_mm": 1.0}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 10.39 ms
+Timer 'STL Import' took 9.58 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1344 vertices, 2004 indices, raw size: 36264, encoded size: 6265, compression ratio: 5.79
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 3276 vertices, 3990 indices, raw size: 85404, encoded size: 16519, compression ratio: 5.17
+
+Blender quit
+-rw-r--r-- 1 box box 25K Oct 15 16:36 /workspace/loft-xr/assets/builds-opt/crest_shirt_press.glb
+==== START crest_shirt_press_lod1.glb 2026-10-15T16:36:52-07:00 ====
+               total        used        free      shared  buff/cache   available
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 37880 dims_mm=[90.0, 0.8000046610832214, 105.95451358477379] orient=flat_face
+TOTAL_TRIS_AFTER 998
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:36:53 | INFO: Starting glTF 2.0 export
+16:36:53 | INFO: Extracting primitive: Grey_base
+16:36:53 | INFO: Primitives created: 1
+16:36:53 | WARNING: Mesh White_top is not valid, and may be exported wrongly
+16:36:53 | INFO: Extracting primitive: White_top
+16:36:53 | INFO: Primitives created: 1
+16:36:53 | INFO: Draco encoder: Encoding mesh Grey.
+16:36:53 | INFO: Draco encoder: Encoding mesh White.
+16:36:53 | INFO: Finished glTF 2.0 export in 0.015304327011108398 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_shirt_press_lod1.glb", "dims_mm": [90.0, 0.8, 105.955], "tris": 998, "parts": 2, "orient": "flat_face", "stl_unit_mm": 1.0}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 8.14 ms
+Timer 'STL Import' took 12.01 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 676 vertices, 1002 indices, raw size: 18228, encoded size: 3426, compression ratio: 5.32
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1970 vertices, 1980 indices, raw size: 51048, encoded size: 10340, compression ratio: 4.94
+
+Blender quit
+-rw-r--r-- 1 box box 16K Oct 15 16:36 /workspace/loft-xr/assets/builds-opt/crest_shirt_press_lod1.glb
+==== START crest_magnet_flatstack.glb 2026-10-15T16:36:53-07:00 ====
+               total        used        free      shared  buff/cache   available
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 2 degenerate triangles were removed
+TOTAL_TRIS_BEFORE 40030 dims_mm=[58.270286560058594, 4.8000030517578125, 68.59999862273982] orient=flat_face
+TOTAL_TRIS_AFTER 1998
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:36:55 | INFO: Starting glTF 2.0 export
+16:36:55 | INFO: Extracting primitive: Grey
+16:36:55 | INFO: Primitives created: 1
+16:36:55 | INFO: Extracting primitive: White
+16:36:55 | INFO: Primitives created: 1
+16:36:55 | INFO: Draco encoder: Encoding mesh Grey.
+16:36:55 | INFO: Draco encoder: Encoding mesh White.
+16:36:55 | INFO: Finished glTF 2.0 export in 0.022295236587524414 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_magnet_flatstack.glb", "dims_mm": [58.27, 4.8, 68.6], "tris": 1998, "parts": 2, "orient": "flat_face", "stl_unit_mm": 1.0}
+Timer 'STL Import' took 16.13 ms
+Timer 'STL Import' took 6.25 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 2342 vertices, 2982 indices, raw size: 62028, encoded size: 11423, compression ratio: 5.43
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 2764 vertices, 3012 indices, raw size: 71496, encoded size: 14197, compression ratio: 5.04
+
+Blender quit
+-rw-r--r-- 1 box box 27K Oct 15 16:36 /workspace/loft-xr/assets/builds-opt/crest_magnet_flatstack.glb
+==== START crest_magnet_flatstack_lod1.glb 2026-10-15T16:36:55-07:00 ====
+               total        used        free      shared  buff/cache   available
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 2 degenerate triangles were removed
+TOTAL_TRIS_BEFORE 40030 dims_mm=[58.270286560058594, 4.8000030517578125, 68.59999862273982] orient=flat_face
+TOTAL_TRIS_AFTER 998
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:36:56 | INFO: Starting glTF 2.0 export
+16:36:56 | INFO: Extracting primitive: Grey
+16:36:56 | INFO: Primitives created: 1
+16:36:56 | WARNING: Mesh White is not valid, and may be exported wrongly
+16:36:56 | INFO: Extracting primitive: White
+16:36:56 | INFO: Primitives created: 1
+16:36:56 | INFO: Draco encoder: Encoding mesh Grey.
+16:36:56 | INFO: Draco encoder: Encoding mesh White.
+16:36:56 | INFO: Finished glTF 2.0 export in 0.017644405364990234 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_magnet_flatstack_lod1.glb", "dims_mm": [58.27, 4.8, 68.6], "tris": 998, "parts": 2, "orient": "flat_face", "stl_unit_mm": 1.0}
+Timer 'STL Import' took 13.37 ms
+Timer 'STL Import' took 6.82 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1218 vertices, 1488 indices, raw size: 32088, encoded size: 6300, compression ratio: 5.09
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1463 vertices, 1479 indices, raw size: 37974, encoded size: 7809, compression ratio: 4.86
+
+Blender quit
+-rw-r--r-- 1 box box 16K Oct 15 16:36 /workspace/loft-xr/assets/builds-opt/crest_magnet_flatstack_lod1.glb
+==== START wingnut_1_4_20.glb 2026-10-15T16:36:56-07:00 ====
+               total        used        free      shared  buff/cache   available
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 55028 dims_mm=[50.79999923706055, 14.66469669342041, 9.524999618530273] orient=as_is
+TOTAL_TRIS_AFTER 1998
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:36:58 | INFO: Starting glTF 2.0 export
+16:36:58 | INFO: Extracting primitive: wingnut_1-4-20
+16:36:58 | INFO: Primitives created: 1
+16:36:58 | INFO: Draco encoder: Encoding mesh Wingnut.
+16:36:58 | INFO: Finished glTF 2.0 export in 0.017615556716918945 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/wingnut_1_4_20.glb", "dims_mm": [50.8, 14.665, 9.525], "tris": 1998, "parts": 1, "orient": "as_is", "stl_unit_mm": 1.0}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 31.93 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 5948 vertices, 5994 indices, raw size: 154452, encoded size: 28336, compression ratio: 5.45
+
+Blender quit
+-rw-r--r-- 1 box box 29K Oct 15 16:36 /workspace/loft-xr/assets/builds-opt/wingnut_1_4_20.glb
+==== START wingnut_1_4_20_lod1.glb 2026-10-15T16:36:58-07:00 ====
+               total        used        free      shared  buff/cache   available
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 55028 dims_mm=[50.79999923706055, 14.66469669342041, 9.524999618530273] orient=as_is
+TOTAL_TRIS_AFTER 998
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:36:59 | INFO: Starting glTF 2.0 export
+16:36:59 | INFO: Extracting primitive: wingnut_1-4-20
+16:36:59 | INFO: Primitives created: 1
+16:36:59 | INFO: Draco encoder: Encoding mesh Wingnut.
+16:36:59 | INFO: Finished glTF 2.0 export in 0.02059316635131836 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/wingnut_1_4_20_lod1.glb", "dims_mm": [50.8, 14.665, 9.525], "tris": 998, "parts": 1, "orient": "as_is", "stl_unit_mm": 1.0}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 23.69 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 2982 vertices, 2994 indices, raw size: 77556, encoded size: 14932, compression ratio: 5.19
+
+Blender quit
+-rw-r--r-- 1 box box 16K Oct 15 16:36 /workspace/loft-xr/assets/builds-opt/wingnut_1_4_20_lod1.glb
+==== START crest_fridge_only.glb 2026-10-15T16:37:02-07:00 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4358 degenerate triangles were removed
+STL Importer: 1 duplicate triangles were removed
+Timer 'STL Import' took 169.84 ms
+STL Importer: 54 degenerate triangles were removed
+STL Importer: 3 duplicate triangles were removed
+TOTAL_TRIS_BEFORE 441540 dims_mm=[54.90820050239563, 7.050002483764494, 64.42917776107788] orient=flat_face
+TOTAL_TRIS_AFTER 4818
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:37:08 | INFO: Starting glTF 2.0 export
+16:37:08 | WARNING: Mesh Grey is not valid, and may be exported wrongly
+16:37:08 | INFO: Extracting primitive: Grey
+16:37:08 | INFO: Primitives created: 1
+16:37:08 | WARNING: Mesh White is not valid, and may be exported wrongly
+16:37:08 | INFO: Extracting primitive: White
+16:37:08 | INFO: Primitives created: 1
+16:37:09 | INFO: Draco encoder: Encoding mesh Grey.
+16:37:09 | INFO: Draco encoder: Encoding mesh White.
+16:37:09 | INFO: Finished glTF 2.0 export in 0.03464698791503906 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_fridge_only.glb", "dims_mm": [54.908, 7.05, 64.429], "tris": 4818, "parts": 2, "orient": "flat_face", "stl_unit_mm": 1.0}
+Timer 'STL Import' took 108.29 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 2578 vertices, 3081 indices, raw size: 66738, encoded size: 13745, compression ratio: 4.86
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 9577 vertices, 11349 indices, raw size: 244674, encoded size: 47064, compression ratio: 5.20
+
+Blender quit
+-rw-r--r-- 1 box box 62K Oct 15 16:37 /workspace/loft-xr/assets/builds-opt/crest_fridge_only.glb
+==== START crest_fridge_only_lod1.glb 2026-10-15T16:37:09-07:00 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4358 degenerate triangles were removed
+STL Importer: 1 duplicate triangles were removed
+Timer 'STL Import' took 216.28 ms
+STL Importer: 54 degenerate triangles were removed
+STL Importer: 3 duplicate triangles were removed
+TOTAL_TRIS_BEFORE 441540 dims_mm=[54.90820050239563, 7.050002483764494, 64.42917776107788] orient=flat_face
+TOTAL_TRIS_AFTER 4530
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:37:15 | INFO: Starting glTF 2.0 export
+16:37:15 | WARNING: Mesh Grey is not valid, and may be exported wrongly
+16:37:15 | INFO: Extracting primitive: Grey
+16:37:15 | INFO: Primitives created: 1
+16:37:15 | WARNING: Mesh White is not valid, and may be exported wrongly
+16:37:15 | INFO: Extracting primitive: White
+16:37:15 | INFO: Primitives created: 1
+16:37:15 | INFO: Draco encoder: Encoding mesh Grey.
+16:37:15 | INFO: Draco encoder: Encoding mesh White.
+16:37:15 | INFO: Finished glTF 2.0 export in 0.021490097045898438 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_fridge_only_lod1.glb", "dims_mm": [54.908, 7.05, 64.429], "tris": 4530, "parts": 2, "orient": "flat_face", "stl_unit_mm": 1.0}
+Timer 'STL Import' took 130.23 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1871 vertices, 2205 indices, raw size: 48522, encoded size: 9954, compression ratio: 4.87
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 9577 vertices, 11349 indices, raw size: 244674, encoded size: 47064, compression ratio: 5.20
+
+Blender quit
+-rw-r--r-- 1 box box 58K Oct 15 16:37 /workspace/loft-xr/assets/builds-opt/crest_fridge_only_lod1.glb
+==== START crest_card.glb 2026-10-15T16:37:15-07:00 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4324 degenerate triangles were removed
+Timer 'STL Import' took 156.83 ms
+STL Importer: 86 degenerate triangles were removed
+STL Importer: 4 duplicate triangles were removed
+TOTAL_TRIS_BEFORE 421346 dims_mm=[53.97999954223633, 7.0500030517578125, 85.59999864022437] orient=flat_face
+TOTAL_TRIS_AFTER 4904
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:37:21 | INFO: Starting glTF 2.0 export
+16:37:21 | WARNING: Mesh Grey is not valid, and may be exported wrongly
+16:37:21 | INFO: Extracting primitive: Grey
+16:37:21 | INFO: Primitives created: 1
+16:37:21 | WARNING: Mesh White is not valid, and may be exported wrongly
+16:37:21 | INFO: Extracting primitive: White
+16:37:21 | INFO: Primitives created: 1
+16:37:21 | INFO: Draco encoder: Encoding mesh Grey.
+16:37:21 | INFO: Draco encoder: Encoding mesh White.
+16:37:21 | INFO: Finished glTF 2.0 export in 0.02606511116027832 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_card.glb", "dims_mm": [53.98, 7.05, 85.6], "tris": 4904, "parts": 2, "orient": "flat_face", "stl_unit_mm": 1.0}
+Timer 'STL Import' took 126.77 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 2668 vertices, 3288 indices, raw size: 68472, encoded size: 13451, compression ratio: 5.09
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 9325 vertices, 11367 indices, raw size: 236094, encoded size: 43658, compression ratio: 5.41
+
+Blender quit
+-rw-r--r-- 1 box box 58K Oct 15 16:37 /workspace/loft-xr/assets/builds-opt/crest_card.glb
+==== START crest_card_lod1.glb 2026-10-15T16:37:21-07:00 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4324 degenerate triangles were removed
+Timer 'STL Import' took 169.69 ms
+STL Importer: 86 degenerate triangles were removed
+STL Importer: 4 duplicate triangles were removed
+TOTAL_TRIS_BEFORE 421346 dims_mm=[53.97999954223633, 7.0500030517578125, 85.59999864022437] orient=flat_face
+TOTAL_TRIS_AFTER 4904
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:37:27 | INFO: Starting glTF 2.0 export
+16:37:27 | WARNING: Mesh Grey is not valid, and may be exported wrongly
+16:37:27 | INFO: Extracting primitive: Grey
+16:37:27 | INFO: Primitives created: 1
+16:37:27 | WARNING: Mesh White is not valid, and may be exported wrongly
+16:37:27 | INFO: Extracting primitive: White
+16:37:27 | INFO: Primitives created: 1
+16:37:27 | INFO: Draco encoder: Encoding mesh Grey.
+16:37:27 | INFO: Draco encoder: Encoding mesh White.
+16:37:27 | INFO: Finished glTF 2.0 export in 0.0228731632232666 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_card_lod1.glb", "dims_mm": [53.98, 7.05, 85.6], "tris": 4904, "parts": 2, "orient": "flat_face", "stl_unit_mm": 1.0}
+Timer 'STL Import' took 109.75 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 2668 vertices, 3288 indices, raw size: 68472, encoded size: 13451, compression ratio: 5.09
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 9325 vertices, 11367 indices, raw size: 236094, encoded size: 43658, compression ratio: 5.41
+
+Blender quit
+-rw-r--r-- 1 box box 58K Oct 15 16:37 /workspace/loft-xr/assets/builds-opt/crest_card_lod1.glb
+==== START crest_L_magnet_v2.glb 2026-10-15T16:37:27-07:00 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 720 degenerate triangles were removed
+STL Importer: 2 duplicate triangles were removed
+Timer 'STL Import' took 45.90 ms
+STL Importer: 4 degenerate triangles were removed
+TOTAL_TRIS_BEFORE 190222 dims_mm=[154.0, 10.500005252940923, 178.8181324005127] orient=flat_face
+TOTAL_TRIS_AFTER 4998
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:37:30 | INFO: Starting glTF 2.0 export
+16:37:30 | INFO: Extracting primitive: Grey
+16:37:30 | INFO: Primitives created: 1
+16:37:30 | INFO: Extracting primitive: White
+16:37:30 | INFO: Primitives created: 1
+16:37:30 | INFO: Draco encoder: Encoding mesh Grey.
+16:37:30 | INFO: Draco encoder: Encoding mesh White.
+16:37:30 | INFO: Finished glTF 2.0 export in 0.020737886428833008 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_L_magnet_v2.glb", "dims_mm": [154.0, 10.5, 178.818], "tris": 4998, "parts": 2, "orient": "flat_face", "stl_unit_mm": 1.0}
+Timer 'STL Import' took 34.28 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 5572 vertices, 7914 indices, raw size: 148668, encoded size: 26150, compression ratio: 5.69
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 4832 vertices, 7080 indices, raw size: 129936, encoded size: 23542, compression ratio: 5.52
+
+Blender quit
+-rw-r--r-- 1 box box 51K Oct 15 16:37 /workspace/loft-xr/assets/builds-opt/crest_L_magnet_v2.glb
+==== START crest_L_magnet_v2_lod1.glb 2026-10-15T16:37:30-07:00 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 720 degenerate triangles were removed
+STL Importer: 2 duplicate triangles were removed
+Timer 'STL Import' took 92.25 ms
+STL Importer: 4 degenerate triangles were removed
+TOTAL_TRIS_BEFORE 190222 dims_mm=[154.0, 10.500005252940923, 178.8181324005127] orient=flat_face
+TOTAL_TRIS_AFTER 996
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:37:33 | INFO: Starting glTF 2.0 export
+16:37:33 | WARNING: Mesh Grey is not valid, and may be exported wrongly
+16:37:33 | INFO: Extracting primitive: Grey
+16:37:33 | INFO: Primitives created: 1
+16:37:33 | WARNING: Mesh White is not valid, and may be exported wrongly
+16:37:33 | INFO: Extracting primitive: White
+16:37:33 | INFO: Primitives created: 1
+16:37:33 | INFO: Draco encoder: Encoding mesh Grey.
+16:37:33 | INFO: Draco encoder: Encoding mesh White.
+16:37:33 | INFO: Finished glTF 2.0 export in 0.014354467391967773 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_L_magnet_v2_lod1.glb", "dims_mm": [154.0, 10.5, 178.818], "tris": 996, "parts": 2, "orient": "flat_face", "stl_unit_mm": 1.0}
+Timer 'STL Import' took 51.45 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1441 vertices, 1572 indices, raw size: 37128, encoded size: 7826, compression ratio: 4.74
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1377 vertices, 1395 indices, raw size: 35694, encoded size: 7424, compression ratio: 4.81
+
+Blender quit
+-rw-r--r-- 1 box box 17K Oct 15 16:37 /workspace/loft-xr/assets/builds-opt/crest_L_magnet_v2_lod1.glb
+==== START night_owls_owl.glb 2026-10-15T16:37:33-07:00 ====
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 5776 dims_mm=[169.58397674560547, 212.67670440673828, 180.96884155273438] orient=upright_y
+TOTAL_TRIS_AFTER 5000
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:37:34 | INFO: Starting glTF 2.0 export
+16:37:34 | INFO: Extracting primitive: P0_onepiece_owl
+16:37:34 | INFO: Primitives created: 1
+16:37:34 | INFO: Draco encoder: Encoding mesh Owl.
+16:37:34 | INFO: Finished glTF 2.0 export in 0.04416990280151367 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/night_owls_owl.glb", "dims_mm": [169.584, 212.677, 180.969], "tris": 5000, "parts": 1, "orient": "upright_y", "stl_unit_mm": 1.0}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 5.47 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 12047 vertices, 15000 indices, raw size: 313080, encoded size: 57001, compression ratio: 5.49
+
+Blender quit
+-rw-r--r-- 1 box box 57K Oct 15 16:37 /workspace/loft-xr/assets/builds-opt/night_owls_owl.glb
+==== START night_owls_owl_lod1.glb 2026-10-15T16:37:34-07:00 ====
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 5776 dims_mm=[169.58397674560547, 212.67670440673828, 180.96884155273438] orient=upright_y
+TOTAL_TRIS_AFTER 1000
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:37:35 | INFO: Starting glTF 2.0 export
+16:37:35 | INFO: Extracting primitive: P0_onepiece_owl
+16:37:35 | INFO: Primitives created: 1
+16:37:35 | INFO: Draco encoder: Encoding mesh Owl.
+16:37:35 | INFO: Finished glTF 2.0 export in 0.01187276840209961 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/night_owls_owl_lod1.glb", "dims_mm": [169.584, 212.677, 180.969], "tris": 1000, "parts": 1, "orient": "upright_y", "stl_unit_mm": 1.0}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 4.26 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 2998 vertices, 3000 indices, raw size: 77928, encoded size: 14681, compression ratio: 5.31
+
+Blender quit
+-rw-r--r-- 1 box box 16K Oct 15 16:37 /workspace/loft-xr/assets/builds-opt/night_owls_owl_lod1.glb
+==== START rocket_d1.glb 2026-10-15T16:37:35-07:00 ====
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 146380 dims_mm=[181.56349182128906, 181.56349182128906, 225.0] orient=rocket_z
+TOTAL_TRIS_AFTER 5018
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:37:37 | INFO: Starting glTF 2.0 export
+16:37:37 | INFO: Extracting primitive: D1_A1_tail_unit__slot1_faded_cd_khaki
+16:37:37 | INFO: Primitives created: 1
+16:37:37 | INFO: Extracting primitive: D1_A1_tail_unit__slot2_oxide_primer
+16:37:37 | INFO: Primitives created: 1
+16:37:37 | INFO: Extracting primitive: D1_A1_tail_unit__slot3_worn_nickel
+16:37:37 | INFO: Primitives created: 1
+16:37:37 | INFO: Extracting primitive: D1_A2_mid_body__slot1_faded_cd_khaki
+16:37:37 | INFO: Primitives created: 1
+16:37:37 | INFO: Extracting primitive: D1_A2_mid_body__slot3_worn_nickel
+16:37:37 | INFO: Primitives created: 1
+16:37:37 | INFO: Extracting primitive: D1_A2_mid_body__slot4_blackout_glass
+16:37:37 | INFO: Primitives created: 1
+16:37:37 | INFO: Extracting primitive: D1_A3_ogive_nose__slot2_oxide_primer
+16:37:37 | INFO: Primitives created: 1
+16:37:37 | INFO: Extracting primitive: D1_A3_ogive_nose__slot3_worn_nickel
+16:37:37 | INFO: Primitives created: 1
+16:37:37 | INFO: Extracting primitive: D1_A4_nozzle_cap__slot3_worn_nickel
+16:37:37 | INFO: Primitives created: 1
+16:37:37 | INFO: Draco encoder: Encoding mesh Khaki.
+16:37:37 | INFO: Draco encoder: Encoding mesh Oxide.
+16:37:37 | INFO: Draco encoder: Encoding mesh NickelA1.
+16:37:37 | INFO: Draco encoder: Encoding mesh KhakiA2.
+16:37:37 | INFO: Draco encoder: Encoding mesh NickelA2.
+16:37:37 | INFO: Draco encoder: Encoding mesh Blackout.
+16:37:37 | INFO: Draco encoder: Encoding mesh OxideNose.
+16:37:37 | INFO: Draco encoder: Encoding mesh NickelNose.
+16:37:37 | INFO: Draco encoder: Encoding mesh NickelCap.
+16:37:37 | INFO: Finished glTF 2.0 export in 0.041320085525512695 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/rocket_d1.glb", "dims_mm": [181.563, 181.563, 225.0], "tris": 5018, "parts": 9, "orient": "rocket_z", "stl_unit_mm": 1.0}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 6.47 ms
+Timer 'STL Import' took 22.54 ms
+Timer 'STL Import' took 6.70 ms
+Timer 'STL Import' took 3.30 ms
+Timer 'STL Import' took 3.73 ms
+Timer 'STL Import' took 2.71 ms
+Timer 'STL Import' took 23.75 ms
+Timer 'STL Import' took 1.50 ms
+Timer 'STL Import' took 1.73 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 556 vertices, 570 indices, raw size: 14484, encoded size: 3294, compression ratio: 4.40
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 4418 vertices, 4434 indices, raw size: 114876, encoded size: 21094, compression ratio: 5.45
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1888 vertices, 1920 indices, raw size: 49152, encoded size: 8962, compression ratio: 5.48
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 586 vertices, 594 indices, raw size: 15252, encoded size: 3437, compression ratio: 4.44
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1146 vertices, 1182 indices, raw size: 29820, encoded size: 6118, compression ratio: 4.87
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 214 vertices, 240 indices, raw size: 5616, encoded size: 1250, compression ratio: 4.49
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 4902 vertices, 5466 indices, raw size: 128244, encoded size: 24973, compression ratio: 5.14
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 298 vertices, 300 indices, raw size: 7752, encoded size: 1804, compression ratio: 4.30
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 348 vertices, 348 indices, raw size: 9048, encoded size: 2060, compression ratio: 4.39
+
+Blender quit
+-rw-r--r-- 1 box box 79K Oct 15 16:37 /workspace/loft-xr/assets/builds-opt/rocket_d1.glb
+==== START rocket_d1_lod1.glb 2026-10-15T16:37:37-07:00 ====
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 146380 dims_mm=[181.56349182128906, 181.56349182128906, 225.0] orient=rocket_z
+TOTAL_TRIS_AFTER 1318
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:37:39 | INFO: Starting glTF 2.0 export
+16:37:39 | INFO: Extracting primitive: D1_A1_tail_unit__slot1_faded_cd_khaki
+16:37:39 | INFO: Primitives created: 1
+16:37:39 | INFO: Extracting primitive: D1_A1_tail_unit__slot2_oxide_primer
+16:37:39 | INFO: Primitives created: 1
+16:37:39 | WARNING: Mesh D1_A1_tail_unit__slot3_worn_nickel is not valid, and may be exported wrongly
+16:37:39 | INFO: Extracting primitive: D1_A1_tail_unit__slot3_worn_nickel
+16:37:39 | INFO: Primitives created: 1
+16:37:39 | INFO: Extracting primitive: D1_A2_mid_body__slot1_faded_cd_khaki
+16:37:39 | INFO: Primitives created: 1
+16:37:39 | INFO: Extracting primitive: D1_A2_mid_body__slot3_worn_nickel
+16:37:39 | INFO: Primitives created: 1
+16:37:39 | INFO: Extracting primitive: D1_A2_mid_body__slot4_blackout_glass
+16:37:39 | INFO: Primitives created: 1
+16:37:39 | INFO: Extracting primitive: D1_A3_ogive_nose__slot2_oxide_primer
+16:37:39 | INFO: Primitives created: 1
+16:37:39 | INFO: Extracting primitive: D1_A3_ogive_nose__slot3_worn_nickel
+16:37:39 | INFO: Primitives created: 1
+16:37:39 | INFO: Extracting primitive: D1_A4_nozzle_cap__slot3_worn_nickel
+16:37:39 | INFO: Primitives created: 1
+16:37:39 | INFO: Draco encoder: Encoding mesh Khaki.
+16:37:39 | INFO: Draco encoder: Encoding mesh Oxide.
+16:37:39 | INFO: Draco encoder: Encoding mesh NickelA1.
+16:37:39 | INFO: Draco encoder: Encoding mesh KhakiA2.
+16:37:39 | INFO: Draco encoder: Encoding mesh NickelA2.
+16:37:39 | INFO: Draco encoder: Encoding mesh Blackout.
+16:37:39 | INFO: Draco encoder: Encoding mesh OxideNose.
+16:37:39 | INFO: Draco encoder: Encoding mesh NickelNose.
+16:37:39 | INFO: Draco encoder: Encoding mesh NickelCap.
+16:37:39 | INFO: Finished glTF 2.0 export in 0.040201663970947266 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/rocket_d1_lod1.glb", "dims_mm": [181.563, 181.563, 225.0], "tris": 1318, "parts": 9, "orient": "rocket_z", "stl_unit_mm": 1.0}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 5.36 ms
+Timer 'STL Import' took 27.61 ms
+Timer 'STL Import' took 6.24 ms
+Timer 'STL Import' took 2.01 ms
+Timer 'STL Import' took 3.65 ms
+Timer 'STL Import' took 0.75 ms
+Timer 'STL Import' took 26.61 ms
+Timer 'STL Import' took 1.32 ms
+Timer 'STL Import' took 1.51 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 396 vertices, 396 indices, raw size: 10296, encoded size: 2333, compression ratio: 4.41
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 882 vertices, 882 indices, raw size: 22932, encoded size: 4819, compression ratio: 4.76
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 255 vertices, 255 indices, raw size: 6630, encoded size: 1445, compression ratio: 4.59
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 240 vertices, 240 indices, raw size: 6240, encoded size: 1511, compression ratio: 4.13
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 240 vertices, 240 indices, raw size: 6240, encoded size: 1491, compression ratio: 4.19
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 214 vertices, 240 indices, raw size: 5616, encoded size: 1250, compression ratio: 4.49
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1056 vertices, 1092 indices, raw size: 27528, encoded size: 5919, compression ratio: 4.65
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 240 vertices, 240 indices, raw size: 6240, encoded size: 1491, compression ratio: 4.19
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 240 vertices, 240 indices, raw size: 6240, encoded size: 1481, compression ratio: 4.21
+
+Blender quit
+-rw-r--r-- 1 box box 29K Oct 15 16:37 /workspace/loft-xr/assets/builds-opt/rocket_d1_lod1.glb
+==== START rocket_d2.glb 2026-10-15T16:37:39-07:00 ====
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 170516 dims_mm=[178.19090270996094, 178.19090270996094, 226.0] orient=rocket_z
+TOTAL_TRIS_AFTER 5000
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:37:41 | INFO: Starting glTF 2.0 export
+16:37:41 | INFO: Extracting primitive: D2_A1_tail_unit__slot1_pulp_cream
+16:37:41 | INFO: Primitives created: 1
+16:37:41 | INFO: Extracting primitive: D2_A1_tail_unit__slot2_faded_vermilion
+16:37:41 | INFO: Primitives created: 1
+16:37:41 | INFO: Extracting primitive: D2_A1_tail_unit__slot3_navy_ink
+16:37:41 | INFO: Primitives created: 1
+16:37:41 | INFO: Extracting primitive: D2_A2_nose__slot1_pulp_cream
+16:37:41 | INFO: Primitives created: 1
+16:37:41 | INFO: Extracting primitive: D2_A2_nose__slot3_navy_ink
+16:37:41 | INFO: Primitives created: 1
+16:37:41 | INFO: Extracting primitive: D2_A2_nose__slot4_matte_nickel
+16:37:41 | INFO: Primitives created: 1
+16:37:41 | INFO: Extracting primitive: D2_A3_nozzle_cap__slot4_matte_nickel
+16:37:41 | INFO: Primitives created: 1
+16:37:41 | INFO: Draco encoder: Encoding mesh Cream.
+16:37:41 | INFO: Draco encoder: Encoding mesh Vermilion.
+16:37:41 | INFO: Draco encoder: Encoding mesh Navy.
+16:37:41 | INFO: Draco encoder: Encoding mesh CreamNose.
+16:37:41 | INFO: Draco encoder: Encoding mesh NavyNose.
+16:37:41 | INFO: Draco encoder: Encoding mesh NickelNose.
+16:37:41 | INFO: Draco encoder: Encoding mesh NickelCap.
+16:37:41 | INFO: Finished glTF 2.0 export in 0.03628277778625488 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/rocket_d2.glb", "dims_mm": [178.191, 178.191, 226.0], "tris": 5000, "parts": 7, "orient": "rocket_z", "stl_unit_mm": 1.0}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 23.62 ms
+Timer 'STL Import' took 9.05 ms
+Timer 'STL Import' took 8.08 ms
+Timer 'STL Import' took 40.47 ms
+Timer 'STL Import' took 8.99 ms
+Timer 'STL Import' took 2.60 ms
+Timer 'STL Import' took 2.16 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 2218 vertices, 2334 indices, raw size: 57900, encoded size: 12037, compression ratio: 4.81
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 2258 vertices, 2286 indices, raw size: 58764, encoded size: 11308, compression ratio: 5.20
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1596 vertices, 1602 indices, raw size: 41508, encoded size: 8719, compression ratio: 4.76
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 5676 vertices, 6192 indices, raw size: 148392, encoded size: 28646, compression ratio: 5.18
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1942 vertices, 1950 indices, raw size: 50460, encoded size: 9948, compression ratio: 5.07
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 232 vertices, 234 indices, raw size: 6036, encoded size: 1346, compression ratio: 4.48
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 402 vertices, 402 indices, raw size: 10452, encoded size: 2388, compression ratio: 4.38
+
+Blender quit
+-rw-r--r-- 1 box box 79K Oct 15 16:37 /workspace/loft-xr/assets/builds-opt/rocket_d2.glb
+==== START rocket_d2_lod1.glb 2026-10-15T16:37:41-07:00 ====
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 170516 dims_mm=[178.19090270996094, 178.19090270996094, 226.0] orient=rocket_z
+TOTAL_TRIS_AFTER 1112
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:37:43 | INFO: Starting glTF 2.0 export
+16:37:43 | INFO: Extracting primitive: D2_A1_tail_unit__slot1_pulp_cream
+16:37:43 | INFO: Primitives created: 1
+16:37:43 | INFO: Extracting primitive: D2_A1_tail_unit__slot2_faded_vermilion
+16:37:43 | INFO: Primitives created: 1
+16:37:43 | INFO: Extracting primitive: D2_A1_tail_unit__slot3_navy_ink
+16:37:43 | INFO: Primitives created: 1
+16:37:43 | INFO: Extracting primitive: D2_A2_nose__slot1_pulp_cream
+16:37:43 | INFO: Primitives created: 1
+16:37:43 | INFO: Extracting primitive: D2_A2_nose__slot3_navy_ink
+16:37:43 | INFO: Primitives created: 1
+16:37:43 | INFO: Extracting primitive: D2_A2_nose__slot4_matte_nickel
+16:37:43 | INFO: Primitives created: 1
+16:37:43 | INFO: Extracting primitive: D2_A3_nozzle_cap__slot4_matte_nickel
+16:37:43 | INFO: Primitives created: 1
+16:37:43 | INFO: Draco encoder: Encoding mesh Cream.
+16:37:43 | INFO: Draco encoder: Encoding mesh Vermilion.
+16:37:43 | INFO: Draco encoder: Encoding mesh Navy.
+16:37:43 | INFO: Draco encoder: Encoding mesh CreamNose.
+16:37:43 | INFO: Draco encoder: Encoding mesh NavyNose.
+16:37:43 | INFO: Draco encoder: Encoding mesh NickelNose.
+16:37:43 | INFO: Draco encoder: Encoding mesh NickelCap.
+16:37:43 | INFO: Finished glTF 2.0 export in 0.027704715728759766 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/rocket_d2_lod1.glb", "dims_mm": [178.191, 178.191, 226.0], "tris": 1112, "parts": 7, "orient": "rocket_z", "stl_unit_mm": 1.0}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 13.34 ms
+Timer 'STL Import' took 9.06 ms
+Timer 'STL Import' took 6.00 ms
+Timer 'STL Import' took 34.02 ms
+Timer 'STL Import' took 7.05 ms
+Timer 'STL Import' took 1.12 ms
+Timer 'STL Import' took 1.97 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 462 vertices, 462 indices, raw size: 12012, encoded size: 2777, compression ratio: 4.33
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 456 vertices, 456 indices, raw size: 11856, encoded size: 2611, compression ratio: 4.54
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 318 vertices, 318 indices, raw size: 8268, encoded size: 1942, compression ratio: 4.26
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1202 vertices, 1236 indices, raw size: 31320, encoded size: 6616, compression ratio: 4.73
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 390 vertices, 390 indices, raw size: 10140, encoded size: 2243, compression ratio: 4.52
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 232 vertices, 234 indices, raw size: 6036, encoded size: 1346, compression ratio: 4.48
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 240 vertices, 240 indices, raw size: 6240, encoded size: 1505, compression ratio: 4.15
+
+Blender quit
+-rw-r--r-- 1 box box 25K Oct 15 16:37 /workspace/loft-xr/assets/builds-opt/rocket_d2_lod1.glb
+==== START crest_fridge_only.glb 2026-10-15T16:37:55-07:00 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4358 degenerate triangles were removed
+STL Importer: 1 duplicate triangles were removed
+Timer 'STL Import' took 174.67 ms
+STL Importer: 54 degenerate triangles were removed
+STL Importer: 3 duplicate triangles were removed
+TOTAL_TRIS_BEFORE 441540 dims_mm=[54.90820050239563, 7.050002483764494, 64.42917776107788] orient=flat_face
+DECIMATE_PASS 1 tris=6064 ratio=0.0200
+DECIMATE_PASS 2 tris=4402 ratio=0.3298
+DECIMATE_PASS 3 tris=3970 ratio=0.4543
+DECIMATE_PASS 4 tris=3854 ratio=0.5038
+DECIMATE_PASS 5 tris=3854 ratio=0.5189
+DECIMATE_PASS 6 tris=3854 ratio=0.5189
+TOTAL_TRIS_AFTER 3854
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:38:01 | INFO: Starting glTF 2.0 export
+16:38:01 | WARNING: Mesh Grey is not valid, and may be exported wrongly
+16:38:01 | INFO: Extracting primitive: Grey
+16:38:01 | INFO: Primitives created: 1
+16:38:01 | WARNING: Mesh White is not valid, and may be exported wrongly
+16:38:01 | INFO: Extracting primitive: White
+16:38:01 | INFO: Primitives created: 1
+16:38:01 | INFO: Draco encoder: Encoding mesh Grey.
+16:38:01 | INFO: Draco encoder: Encoding mesh White.
+16:38:01 | INFO: Finished glTF 2.0 export in 0.027769088745117188 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_fridge_only.glb", "dims_mm": [54.908, 7.05, 64.429], "tris": 3854, "parts": 2, "orient": "flat_face", "stl_unit_mm": 1.0}
+Timer 'STL Import' took 131.38 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 625 vertices, 657 indices, raw size: 16122, encoded size: 3505, compression ratio: 4.60
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 9412 vertices, 10869 indices, raw size: 241458, encoded size: 47293, compression ratio: 5.11
+
+Blender quit
+-rw-r--r-- 1 box box 52K Oct 15 16:38 /workspace/loft-xr/assets/builds-opt/crest_fridge_only.glb
+==== START crest_fridge_only_lod1.glb 2026-10-15T16:38:01-07:00 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4358 degenerate triangles were removed
+STL Importer: 1 duplicate triangles were removed
+Timer 'STL Import' took 129.85 ms
+STL Importer: 54 degenerate triangles were removed
+STL Importer: 3 duplicate triangles were removed
+TOTAL_TRIS_BEFORE 441540 dims_mm=[54.90820050239563, 7.050002483764494, 64.42917776107788] orient=flat_face
+DECIMATE_PASS 1 tris=6064 ratio=0.0200
+DECIMATE_PASS 2 tris=4028 ratio=0.1649
+DECIMATE_PASS 3 tris=3870 ratio=0.2483
+DECIMATE_PASS 4 tris=3858 ratio=0.2584
+DECIMATE_PASS 5 tris=3856 ratio=0.2592
+DECIMATE_PASS 6 tris=3856 ratio=0.2593
+TOTAL_TRIS_AFTER 3856
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:38:07 | INFO: Starting glTF 2.0 export
+16:38:07 | WARNING: Mesh Grey is not valid, and may be exported wrongly
+16:38:07 | INFO: Extracting primitive: Grey
+16:38:07 | INFO: Primitives created: 1
+16:38:07 | WARNING: Mesh White is not valid, and may be exported wrongly
+16:38:07 | INFO: Extracting primitive: White
+16:38:07 | INFO: Primitives created: 1
+16:38:07 | INFO: Draco encoder: Encoding mesh Grey.
+16:38:07 | INFO: Draco encoder: Encoding mesh White.
+16:38:07 | INFO: Finished glTF 2.0 export in 0.02074408531188965 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_fridge_only_lod1.glb", "dims_mm": [54.908, 7.05, 64.429], "tris": 3856, "parts": 2, "orient": "flat_face", "stl_unit_mm": 1.0}
+Timer 'STL Import' took 96.47 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 633 vertices, 663 indices, raw size: 16278, encoded size: 3511, compression ratio: 4.64
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 9412 vertices, 10869 indices, raw size: 241458, encoded size: 47293, compression ratio: 5.11
+
+Blender quit
+-rw-r--r-- 1 box box 52K Oct 15 16:38 /workspace/loft-xr/assets/builds-opt/crest_fridge_only_lod1.glb
+==== START crest_card.glb 2026-10-15T16:38:07-07:00 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4324 degenerate triangles were removed
+Timer 'STL Import' took 166.09 ms
+STL Importer: 86 degenerate triangles were removed
+STL Importer: 4 duplicate triangles were removed
+TOTAL_TRIS_BEFORE 421346 dims_mm=[53.97999954223633, 7.0500030517578125, 85.59999864022437] orient=flat_face
+DECIMATE_PASS 1 tris=5872 ratio=0.0200
+DECIMATE_PASS 2 tris=4274 ratio=0.3406
+DECIMATE_PASS 3 tris=3956 ratio=0.4679
+DECIMATE_PASS 4 tris=3912 ratio=0.5056
+DECIMATE_PASS 5 tris=3912 ratio=0.5112
+DECIMATE_PASS 6 tris=3912 ratio=0.5112
+TOTAL_TRIS_AFTER 3912
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:38:12 | INFO: Starting glTF 2.0 export
+16:38:12 | WARNING: Mesh Grey is not valid, and may be exported wrongly
+16:38:12 | INFO: Extracting primitive: Grey
+16:38:12 | INFO: Primitives created: 1
+16:38:12 | WARNING: Mesh White is not valid, and may be exported wrongly
+16:38:12 | INFO: Extracting primitive: White
+16:38:12 | INFO: Primitives created: 1
+16:38:12 | INFO: Draco encoder: Encoding mesh Grey.
+16:38:12 | INFO: Draco encoder: Encoding mesh White.
+16:38:12 | INFO: Finished glTF 2.0 export in 0.029381990432739258 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_card.glb", "dims_mm": [53.98, 7.05, 85.6], "tris": 3912, "parts": 2, "orient": "flat_face", "stl_unit_mm": 1.0}
+Timer 'STL Import' took 107.16 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 986 vertices, 1044 indices, raw size: 25392, encoded size: 5134, compression ratio: 4.95
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 9551 vertices, 10635 indices, raw size: 244230, encoded size: 45966, compression ratio: 5.31
+
+Blender quit
+-rw-r--r-- 1 box box 52K Oct 15 16:38 /workspace/loft-xr/assets/builds-opt/crest_card.glb
+==== START crest_card_lod1.glb 2026-10-15T16:38:12-07:00 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4324 degenerate triangles were removed
+Timer 'STL Import' took 136.34 ms
+STL Importer: 86 degenerate triangles were removed
+STL Importer: 4 duplicate triangles were removed
+TOTAL_TRIS_BEFORE 421346 dims_mm=[53.97999954223633, 7.0500030517578125, 85.59999864022437] orient=flat_face
+DECIMATE_PASS 1 tris=5872 ratio=0.0200
+DECIMATE_PASS 2 tris=4208 ratio=0.1703
+DECIMATE_PASS 3 tris=3970 ratio=0.2376
+DECIMATE_PASS 4 tris=3902 ratio=0.2519
+DECIMATE_PASS 5 tris=3888 ratio=0.2563
+DECIMATE_PASS 6 tris=3888 ratio=0.2572
+TOTAL_TRIS_AFTER 3888
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:38:18 | INFO: Starting glTF 2.0 export
+16:38:18 | WARNING: Mesh Grey is not valid, and may be exported wrongly
+16:38:18 | INFO: Extracting primitive: Grey
+16:38:18 | INFO: Primitives created: 1
+16:38:18 | WARNING: Mesh White is not valid, and may be exported wrongly
+16:38:18 | INFO: Extracting primitive: White
+16:38:18 | INFO: Primitives created: 1
+16:38:18 | INFO: Draco encoder: Encoding mesh Grey.
+16:38:18 | INFO: Draco encoder: Encoding mesh White.
+16:38:18 | INFO: Finished glTF 2.0 export in 0.027635812759399414 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_card_lod1.glb", "dims_mm": [53.98, 7.05, 85.6], "tris": 3888, "parts": 2, "orient": "flat_face", "stl_unit_mm": 1.0}
+Timer 'STL Import' took 154.31 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 924 vertices, 972 indices, raw size: 23904, encoded size: 4845, compression ratio: 4.93
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 9551 vertices, 10635 indices, raw size: 244230, encoded size: 45966, compression ratio: 5.31
+
+Blender quit
+-rw-r--r-- 1 box box 52K Oct 15 16:38 /workspace/loft-xr/assets/builds-opt/crest_card_lod1.glb
+==== START hope_relief.glb 2026-10-15T16:38:18-07:00 ====
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 1730112 dims_mm=[35.999737414575065, 0.749833523495008, 33.26122772693634] orient=flat_face
+DECIMATE_PASS 1 tris=17300 ratio=0.0200
+DECIMATE_PASS 2 tris=5000 ratio=0.2890
+TOTAL_TRIS_AFTER 5000
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:38:54 | INFO: Starting glTF 2.0 export
+16:38:54 | INFO: Extracting primitive: HOPE_relief_v4_8p7_release
+16:38:54 | INFO: Primitives created: 1
+16:38:54 | INFO: Draco encoder: Encoding mesh Relief.
+16:38:54 | INFO: Finished glTF 2.0 export in 0.022976160049438477 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/hope_relief.glb", "dims_mm": [36.0, 0.75, 33.261], "tris": 5000, "parts": 1, "orient": "flat_face", "stl_unit_mm": 25.4}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 1334.87 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 14658 vertices, 15000 indices, raw size: 381048, encoded size: 72168, compression ratio: 5.28
+
+Blender quit
+-rw-r--r-- 1 box box 72K Oct 15 16:38 /workspace/loft-xr/assets/builds-opt/hope_relief.glb
+==== START hope_relief_lod1.glb 2026-10-15T16:38:54-07:00 ====
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 1730112 dims_mm=[35.999737414575065, 0.749833523495008, 33.26122772693634] orient=flat_face
+DECIMATE_PASS 1 tris=17300 ratio=0.0200
+DECIMATE_PASS 2 tris=1000 ratio=0.0578
+TOTAL_TRIS_AFTER 1000
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:39:36 | INFO: Starting glTF 2.0 export
+16:39:36 | INFO: Extracting primitive: HOPE_relief_v4_8p7_release
+16:39:36 | INFO: Primitives created: 1
+16:39:36 | INFO: Draco encoder: Encoding mesh Relief.
+16:39:36 | INFO: Finished glTF 2.0 export in 0.015790462493896484 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/hope_relief_lod1.glb", "dims_mm": [36.0, 0.75, 33.261], "tris": 1000, "parts": 1, "orient": "flat_face", "stl_unit_mm": 25.4}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 1121.98 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 2970 vertices, 3000 indices, raw size: 77232, encoded size: 15317, compression ratio: 5.04
+
+Blender quit
+-rw-r--r-- 1 box box 17K Oct 15 16:39 /workspace/loft-xr/assets/builds-opt/hope_relief_lod1.glb
+==== START vw_t1_restomod.glb 2026-10-15T16:39:36-07:00 ====
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 3547544 dims_mm=[181.63751220703125, 85.39952087402344, 75.50760141015053] orient=upright_y
+DECIMATE_PASS 1 tris=35474 ratio=0.0200
+DECIMATE_PASS 2 tris=5000 ratio=0.1409
+TOTAL_TRIS_AFTER 5000
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:41:09 | INFO: Starting glTF 2.0 export
+16:41:09 | INFO: Extracting primitive: vw_t1_restomod_1to18_onepiece
+16:41:09 | INFO: Primitives created: 1
+16:41:09 | INFO: Draco encoder: Encoding mesh Body.
+16:41:09 | INFO: Finished glTF 2.0 export in 0.03893709182739258 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/vw_t1_restomod.glb", "dims_mm": [181.638, 85.4, 75.508], "tris": 5000, "parts": 1, "orient": "upright_y", "stl_unit_mm": 1.0}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 2865.20 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 14996 vertices, 15000 indices, raw size: 389904, encoded size: 72630, compression ratio: 5.37
+
+Blender quit
+-rw-r--r-- 1 box box 73K Oct 15 16:41 /workspace/loft-xr/assets/builds-opt/vw_t1_restomod.glb
+==== START vw_t1_restomod_lod1.glb 2026-10-15T16:41:09-07:00 ====
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 3547544 dims_mm=[181.63751220703125, 85.39952087402344, 75.50760141015053] orient=upright_y
+DECIMATE_PASS 1 tris=35474 ratio=0.0200
+DECIMATE_PASS 2 tris=998 ratio=0.0282
+TOTAL_TRIS_AFTER 998
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:42:12 | INFO: Starting glTF 2.0 export
+16:42:12 | INFO: Extracting primitive: vw_t1_restomod_1to18_onepiece
+16:42:12 | INFO: Primitives created: 1
+16:42:12 | INFO: Draco encoder: Encoding mesh Body.
+16:42:12 | INFO: Finished glTF 2.0 export in 0.015488624572753906 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/vw_t1_restomod_lod1.glb", "dims_mm": [181.638, 85.4, 75.508], "tris": 998, "parts": 1, "orient": "upright_y", "stl_unit_mm": 1.0}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 2583.76 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 2992 vertices, 2994 indices, raw size: 77796, encoded size: 15667, compression ratio: 4.97
+
+Blender quit
+-rw-r--r-- 1 box box 17K Oct 15 16:42 /workspace/loft-xr/assets/builds-opt/vw_t1_restomod_lod1.glb
+==== REMESH crest_card ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4324 degenerate triangles were removed
+Timer 'STL Import' took 103.62 ms
+STL Importer: 86 degenerate triangles were removed
+STL Importer: 4 duplicate triangles were removed
+BEFORE_REMESH tris=421346 dims=[53.97999954223633, 7.0500030517578125, 85.59999864022437] voxel=0.9
+AFTER_REMESH tris=14844
+DECIMATE_PASS 1 tris=3317
+DECIMATE_PASS 2 tris=2137
+DECIMATE_PASS 3 tris=2007
+DECIMATE_PASS 4 tris=1914
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:42:32 | INFO: Starting glTF 2.0 export
+16:42:32 | INFO: Extracting primitive: Grey
+16:42:32 | INFO: Primitives created: 1
+16:42:32 | INFO: Draco encoder: Encoding mesh Crest.
+16:42:32 | INFO: Finished glTF 2.0 export in 0.015362739562988281 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_card.glb", "dims_mm": [53.98, 7.05, 85.6], "tris": 1914, "parts": 1, "orient": "flat_face", "stl_unit_mm": 1.0, "method": "remesh"}
+Timer 'STL Import' took 77.33 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 5968 vertices, 6420 indices, raw size: 156048, encoded size: 29740, compression ratio: 5.25
+
+Blender quit
+==== REMESH crest_card_lod1 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4324 degenerate triangles were removed
+Timer 'STL Import' took 99.77 ms
+STL Importer: 86 degenerate triangles were removed
+STL Importer: 4 duplicate triangles were removed
+BEFORE_REMESH tris=421346 dims=[53.97999954223633, 7.0500030517578125, 85.59999864022437] voxel=1.6
+AFTER_REMESH tris=4586
+DECIMATE_PASS 1 tris=1502
+DECIMATE_PASS 2 tris=1072
+DECIMATE_PASS 3 tris=1016
+DECIMATE_PASS 4 tris=971
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:42:34 | INFO: Starting glTF 2.0 export
+16:42:34 | INFO: Extracting primitive: Grey
+16:42:34 | INFO: Primitives created: 1
+16:42:34 | INFO: Draco encoder: Encoding mesh Crest.
+16:42:34 | INFO: Finished glTF 2.0 export in 0.01150369644165039 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_card_lod1.glb", "dims_mm": [53.98, 7.05, 85.6], "tris": 971, "parts": 1, "orient": "flat_face", "stl_unit_mm": 1.0, "method": "remesh"}
+Timer 'STL Import' took 81.62 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 3112 vertices, 3534 indices, raw size: 81636, encoded size: 16388, compression ratio: 4.98
+
+Blender quit
+==== REMESH crest_fridge_only ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4358 degenerate triangles were removed
+STL Importer: 1 duplicate triangles were removed
+Timer 'STL Import' took 117.21 ms
+STL Importer: 54 degenerate triangles were removed
+STL Importer: 3 duplicate triangles were removed
+BEFORE_REMESH tris=441540 dims=[54.90820050239563, 7.050002483764494, 64.42917776107788] voxel=0.85
+AFTER_REMESH tris=11900
+DECIMATE_PASS 1 tris=3384
+DECIMATE_PASS 2 tris=2150
+DECIMATE_PASS 3 tris=2015
+DECIMATE_PASS 4 tris=1924
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:42:37 | INFO: Starting glTF 2.0 export
+16:42:37 | INFO: Extracting primitive: Grey
+16:42:37 | INFO: Primitives created: 1
+16:42:37 | INFO: Draco encoder: Encoding mesh Crest.
+16:42:37 | INFO: Finished glTF 2.0 export in 0.014216423034667969 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_fridge_only.glb", "dims_mm": [54.908, 7.05, 64.429], "tris": 1924, "parts": 1, "orient": "flat_face", "stl_unit_mm": 1.0, "method": "remesh"}
+Timer 'STL Import' took 108.65 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 5934 vertices, 6264 indices, raw size: 154944, encoded size: 29834, compression ratio: 5.19
+
+Blender quit
+==== REMESH crest_fridge_only_lod1 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4358 degenerate triangles were removed
+STL Importer: 1 duplicate triangles were removed
+Timer 'STL Import' took 98.81 ms
+STL Importer: 54 degenerate triangles were removed
+STL Importer: 3 duplicate triangles were removed
+BEFORE_REMESH tris=441540 dims=[54.90820050239563, 7.050002483764494, 64.42917776107788] voxel=1.5
+AFTER_REMESH tris=3588
+DECIMATE_PASS 1 tris=1514
+DECIMATE_PASS 2 tris=1081
+DECIMATE_PASS 3 tris=1011
+DECIMATE_PASS 4 tris=968
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:42:39 | INFO: Starting glTF 2.0 export
+16:42:39 | INFO: Extracting primitive: Grey
+16:42:39 | INFO: Primitives created: 1
+16:42:39 | INFO: Draco encoder: Encoding mesh Crest.
+16:42:39 | INFO: Finished glTF 2.0 export in 0.010869026184082031 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_fridge_only_lod1.glb", "dims_mm": [54.908, 7.05, 64.429], "tris": 968, "parts": 1, "orient": "flat_face", "stl_unit_mm": 1.0, "method": "remesh"}
+Timer 'STL Import' took 75.54 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 3092 vertices, 3468 indices, raw size: 81144, encoded size: 16597, compression ratio: 4.89
+
+Blender quit
+==== REDO rocket_d1_lod1 ====
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 146380 dims_mm=[181.56349182128906, 181.56349182128906, 225.0] orient=rocket_z
+DECIMATE_PASS 1 tris=1574 ratio=0.0200
+DECIMATE_PASS 2 tris=1012 ratio=0.5718
+DECIMATE_PASS 3 tris=940 ratio=0.8893
+DECIMATE_PASS 4 tris=914 ratio=0.9500
+DECIMATE_PASS 5 tris=904 ratio=0.9500
+DECIMATE_PASS 6 tris=898 ratio=0.9500
+TOTAL_TRIS_AFTER 898
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:42:41 | INFO: Starting glTF 2.0 export
+16:42:41 | INFO: Extracting primitive: D1_A1_tail_unit__slot1_faded_cd_khaki
+16:42:41 | INFO: Primitives created: 1
+16:42:41 | INFO: Extracting primitive: D1_A1_tail_unit__slot2_oxide_primer
+16:42:41 | INFO: Primitives created: 1
+16:42:41 | WARNING: Mesh D1_A1_tail_unit__slot3_worn_nickel is not valid, and may be exported wrongly
+16:42:41 | INFO: Extracting primitive: D1_A1_tail_unit__slot3_worn_nickel
+16:42:41 | INFO: Primitives created: 1
+16:42:41 | INFO: Extracting primitive: D1_A2_mid_body__slot1_faded_cd_khaki
+16:42:41 | INFO: Primitives created: 1
+16:42:41 | WARNING: Mesh D1_A2_mid_body__slot3_worn_nickel is not valid, and may be exported wrongly
+16:42:41 | INFO: Extracting primitive: D1_A2_mid_body__slot3_worn_nickel
+16:42:41 | INFO: Primitives created: 1
+16:42:41 | INFO: Extracting primitive: D1_A2_mid_body__slot4_blackout_glass
+16:42:41 | INFO: Primitives created: 1
+16:42:41 | INFO: Extracting primitive: D1_A3_ogive_nose__slot2_oxide_primer
+16:42:41 | INFO: Primitives created: 1
+16:42:41 | INFO: Extracting primitive: D1_A3_ogive_nose__slot3_worn_nickel
+16:42:41 | INFO: Primitives created: 1
+16:42:41 | INFO: Extracting primitive: D1_A4_nozzle_cap__slot3_worn_nickel
+16:42:41 | INFO: Primitives created: 1
+16:42:41 | INFO: Draco encoder: Encoding mesh Khaki.
+16:42:41 | INFO: Draco encoder: Encoding mesh Oxide.
+16:42:41 | INFO: Draco encoder: Encoding mesh NickelA1.
+16:42:41 | INFO: Draco encoder: Encoding mesh KhakiA2.
+16:42:41 | INFO: Draco encoder: Encoding mesh NickelA2.
+16:42:41 | INFO: Draco encoder: Encoding mesh Blackout.
+16:42:41 | INFO: Draco encoder: Encoding mesh OxideNose.
+16:42:41 | INFO: Draco encoder: Encoding mesh NickelNose.
+16:42:41 | INFO: Draco encoder: Encoding mesh NickelCap.
+16:42:41 | INFO: Finished glTF 2.0 export in 0.036688804626464844 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/rocket_d1_lod1.glb", "dims_mm": [181.563, 181.563, 225.0], "tris": 898, "parts": 9, "orient": "rocket_z", "stl_unit_mm": 1.0}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 4.82 ms
+Timer 'STL Import' took 20.76 ms
+Timer 'STL Import' took 7.69 ms
+Timer 'STL Import' took 2.60 ms
+Timer 'STL Import' took 5.08 ms
+Timer 'STL Import' took 0.87 ms
+Timer 'STL Import' took 22.54 ms
+Timer 'STL Import' took 1.39 ms
+Timer 'STL Import' took 1.46 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 396 vertices, 396 indices, raw size: 10296, encoded size: 2333, compression ratio: 4.41
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 606 vertices, 606 indices, raw size: 15756, encoded size: 3392, compression ratio: 4.65
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 180 vertices, 180 indices, raw size: 4680, encoded size: 1054, compression ratio: 4.44
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 120 vertices, 120 indices, raw size: 3120, encoded size: 830, compression ratio: 3.76
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 132 vertices, 132 indices, raw size: 3432, encoded size: 892, compression ratio: 3.85
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 120 vertices, 120 indices, raw size: 3120, encoded size: 779, compression ratio: 4.01
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 724 vertices, 756 indices, raw size: 18888, encoded size: 4135, compression ratio: 4.57
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 120 vertices, 120 indices, raw size: 3120, encoded size: 812, compression ratio: 3.84
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 120 vertices, 120 indices, raw size: 3120, encoded size: 809, compression ratio: 3.86
+
+Blender quit
+==== REDO rocket_d2_lod1 ====
+could not get a list of mounted file-systems
+TOTAL_TRIS_BEFORE 170516 dims_mm=[178.19090270996094, 178.19090270996094, 226.0] orient=rocket_z
+DECIMATE_PASS 1 tris=1714 ratio=0.0200
+DECIMATE_PASS 2 tris=928 ratio=0.5251
+DECIMATE_PASS 3 tris=896 ratio=0.9500
+TOTAL_TRIS_AFTER 896
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:42:43 | INFO: Starting glTF 2.0 export
+16:42:43 | INFO: Extracting primitive: D2_A1_tail_unit__slot1_pulp_cream
+16:42:43 | INFO: Primitives created: 1
+16:42:43 | INFO: Extracting primitive: D2_A1_tail_unit__slot2_faded_vermilion
+16:42:43 | INFO: Primitives created: 1
+16:42:43 | INFO: Extracting primitive: D2_A1_tail_unit__slot3_navy_ink
+16:42:43 | INFO: Primitives created: 1
+16:42:43 | INFO: Extracting primitive: D2_A2_nose__slot1_pulp_cream
+16:42:43 | INFO: Primitives created: 1
+16:42:43 | INFO: Extracting primitive: D2_A2_nose__slot3_navy_ink
+16:42:43 | INFO: Primitives created: 1
+16:42:43 | WARNING: Mesh D2_A2_nose__slot4_matte_nickel is not valid, and may be exported wrongly
+16:42:43 | INFO: Extracting primitive: D2_A2_nose__slot4_matte_nickel
+16:42:43 | INFO: Primitives created: 1
+16:42:43 | INFO: Extracting primitive: D2_A3_nozzle_cap__slot4_matte_nickel
+16:42:43 | INFO: Primitives created: 1
+16:42:43 | INFO: Draco encoder: Encoding mesh Cream.
+16:42:43 | INFO: Draco encoder: Encoding mesh Vermilion.
+16:42:43 | INFO: Draco encoder: Encoding mesh Navy.
+16:42:43 | INFO: Draco encoder: Encoding mesh CreamNose.
+16:42:43 | INFO: Draco encoder: Encoding mesh NavyNose.
+16:42:43 | INFO: Draco encoder: Encoding mesh NickelNose.
+16:42:43 | INFO: Draco encoder: Encoding mesh NickelCap.
+16:42:43 | INFO: Finished glTF 2.0 export in 0.03591585159301758 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/rocket_d2_lod1.glb", "dims_mm": [178.191, 178.191, 226.0], "tris": 896, "parts": 7, "orient": "rocket_z", "stl_unit_mm": 1.0}
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Timer 'STL Import' took 20.16 ms
+Timer 'STL Import' took 9.48 ms
+Timer 'STL Import' took 6.17 ms
+Timer 'STL Import' took 40.89 ms
+Timer 'STL Import' took 7.99 ms
+Timer 'STL Import' took 1.15 ms
+Timer 'STL Import' took 2.05 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 396 vertices, 396 indices, raw size: 10296, encoded size: 2357, compression ratio: 4.37
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 390 vertices, 390 indices, raw size: 10140, encoded size: 2247, compression ratio: 4.51
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 270 vertices, 270 indices, raw size: 7020, encoded size: 1680, compression ratio: 4.18
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1002 vertices, 1068 indices, raw size: 26136, encoded size: 5546, compression ratio: 4.71
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 330 vertices, 330 indices, raw size: 8580, encoded size: 1959, compression ratio: 4.38
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 108 vertices, 108 indices, raw size: 2808, encoded size: 701, compression ratio: 4.01
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 120 vertices, 120 indices, raw size: 3120, encoded size: 831, compression ratio: 3.75
+
+Blender quit
+==== BAKE crest_card ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4324 degenerate triangles were removed
+Timer 'STL Import' took 142.48 ms
+STL Importer: 86 degenerate triangles were removed
+STL Importer: 4 duplicate triangles were removed
+Timer 'STL Import' took 110.44 ms
+Traceback (most recent call last):
+  File "/workspace/loft-xr/assets/builds-opt/bake_crest_tex.py", line 98, in <module>
+    scene.render.engine = 'BLENDER_EEVEE_NEXT' if hasattr(bpy.types, 'BLENDER_EEVEE_NEXT') else 'BLENDER_EEVEE'
+    ^^^^^^^^^^^^^^^^^^^
+TypeError: bpy_struct: item.attr = val: enum "BLENDER_EEVEE" not found in ('BLENDER_EEVEE_NEXT', 'BLENDER_WORKBENCH', 'CYCLES')
+
+Error: script failed, file: '/workspace/loft-xr/assets/builds-opt/bake_crest_tex.py', exiting.
+
+Blender quit
+-rw-r--r-- 1 box box 31K Oct 15 16:42 /workspace/loft-xr/assets/builds-opt/crest_card.glb
+==== BAKE crest_card_lod1 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4324 degenerate triangles were removed
+Timer 'STL Import' took 123.32 ms
+STL Importer: 86 degenerate triangles were removed
+STL Importer: 4 duplicate triangles were removed
+Timer 'STL Import' took 86.51 ms
+Traceback (most recent call last):
+  File "/workspace/loft-xr/assets/builds-opt/bake_crest_tex.py", line 98, in <module>
+    scene.render.engine = 'BLENDER_EEVEE_NEXT' if hasattr(bpy.types, 'BLENDER_EEVEE_NEXT') else 'BLENDER_EEVEE'
+    ^^^^^^^^^^^^^^^^^^^
+TypeError: bpy_struct: item.attr = val: enum "BLENDER_EEVEE" not found in ('BLENDER_EEVEE_NEXT', 'BLENDER_WORKBENCH', 'CYCLES')
+
+Error: script failed, file: '/workspace/loft-xr/assets/builds-opt/bake_crest_tex.py', exiting.
+
+Blender quit
+-rw-r--r-- 1 box box 18K Oct 15 16:42 /workspace/loft-xr/assets/builds-opt/crest_card_lod1.glb
+==== BAKE crest_fridge_only ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4358 degenerate triangles were removed
+STL Importer: 1 duplicate triangles were removed
+Timer 'STL Import' took 178.35 ms
+STL Importer: 54 degenerate triangles were removed
+STL Importer: 3 duplicate triangles were removed
+Timer 'STL Import' took 113.76 ms
+Traceback (most recent call last):
+  File "/workspace/loft-xr/assets/builds-opt/bake_crest_tex.py", line 98, in <module>
+    scene.render.engine = 'BLENDER_EEVEE_NEXT' if hasattr(bpy.types, 'BLENDER_EEVEE_NEXT') else 'BLENDER_EEVEE'
+    ^^^^^^^^^^^^^^^^^^^
+TypeError: bpy_struct: item.attr = val: enum "BLENDER_EEVEE" not found in ('BLENDER_EEVEE_NEXT', 'BLENDER_WORKBENCH', 'CYCLES')
+
+Error: script failed, file: '/workspace/loft-xr/assets/builds-opt/bake_crest_tex.py', exiting.
+
+Blender quit
+-rw-r--r-- 1 box box 31K Oct 15 16:42 /workspace/loft-xr/assets/builds-opt/crest_fridge_only.glb
+==== BAKE crest_fridge_only_lod1 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4358 degenerate triangles were removed
+STL Importer: 1 duplicate triangles were removed
+Timer 'STL Import' took 115.00 ms
+STL Importer: 54 degenerate triangles were removed
+STL Importer: 3 duplicate triangles were removed
+Timer 'STL Import' took 77.01 ms
+Traceback (most recent call last):
+  File "/workspace/loft-xr/assets/builds-opt/bake_crest_tex.py", line 98, in <module>
+    scene.render.engine = 'BLENDER_EEVEE_NEXT' if hasattr(bpy.types, 'BLENDER_EEVEE_NEXT') else 'BLENDER_EEVEE'
+    ^^^^^^^^^^^^^^^^^^^
+TypeError: bpy_struct: item.attr = val: enum "BLENDER_EEVEE" not found in ('BLENDER_EEVEE_NEXT', 'BLENDER_WORKBENCH', 'CYCLES')
+
+Error: script failed, file: '/workspace/loft-xr/assets/builds-opt/bake_crest_tex.py', exiting.
+
+Blender quit
+-rw-r--r-- 1 box box 18K Oct 15 16:42 /workspace/loft-xr/assets/builds-opt/crest_fridge_only_lod1.glb
+==== REMESH crest_card ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4324 degenerate triangles were removed
+Timer 'STL Import' took 130.33 ms
+STL Importer: 86 degenerate triangles were removed
+STL Importer: 4 duplicate triangles were removed
+BEFORE_REMESH tris=421346 dims=[53.97999954223633, 7.0500030517578125, 85.59999864022437] voxel=0.9
+AFTER_REMESH tris=14844
+DECIMATE_PASS 1 tris=3317
+DECIMATE_PASS 2 tris=2137
+DECIMATE_PASS 3 tris=2007
+DECIMATE_PASS 4 tris=1914
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:43:18 | INFO: Starting glTF 2.0 export
+16:43:18 | INFO: Extracting primitive: Grey
+16:43:18 | INFO: Primitives created: 1
+16:43:18 | INFO: Draco encoder: Encoding mesh Crest.
+16:43:18 | INFO: Finished glTF 2.0 export in 0.015751361846923828 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_card.glb", "dims_mm": [53.98, 7.05, 85.6], "tris": 1914, "parts": 1, "orient": "flat_face", "stl_unit_mm": 1.0, "method": "remesh"}
+Timer 'STL Import' took 94.26 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 5968 vertices, 6420 indices, raw size: 156048, encoded size: 29740, compression ratio: 5.25
+
+Blender quit
+==== BAKE crest_card ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4324 degenerate triangles were removed
+Timer 'STL Import' took 92.66 ms
+STL Importer: 86 degenerate triangles were removed
+STL Importer: 4 duplicate triangles were removed
+Timer 'STL Import' took 84.66 ms
+Fra:1 Mem:114.19M (Peak 138.19M) | Time:00:06.37 | Rendering 1 / 64 samples
+Fra:1 Mem:114.19M (Peak 138.19M) | Time:00:14.59 | Rendering 25 / 64 samples
+Fra:1 Mem:114.19M (Peak 138.19M) | Time:00:24.10 | Rendering 50 / 64 samples
+Fra:1 Mem:114.19M (Peak 138.19M) | Time:00:29.50 | Rendering 64 / 64 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/tex/crest_card.png'
+Time: 00:29.62 (Saving: 00:00.10)
+
+TEX_WRITTEN /workspace/loft-xr/assets/builds-opt/tex/crest_card.png
+16:43:49 | INFO: Data are loaded, start creating Blender stuff
+16:43:49 | INFO: Blender create Mesh node Grey
+16:43:49 | INFO: Draco Decoder: Decode primitive Grey
+16:43:49 | INFO: glTF import finished in 0.01s
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:43:49 | INFO: Starting glTF 2.0 export
+16:43:49 | INFO: Extracting primitive: Grey.001
+16:43:49 | INFO: Primitives created: 1
+16:43:49 | INFO: Draco encoder: Encoding mesh CrestLow.
+16:43:49 | INFO: Finished glTF 2.0 export in 0.023407697677612305 s
+
+DONE_BAKE /workspace/loft-xr/assets/builds-opt/crest_card.glb tris 2140 tex /workspace/loft-xr/assets/builds-opt/tex/crest_card.png
+DracoDecoder | Decoded 5968 vertices, 6420 indices
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 5996 vertices, 6420 indices, raw size: 204712, encoded size: 42095, compression ratio: 4.86
+
+Blender quit
+==== REMESH crest_card_lod1 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4324 degenerate triangles were removed
+Timer 'STL Import' took 199.64 ms
+STL Importer: 86 degenerate triangles were removed
+STL Importer: 4 duplicate triangles were removed
+BEFORE_REMESH tris=421346 dims=[53.97999954223633, 7.0500030517578125, 85.59999864022437] voxel=1.6
+AFTER_REMESH tris=4586
+DECIMATE_PASS 1 tris=1502
+DECIMATE_PASS 2 tris=1072
+DECIMATE_PASS 3 tris=1016
+DECIMATE_PASS 4 tris=971
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:43:51 | INFO: Starting glTF 2.0 export
+16:43:51 | INFO: Extracting primitive: Grey
+16:43:51 | INFO: Primitives created: 1
+16:43:51 | INFO: Draco encoder: Encoding mesh Crest.
+16:43:51 | INFO: Finished glTF 2.0 export in 0.014452457427978516 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_card_lod1.glb", "dims_mm": [53.98, 7.05, 85.6], "tris": 971, "parts": 1, "orient": "flat_face", "stl_unit_mm": 1.0, "method": "remesh"}
+Timer 'STL Import' took 126.73 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 3112 vertices, 3534 indices, raw size: 81636, encoded size: 16388, compression ratio: 4.98
+
+Blender quit
+==== BAKE crest_card_lod1 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4324 degenerate triangles were removed
+Timer 'STL Import' took 92.43 ms
+STL Importer: 86 degenerate triangles were removed
+STL Importer: 4 duplicate triangles were removed
+Timer 'STL Import' took 79.50 ms
+Fra:1 Mem:114.19M (Peak 138.19M) | Time:00:02.31 | Rendering 1 / 64 samples
+Fra:1 Mem:114.19M (Peak 138.19M) | Time:00:12.61 | Rendering 25 / 64 samples
+Fra:1 Mem:114.19M (Peak 138.19M) | Time:00:21.87 | Rendering 50 / 64 samples
+Fra:1 Mem:114.19M (Peak 138.19M) | Time:00:27.77 | Rendering 64 / 64 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/tex/crest_card.png'
+Time: 00:27.89 (Saving: 00:00.11)
+
+TEX_WRITTEN /workspace/loft-xr/assets/builds-opt/tex/crest_card.png
+16:44:20 | INFO: Data are loaded, start creating Blender stuff
+16:44:20 | INFO: Blender create Mesh node Grey
+16:44:20 | INFO: Draco Decoder: Decode primitive Grey
+16:44:20 | INFO: glTF import finished in 0.01s
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:44:20 | INFO: Starting glTF 2.0 export
+16:44:20 | INFO: Extracting primitive: Grey.001
+16:44:20 | INFO: Primitives created: 1
+16:44:20 | INFO: Draco encoder: Encoding mesh CrestLow.
+16:44:20 | INFO: Finished glTF 2.0 export in 0.024823904037475586 s
+
+DONE_BAKE /workspace/loft-xr/assets/builds-opt/crest_card_lod1.glb tris 1178 tex /workspace/loft-xr/assets/builds-opt/tex/crest_card.png
+DracoDecoder | Decoded 3112 vertices, 3534 indices
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 3112 vertices, 3534 indices, raw size: 106652, encoded size: 22925, compression ratio: 4.65
+
+Blender quit
+==== REMESH crest_fridge_only ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4358 degenerate triangles were removed
+STL Importer: 1 duplicate triangles were removed
+Timer 'STL Import' took 188.22 ms
+STL Importer: 54 degenerate triangles were removed
+STL Importer: 3 duplicate triangles were removed
+BEFORE_REMESH tris=441540 dims=[54.90820050239563, 7.050002483764494, 64.42917776107788] voxel=0.85
+AFTER_REMESH tris=11900
+DECIMATE_PASS 1 tris=3384
+DECIMATE_PASS 2 tris=2150
+DECIMATE_PASS 3 tris=2015
+DECIMATE_PASS 4 tris=1924
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:44:23 | INFO: Starting glTF 2.0 export
+16:44:23 | INFO: Extracting primitive: Grey
+16:44:23 | INFO: Primitives created: 1
+16:44:23 | INFO: Draco encoder: Encoding mesh Crest.
+16:44:23 | INFO: Finished glTF 2.0 export in 0.05483818054199219 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_fridge_only.glb", "dims_mm": [54.908, 7.05, 64.429], "tris": 1924, "parts": 1, "orient": "flat_face", "stl_unit_mm": 1.0, "method": "remesh"}
+Timer 'STL Import' took 112.74 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 5934 vertices, 6264 indices, raw size: 154944, encoded size: 29834, compression ratio: 5.19
+
+Blender quit
+==== BAKE crest_fridge_only ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4358 degenerate triangles were removed
+STL Importer: 1 duplicate triangles were removed
+Timer 'STL Import' took 108.52 ms
+STL Importer: 54 degenerate triangles were removed
+STL Importer: 3 duplicate triangles were removed
+Timer 'STL Import' took 97.13 ms
+Fra:1 Mem:117.18M (Peak 142.33M) | Time:00:02.26 | Rendering 1 / 64 samples
+Fra:1 Mem:117.18M (Peak 142.33M) | Time:00:12.66 | Rendering 25 / 64 samples
+Fra:1 Mem:117.18M (Peak 142.33M) | Time:00:23.58 | Rendering 50 / 64 samples
+Fra:1 Mem:117.18M (Peak 142.33M) | Time:00:29.49 | Rendering 64 / 64 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/tex/crest_fridge_only.png'
+Time: 00:29.64 (Saving: 00:00.13)
+
+TEX_WRITTEN /workspace/loft-xr/assets/builds-opt/tex/crest_fridge_only.png
+16:44:54 | INFO: Data are loaded, start creating Blender stuff
+16:44:54 | INFO: Blender create Mesh node Grey
+16:44:54 | INFO: Draco Decoder: Decode primitive Grey
+16:44:54 | INFO: glTF import finished in 0.01s
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:44:54 | INFO: Starting glTF 2.0 export
+16:44:54 | INFO: Extracting primitive: Grey.001
+16:44:54 | INFO: Primitives created: 1
+16:44:54 | INFO: Draco encoder: Encoding mesh CrestLow.
+16:44:54 | INFO: Finished glTF 2.0 export in 0.032628536224365234 s
+
+DONE_BAKE /workspace/loft-xr/assets/builds-opt/crest_fridge_only.glb tris 2088 tex /workspace/loft-xr/assets/builds-opt/tex/crest_fridge_only.png
+DracoDecoder | Decoded 5934 vertices, 6264 indices
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 5962 vertices, 6264 indices, raw size: 203312, encoded size: 42857, compression ratio: 4.74
+
+Blender quit
+==== REMESH crest_fridge_only_lod1 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4358 degenerate triangles were removed
+STL Importer: 1 duplicate triangles were removed
+Timer 'STL Import' took 113.96 ms
+STL Importer: 54 degenerate triangles were removed
+STL Importer: 3 duplicate triangles were removed
+BEFORE_REMESH tris=441540 dims=[54.90820050239563, 7.050002483764494, 64.42917776107788] voxel=1.5
+AFTER_REMESH tris=3588
+DECIMATE_PASS 1 tris=1514
+DECIMATE_PASS 2 tris=1081
+DECIMATE_PASS 3 tris=1011
+DECIMATE_PASS 4 tris=968
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:44:57 | INFO: Starting glTF 2.0 export
+16:44:57 | INFO: Extracting primitive: Grey
+16:44:57 | INFO: Primitives created: 1
+16:44:57 | INFO: Draco encoder: Encoding mesh Crest.
+16:44:57 | INFO: Finished glTF 2.0 export in 0.017254352569580078 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_fridge_only_lod1.glb", "dims_mm": [54.908, 7.05, 64.429], "tris": 968, "parts": 1, "orient": "flat_face", "stl_unit_mm": 1.0, "method": "remesh"}
+Timer 'STL Import' took 116.57 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 3092 vertices, 3468 indices, raw size: 81144, encoded size: 16597, compression ratio: 4.89
+
+Blender quit
+==== BAKE crest_fridge_only_lod1 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4358 degenerate triangles were removed
+STL Importer: 1 duplicate triangles were removed
+Timer 'STL Import' took 149.91 ms
+STL Importer: 54 degenerate triangles were removed
+STL Importer: 3 duplicate triangles were removed
+Timer 'STL Import' took 86.89 ms
+Fra:1 Mem:117.18M (Peak 142.33M) | Time:00:02.29 | Rendering 1 / 64 samples
+Fra:1 Mem:117.18M (Peak 142.33M) | Time:00:13.31 | Rendering 25 / 64 samples
+Fra:1 Mem:117.18M (Peak 142.33M) | Time:00:23.84 | Rendering 50 / 64 samples
+Fra:1 Mem:117.18M (Peak 142.33M) | Time:00:29.32 | Rendering 64 / 64 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/tex/crest_fridge_only.png'
+Time: 00:29.47 (Saving: 00:00.13)
+
+TEX_WRITTEN /workspace/loft-xr/assets/builds-opt/tex/crest_fridge_only.png
+16:45:28 | INFO: Data are loaded, start creating Blender stuff
+16:45:28 | INFO: Blender create Mesh node Grey
+16:45:28 | INFO: Draco Decoder: Decode primitive Grey
+16:45:28 | INFO: glTF import finished in 0.01s
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:45:28 | INFO: Starting glTF 2.0 export
+16:45:28 | INFO: Extracting primitive: Grey.001
+16:45:28 | INFO: Primitives created: 1
+16:45:28 | INFO: Draco encoder: Encoding mesh CrestLow.
+16:45:28 | INFO: Finished glTF 2.0 export in 0.021429777145385742 s
+
+DONE_BAKE /workspace/loft-xr/assets/builds-opt/crest_fridge_only_lod1.glb tris 1156 tex /workspace/loft-xr/assets/builds-opt/tex/crest_fridge_only.png
+DracoDecoder | Decoded 3092 vertices, 3468 indices
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 3116 vertices, 3468 indices, raw size: 106648, encoded size: 23706, compression ratio: 4.50
+
+Blender quit
+==== THUMB crest_L_magnet_v2 ====
+could not get a list of mounted file-systems
+16:45:38 | INFO: Data are loaded, start creating Blender stuff
+16:45:38 | INFO: Blender create Mesh node Grey
+16:45:38 | INFO: Draco Decoder: Decode primitive Grey
+16:45:38 | INFO: Blender create Mesh node White
+16:45:38 | INFO: Draco Decoder: Decode primitive White
+16:45:38 | INFO: glTF import finished in 0.02s
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+DracoDecoder | Decoded 5572 vertices, 7914 indices
+DracoDecoder | Decoded 4832 vertices, 7080 indices
+Fra:1 Mem:48.16M (Peak 48.16M) | Time:00:01.88 | Rendering 1 / 8 samples
+Fra:1 Mem:48.16M (Peak 48.16M) | Time:00:02.72 | Rendering 8 / 8 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/renders/crest_L_magnet_v2.png'
+Time: 00:02.86 (Saving: 00:00.13)
+
+THUMB /workspace/loft-xr/assets/builds-opt/renders/crest_L_magnet_v2.png
+
+Blender quit
+-rw-r--r-- 1 box box 63K Oct 15 16:45 /workspace/loft-xr/assets/builds-opt/renders/crest_L_magnet_v2.png
+==== THUMB crest_card ====
+could not get a list of mounted file-systems
+16:45:42 | INFO: Data are loaded, start creating Blender stuff
+16:45:42 | INFO: Blender create Mesh node Grey.001
+16:45:42 | INFO: Draco Decoder: Decode primitive Grey.001
+16:45:42 | INFO: glTF import finished in 0.02s
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+DracoDecoder | Decoded 5996 vertices, 6420 indices
+Fra:1 Mem:50.63M (Peak 50.63M) | Time:00:02.10 | Rendering 1 / 8 samples
+Fra:1 Mem:50.63M (Peak 50.63M) | Time:00:02.61 | Rendering 8 / 8 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/renders/crest_card.png'
+Time: 00:02.76 (Saving: 00:00.13)
+
+THUMB /workspace/loft-xr/assets/builds-opt/renders/crest_card.png
+
+Blender quit
+-rw-r--r-- 1 box box 56K Oct 15 16:45 /workspace/loft-xr/assets/builds-opt/renders/crest_card.png
+==== THUMB crest_fridge_only ====
+could not get a list of mounted file-systems
+16:45:46 | INFO: Data are loaded, start creating Blender stuff
+16:45:46 | INFO: Blender create Mesh node Grey.001
+16:45:46 | INFO: Draco Decoder: Decode primitive Grey.001
+16:45:46 | INFO: glTF import finished in 0.02s
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+DracoDecoder | Decoded 5962 vertices, 6264 indices
+Fra:1 Mem:50.62M (Peak 50.62M) | Time:00:01.67 | Rendering 1 / 8 samples
+Fra:1 Mem:50.62M (Peak 50.62M) | Time:00:02.29 | Rendering 8 / 8 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/renders/crest_fridge_only.png'
+Time: 00:02.39 (Saving: 00:00.09)
+
+THUMB /workspace/loft-xr/assets/builds-opt/renders/crest_fridge_only.png
+
+Blender quit
+-rw-r--r-- 1 box box 52K Oct 15 16:45 /workspace/loft-xr/assets/builds-opt/renders/crest_fridge_only.png
+==== THUMB crest_magnet_flatstack ====
+could not get a list of mounted file-systems
+16:45:49 | INFO: Data are loaded, start creating Blender stuff
+16:45:49 | INFO: Blender create Mesh node Grey
+16:45:49 | INFO: Draco Decoder: Decode primitive Grey
+16:45:49 | INFO: Blender create Mesh node White
+16:45:49 | INFO: Draco Decoder: Decode primitive White
+16:45:49 | INFO: glTF import finished in 0.02s
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+DracoDecoder | Decoded 2342 vertices, 2982 indices
+DracoDecoder | Decoded 2764 vertices, 3012 indices
+Fra:1 Mem:47.44M (Peak 47.44M) | Time:00:01.50 | Rendering 1 / 8 samples
+Fra:1 Mem:47.44M (Peak 47.44M) | Time:00:02.15 | Rendering 8 / 8 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/renders/crest_magnet_flatstack.png'
+Time: 00:02.27 (Saving: 00:00.11)
+
+THUMB /workspace/loft-xr/assets/builds-opt/renders/crest_magnet_flatstack.png
+
+Blender quit
+-rw-r--r-- 1 box box 47K Oct 15 16:45 /workspace/loft-xr/assets/builds-opt/renders/crest_magnet_flatstack.png
+==== THUMB crest_shirt_press ====
+could not get a list of mounted file-systems
+16:45:53 | INFO: Data are loaded, start creating Blender stuff
+16:45:53 | INFO: Blender create Mesh node Grey_base
+16:45:53 | INFO: Draco Decoder: Decode primitive Grey_base
+16:45:53 | INFO: Blender create Mesh node White_top
+16:45:53 | INFO: Draco Decoder: Decode primitive White_top
+16:45:53 | INFO: glTF import finished in 0.02s
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+DracoDecoder | Decoded 1344 vertices, 2004 indices
+DracoDecoder | Decoded 3276 vertices, 3990 indices
+Fra:1 Mem:47.43M (Peak 47.43M) | Time:00:01.35 | Rendering 1 / 8 samples
+Fra:1 Mem:47.43M (Peak 47.43M) | Time:00:01.90 | Rendering 8 / 8 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/renders/crest_shirt_press.png'
+Time: 00:02.05 (Saving: 00:00.14)
+
+THUMB /workspace/loft-xr/assets/builds-opt/renders/crest_shirt_press.png
+
+Blender quit
+-rw-r--r-- 1 box box 56K Oct 15 16:45 /workspace/loft-xr/assets/builds-opt/renders/crest_shirt_press.png
+==== THUMB rocket_d1 ====
+could not get a list of mounted file-systems
+16:45:56 | INFO: Data are loaded, start creating Blender stuff
+16:45:56 | INFO: Blender create Mesh node D1_A1_tail_unit__slot1_faded_cd_khaki
+16:45:56 | INFO: Draco Decoder: Decode primitive D1_A1_tail_unit__slot1_faded_cd_khaki
+16:45:56 | INFO: Blender create Mesh node D1_A1_tail_unit__slot2_oxide_primer
+16:45:56 | INFO: Draco Decoder: Decode primitive D1_A1_tail_unit__slot2_oxide_primer
+16:45:56 | INFO: Blender create Mesh node D1_A1_tail_unit__slot3_worn_nickel
+16:45:56 | INFO: Draco Decoder: Decode primitive D1_A1_tail_unit__slot3_worn_nickel
+16:45:56 | INFO: Blender create Mesh node D1_A2_mid_body__slot1_faded_cd_khaki
+16:45:56 | INFO: Draco Decoder: Decode primitive D1_A2_mid_body__slot1_faded_cd_khaki
+16:45:56 | INFO: Blender create Mesh node D1_A2_mid_body__slot3_worn_nickel
+16:45:56 | INFO: Draco Decoder: Decode primitive D1_A2_mid_body__slot3_worn_nickel
+16:45:56 | INFO: Blender create Mesh node D1_A2_mid_body__slot4_blackout_glass
+16:45:56 | INFO: Draco Decoder: Decode primitive D1_A2_mid_body__slot4_blackout_glass
+16:45:56 | INFO: Blender create Mesh node D1_A3_ogive_nose__slot2_oxide_primer
+16:45:56 | INFO: Draco Decoder: Decode primitive D1_A3_ogive_nose__slot2_oxide_primer
+16:45:56 | INFO: Blender create Mesh node D1_A3_ogive_nose__slot3_worn_nickel
+16:45:56 | INFO: Draco Decoder: Decode primitive D1_A3_ogive_nose__slot3_worn_nickel
+16:45:56 | INFO: Blender create Mesh node D1_A4_nozzle_cap__slot3_worn_nickel
+16:45:56 | INFO: Draco Decoder: Decode primitive D1_A4_nozzle_cap__slot3_worn_nickel
+16:45:56 | INFO: glTF import finished in 0.03s
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+DracoDecoder | Decoded 556 vertices, 570 indices
+DracoDecoder | Decoded 4418 vertices, 4434 indices
+DracoDecoder | Decoded 1888 vertices, 1920 indices
+DracoDecoder | Decoded 586 vertices, 594 indices
+DracoDecoder | Decoded 1146 vertices, 1182 indices
+DracoDecoder | Decoded 214 vertices, 240 indices
+DracoDecoder | Decoded 4902 vertices, 5466 indices
+DracoDecoder | Decoded 298 vertices, 300 indices
+DracoDecoder | Decoded 348 vertices, 348 indices
+Fra:1 Mem:49.74M (Peak 49.74M) | Time:00:01.29 | Rendering 1 / 8 samples
+Fra:1 Mem:49.74M (Peak 49.74M) | Time:00:01.97 | Rendering 8 / 8 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/renders/rocket_d1.png'
+Time: 00:02.07 (Saving: 00:00.09)
+
+THUMB /workspace/loft-xr/assets/builds-opt/renders/rocket_d1.png
+
+Blender quit
+-rw-r--r-- 1 box box 64K Oct 15 16:45 /workspace/loft-xr/assets/builds-opt/renders/rocket_d1.png
+==== THUMB rocket_d2 ====
+could not get a list of mounted file-systems
+16:45:59 | INFO: Data are loaded, start creating Blender stuff
+16:45:59 | INFO: Blender create Mesh node D2_A1_tail_unit__slot1_pulp_cream
+16:45:59 | INFO: Draco Decoder: Decode primitive D2_A1_tail_unit__slot1_pulp_cream
+16:45:59 | INFO: Blender create Mesh node D2_A1_tail_unit__slot2_faded_vermilion
+16:45:59 | INFO: Draco Decoder: Decode primitive D2_A1_tail_unit__slot2_faded_vermilion
+16:45:59 | INFO: Blender create Mesh node D2_A1_tail_unit__slot3_navy_ink
+16:45:59 | INFO: Draco Decoder: Decode primitive D2_A1_tail_unit__slot3_navy_ink
+16:45:59 | INFO: Blender create Mesh node D2_A2_nose__slot1_pulp_cream
+16:45:59 | INFO: Draco Decoder: Decode primitive D2_A2_nose__slot1_pulp_cream
+16:45:59 | INFO: Blender create Mesh node D2_A2_nose__slot3_navy_ink
+16:45:59 | INFO: Draco Decoder: Decode primitive D2_A2_nose__slot3_navy_ink
+16:45:59 | INFO: Blender create Mesh node D2_A2_nose__slot4_matte_nickel
+16:45:59 | INFO: Draco Decoder: Decode primitive D2_A2_nose__slot4_matte_nickel
+16:45:59 | INFO: Blender create Mesh node D2_A3_nozzle_cap__slot4_matte_nickel
+16:45:59 | INFO: Draco Decoder: Decode primitive D2_A3_nozzle_cap__slot4_matte_nickel
+16:45:59 | INFO: glTF import finished in 0.04s
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+DracoDecoder | Decoded 2218 vertices, 2334 indices
+DracoDecoder | Decoded 2258 vertices, 2286 indices
+DracoDecoder | Decoded 1596 vertices, 1602 indices
+DracoDecoder | Decoded 5676 vertices, 6192 indices
+DracoDecoder | Decoded 1942 vertices, 1950 indices
+DracoDecoder | Decoded 232 vertices, 234 indices
+DracoDecoder | Decoded 402 vertices, 402 indices
+Fra:1 Mem:49.31M (Peak 49.31M) | Time:00:01.13 | Rendering 1 / 8 samples
+Fra:1 Mem:49.31M (Peak 49.31M) | Time:00:01.83 | Rendering 8 / 8 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/renders/rocket_d2.png'
+Time: 00:01.96 (Saving: 00:00.13)
+
+THUMB /workspace/loft-xr/assets/builds-opt/renders/rocket_d2.png
+
+Blender quit
+-rw-r--r-- 1 box box 61K Oct 15 16:46 /workspace/loft-xr/assets/builds-opt/renders/rocket_d2.png
+==== THUMB holddown_m6_kit ====
+could not get a list of mounted file-systems
+16:46:03 | INFO: Data are loaded, start creating Blender stuff
+16:46:03 | INFO: Blender create Mesh node holddown_arm
+16:46:03 | INFO: Draco Decoder: Decode primitive holddown_arm
+16:46:03 | INFO: Blender create Mesh node heel_block_A
+16:46:03 | INFO: Draco Decoder: Decode primitive heel_block_A
+16:46:03 | INFO: Blender create Mesh node heel_block_B
+16:46:03 | INFO: Draco Decoder: Decode primitive heel_block_B
+16:46:03 | INFO: Blender create Mesh node knob_m6
+16:46:03 | INFO: Draco Decoder: Decode primitive knob_m6
+16:46:03 | INFO: glTF import finished in 0.02s
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+DracoDecoder | Decoded 1230 vertices, 2010 indices
+DracoDecoder | Decoded 372 vertices, 588 indices
+DracoDecoder | Decoded 348 vertices, 546 indices
+DracoDecoder | Decoded 1760 vertices, 2844 indices
+Fra:1 Mem:47.81M (Peak 47.81M) | Time:00:01.64 | Rendering 1 / 8 samples
+Fra:1 Mem:47.81M (Peak 47.81M) | Time:00:02.33 | Rendering 8 / 8 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/renders/holddown_m6_kit.png'
+Time: 00:02.48 (Saving: 00:00.14)
+
+THUMB /workspace/loft-xr/assets/builds-opt/renders/holddown_m6_kit.png
+
+Blender quit
+-rw-r--r-- 1 box box 57K Oct 15 16:46 /workspace/loft-xr/assets/builds-opt/renders/holddown_m6_kit.png
+==== THUMB wingnut_1_4_20 ====
+could not get a list of mounted file-systems
+16:46:06 | INFO: Data are loaded, start creating Blender stuff
+16:46:06 | INFO: Blender create Mesh node wingnut_1-4-20
+16:46:06 | INFO: Draco Decoder: Decode primitive wingnut_1-4-20
+16:46:06 | INFO: glTF import finished in 0.02s
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+DracoDecoder | Decoded 5948 vertices, 5994 indices
+Fra:1 Mem:47.27M (Peak 47.27M) | Time:00:01.52 | Rendering 1 / 8 samples
+Fra:1 Mem:47.27M (Peak 47.27M) | Time:00:02.26 | Rendering 8 / 8 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/renders/wingnut_1_4_20.png'
+Time: 00:02.37 (Saving: 00:00.10)
+
+THUMB /workspace/loft-xr/assets/builds-opt/renders/wingnut_1_4_20.png
+
+Blender quit
+-rw-r--r-- 1 box box 53K Oct 15 16:46 /workspace/loft-xr/assets/builds-opt/renders/wingnut_1_4_20.png
+==== THUMB bini_fillet_clipped ====
+could not get a list of mounted file-systems
+16:46:10 | INFO: Data are loaded, start creating Blender stuff
+16:46:10 | INFO: Blender create Mesh node bini_fillet_B_clip_onend
+16:46:10 | INFO: Draco Decoder: Decode primitive bini_fillet_B_clip_onend
+16:46:10 | INFO: glTF import finished in 0.01s
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+DracoDecoder | Decoded 508 vertices, 960 indices
+Fra:1 Mem:46.79M (Peak 46.79M) | Time:00:01.36 | Rendering 1 / 8 samples
+Fra:1 Mem:46.79M (Peak 46.79M) | Time:00:02.03 | Rendering 8 / 8 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/renders/bini_fillet_clipped.png'
+Time: 00:02.12 (Saving: 00:00.08)
+
+THUMB /workspace/loft-xr/assets/builds-opt/renders/bini_fillet_clipped.png
+
+Blender quit
+-rw-r--r-- 1 box box 52K Oct 15 16:46 /workspace/loft-xr/assets/builds-opt/renders/bini_fillet_clipped.png
+==== THUMB night_owls_owl ====
+could not get a list of mounted file-systems
+16:46:13 | INFO: Data are loaded, start creating Blender stuff
+16:46:13 | INFO: Blender create Mesh node P0_onepiece_owl
+16:46:13 | INFO: Draco Decoder: Decode primitive P0_onepiece_owl
+16:46:13 | INFO: glTF import finished in 0.03s
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+DracoDecoder | Decoded 12047 vertices, 15000 indices
+Fra:1 Mem:48.01M (Peak 48.01M) | Time:00:01.44 | Rendering 1 / 8 samples
+Fra:1 Mem:48.01M (Peak 48.01M) | Time:00:02.21 | Rendering 8 / 8 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/renders/night_owls_owl.png'
+Time: 00:02.29 (Saving: 00:00.08)
+
+THUMB /workspace/loft-xr/assets/builds-opt/renders/night_owls_owl.png
+
+Blender quit
+-rw-r--r-- 1 box box 61K Oct 15 16:46 /workspace/loft-xr/assets/builds-opt/renders/night_owls_owl.png
+==== THUMB hope_relief ====
+could not get a list of mounted file-systems
+16:46:17 | INFO: Data are loaded, start creating Blender stuff
+16:46:17 | INFO: Blender create Mesh node HOPE_relief_v4_8p7_release
+16:46:17 | INFO: Draco Decoder: Decode primitive HOPE_relief_v4_8p7_release
+16:46:17 | INFO: glTF import finished in 0.02s
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+DracoDecoder | Decoded 14658 vertices, 15000 indices
+Fra:1 Mem:48.09M (Peak 48.50M) | Time:00:01.64 | Rendering 1 / 8 samples
+Fra:1 Mem:48.09M (Peak 48.50M) | Time:00:02.39 | Rendering 8 / 8 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/renders/hope_relief.png'
+Time: 00:02.51 (Saving: 00:00.11)
+
+THUMB /workspace/loft-xr/assets/builds-opt/renders/hope_relief.png
+
+Blender quit
+-rw-r--r-- 1 box box 61K Oct 15 16:46 /workspace/loft-xr/assets/builds-opt/renders/hope_relief.png
+==== THUMB vw_t1_restomod ====
+could not get a list of mounted file-systems
+16:46:20 | INFO: Data are loaded, start creating Blender stuff
+16:46:20 | INFO: Blender create Mesh node vw_t1_restomod_1to18_onepiece
+16:46:20 | INFO: Draco Decoder: Decode primitive vw_t1_restomod_1to18_onepiece
+16:46:20 | INFO: glTF import finished in 0.03s
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+DracoDecoder | Decoded 14996 vertices, 15000 indices
+Fra:1 Mem:48.10M (Peak 48.51M) | Time:00:01.54 | Rendering 1 / 8 samples
+Fra:1 Mem:48.10M (Peak 48.51M) | Time:00:02.38 | Rendering 8 / 8 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/renders/vw_t1_restomod.png'
+Time: 00:02.51 (Saving: 00:00.11)
+
+THUMB /workspace/loft-xr/assets/builds-opt/renders/vw_t1_restomod.png
+
+Blender quit
+-rw-r--r-- 1 box box 63K Oct 15 16:46 /workspace/loft-xr/assets/builds-opt/renders/vw_t1_restomod.png
+==== REBAKE crest_card ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4324 degenerate triangles were removed
+Timer 'STL Import' took 181.91 ms
+STL Importer: 86 degenerate triangles were removed
+STL Importer: 4 duplicate triangles were removed
+BEFORE_REMESH tris=421346 dims=[53.97999954223633, 7.0500030517578125, 85.59999864022437] voxel=0.9
+AFTER_REMESH tris=14844
+DECIMATE_PASS 1 tris=3317
+DECIMATE_PASS 2 tris=2137
+DECIMATE_PASS 3 tris=2007
+DECIMATE_PASS 4 tris=1914
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:46:49 | INFO: Starting glTF 2.0 export
+16:46:49 | INFO: Extracting primitive: Grey
+16:46:49 | INFO: Primitives created: 1
+16:46:49 | INFO: Draco encoder: Encoding mesh Crest.
+16:46:49 | INFO: Finished glTF 2.0 export in 0.015639305114746094 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_card.glb", "dims_mm": [53.98, 7.05, 85.6], "tris": 1914, "parts": 1, "orient": "flat_face", "stl_unit_mm": 1.0, "method": "remesh"}
+Timer 'STL Import' took 117.64 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 5968 vertices, 6420 indices, raw size: 156048, encoded size: 29740, compression ratio: 5.25
+
+Blender quit
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4324 degenerate triangles were removed
+Timer 'STL Import' took 107.78 ms
+STL Importer: 86 degenerate triangles were removed
+STL Importer: 4 duplicate triangles were removed
+Timer 'STL Import' took 102.88 ms
+Fra:1 Mem:114.19M (Peak 138.19M) | Time:00:02.65 | Rendering 1 / 64 samples
+Fra:1 Mem:114.19M (Peak 138.19M) | Time:00:12.87 | Rendering 25 / 64 samples
+Fra:1 Mem:114.19M (Peak 138.19M) | Time:00:23.56 | Rendering 50 / 64 samples
+Fra:1 Mem:114.19M (Peak 138.19M) | Time:00:29.45 | Rendering 64 / 64 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/tex/crest_card.png'
+Time: 00:29.63 (Saving: 00:00.16)
+
+TEX_WRITTEN /workspace/loft-xr/assets/builds-opt/tex/crest_card.png
+16:47:19 | INFO: Data are loaded, start creating Blender stuff
+16:47:19 | INFO: Blender create Mesh node Grey
+16:47:19 | INFO: Draco Decoder: Decode primitive Grey
+16:47:19 | INFO: glTF import finished in 0.01s
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:47:20 | INFO: Starting glTF 2.0 export
+16:47:20 | INFO: Extracting primitive: Grey.001
+16:47:20 | INFO: Primitives created: 1
+16:47:20 | INFO: Draco encoder: Encoding mesh Crest.
+16:47:20 | INFO: Finished glTF 2.0 export in 0.03013443946838379 s
+
+DONE_BAKE /workspace/loft-xr/assets/builds-opt/crest_card.glb tris 2140
+DracoDecoder | Decoded 5968 vertices, 6420 indices
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 5970 vertices, 6420 indices, raw size: 203880, encoded size: 43122, compression ratio: 4.73
+
+Blender quit
+could not get a list of mounted file-systems
+16:47:20 | INFO: Data are loaded, start creating Blender stuff
+16:47:20 | INFO: Blender create Mesh node Grey.001
+16:47:20 | INFO: Draco Decoder: Decode primitive Grey.001
+16:47:20 | INFO: glTF import finished in 0.01s
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+DracoDecoder | Decoded 5970 vertices, 6420 indices
+Fra:1 Mem:50.64M (Peak 50.64M) | Time:00:01.70 | Rendering 1 / 8 samples
+Fra:1 Mem:50.64M (Peak 50.64M) | Time:00:02.49 | Rendering 8 / 8 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/renders/crest_card.png'
+Time: 00:02.58 (Saving: 00:00.08)
+
+THUMB /workspace/loft-xr/assets/builds-opt/renders/crest_card.png
+
+Blender quit
+==== REBAKE crest_card_lod1 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4324 degenerate triangles were removed
+Timer 'STL Import' took 123.30 ms
+STL Importer: 86 degenerate triangles were removed
+STL Importer: 4 duplicate triangles were removed
+BEFORE_REMESH tris=421346 dims=[53.97999954223633, 7.0500030517578125, 85.59999864022437] voxel=1.6
+AFTER_REMESH tris=4586
+DECIMATE_PASS 1 tris=1502
+DECIMATE_PASS 2 tris=1072
+DECIMATE_PASS 3 tris=1016
+DECIMATE_PASS 4 tris=971
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:47:26 | INFO: Starting glTF 2.0 export
+16:47:26 | INFO: Extracting primitive: Grey
+16:47:26 | INFO: Primitives created: 1
+16:47:26 | INFO: Draco encoder: Encoding mesh Crest.
+16:47:26 | INFO: Finished glTF 2.0 export in 0.012480974197387695 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_card_lod1.glb", "dims_mm": [53.98, 7.05, 85.6], "tris": 971, "parts": 1, "orient": "flat_face", "stl_unit_mm": 1.0, "method": "remesh"}
+Timer 'STL Import' took 92.40 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 3112 vertices, 3534 indices, raw size: 81636, encoded size: 16388, compression ratio: 4.98
+
+Blender quit
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4324 degenerate triangles were removed
+Timer 'STL Import' took 129.53 ms
+STL Importer: 86 degenerate triangles were removed
+STL Importer: 4 duplicate triangles were removed
+Timer 'STL Import' took 100.18 ms
+Fra:1 Mem:114.19M (Peak 138.19M) | Time:00:02.48 | Rendering 1 / 64 samples
+Fra:1 Mem:114.19M (Peak 138.19M) | Time:00:12.67 | Rendering 25 / 64 samples
+Fra:1 Mem:114.19M (Peak 138.19M) | Time:00:23.14 | Rendering 50 / 64 samples
+Fra:1 Mem:114.19M (Peak 138.19M) | Time:00:28.67 | Rendering 64 / 64 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/tex/crest_card.png'
+Time: 00:28.79 (Saving: 00:00.10)
+
+TEX_WRITTEN /workspace/loft-xr/assets/builds-opt/tex/crest_card.png
+16:47:55 | INFO: Data are loaded, start creating Blender stuff
+16:47:55 | INFO: Blender create Mesh node Grey
+16:47:55 | INFO: Draco Decoder: Decode primitive Grey
+16:47:55 | INFO: glTF import finished in 0.01s
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:47:55 | INFO: Starting glTF 2.0 export
+16:47:55 | INFO: Extracting primitive: Grey.001
+16:47:55 | INFO: Primitives created: 1
+16:47:55 | INFO: Draco encoder: Encoding mesh Crest.
+16:47:55 | INFO: Finished glTF 2.0 export in 0.01988983154296875 s
+
+DONE_BAKE /workspace/loft-xr/assets/builds-opt/crest_card_lod1.glb tris 1178
+DracoDecoder | Decoded 3112 vertices, 3534 indices
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 3112 vertices, 3534 indices, raw size: 106652, encoded size: 23912, compression ratio: 4.46
+
+Blender quit
+could not get a list of mounted file-systems
+16:47:56 | INFO: Data are loaded, start creating Blender stuff
+16:47:56 | INFO: Blender create Mesh node Grey.001
+16:47:56 | INFO: Draco Decoder: Decode primitive Grey.001
+16:47:56 | INFO: glTF import finished in 0.01s
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+DracoDecoder | Decoded 3112 vertices, 3534 indices
+Fra:1 Mem:50.35M (Peak 50.35M) | Time:00:01.23 | Rendering 1 / 8 samples
+Fra:1 Mem:50.35M (Peak 50.35M) | Time:00:02.02 | Rendering 8 / 8 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/renders/crest_card_lod1.png'
+Time: 00:02.10 (Saving: 00:00.07)
+
+THUMB /workspace/loft-xr/assets/builds-opt/renders/crest_card_lod1.png
+
+Blender quit
+==== REBAKE crest_fridge_only ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4358 degenerate triangles were removed
+STL Importer: 1 duplicate triangles were removed
+Timer 'STL Import' took 121.62 ms
+STL Importer: 54 degenerate triangles were removed
+STL Importer: 3 duplicate triangles were removed
+BEFORE_REMESH tris=441540 dims=[54.90820050239563, 7.050002483764494, 64.42917776107788] voxel=0.85
+AFTER_REMESH tris=11900
+DECIMATE_PASS 1 tris=3384
+DECIMATE_PASS 2 tris=2150
+DECIMATE_PASS 3 tris=2015
+DECIMATE_PASS 4 tris=1924
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:48:01 | INFO: Starting glTF 2.0 export
+16:48:01 | INFO: Extracting primitive: Grey
+16:48:01 | INFO: Primitives created: 1
+16:48:01 | INFO: Draco encoder: Encoding mesh Crest.
+16:48:01 | INFO: Finished glTF 2.0 export in 0.12035870552062988 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_fridge_only.glb", "dims_mm": [54.908, 7.05, 64.429], "tris": 1924, "parts": 1, "orient": "flat_face", "stl_unit_mm": 1.0, "method": "remesh"}
+Timer 'STL Import' took 130.61 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 5934 vertices, 6264 indices, raw size: 154944, encoded size: 29834, compression ratio: 5.19
+
+Blender quit
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4358 degenerate triangles were removed
+STL Importer: 1 duplicate triangles were removed
+Timer 'STL Import' took 118.64 ms
+STL Importer: 54 degenerate triangles were removed
+STL Importer: 3 duplicate triangles were removed
+Timer 'STL Import' took 96.10 ms
+Fra:1 Mem:117.17M (Peak 142.33M) | Time:00:02.80 | Rendering 1 / 64 samples
+Fra:1 Mem:117.18M (Peak 142.33M) | Time:00:12.57 | Rendering 25 / 64 samples
+Fra:1 Mem:117.18M (Peak 142.33M) | Time:00:20.20 | Rendering 50 / 64 samples
+Fra:1 Mem:117.18M (Peak 142.33M) | Time:00:24.38 | Rendering 64 / 64 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/tex/crest_fridge_only.png'
+Time: 00:24.51 (Saving: 00:00.11)
+
+TEX_WRITTEN /workspace/loft-xr/assets/builds-opt/tex/crest_fridge_only.png
+16:48:26 | INFO: Data are loaded, start creating Blender stuff
+16:48:26 | INFO: Blender create Mesh node Grey
+16:48:26 | INFO: Draco Decoder: Decode primitive Grey
+16:48:26 | INFO: glTF import finished in 0.01s
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:48:26 | INFO: Starting glTF 2.0 export
+16:48:26 | INFO: Extracting primitive: Grey.001
+16:48:26 | INFO: Primitives created: 1
+16:48:26 | INFO: Draco encoder: Encoding mesh Crest.
+16:48:26 | INFO: Finished glTF 2.0 export in 0.03171133995056152 s
+
+DONE_BAKE /workspace/loft-xr/assets/builds-opt/crest_fridge_only.glb tris 2088
+DracoDecoder | Decoded 5934 vertices, 6264 indices
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 5936 vertices, 6264 indices, raw size: 202480, encoded size: 42984, compression ratio: 4.71
+
+Blender quit
+could not get a list of mounted file-systems
+16:48:27 | INFO: Data are loaded, start creating Blender stuff
+16:48:27 | INFO: Blender create Mesh node Grey.001
+16:48:27 | INFO: Draco Decoder: Decode primitive Grey.001
+16:48:27 | INFO: glTF import finished in 0.01s
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+DracoDecoder | Decoded 5936 vertices, 6264 indices
+Fra:1 Mem:50.63M (Peak 50.63M) | Time:00:01.13 | Rendering 1 / 8 samples
+Fra:1 Mem:50.64M (Peak 50.64M) | Time:00:01.58 | Rendering 8 / 8 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/renders/crest_fridge_only.png'
+Time: 00:01.67 (Saving: 00:00.07)
+
+THUMB /workspace/loft-xr/assets/builds-opt/renders/crest_fridge_only.png
+
+Blender quit
+==== REBAKE crest_fridge_only_lod1 ====
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4358 degenerate triangles were removed
+STL Importer: 1 duplicate triangles were removed
+Timer 'STL Import' took 102.25 ms
+STL Importer: 54 degenerate triangles were removed
+STL Importer: 3 duplicate triangles were removed
+BEFORE_REMESH tris=441540 dims=[54.90820050239563, 7.050002483764494, 64.42917776107788] voxel=1.5
+AFTER_REMESH tris=3588
+DECIMATE_PASS 1 tris=1514
+DECIMATE_PASS 2 tris=1081
+DECIMATE_PASS 3 tris=1011
+DECIMATE_PASS 4 tris=968
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:48:31 | INFO: Starting glTF 2.0 export
+16:48:31 | INFO: Extracting primitive: Grey
+16:48:31 | INFO: Primitives created: 1
+16:48:31 | INFO: Draco encoder: Encoding mesh Crest.
+16:48:31 | INFO: Finished glTF 2.0 export in 0.011415481567382812 s
+
+DONE {"out": "/workspace/loft-xr/assets/builds-opt/crest_fridge_only_lod1.glb", "dims_mm": [54.908, 7.05, 64.429], "tris": 968, "parts": 1, "orient": "flat_face", "stl_unit_mm": 1.0, "method": "remesh"}
+Timer 'STL Import' took 80.64 ms
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 3092 vertices, 3468 indices, raw size: 81144, encoded size: 16597, compression ratio: 4.89
+
+Blender quit
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+STL Importer: 4358 degenerate triangles were removed
+STL Importer: 1 duplicate triangles were removed
+Timer 'STL Import' took 95.83 ms
+STL Importer: 54 degenerate triangles were removed
+STL Importer: 3 duplicate triangles were removed
+Timer 'STL Import' took 65.48 ms
+Fra:1 Mem:117.17M (Peak 142.33M) | Time:00:02.17 | Rendering 1 / 64 samples
+Fra:1 Mem:117.18M (Peak 142.33M) | Time:00:10.09 | Rendering 25 / 64 samples
+Fra:1 Mem:117.18M (Peak 142.33M) | Time:00:18.09 | Rendering 50 / 64 samples
+Fra:1 Mem:117.18M (Peak 142.33M) | Time:00:22.66 | Rendering 64 / 64 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/tex/crest_fridge_only.png'
+Time: 00:22.82 (Saving: 00:00.15)
+
+TEX_WRITTEN /workspace/loft-xr/assets/builds-opt/tex/crest_fridge_only.png
+16:48:54 | INFO: Data are loaded, start creating Blender stuff
+16:48:54 | INFO: Blender create Mesh node Grey
+16:48:54 | INFO: Draco Decoder: Decode primitive Grey
+16:48:54 | INFO: glTF import finished in 0.01s
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+16:48:54 | INFO: Starting glTF 2.0 export
+16:48:54 | INFO: Extracting primitive: Grey.001
+16:48:54 | INFO: Primitives created: 1
+16:48:54 | INFO: Draco encoder: Encoding mesh Crest.
+16:48:54 | INFO: Finished glTF 2.0 export in 0.060198068618774414 s
+
+DONE_BAKE /workspace/loft-xr/assets/builds-opt/crest_fridge_only_lod1.glb tris 1156
+DracoDecoder | Decoded 3092 vertices, 3468 indices
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 3092 vertices, 3468 indices, raw size: 105880, encoded size: 23829, compression ratio: 4.44
+
+Blender quit
+could not get a list of mounted file-systems
+16:48:55 | INFO: Data are loaded, start creating Blender stuff
+16:48:55 | INFO: Blender create Mesh node Grey.001
+16:48:55 | INFO: Draco Decoder: Decode primitive Grey.001
+16:48:55 | INFO: glTF import finished in 0.01s
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+DracoDecoder | Decoded 3092 vertices, 3468 indices
+Fra:1 Mem:50.35M (Peak 50.35M) | Time:00:01.17 | Rendering 1 / 8 samples
+Fra:1 Mem:50.35M (Peak 50.35M) | Time:00:01.64 | Rendering 8 / 8 samples
+Saved: '/workspace/loft-xr/assets/builds-opt/renders/crest_fridge_only_lod1.png'
+Time: 00:01.72 (Saving: 00:00.07)
+
+THUMB /workspace/loft-xr/assets/builds-opt/renders/crest_fridge_only_lod1.png
+
+Blender quit

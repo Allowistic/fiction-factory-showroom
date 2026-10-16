@@ -1,0 +1,22 @@
+{
+  "id": "vw_t1_restomod",
+  "out": "/workspace/loft-xr/assets/builds-opt/vw_t1_restomod_lod1.glb",
+  "target_tris": 1000,
+  "orient": "upright_y",
+  "name": "VW T1 Restomod",
+  "description": "1:18 VW T1 restomod one-piece body",
+  "source": "/workspace/vw-t1-restomod/clay_build/print/vw_t1_restomod_1to18_onepiece.stl",
+  "parts": [
+    {
+      "path": "/workspace/vw-t1-restomod/clay_build/print/vw_t1_restomod_1to18_onepiece.stl",
+      "name": "Body",
+      "color": [
+        0.72,
+        0.72,
+        0.74
+      ],
+      "roughness": 0.35,
+      "metallic": 0.15
+    }
+  ]
+}

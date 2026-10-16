@@ -1,0 +1,11 @@
+{
+  "out": "/workspace/loft-xr/assets/builds/holddown_m6_kit.glb",
+  "dims_mm": [
+    308.5,
+    26.833,
+    34.0
+  ],
+  "tris": 2376,
+  "parts": 4,
+  "orient": "as_is"
+}

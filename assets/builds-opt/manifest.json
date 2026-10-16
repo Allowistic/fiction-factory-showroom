@@ -27,6 +27,521 @@
     {
       "name": "Tommy checker sleeves",
       "reason": "No STL/3MF under /workspace; tommy folders only have photos / KEEP-IT-FLYING.md"
+    },
+    {
+      "file": "ent_center_bar.glb",
+      "name": "Marcos Bini Entertainment Center (cantina, baked)",
+      "scale": 1.0,
+      "lod1": "ent_center_bar_lod1.glb",
+      "dims_mm": {
+        "x": 4102.1,
+        "y": 2546.5,
+        "z": 482.6
+      },
+      "tris": 9669,
+      "tris_lod1": 3274,
+      "bytes": 288548,
+      "bytes_lod1": 258552,
+      "draws": 5,
+      "materials": [
+        "ent_body",
+        "ent_walnut",
+        "ent_dark",
+        "ent_decor",
+        "led_strip"
+      ],
+      "unlit_baked": true,
+      "textures": {
+        "ent_body": 1024,
+        "ent_walnut": 1024,
+        "ent_dark": 512,
+        "ent_decor": 512
+      },
+      "emissive_driven": "led_strip",
+      "room": "cantina",
+      "placement": {
+        "frame": "cantina-local glTF (door origin, +Z into room)",
+        "pos": [
+          0,
+          0,
+          6.26
+        ],
+        "rot_y_deg": 180,
+        "note": "flush to far wall at z=6.5 (depth 0.48)"
+      },
+      "description": "Campbell Creek / Marcos Bini entertainment center, baked: 2700K pucks + sconce, ~20% ambient, one teal LED niche (light only), dim amber TV screen, 2 in radiused openings",
+      "source": "/workspace/campbell-creek/ent-center/ent_center_lit.blend",
+      "date": "2026-10-16T11:48:32-07:00",
+      "method": "bake+decimate",
+      "previews": [
+        "ent_center_bar_preview_front.png",
+        "ent_center_bar_preview_3q.png"
+      ]
+    },
+    {
+      "file": "cantina_bar.glb",
+      "name": "Cantina arc bar 4 m, 1.05 m, walnut/brass, amber underglow + teal rim",
+      "scale": 1.0,
+      "lod1": "cantina_bar_lod1.glb",
+      "dims_mm": {
+        "x": 4011.4,
+        "y": 1050.0,
+        "z": 1046.1
+      },
+      "tris": 1092,
+      "tris_lod1": 654,
+      "bytes": 80440,
+      "bytes_lod1": 79544,
+      "draws": 3,
+      "materials": [
+        "cantina_bar_atlas",
+        "cantina_glow_amber",
+        "cantina_glow_teal"
+      ],
+      "unlit_baked": true,
+      "room": "cantina",
+      "method": "procedural+CC0 PBR bake",
+      "date": "2026-10-16T11:54:51-07:00",
+      "placement": {
+        "frame": "cantina-local glTF (door origin, +Z into room)",
+        "pos": [
+          -2.024,
+          0,
+          3.2
+        ],
+        "rot_y_deg": 90
+      },
+      "note": "4 m arc, chord parallel to left wall; front ends at x=-1.96, front middle x=-1.63; bartender aisle to back bar >=0.9 m (0.90 at ends, 1.23 mid)"
+    },
+    {
+      "file": "cantina_back_bar.glb",
+      "name": "Cantina back bar: walnut, brass shelves, varied bottles, amber backlight, porthole screen",
+      "scale": 1.0,
+      "lod1": "cantina_back_bar_lod1.glb",
+      "dims_mm": {
+        "x": 3300.0,
+        "y": 2530.0,
+        "z": 500.0
+      },
+      "tris": 3688,
+      "tris_lod1": 1900,
+      "bytes": 167796,
+      "bytes_lod1": 163316,
+      "draws": 2,
+      "materials": [
+        "cantina_back_bar_atlas",
+        "cantina_glow_backlight"
+      ],
+      "unlit_baked": true,
+      "room": "cantina",
+      "method": "procedural+CC0 PBR bake",
+      "date": "2026-10-16T13:07:17-07:00",
+      "placement": {
+        "frame": "cantina-local glTF (door origin, +Z into room)",
+        "pos": [
+          -3.73,
+          0,
+          4.3
+        ],
+        "rot_y_deg": 90
+      }
+    },
+    {
+      "file": "cantina_stools.glb",
+      "name": "4 bar stools 0.75 m (oxblood leather, brass), on bar arc",
+      "scale": 1.0,
+      "lod1": "cantina_stools_lod1.glb",
+      "dims_mm": {
+        "x": 2342.6,
+        "y": 765.0,
+        "z": 465.4
+      },
+      "tris": 1168,
+      "tris_lod1": 584,
+      "bytes": 40820,
+      "bytes_lod1": 37900,
+      "draws": 1,
+      "materials": [
+        "cantina_stools_atlas"
+      ],
+      "unlit_baked": true,
+      "room": "cantina",
+      "method": "procedural+CC0 PBR bake",
+      "date": "2026-10-16T11:55:36-07:00",
+      "note": "bar transform + local +Z 0.81 m (pos already includes it)",
+      "placement": {
+        "frame": "cantina-local glTF (door origin, +Z into room)",
+        "pos": [
+          -1.214,
+          0,
+          3.2
+        ],
+        "rot_y_deg": 90
+      }
+    },
+    {
+      "file": "cantina_booth.glb",
+      "name": "Curved oxblood-leather booth (3-4), 1.0 m walnut/brass table, amber pendant",
+      "scale": 1.0,
+      "lod1": "cantina_booth_lod1.glb",
+      "dims_mm": {
+        "x": 3194.6,
+        "y": 2500.0,
+        "z": 2628.5
+      },
+      "tris": 1068,
+      "tris_lod1": 564,
+      "bytes": 76164,
+      "bytes_lod1": 73236,
+      "draws": 2,
+      "materials": [
+        "cantina_booth_atlas",
+        "cantina_glow_amber"
+      ],
+      "unlit_baked": true,
+      "room": "cantina",
+      "method": "procedural+CC0 PBR bake",
+      "date": "2026-10-16T12:17:33-07:00",
+      "note": "opening faces +Z; rotate toward ent center",
+      "placement": {
+        "frame": "cantina-local glTF (door origin, +Z into room)",
+        "pos": [
+          2.6,
+          0,
+          3.6
+        ],
+        "rot_y_deg": -44
+      }
+    },
+    {
+      "file": "cantina_prop_cargo_A.glb",
+      "name": "Cantina prop: Walnut cargo crate, steel corners",
+      "scale": 1.0,
+      "lod1": "cantina_prop_cargo_A_lod1.glb",
+      "dims_mm": {
+        "x": 710.0,
+        "y": 520.0,
+        "z": 515.0
+      },
+      "tris": 72,
+      "tris_lod1": 72,
+      "bytes": 102284,
+      "bytes_lod1": 102284,
+      "draws": 1,
+      "materials": [
+        "cantina_props_atlas"
+      ],
+      "unlit_baked": true,
+      "room": "cantina",
+      "method": "procedural+CC0 PBR bake",
+      "date": "2026-10-16T11:56:42-07:00",
+      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+      "placement": {
+        "frame": "cantina-local glTF (door origin, +Z into room)",
+        "pos": [
+          2.6,
+          0,
+          6.0
+        ],
+        "rot_y_deg": -15
+      }
+    },
+    {
+      "file": "cantina_prop_cargo_A_stacked.glb",
+      "name": "Cantina prop: Stacked walnut crates",
+      "scale": 1.0,
+      "lod1": "cantina_prop_cargo_A_stacked_lod1.glb",
+      "dims_mm": {
+        "x": 720.0,
+        "y": 975.0,
+        "z": 520.0
+      },
+      "tris": 48,
+      "tris_lod1": 48,
+      "bytes": 102184,
+      "bytes_lod1": 102184,
+      "draws": 1,
+      "materials": [
+        "cantina_props_atlas"
+      ],
+      "unlit_baked": true,
+      "room": "cantina",
+      "method": "procedural+CC0 PBR bake",
+      "date": "2026-10-16T11:56:42-07:00",
+      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+      "placement": {
+        "frame": "cantina-local glTF (door origin, +Z into room)",
+        "pos": [
+          3.4,
+          0,
+          5.9
+        ],
+        "rot_y_deg": 10
+      }
+    },
+    {
+      "file": "cantina_prop_containers_B.glb",
+      "name": "Cantina prop: Steel fuel canisters x3",
+      "scale": 1.0,
+      "lod1": "cantina_prop_containers_B_lod1.glb",
+      "dims_mm": {
+        "x": 754.0,
+        "y": 630.0,
+        "z": 240.0
+      },
+      "tris": 264,
+      "tris_lod1": 132,
+      "bytes": 103800,
+      "bytes_lod1": 103544,
+      "draws": 1,
+      "materials": [
+        "cantina_props_atlas"
+      ],
+      "unlit_baked": true,
+      "room": "cantina",
+      "method": "procedural+CC0 PBR bake",
+      "date": "2026-10-16T11:56:42-07:00",
+      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+      "placement": {
+        "frame": "cantina-local glTF (door origin, +Z into room)",
+        "pos": [
+          -3.55,
+          0,
+          6.05
+        ],
+        "rot_y_deg": 90
+      }
+    },
+    {
+      "file": "cantina_prop_containers_D.glb",
+      "name": "Cantina prop: Walnut keg, brass bands",
+      "scale": 1.0,
+      "lod1": "cantina_prop_containers_D_lod1.glb",
+      "dims_mm": {
+        "x": 460.0,
+        "y": 760.0,
+        "z": 448.5
+      },
+      "tris": 240,
+      "tris_lod1": 120,
+      "bytes": 103728,
+      "bytes_lod1": 103080,
+      "draws": 1,
+      "materials": [
+        "cantina_props_atlas"
+      ],
+      "unlit_baked": true,
+      "room": "cantina",
+      "method": "procedural+CC0 PBR bake",
+      "date": "2026-10-16T11:56:42-07:00",
+      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+      "placement": {
+        "frame": "cantina-local glTF (door origin, +Z into room)",
+        "pos": [
+          -3.6,
+          0,
+          1.0
+        ],
+        "rot_y_deg": 0
+      }
+    },
+    {
+      "file": "cantina_prop_lights.glb",
+      "name": "Cantina prop: Brass floor lamp",
+      "scale": 1.0,
+      "lod1": "cantina_prop_lights_lod1.glb",
+      "dims_mm": {
+        "x": 360.0,
+        "y": 1350.0,
+        "z": 360.0
+      },
+      "tris": 212,
+      "tris_lod1": 106,
+      "bytes": 103296,
+      "bytes_lod1": 102564,
+      "draws": 1,
+      "materials": [
+        "cantina_props_atlas"
+      ],
+      "unlit_baked": true,
+      "room": "cantina",
+      "method": "procedural+CC0 PBR bake",
+      "date": "2026-10-16T11:56:43-07:00",
+      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+      "placement": {
+        "frame": "cantina-local glTF (door origin, +Z into room)",
+        "pos": [
+          3.6,
+          0,
+          2.0
+        ],
+        "rot_y_deg": 0
+      }
+    },
+    {
+      "file": "cantina_prop_jar_A_large.glb",
+      "name": "Cantina prop: Amber glass jar",
+      "scale": 1.0,
+      "lod1": "cantina_prop_jar_A_large_lod1.glb",
+      "dims_mm": {
+        "x": 160.0,
+        "y": 265.0,
+        "z": 160.0
+      },
+      "tris": 160,
+      "tris_lod1": 80,
+      "bytes": 102976,
+      "bytes_lod1": 102480,
+      "draws": 1,
+      "materials": [
+        "cantina_props_atlas"
+      ],
+      "unlit_baked": true,
+      "room": "cantina",
+      "method": "procedural+CC0 PBR bake",
+      "date": "2026-10-16T11:56:43-07:00",
+      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+      "placement": {
+        "frame": "cantina-local glTF (door origin, +Z into room)",
+        "pos": [
+          -1.95,
+          1.05,
+          3.7
+        ],
+        "rot_y_deg": 0
+      }
+    },
+    {
+      "file": "cantina_prop_jar_C_medium.glb",
+      "name": "Cantina prop: Dark glass bottle trio",
+      "scale": 1.0,
+      "lod1": "cantina_prop_jar_C_medium_lod1.glb",
+      "dims_mm": {
+        "x": 150.0,
+        "y": 280.0,
+        "z": 70.0
+      },
+      "tris": 228,
+      "tris_lod1": 114,
+      "bytes": 103172,
+      "bytes_lod1": 102840,
+      "draws": 1,
+      "materials": [
+        "cantina_props_atlas"
+      ],
+      "unlit_baked": true,
+      "room": "cantina",
+      "method": "procedural+CC0 PBR bake",
+      "date": "2026-10-16T11:56:43-07:00",
+      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+      "placement": {
+        "frame": "cantina-local glTF (door origin, +Z into room)",
+        "pos": [
+          -2.05,
+          1.05,
+          2.6
+        ],
+        "rot_y_deg": 0
+      }
+    },
+    {
+      "file": "cantina_prop_menu.glb",
+      "name": "Cantina prop: Brass/walnut menu stand",
+      "scale": 1.0,
+      "lod1": "cantina_prop_menu_lod1.glb",
+      "dims_mm": {
+        "x": 160.0,
+        "y": 250.0,
+        "z": 100.0
+      },
+      "tris": 36,
+      "tris_lod1": 36,
+      "bytes": 101988,
+      "bytes_lod1": 101988,
+      "draws": 1,
+      "materials": [
+        "cantina_props_atlas"
+      ],
+      "unlit_baked": true,
+      "room": "cantina",
+      "method": "procedural+CC0 PBR bake",
+      "date": "2026-10-16T11:56:43-07:00",
+      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+      "placement": {
+        "frame": "cantina-local glTF (door origin, +Z into room)",
+        "pos": [
+          -1.9,
+          1.05,
+          3.2
+        ],
+        "rot_y_deg": 0
+      }
+    },
+    {
+      "file": "cantina_prop_food_dinner.glb",
+      "name": "Cantina prop: Brass cloche on plate",
+      "scale": 1.0,
+      "lod1": "cantina_prop_food_dinner_lod1.glb",
+      "dims_mm": {
+        "x": 320.0,
+        "y": 175.0,
+        "z": 320.0
+      },
+      "tris": 228,
+      "tris_lod1": 114,
+      "bytes": 103644,
+      "bytes_lod1": 102796,
+      "draws": 1,
+      "materials": [
+        "cantina_props_atlas"
+      ],
+      "unlit_baked": true,
+      "room": "cantina",
+      "method": "procedural+CC0 PBR bake",
+      "date": "2026-10-16T11:56:43-07:00",
+      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+      "placement": {
+        "frame": "cantina-local glTF (door origin, +Z into room)",
+        "pos": [
+          2.6,
+          0.761,
+          3.6
+        ],
+        "rot_y_deg": 0
+      }
+    },
+    {
+      "file": "cantina_prop_pot_large.glb",
+      "name": "Cantina prop: Brass samovar",
+      "scale": 1.0,
+      "lod1": "cantina_prop_pot_large_lod1.glb",
+      "dims_mm": {
+        "x": 350.0,
+        "y": 340.0,
+        "z": 292.5
+      },
+      "tris": 184,
+      "tris_lod1": 92,
+      "bytes": 103096,
+      "bytes_lod1": 102352,
+      "draws": 1,
+      "materials": [
+        "cantina_props_atlas"
+      ],
+      "unlit_baked": true,
+      "room": "cantina",
+      "method": "procedural+CC0 PBR bake",
+      "date": "2026-10-16T11:56:43-07:00",
+      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+      "placement": {
+        "frame": "cantina-local glTF (door origin, +Z into room)",
+        "pos": [
+          -3.7,
+          0.94,
+          4.0
+        ],
+        "rot_y_deg": 0
+      }
     }
   ],
   "builds": [

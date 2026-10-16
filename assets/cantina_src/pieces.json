@@ -1,0 +1,315 @@
+[
+ {
+  "file": "cantina_bar.glb",
+  "name": "Cantina arc bar 4 m, 1.05 m high",
+  "scale": 1.0,
+  "lod1": "cantina_bar_lod1.glb",
+  "dims_mm": {
+   "x": 3998.3,
+   "y": 1050.0,
+   "z": 1007.2
+  },
+  "tris": 756,
+  "tris_lod1": 452,
+  "bytes": 7384,
+  "bytes_lod1": 6736,
+  "draws": 2,
+  "materials": [
+   "cantina_body",
+   "cantina_glow_amber"
+  ],
+  "room": "cantina",
+  "method": "procedural",
+  "date": "2026-10-16T11:46:08-07:00"
+ },
+ {
+  "file": "cantina_back_bar.glb",
+  "name": "Cantina back bar: bottle shelves + porthole screen",
+  "scale": 1.0,
+  "lod1": "cantina_back_bar_lod1.glb",
+  "dims_mm": {
+   "x": 3300.0,
+   "y": 2730.0,
+   "z": 525.0
+  },
+  "tris": 920,
+  "tris_lod1": 516,
+  "bytes": 9140,
+  "bytes_lod1": 9100,
+  "draws": 2,
+  "materials": [
+   "cantina_body",
+   "cantina_glow_teal"
+  ],
+  "room": "cantina",
+  "method": "procedural",
+  "date": "2026-10-16T11:46:09-07:00"
+ },
+ {
+  "file": "cantina_stools.glb",
+  "name": "4 bar stools 0.75 m, spaced 0.65 m on bar arc",
+  "scale": 1.0,
+  "lod1": "cantina_stools_lod1.glb",
+  "dims_mm": {
+   "x": 2352.1,
+   "y": 750.0,
+   "z": 485.4
+  },
+  "tris": 880,
+  "tris_lod1": 440,
+  "bytes": 7640,
+  "bytes_lod1": 7308,
+  "draws": 1,
+  "materials": [
+   "cantina_body"
+  ],
+  "room": "cantina",
+  "method": "procedural",
+  "date": "2026-10-16T11:46:09-07:00",
+  "note": "positions already follow the bar arc; place with same transform as cantina_bar"
+ },
+ {
+  "file": "cantina_booth.glb",
+  "name": "Curved rust-velvet booth (3-4) around 1.0 m table, low pendant",
+  "scale": 1.0,
+  "lod1": "cantina_booth_lod1.glb",
+  "dims_mm": {
+   "x": 3172.6,
+   "y": 2500.0,
+   "z": 2628.5
+  },
+  "tris": 872,
+  "tris_lod1": 466,
+  "bytes": 9932,
+  "bytes_lod1": 8272,
+  "draws": 2,
+  "materials": [
+   "cantina_body",
+   "cantina_glow_amber"
+  ],
+  "room": "cantina",
+  "method": "procedural",
+  "date": "2026-10-16T11:46:09-07:00",
+  "note": "pendant cord top at 2.5 m; booth opening faces +Z \u2014 rotate toward the entertainment center"
+ },
+ {
+  "file": "cantina_prop_keg.glb",
+  "name": "Brass-banded keg",
+  "scale": 1.0,
+  "lod1": "cantina_prop_keg_lod1.glb",
+  "dims_mm": {
+   "x": 450.0,
+   "y": 750.0,
+   "z": 450.0
+  },
+  "tris": 208,
+  "tris_lod1": 104,
+  "bytes": 3092,
+  "bytes_lod1": 3212,
+  "draws": 1,
+  "materials": [
+   "cantina_body"
+  ],
+  "room": "cantina",
+  "method": "procedural",
+  "date": "2026-10-16T11:46:09-07:00"
+ },
+ {
+  "file": "cantina_prop_crate.glb",
+  "name": "Ribbed cargo crate",
+  "scale": 1.0,
+  "lod1": "cantina_prop_crate_lod1.glb",
+  "dims_mm": {
+   "x": 820.0,
+   "y": 520.0,
+   "z": 520.0
+  },
+  "tris": 48,
+  "tris_lod1": 48,
+  "bytes": 2024,
+  "bytes_lod1": 2024,
+  "draws": 1,
+  "materials": [
+   "cantina_body"
+  ],
+  "room": "cantina",
+  "method": "procedural",
+  "date": "2026-10-16T11:46:09-07:00"
+ },
+ {
+  "file": "cantina_prop_canisters.glb",
+  "name": "Stacked fuel canisters x3",
+  "scale": 1.0,
+  "lod1": "cantina_prop_canisters_lod1.glb",
+  "dims_mm": {
+   "x": 760.0,
+   "y": 870.0,
+   "z": 240.0
+  },
+  "tris": 176,
+  "tris_lod1": 88,
+  "bytes": 2748,
+  "bytes_lod1": 2948,
+  "draws": 1,
+  "materials": [
+   "cantina_body"
+  ],
+  "room": "cantina",
+  "method": "procedural",
+  "date": "2026-10-16T11:46:09-07:00"
+ },
+ {
+  "file": "cantina_prop_bottles.glb",
+  "name": "Bar-top bottle cluster",
+  "scale": 1.0,
+  "lod1": "cantina_prop_bottles_lod1.glb",
+  "dims_mm": {
+   "x": 219.2,
+   "y": 440.0,
+   "z": 209.5
+  },
+  "tris": 288,
+  "tris_lod1": 144,
+  "bytes": 3608,
+  "bytes_lod1": 4360,
+  "draws": 1,
+  "materials": [
+   "cantina_body"
+  ],
+  "room": "cantina",
+  "method": "procedural",
+  "date": "2026-10-16T11:46:09-07:00"
+ },
+ {
+  "file": "cantina_prop_mugs.glb",
+  "name": "Three tankard mugs",
+  "scale": 1.0,
+  "lod1": "cantina_prop_mugs_lod1.glb",
+  "dims_mm": {
+   "x": 420.0,
+   "y": 140.0,
+   "z": 90.0
+  },
+  "tris": 168,
+  "tris_lod1": 84,
+  "bytes": 2780,
+  "bytes_lod1": 2896,
+  "draws": 1,
+  "materials": [
+   "cantina_body"
+  ],
+  "room": "cantina",
+  "method": "procedural",
+  "date": "2026-10-16T11:46:09-07:00"
+ },
+ {
+  "file": "cantina_prop_console.glb",
+  "name": "Retro wall console with dials",
+  "scale": 1.0,
+  "lod1": "cantina_prop_console_lod1.glb",
+  "dims_mm": {
+   "x": 900.0,
+   "y": 1000.0,
+   "z": 280.0
+  },
+  "tris": 204,
+  "tris_lod1": 102,
+  "bytes": 3024,
+  "bytes_lod1": 3148,
+  "draws": 1,
+  "materials": [
+   "cantina_body"
+  ],
+  "room": "cantina",
+  "method": "procedural",
+  "date": "2026-10-16T11:46:09-07:00"
+ },
+ {
+  "file": "cantina_prop_jukebox.glb",
+  "name": "Rounded retro music machine",
+  "scale": 1.0,
+  "lod1": "cantina_prop_jukebox_lod1.glb",
+  "dims_mm": {
+   "x": 700.0,
+   "y": 1450.0,
+   "z": 465.0
+  },
+  "tris": 176,
+  "tris_lod1": 88,
+  "bytes": 3036,
+  "bytes_lod1": 2924,
+  "draws": 1,
+  "materials": [
+   "cantina_body"
+  ],
+  "room": "cantina",
+  "method": "procedural",
+  "date": "2026-10-16T11:46:09-07:00"
+ },
+ {
+  "file": "cantina_prop_plant.glb",
+  "name": "Spiky alien succulent in brass pot",
+  "scale": 1.0,
+  "lod1": "cantina_prop_plant_lod1.glb",
+  "dims_mm": {
+   "x": 440.0,
+   "y": 880.0,
+   "z": 440.0
+  },
+  "tris": 100,
+  "tris_lod1": 50,
+  "bytes": 3036,
+  "bytes_lod1": 2644,
+  "draws": 1,
+  "materials": [
+   "cantina_body"
+  ],
+  "room": "cantina",
+  "method": "procedural",
+  "date": "2026-10-16T11:46:09-07:00"
+ },
+ {
+  "file": "cantina_prop_radio.glb",
+  "name": "Antenna comms box",
+  "scale": 1.0,
+  "lod1": "cantina_prop_radio_lod1.glb",
+  "dims_mm": {
+   "x": 400.0,
+   "y": 670.0,
+   "z": 230.0
+  },
+  "tris": 72,
+  "tris_lod1": 36,
+  "bytes": 2492,
+  "bytes_lod1": 2188,
+  "draws": 1,
+  "materials": [
+   "cantina_body"
+  ],
+  "room": "cantina",
+  "method": "procedural",
+  "date": "2026-10-16T11:46:09-07:00"
+ },
+ {
+  "file": "cantina_prop_vent.glb",
+  "name": "Wall vent/pipe panel",
+  "scale": 1.0,
+  "lod1": "cantina_prop_vent_lod1.glb",
+  "dims_mm": {
+   "x": 1000.0,
+   "y": 1200.0,
+   "z": 130.0
+  },
+  "tris": 168,
+  "tris_lod1": 84,
+  "bytes": 2832,
+  "bytes_lod1": 2812,
+  "draws": 1,
+  "materials": [
+   "cantina_body"
+  ],
+  "room": "cantina",
+  "method": "procedural",
+  "date": "2026-10-16T11:46:09-07:00"
+ }
+]

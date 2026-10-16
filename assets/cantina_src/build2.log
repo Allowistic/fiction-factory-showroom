@@ -1,0 +1,443 @@
+could not get a list of mounted file-systems
+Blender 4.3.2 (hash 32f5fdce0a0a built 2024-12-17 01:31:14)
+Fra:1 Mem:79.61M (Peak 83.60M) | Time:497826:53:31.68 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | a.014
+Fra:1 Mem:79.62M (Peak 83.60M) | Time:497826:53:31.68 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | a.013
+Fra:1 Mem:79.63M (Peak 83.60M) | Time:497826:53:31.68 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | a
+Fra:1 Mem:79.73M (Peak 83.60M) | Time:497826:53:31.68 | Mem:0.00M, Peak:0.00M | Scene | Initializing
+Fra:1 Mem:79.73M (Peak 83.60M) | Time:497826:53:31.68 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading cantina_bar_atlas
+Info: Baking map saved to internal image, save it externally or pack it
+Warning: No mesh data to join
+Warning: No mesh data to join
+INFO Draco mesh compression is available, use library at /home/box/blender-4.3.2-linux-x64/4.3/python/lib/python3.11/site-packages/libextern_draco.so
+11:54:51 | INFO: Starting glTF 2.0 export
+11:54:51 | INFO: Extracting primitive: a
+11:54:51 | INFO: Primitives created: 1
+11:54:51 | INFO: Extracting primitive: a.013
+11:54:51 | INFO: Primitives created: 1
+11:54:51 | INFO: Extracting primitive: a.014
+11:54:51 | INFO: Primitives created: 1
+11:54:51 | INFO: Draco encoder: Encoding mesh cantina_bar.
+11:54:51 | INFO: Draco encoder: Encoding mesh cantina_bar_cantina_glow_amber.
+11:54:51 | INFO: Draco encoder: Encoding mesh cantina_bar_cantina_glow_teal.
+11:54:51 | INFO: Finished glTF 2.0 export in 0.03936624526977539 s
+
+11:54:51 | INFO: Starting glTF 2.0 export
+11:54:51 | INFO: Extracting primitive: a
+11:54:51 | INFO: Primitives created: 1
+11:54:51 | INFO: Extracting primitive: a.013
+11:54:51 | INFO: Primitives created: 1
+11:54:51 | INFO: Extracting primitive: a.014
+11:54:51 | INFO: Primitives created: 1
+11:54:51 | INFO: Draco encoder: Encoding mesh cantina_bar.
+11:54:51 | INFO: Draco encoder: Encoding mesh cantina_bar_cantina_glow_amber.
+11:54:51 | INFO: Draco encoder: Encoding mesh cantina_bar_cantina_glow_teal.
+11:54:51 | INFO: Finished glTF 2.0 export in 0.02591872215270996 s
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1224 vertices, 2292 indices, raw size: 43752, encoded size: 7330, compression ratio: 5.97
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 252 vertices, 492 indices, raw size: 7032, encoded size: 978, compression ratio: 7.19
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 252 vertices, 492 indices, raw size: 7032, encoded size: 1033, compression ratio: 6.81
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 818 vertices, 1374 indices, raw size: 28924, encoded size: 6452, compression ratio: 4.48
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 168 vertices, 294 indices, raw size: 4620, encoded size: 981, compression ratio: 4.71
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 164 vertices, 294 indices, raw size: 4524, encoded size: 966, compression ratio: 4.68
+Fra:1 Mem:82.46M (Peak 261.03M) | Time:497826:54:52.05 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | Cylinder.001
+Fra:1 Mem:82.47M (Peak 261.03M) | Time:497826:54:52.05 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | Cube.008
+Fra:1 Mem:82.47M (Peak 261.03M) | Time:497826:54:52.05 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | Cube.006
+Fra:1 Mem:82.47M (Peak 261.03M) | Time:497826:54:52.05 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | Cube.004
+Fra:1 Mem:82.47M (Peak 261.03M) | Time:497826:54:52.05 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | Cube
+Fra:1 Mem:82.93M (Peak 261.03M) | Time:497826:54:52.06 | Mem:0.00M, Peak:0.00M | Scene | Initializing
+Fra:1 Mem:82.92M (Peak 261.03M) | Time:497826:54:52.06 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading cantina_back_bar_atlas
+
+PIECE {"file": "cantina_bar.glb", "name": "Cantina arc bar 4 m, 1.05 m, walnut/brass, amber underglow + teal rim", "scale": 1.0, "lod1": "cantina_bar_lod1.glb", "dims_mm": {"x": 4011.4, "y": 1050.0, "z": 1046.1}, "tris": 1092, "tris_lod1": 654, "bytes": 80440, "bytes_lod1": 79544, "draws": 3, "materials": ["cantina_bar_atlas", "cantina_glow_amber", "cantina_glow_teal"], "unlit_baked": true, "room": "cantina", "method": "procedural+CC0 PBR bake", "date": "2026-10-16T11:54:51-07:00"}
+Info: Baking map saved to internal image, save it externally or pack it
+Warning: No mesh data to join
+11:55:29 | INFO: Starting glTF 2.0 export
+11:55:29 | INFO: Extracting primitive: Cube
+11:55:29 | INFO: Primitives created: 1
+11:55:29 | INFO: Extracting primitive: Cube.004
+11:55:29 | INFO: Primitives created: 1
+11:55:29 | INFO: Extracting primitive: Cylinder.001
+11:55:29 | INFO: Primitives created: 1
+11:55:29 | INFO: Draco encoder: Encoding mesh cantina_back_bar.
+11:55:29 | INFO: Draco encoder: Encoding mesh cantina_back_bar_cantina_glow_amber.
+11:55:29 | INFO: Draco encoder: Encoding mesh cantina_back_bar_cantina_glow_amber_screen.
+11:55:29 | INFO: Finished glTF 2.0 export in 0.08121657371520996 s
+
+11:55:29 | INFO: Starting glTF 2.0 export
+11:55:29 | INFO: Extracting primitive: Cube
+11:55:29 | INFO: Primitives created: 1
+11:55:29 | INFO: Extracting primitive: Cube.004
+11:55:29 | INFO: Primitives created: 1
+11:55:29 | INFO: Extracting primitive: Cylinder.001
+11:55:29 | INFO: Primitives created: 1
+11:55:29 | INFO: Draco encoder: Encoding mesh cantina_back_bar.
+11:55:29 | INFO: Draco encoder: Encoding mesh cantina_back_bar_cantina_glow_amber.
+11:55:29 | INFO: Draco encoder: Encoding mesh cantina_back_bar_cantina_glow_amber_screen.
+11:55:29 | INFO: Finished glTF 2.0 export in 0.02500176429748535 s
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 3856 vertices, 10728 indices, raw size: 144848, encoded size: 24816, compression ratio: 5.84
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 72 vertices, 108 indices, raw size: 2520, encoded size: 556, compression ratio: 4.53
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 120 vertices, 228 indices, raw size: 4296, encoded size: 976, compression ratio: 4.40
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 2378 vertices, 5364 indices, raw size: 86824, encoded size: 20226, compression ratio: 4.29
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 72 vertices, 108 indices, raw size: 2520, encoded size: 556, compression ratio: 4.53
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 120 vertices, 228 indices, raw size: 4296, encoded size: 976, compression ratio: 4.40
+Fra:1 Mem:30.55M (Peak 264.46M) | Time:497826:55:30.02 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | Cylinder
+Fra:1 Mem:30.70M (Peak 264.46M) | Time:497826:55:30.03 | Mem:0.00M, Peak:0.00M | Scene | Initializing
+Fra:1 Mem:30.70M (Peak 264.46M) | Time:497826:55:30.03 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading cantina_stools_atlas
+
+PIECE {"file": "cantina_back_bar.glb", "name": "Cantina back bar: walnut, brass shelves, varied bottles, amber backlight, porthole screen", "scale": 1.0, "lod1": "cantina_back_bar_lod1.glb", "dims_mm": {"x": 3300.0, "y": 2780.0, "z": 500.0}, "tris": 3688, "tris_lod1": 1900, "bytes": 178828, "bytes_lod1": 174236, "draws": 3, "materials": ["cantina_back_bar_atlas", "cantina_glow_amber", "cantina_glow_amber_screen"], "unlit_baked": true, "room": "cantina", "method": "procedural+CC0 PBR bake", "date": "2026-10-16T11:55:29-07:00"}
+Info: Baking map saved to internal image, save it externally or pack it
+11:55:36 | INFO: Starting glTF 2.0 export
+11:55:36 | INFO: Extracting primitive: Cylinder
+11:55:36 | INFO: Primitives created: 1
+11:55:36 | INFO: Draco encoder: Encoding mesh cantina_stools.
+11:55:36 | INFO: Finished glTF 2.0 export in 0.0074579715728759766 s
+
+11:55:36 | INFO: Starting glTF 2.0 export
+11:55:36 | WARNING: Mesh Cylinder is not valid, and may be exported wrongly
+11:55:36 | INFO: Extracting primitive: Cylinder
+11:55:36 | INFO: Primitives created: 1
+11:55:36 | INFO: Draco encoder: Encoding mesh cantina_stools.
+11:55:36 | INFO: Finished glTF 2.0 export in 0.004496574401855469 s
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1626 vertices, 3504 indices, raw size: 59040, encoded size: 9798, compression ratio: 6.03
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 772 vertices, 1602 indices, raw size: 27908, encoded size: 6884, compression ratio: 4.05
+Fra:1 Mem:81.83M (Peak 264.46M) | Time:497826:55:36.84 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | Cylinder.005
+Fra:1 Mem:81.83M (Peak 264.46M) | Time:497826:55:36.84 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | a
+Fra:1 Mem:81.96M (Peak 264.46M) | Time:497826:55:36.84 | Mem:0.00M, Peak:0.00M | Scene | Initializing
+Fra:1 Mem:81.96M (Peak 264.46M) | Time:497826:55:36.84 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading cantina_booth_atlas
+
+PIECE {"file": "cantina_stools.glb", "name": "4 bar stools 0.75 m (oxblood leather, brass), on bar arc", "scale": 1.0, "lod1": "cantina_stools_lod1.glb", "dims_mm": {"x": 2342.6, "y": 765.0, "z": 465.4}, "tris": 1168, "tris_lod1": 584, "bytes": 40820, "bytes_lod1": 37900, "draws": 1, "materials": ["cantina_stools_atlas"], "unlit_baked": true, "room": "cantina", "method": "procedural+CC0 PBR bake", "date": "2026-10-16T11:55:36-07:00", "note": "same transform as cantina_bar"}
+Info: Baking map saved to internal image, save it externally or pack it
+Warning: No mesh data to join
+11:55:55 | INFO: Starting glTF 2.0 export
+11:55:55 | INFO: Extracting primitive: a
+11:55:55 | INFO: Primitives created: 1
+11:55:55 | INFO: Extracting primitive: Cylinder.005
+11:55:55 | INFO: Primitives created: 1
+11:55:55 | INFO: Draco encoder: Encoding mesh cantina_booth.
+11:55:55 | INFO: Draco encoder: Encoding mesh cantina_booth_cantina_glow_amber.
+11:55:55 | INFO: Finished glTF 2.0 export in 0.014677047729492188 s
+
+11:55:55 | INFO: Starting glTF 2.0 export
+11:55:55 | WARNING: Mesh a is not valid, and may be exported wrongly
+11:55:55 | INFO: Extracting primitive: a
+11:55:55 | INFO: Primitives created: 1
+11:55:55 | INFO: Extracting primitive: Cylinder.005
+11:55:55 | INFO: Primitives created: 1
+11:55:55 | INFO: Draco encoder: Encoding mesh cantina_booth.
+11:55:55 | INFO: Draco encoder: Encoding mesh cantina_booth_cantina_glow_amber.
+11:55:55 | INFO: Finished glTF 2.0 export in 0.0073778629302978516 s
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 1572 vertices, 3024 indices, raw size: 56352, encoded size: 10085, compression ratio: 5.59
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 96 vertices, 180 indices, raw size: 3432, encoded size: 858, compression ratio: 4.00
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 853 vertices, 1509 indices, raw size: 30314, encoded size: 7161, compression ratio: 4.23
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 96 vertices, 180 indices, raw size: 3432, encoded size: 858, compression ratio: 4.00
+Fra:1 Mem:82.36M (Peak 280.22M) | Time:497826:55:55.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_pot_large
+Fra:1 Mem:82.38M (Peak 280.22M) | Time:497826:55:55.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_food_dinner
+Fra:1 Mem:82.41M (Peak 280.22M) | Time:497826:55:55.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_menu
+Fra:1 Mem:82.42M (Peak 280.22M) | Time:497826:55:55.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_jar_C_medium
+Fra:1 Mem:82.43M (Peak 280.22M) | Time:497826:55:55.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_jar_A_large
+Fra:1 Mem:82.45M (Peak 280.22M) | Time:497826:55:55.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_lights
+Fra:1 Mem:82.48M (Peak 280.22M) | Time:497826:55:55.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_containers_D
+Fra:1 Mem:82.51M (Peak 280.22M) | Time:497826:55:55.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_containers_B
+Fra:1 Mem:82.55M (Peak 280.22M) | Time:497826:55:55.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_cargo_A_stacked
+Fra:1 Mem:82.56M (Peak 280.22M) | Time:497826:55:55.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_cargo_A
+Fra:1 Mem:82.57M (Peak 280.22M) | Time:497826:55:55.61 | Mem:0.00M, Peak:0.00M | Scene | Initializing
+Fra:1 Mem:82.56M (Peak 280.22M) | Time:497826:55:55.61 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading cantina_props_atlas
+Fra:1 Mem:82.41M (Peak 280.22M) | Time:497826:56:01.15 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_pot_large
+Fra:1 Mem:82.43M (Peak 280.22M) | Time:497826:56:01.15 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_food_dinner
+Fra:1 Mem:82.45M (Peak 280.22M) | Time:497826:56:01.15 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_menu
+Fra:1 Mem:82.46M (Peak 280.22M) | Time:497826:56:01.15 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_jar_C_medium
+Fra:1 Mem:82.47M (Peak 280.22M) | Time:497826:56:01.15 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_jar_A_large
+Fra:1 Mem:82.48M (Peak 280.22M) | Time:497826:56:01.15 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_lights
+Fra:1 Mem:82.50M (Peak 280.22M) | Time:497826:56:01.15 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_containers_D
+Fra:1 Mem:82.53M (Peak 280.22M) | Time:497826:56:01.16 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_containers_B
+Fra:1 Mem:82.55M (Peak 280.22M) | Time:497826:56:01.16 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_cargo_A_stacked
+Fra:1 Mem:82.56M (Peak 280.22M) | Time:497826:56:01.16 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_cargo_A
+Fra:1 Mem:82.57M (Peak 280.22M) | Time:497826:56:01.16 | Mem:0.00M, Peak:0.00M | Scene | Initializing
+Fra:1 Mem:82.56M (Peak 280.22M) | Time:497826:56:01.16 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading cantina_props_atlas
+Fra:1 Mem:82.41M (Peak 280.22M) | Time:497826:56:10.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_pot_large
+Fra:1 Mem:82.43M (Peak 280.22M) | Time:497826:56:10.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_food_dinner
+Fra:1 Mem:82.45M (Peak 280.22M) | Time:497826:56:10.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_menu
+Fra:1 Mem:82.46M (Peak 280.22M) | Time:497826:56:10.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_jar_C_medium
+Fra:1 Mem:82.47M (Peak 280.22M) | Time:497826:56:10.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_jar_A_large
+Fra:1 Mem:82.48M (Peak 280.22M) | Time:497826:56:10.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_lights
+Fra:1 Mem:82.50M (Peak 280.22M) | Time:497826:56:10.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_containers_D
+Fra:1 Mem:82.53M (Peak 280.22M) | Time:497826:56:10.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_containers_B
+Fra:1 Mem:82.55M (Peak 280.22M) | Time:497826:56:10.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_cargo_A_stacked
+Fra:1 Mem:82.56M (Peak 280.22M) | Time:497826:56:10.61 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_cargo_A
+Fra:1 Mem:82.57M (Peak 280.22M) | Time:497826:56:10.61 | Mem:0.00M, Peak:0.00M | Scene | Initializing
+Fra:1 Mem:82.56M (Peak 280.22M) | Time:497826:56:10.61 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading cantina_props_atlas
+Fra:1 Mem:82.43M (Peak 280.22M) | Time:497826:56:15.16 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_pot_large
+Fra:1 Mem:82.44M (Peak 280.22M) | Time:497826:56:15.16 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_food_dinner
+Fra:1 Mem:82.47M (Peak 280.22M) | Time:497826:56:15.16 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_cargo_A
+Fra:1 Mem:82.47M (Peak 280.22M) | Time:497826:56:15.16 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_cargo_A_stacked
+Fra:1 Mem:82.47M (Peak 280.22M) | Time:497826:56:15.16 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_jar_C_medium
+Fra:1 Mem:82.48M (Peak 280.22M) | Time:497826:56:15.16 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_jar_A_large
+Fra:1 Mem:82.51M (Peak 280.22M) | Time:497826:56:15.16 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_containers_B
+Fra:1 Mem:82.50M (Peak 280.22M) | Time:497826:56:15.16 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_containers_D
+Fra:1 Mem:82.54M (Peak 280.22M) | Time:497826:56:15.16 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_lights
+Fra:1 Mem:82.58M (Peak 280.22M) | Time:497826:56:15.16 | Mem:0.00M, Peak:0.00M | Scene | Initializing
+Fra:1 Mem:82.57M (Peak 280.22M) | Time:497826:56:15.16 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading cantina_props_atlas
+Fra:1 Mem:82.43M (Peak 280.22M) | Time:497826:56:20.09 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_pot_large
+Fra:1 Mem:82.45M (Peak 280.22M) | Time:497826:56:20.09 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_food_dinner
+Fra:1 Mem:82.47M (Peak 280.22M) | Time:497826:56:20.09 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_menu
+Fra:1 Mem:82.47M (Peak 280.22M) | Time:497826:56:20.09 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_jar_C_medium
+Fra:1 Mem:82.48M (Peak 280.22M) | Time:497826:56:20.09 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_jar_A_large
+Fra:1 Mem:82.50M (Peak 280.22M) | Time:497826:56:20.09 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_lights
+Fra:1 Mem:82.52M (Peak 280.22M) | Time:497826:56:20.09 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_containers_D
+Fra:1 Mem:82.54M (Peak 280.22M) | Time:497826:56:20.09 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_containers_B
+Fra:1 Mem:82.57M (Peak 280.22M) | Time:497826:56:20.09 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_cargo_A_stacked
+Fra:1 Mem:82.57M (Peak 280.22M) | Time:497826:56:20.09 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_cargo_A
+Fra:1 Mem:82.58M (Peak 280.22M) | Time:497826:56:20.09 | Mem:0.00M, Peak:0.00M | Scene | Initializing
+Fra:1 Mem:82.58M (Peak 280.22M) | Time:497826:56:20.09 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading cantina_props_atlas
+Fra:1 Mem:82.43M (Peak 280.22M) | Time:497826:56:23.75 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_cargo_A
+Fra:1 Mem:82.43M (Peak 280.22M) | Time:497826:56:23.75 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_containers_B
+Fra:1 Mem:82.44M (Peak 280.22M) | Time:497826:56:23.75 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_jar_A_large
+Fra:1 Mem:82.46M (Peak 280.22M) | Time:497826:56:23.75 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_jar_C_medium
+Fra:1 Mem:82.47M (Peak 280.22M) | Time:497826:56:23.75 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_menu
+Fra:1 Mem:82.48M (Peak 280.22M) | Time:497826:56:23.75 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_food_dinner
+Fra:1 Mem:82.58M (Peak 280.22M) | Time:497826:56:23.75 | Mem:0.00M, Peak:0.00M | Scene | Initializing
+Fra:1 Mem:82.58M (Peak 280.22M) | Time:497826:56:23.75 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading cantina_props_atlas
+Fra:1 Mem:82.42M (Peak 280.22M) | Time:497826:56:26.90 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_cargo_A
+Fra:1 Mem:82.42M (Peak 280.22M) | Time:497826:56:26.90 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_pot_large
+Fra:1 Mem:82.45M (Peak 280.22M) | Time:497826:56:26.90 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_cargo_A_stacked
+Fra:1 Mem:82.45M (Peak 280.22M) | Time:497826:56:26.90 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_containers_B
+Fra:1 Mem:82.45M (Peak 280.22M) | Time:497826:56:26.90 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_menu
+Fra:1 Mem:82.57M (Peak 280.22M) | Time:497826:56:26.90 | Mem:0.00M, Peak:0.00M | Scene | Initializing
+Fra:1 Mem:82.57M (Peak 280.22M) | Time:497826:56:26.90 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading cantina_props_atlas
+Fra:1 Mem:82.42M (Peak 280.22M) | Time:497826:56:29.77 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_pot_large
+Fra:1 Mem:82.44M (Peak 280.22M) | Time:497826:56:29.77 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_food_dinner
+Fra:1 Mem:82.47M (Peak 280.22M) | Time:497826:56:29.77 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_cargo_A
+Fra:1 Mem:82.47M (Peak 280.22M) | Time:497826:56:29.77 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_menu
+Fra:1 Mem:82.47M (Peak 280.22M) | Time:497826:56:29.77 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_cargo_A_stacked
+Fra:1 Mem:82.48M (Peak 280.22M) | Time:497826:56:29.77 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_jar_C_medium
+Fra:1 Mem:82.49M (Peak 280.22M) | Time:497826:56:29.77 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_jar_A_large
+Fra:1 Mem:82.51M (Peak 280.22M) | Time:497826:56:29.77 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_containers_B
+Fra:1 Mem:82.54M (Peak 280.22M) | Time:497826:56:29.77 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_lights
+Fra:1 Mem:82.56M (Peak 280.22M) | Time:497826:56:29.77 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_containers_D
+Fra:1 Mem:82.57M (Peak 280.22M) | Time:497826:56:29.77 | Mem:0.00M, Peak:0.00M | Scene | Initializing
+Fra:1 Mem:82.57M (Peak 280.22M) | Time:497826:56:29.77 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading cantina_props_atlas
+Fra:1 Mem:82.43M (Peak 280.22M) | Time:497826:56:33.08 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_cargo_A
+Fra:1 Mem:82.44M (Peak 280.22M) | Time:497826:56:33.08 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_cargo_A_stacked
+Fra:1 Mem:82.45M (Peak 280.22M) | Time:497826:56:33.08 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_containers_B
+Fra:1 Mem:82.47M (Peak 280.22M) | Time:497826:56:33.08 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_containers_D
+Fra:1 Mem:82.50M (Peak 280.22M) | Time:497826:56:33.08 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_lights
+Fra:1 Mem:82.52M (Peak 280.22M) | Time:497826:56:33.08 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_jar_A_large
+Fra:1 Mem:82.53M (Peak 280.22M) | Time:497826:56:33.09 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_jar_C_medium
+Fra:1 Mem:82.54M (Peak 280.22M) | Time:497826:56:33.09 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_menu
+Fra:1 Mem:82.55M (Peak 280.22M) | Time:497826:56:33.09 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_food_dinner
+Fra:1 Mem:82.59M (Peak 280.22M) | Time:497826:56:33.09 | Mem:0.00M, Peak:0.00M | Scene | Initializing
+Fra:1 Mem:82.58M (Peak 280.22M) | Time:497826:56:33.09 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading cantina_props_atlas
+Fra:1 Mem:82.43M (Peak 280.22M) | Time:497826:56:36.85 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_pot_large
+Fra:1 Mem:82.45M (Peak 280.22M) | Time:497826:56:36.85 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_food_dinner
+Fra:1 Mem:82.47M (Peak 280.22M) | Time:497826:56:36.85 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_menu
+Fra:1 Mem:82.48M (Peak 280.22M) | Time:497826:56:36.85 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_jar_C_medium
+Fra:1 Mem:82.49M (Peak 280.22M) | Time:497826:56:36.85 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_jar_A_large
+Fra:1 Mem:82.50M (Peak 280.22M) | Time:497826:56:36.85 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_lights
+Fra:1 Mem:82.52M (Peak 280.22M) | Time:497826:56:36.85 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_containers_D
+Fra:1 Mem:82.55M (Peak 280.22M) | Time:497826:56:36.85 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_containers_B
+Fra:1 Mem:82.57M (Peak 280.22M) | Time:497826:56:36.85 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_cargo_A_stacked
+Fra:1 Mem:82.58M (Peak 280.22M) | Time:497826:56:36.85 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | cantina_prop_cargo_A
+Fra:1 Mem:82.59M (Peak 280.22M) | Time:497826:56:36.85 | Mem:0.00M, Peak:0.00M | Scene | Initializing
+Fra:1 Mem:82.58M (Peak 280.22M) | Time:497826:56:36.85 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading cantina_props_atlas
+
+PIECE {"file": "cantina_booth.glb", "name": "Curved oxblood-leather booth (3-4), 1.0 m walnut/brass table, amber pendant", "scale": 1.0, "lod1": "cantina_booth_lod1.glb", "dims_mm": {"x": 3194.6, "y": 2500.0, "z": 2628.5}, "tris": 1068, "tris_lod1": 564, "bytes": 76600, "bytes_lod1": 73672, "draws": 2, "materials": ["cantina_booth_atlas", "cantina_glow_amber"], "unlit_baked": true, "room": "cantina", "method": "procedural+CC0 PBR bake", "date": "2026-10-16T11:55:55-07:00", "note": "opening faces +Z; rotate toward ent center"}
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+11:56:42 | INFO: Starting glTF 2.0 export
+11:56:42 | INFO: Extracting primitive: Cube
+11:56:42 | INFO: Primitives created: 1
+11:56:42 | INFO: Draco encoder: Encoding mesh cantina_prop_cargo_A.
+11:56:42 | INFO: Finished glTF 2.0 export in 0.014647960662841797 s
+
+11:56:42 | INFO: Starting glTF 2.0 export
+11:56:42 | INFO: Extracting primitive: Cube
+11:56:42 | INFO: Primitives created: 1
+11:56:42 | INFO: Draco encoder: Encoding mesh cantina_prop_cargo_A.
+11:56:42 | INFO: Finished glTF 2.0 export in 0.005936145782470703 s
+
+PIECE {"file": "cantina_prop_cargo_A.glb", "name": "Cantina prop: Walnut cargo crate, steel corners", "scale": 1.0, "lod1": "cantina_prop_cargo_A_lod1.glb", "dims_mm": {"x": 710.0, "y": 520.0, "z": 515.0}, "tris": 72, "tris_lod1": 72, "bytes": 102284, "bytes_lod1": 102284, "draws": 1, "materials": ["cantina_props_atlas"], "unlit_baked": true, "room": "cantina", "method": "procedural+CC0 PBR bake", "date": "2026-10-16T11:56:42-07:00", "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)"}
+11:56:42 | INFO: Starting glTF 2.0 export
+11:56:42 | INFO: Extracting primitive: Cube.006
+11:56:42 | INFO: Primitives created: 1
+11:56:42 | INFO: Draco encoder: Encoding mesh cantina_prop_cargo_A_stacked.
+11:56:42 | INFO: Finished glTF 2.0 export in 0.007895231246948242 s
+
+11:56:42 | INFO: Starting glTF 2.0 export
+11:56:42 | INFO: Extracting primitive: Cube.006
+11:56:42 | INFO: Primitives created: 1
+11:56:42 | INFO: Draco encoder: Encoding mesh cantina_prop_cargo_A_stacked.
+11:56:42 | INFO: Finished glTF 2.0 export in 0.005706310272216797 s
+
+PIECE {"file": "cantina_prop_cargo_A_stacked.glb", "name": "Cantina prop: Stacked walnut crates", "scale": 1.0, "lod1": "cantina_prop_cargo_A_stacked_lod1.glb", "dims_mm": {"x": 720.0, "y": 975.0, "z": 520.0}, "tris": 48, "tris_lod1": 48, "bytes": 102184, "bytes_lod1": 102184, "draws": 1, "materials": ["cantina_props_atlas"], "unlit_baked": true, "room": "cantina", "method": "procedural+CC0 PBR bake", "date": "2026-10-16T11:56:42-07:00", "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)"}
+11:56:42 | INFO: Starting glTF 2.0 export
+11:56:42 | INFO: Extracting primitive: Cylinder
+11:56:42 | INFO: Primitives created: 1
+11:56:42 | INFO: Draco encoder: Encoding mesh cantina_prop_containers_B.
+11:56:42 | INFO: Finished glTF 2.0 export in 0.008463859558105469 s
+
+11:56:42 | INFO: Starting glTF 2.0 export
+11:56:42 | INFO: Extracting primitive: Cylinder
+11:56:42 | INFO: Primitives created: 1
+11:56:42 | INFO: Draco encoder: Encoding mesh cantina_prop_containers_B.
+11:56:42 | INFO: Finished glTF 2.0 export in 0.006876707077026367 s
+
+PIECE {"file": "cantina_prop_containers_B.glb", "name": "Cantina prop: Steel fuel canisters x3", "scale": 1.0, "lod1": "cantina_prop_containers_B_lod1.glb", "dims_mm": {"x": 754.0, "y": 630.0, "z": 240.0}, "tris": 264, "tris_lod1": 132, "bytes": 103800, "bytes_lod1": 103544, "draws": 1, "materials": ["cantina_props_atlas"], "unlit_baked": true, "room": "cantina", "method": "procedural+CC0 PBR bake", "date": "2026-10-16T11:56:42-07:00", "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)"}
+11:56:42 | INFO: Starting glTF 2.0 export
+11:56:42 | INFO: Extracting primitive: l
+11:56:42 | INFO: Primitives created: 1
+11:56:42 | INFO: Draco encoder: Encoding mesh cantina_prop_containers_D.
+11:56:42 | INFO: Finished glTF 2.0 export in 0.003774404525756836 s
+
+11:56:42 | INFO: Starting glTF 2.0 export
+11:56:42 | INFO: Extracting primitive: l
+11:56:42 | INFO: Primitives created: 1
+11:56:42 | INFO: Draco encoder: Encoding mesh cantina_prop_containers_D.
+11:56:42 | INFO: Finished glTF 2.0 export in 0.005570173263549805 s
+
+PIECE {"file": "cantina_prop_containers_D.glb", "name": "Cantina prop: Walnut keg, brass bands", "scale": 1.0, "lod1": "cantina_prop_containers_D_lod1.glb", "dims_mm": {"x": 460.0, "y": 760.0, "z": 448.5}, "tris": 240, "tris_lod1": 120, "bytes": 103728, "bytes_lod1": 103080, "draws": 1, "materials": ["cantina_props_atlas"], "unlit_baked": true, "room": "cantina", "method": "procedural+CC0 PBR bake", "date": "2026-10-16T11:56:42-07:00", "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)"}
+11:56:42 | INFO: Starting glTF 2.0 export
+11:56:42 | INFO: Extracting primitive: Cylinder.009
+11:56:42 | INFO: Primitives created: 1
+11:56:42 | INFO: Draco encoder: Encoding mesh cantina_prop_lights.
+11:56:42 | INFO: Finished glTF 2.0 export in 0.003824949264526367 s
+
+11:56:42 | INFO: Starting glTF 2.0 export
+11:56:42 | INFO: Extracting primitive: Cylinder.009
+11:56:42 | INFO: Primitives created: 1
+11:56:42 | INFO: Draco encoder: Encoding mesh cantina_prop_lights.
+11:56:43 | INFO: Finished glTF 2.0 export in 0.14101505279541016 s
+
+PIECE {"file": "cantina_prop_lights.glb", "name": "Cantina prop: Brass floor lamp", "scale": 1.0, "lod1": "cantina_prop_lights_lod1.glb", "dims_mm": {"x": 360.0, "y": 1350.0, "z": 360.0}, "tris": 212, "tris_lod1": 106, "bytes": 103296, "bytes_lod1": 102564, "draws": 1, "materials": ["cantina_props_atlas"], "unlit_baked": true, "room": "cantina", "method": "procedural+CC0 PBR bake", "date": "2026-10-16T11:56:43-07:00", "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)"}
+11:56:43 | INFO: Starting glTF 2.0 export
+11:56:43 | INFO: Extracting primitive: l.002
+11:56:43 | INFO: Primitives created: 1
+11:56:43 | INFO: Draco encoder: Encoding mesh cantina_prop_jar_A_large.
+11:56:43 | INFO: Finished glTF 2.0 export in 0.0038154125213623047 s
+
+11:56:43 | INFO: Starting glTF 2.0 export
+11:56:43 | INFO: Extracting primitive: l.002
+11:56:43 | INFO: Primitives created: 1
+11:56:43 | INFO: Draco encoder: Encoding mesh cantina_prop_jar_A_large.
+11:56:43 | INFO: Finished glTF 2.0 export in 0.003175497055053711 s
+
+PIECE {"file": "cantina_prop_jar_A_large.glb", "name": "Cantina prop: Amber glass jar", "scale": 1.0, "lod1": "cantina_prop_jar_A_large_lod1.glb", "dims_mm": {"x": 160.0, "y": 265.0, "z": 160.0}, "tris": 160, "tris_lod1": 80, "bytes": 102976, "bytes_lod1": 102480, "draws": 1, "materials": ["cantina_props_atlas"], "unlit_baked": true, "room": "cantina", "method": "procedural+CC0 PBR bake", "date": "2026-10-16T11:56:43-07:00", "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)"}
+11:56:43 | INFO: Starting glTF 2.0 export
+11:56:43 | INFO: Extracting primitive: l.003
+11:56:43 | INFO: Primitives created: 1
+11:56:43 | INFO: Draco encoder: Encoding mesh cantina_prop_jar_C_medium.
+11:56:43 | INFO: Finished glTF 2.0 export in 0.002960681915283203 s
+
+11:56:43 | INFO: Starting glTF 2.0 export
+11:56:43 | INFO: Extracting primitive: l.003
+11:56:43 | INFO: Primitives created: 1
+11:56:43 | INFO: Draco encoder: Encoding mesh cantina_prop_jar_C_medium.
+11:56:43 | INFO: Finished glTF 2.0 export in 0.003114461898803711 s
+
+PIECE {"file": "cantina_prop_jar_C_medium.glb", "name": "Cantina prop: Dark glass bottle trio", "scale": 1.0, "lod1": "cantina_prop_jar_C_medium_lod1.glb", "dims_mm": {"x": 150.0, "y": 280.0, "z": 70.0}, "tris": 228, "tris_lod1": 114, "bytes": 103172, "bytes_lod1": 102840, "draws": 1, "materials": ["cantina_props_atlas"], "unlit_baked": true, "room": "cantina", "method": "procedural+CC0 PBR bake", "date": "2026-10-16T11:56:43-07:00", "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)"}
+11:56:43 | INFO: Starting glTF 2.0 export
+11:56:43 | INFO: Extracting primitive: Cube.010
+11:56:43 | INFO: Primitives created: 1
+11:56:43 | INFO: Draco encoder: Encoding mesh cantina_prop_menu.
+11:56:43 | INFO: Finished glTF 2.0 export in 0.002465963363647461 s
+
+11:56:43 | INFO: Starting glTF 2.0 export
+11:56:43 | INFO: Extracting primitive: Cube.010
+11:56:43 | INFO: Primitives created: 1
+11:56:43 | INFO: Draco encoder: Encoding mesh cantina_prop_menu.
+11:56:43 | INFO: Finished glTF 2.0 export in 0.002400636672973633 s
+
+PIECE {"file": "cantina_prop_menu.glb", "name": "Cantina prop: Brass/walnut menu stand", "scale": 1.0, "lod1": "cantina_prop_menu_lod1.glb", "dims_mm": {"x": 160.0, "y": 250.0, "z": 100.0}, "tris": 36, "tris_lod1": 36, "bytes": 101988, "bytes_lod1": 101988, "draws": 1, "materials": ["cantina_props_atlas"], "unlit_baked": true, "room": "cantina", "method": "procedural+CC0 PBR bake", "date": "2026-10-16T11:56:43-07:00", "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)"}
+11:56:43 | INFO: Starting glTF 2.0 export
+11:56:43 | INFO: Extracting primitive: Cylinder.012
+11:56:43 | INFO: Primitives created: 1
+11:56:43 | INFO: Draco encoder: Encoding mesh cantina_prop_food_dinner.
+11:56:43 | INFO: Finished glTF 2.0 export in 0.003255605697631836 s
+
+11:56:43 | INFO: Starting glTF 2.0 export
+11:56:43 | INFO: Extracting primitive: Cylinder.012
+11:56:43 | INFO: Primitives created: 1
+11:56:43 | INFO: Draco encoder: Encoding mesh cantina_prop_food_dinner.
+11:56:43 | INFO: Finished glTF 2.0 export in 0.0026268959045410156 s
+
+PIECE {"file": "cantina_prop_food_dinner.glb", "name": "Cantina prop: Brass cloche on plate", "scale": 1.0, "lod1": "cantina_prop_food_dinner_lod1.glb", "dims_mm": {"x": 320.0, "y": 175.0, "z": 320.0}, "tris": 228, "tris_lod1": 114, "bytes": 103644, "bytes_lod1": 102796, "draws": 1, "materials": ["cantina_props_atlas"], "unlit_baked": true, "room": "cantina", "method": "procedural+CC0 PBR bake", "date": "2026-10-16T11:56:43-07:00", "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)"}
+11:56:43 | INFO: Starting glTF 2.0 export
+11:56:43 | INFO: Extracting primitive: l.007
+11:56:43 | INFO: Primitives created: 1
+11:56:43 | INFO: Draco encoder: Encoding mesh cantina_prop_pot_large.
+11:56:43 | INFO: Finished glTF 2.0 export in 0.0032837390899658203 s
+
+11:56:43 | INFO: Starting glTF 2.0 export
+11:56:43 | WARNING: Mesh l.007 is not valid, and may be exported wrongly
+11:56:43 | INFO: Extracting primitive: l.007
+11:56:43 | INFO: Primitives created: 1
+11:56:43 | INFO: Draco encoder: Encoding mesh cantina_prop_pot_large.
+11:56:43 | INFO: Finished glTF 2.0 export in 0.002618551254272461 s
+
+PIECE {"file": "cantina_prop_pot_large.glb", "name": "Cantina prop: Brass samovar", "scale": 1.0, "lod1": "cantina_prop_pot_large_lod1.glb", "dims_mm": {"x": 350.0, "y": 340.0, "z": 292.5}, "tris": 184, "tris_lod1": 92, "bytes": 103096, "bytes_lod1": 102352, "draws": 1, "materials": ["cantina_props_atlas"], "unlit_baked": true, "room": "cantina", "method": "procedural+CC0 PBR bake", "date": "2026-10-16T11:56:43-07:00", "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)"}
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 144 vertices, 216 indices, raw size: 5040, encoded size: 950, compression ratio: 5.31
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 144 vertices, 216 indices, raw size: 5040, encoded size: 950, compression ratio: 5.31
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 96 vertices, 144 indices, raw size: 3360, encoded size: 838, compression ratio: 4.01
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 96 vertices, 144 indices, raw size: 3360, encoded size: 838, compression ratio: 4.01
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 432 vertices, 792 indices, raw size: 15408, encoded size: 2454, compression ratio: 6.28
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 266 vertices, 396 indices, raw size: 9304, encoded size: 2199, compression ratio: 4.23
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 326 vertices, 720 indices, raw size: 11872, encoded size: 2389, compression ratio: 4.97
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 172 vertices, 360 indices, raw size: 6224, encoded size: 1717, compression ratio: 3.62
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 248 vertices, 636 indices, raw size: 9208, encoded size: 1953, compression ratio: 4.71
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 122 vertices, 318 indices, raw size: 4540, encoded size: 1224, compression ratio: 3.71
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 188 vertices, 480 indices, raw size: 6976, encoded size: 1635, compression ratio: 4.27
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 104 vertices, 240 indices, raw size: 3776, encoded size: 1115, compression ratio: 3.39
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 245 vertices, 684 indices, raw size: 9208, encoded size: 1831, compression ratio: 5.03
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 152 vertices, 342 indices, raw size: 5420, encoded size: 1497, compression ratio: 3.62
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 72 vertices, 108 indices, raw size: 2520, encoded size: 672, compression ratio: 3.75
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 72 vertices, 108 indices, raw size: 2520, encoded size: 672, compression ratio: 3.75
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 280 vertices, 684 indices, raw size: 10328, encoded size: 2293, compression ratio: 4.50
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 134 vertices, 342 indices, raw size: 4972, encoded size: 1445, compression ratio: 3.44
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 178 vertices, 552 indices, raw size: 6800, encoded size: 1755, compression ratio: 3.87
+DracoEncoder | Preserve triangle order: no
+DracoEncoder | Encoded 90 vertices, 273 indices, raw size: 3426, encoded size: 996, compression ratio: 3.44
+
+Blender quit
+EXIT 0

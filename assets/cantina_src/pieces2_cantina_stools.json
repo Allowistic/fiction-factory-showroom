@@ -1,0 +1,26 @@
+[
+ {
+  "file": "cantina_stools.glb",
+  "name": "4 bar stools 0.75 m (oxblood leather, brass), on bar arc",
+  "scale": 1.0,
+  "lod1": "cantina_stools_lod1.glb",
+  "dims_mm": {
+   "x": 2342.6,
+   "y": 765.0,
+   "z": 465.4
+  },
+  "tris": 1168,
+  "tris_lod1": 584,
+  "bytes": 40764,
+  "bytes_lod1": 37844,
+  "draws": 1,
+  "materials": [
+   "cantina_stools_atlas"
+  ],
+  "unlit_baked": true,
+  "room": "cantina",
+  "method": "procedural+CC0 PBR bake",
+  "date": "2026-10-16T11:52:32-07:00",
+  "note": "same transform as cantina_bar"
+ }
+]

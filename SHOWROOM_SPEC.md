@@ -54,3 +54,38 @@ Return path: the loop ends back near the pit, not the door, so people stay.
 ## Next
 - Nova can tighten the visual direction (palette and light mood) if Vincent wants.
 - No real dimensions are needed. These are design sizes, so Jules can scale ±20% to taste.
+
+## Cantina (sci-fi bar room off the hall), added 2026-10-16
+A separate room with a warm, worn sci-fi cantina feel: dark and intimate, lit by the bar and the entertainment center. It still sits in the same 70s/fine-art family as the hall (amber light, rust and brass), just pushed toward space-port.
+
+### Entertainment center (anchor)
+- Marcos Bini entertainment center, modeled by Clay from /workspace/campbell-creek/ent-center/. From parts.json the overall extents come out to about 4.07 m wide, 0.37 m deep, and 2.17 m tall (the bottom of the model sits about 0.38 m up, so the full height may be about 2.55 m). Clay should confirm the final W x D x H; the room below leaves 1 m of slack.
+- Placement: centered on the cantina's far wall (wall opposite the entry), flush to the wall. It's the first thing seen when you come through the door, the room's "altar." Its built-in lighting/openings glow; it's the brightest object in the room after the bar back.
+
+### Room
+- Size: 8 W x 6.5 D, ceiling 3.2 m (lower than the hall, for intimacy). Slightly rounded or chamfered corners, with a domed or ribbed ceiling (sci-fi hull feel).
+- Floor: dark metal-and-wood deck. Walls: deep rust/charcoal with brass ribs every 1.2 m.
+
+### Doorway and draw budget
+- Location: off the end of the exhibit walk, on the hall's back wall near the builds wall (before the return to the pit), so the cantina is the "bonus room" at the end of the tour.
+- Form: an angled dogleg passage, 1.2 m wide x about 3 m long with one 90° turn, plus a round "airlock" arch (2.2 m tall) at each end. The turn blocks any straight line between hall and cantina, so only one room needs to render at a time; swap or cull rooms at the midpoint of the passage.
+- Passage lighting: a dim amber strip at floor level and a single glowing panel at the turn. It's a mood shift, hall to cantina.
+
+### Sightline through the door
+- Stepping out of the dogleg into the cantina: the entertainment center dead ahead (about 6 m away), centered and glowing. The bar curves in from the left, the booth sits to the right. Nothing taller than 1.1 m between the door and the entertainment center, so the view stays clear.
+
+### Bar and seating (2–5 guests)
+- Bar: a curved (arc) bar along the left wall, about 4 m along its front, 1.05 m high, 0.6 m deep top. Glowing underside (amber or teal LED) and a brass footrail. Back bar on the left wall: glowing bottle shelves plus a small screen or porthole.
+- Stools: 4, 0.75 m tall, spaced 0.65 m apart along the arc.
+- Booth: a curved booth on the right side, opposite the bar, in rust velvet, seats 3–4 around a round table 1.0 m across. Faces the entertainment center at an angle.
+- Standing spot: a 2 x 2 m clear zone between the bar and the booth, for a host and guests to mingle. Teleport target here.
+- Clear paths: 1.5 m min from the door to the bar, the booth, and the entertainment center.
+
+### Light
+- Very dark base (about 20% ambient). Light comes from the bar underside glow, the back-bar shelves, the entertainment center's own lighting, and a low pendant over the booth table.
+- Accent color is teal against the amber, used sparingly: the back-bar glow and the ceiling ribs only.
+
+### Coordinates (cantina-local, meters)
+- Origin is the cantina door (the exit of the dogleg), with +Z pointing into the room.
+- Entertainment center: center at [0, 0, 6.3], facing -Z.
+- Bar arc: from [-3.6, 0, 1.5] to [-2.0, 0, 5.0]. Booth center: [2.6, 0, 3.6]. Standing zone: [0, 0, 3.2].

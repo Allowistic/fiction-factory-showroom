@@ -1,0 +1,52 @@
+[
+ {
+  "file": "cantina_back_bar.glb",
+  "name": "Cantina back bar: walnut, brass shelves, varied bottles, amber backlight, porthole screen",
+  "scale": 1.0,
+  "lod1": "cantina_back_bar_lod1.glb",
+  "dims_mm": {
+   "x": 3300.0,
+   "y": 2780.0,
+   "z": 500.0
+  },
+  "tris": 3688,
+  "tris_lod1": 1900,
+  "bytes": 175000,
+  "bytes_lod1": 170412,
+  "draws": 3,
+  "materials": [
+   "cantina_back_bar_atlas",
+   "cantina_glow_amber",
+   "cantina_glow_amber_screen"
+  ],
+  "unlit_baked": true,
+  "room": "cantina",
+  "method": "procedural+CC0 PBR bake",
+  "date": "2026-10-16T12:17:19-07:00"
+ },
+ {
+  "file": "cantina_booth.glb",
+  "name": "Curved oxblood-leather booth (3-4), 1.0 m walnut/brass table, amber pendant",
+  "scale": 1.0,
+  "lod1": "cantina_booth_lod1.glb",
+  "dims_mm": {
+   "x": 3194.6,
+   "y": 2500.0,
+   "z": 2628.5
+  },
+  "tris": 1068,
+  "tris_lod1": 564,
+  "bytes": 76164,
+  "bytes_lod1": 73236,
+  "draws": 2,
+  "materials": [
+   "cantina_booth_atlas",
+   "cantina_glow_amber"
+  ],
+  "unlit_baked": true,
+  "room": "cantina",
+  "method": "procedural+CC0 PBR bake",
+  "date": "2026-10-16T12:17:33-07:00",
+  "note": "opening faces +Z; rotate toward ent center"
+ }
+]

@@ -1,0 +1,26 @@
+[
+ {
+  "file": "cantina_back_bar.glb",
+  "name": "Cantina back bar: walnut, brass shelves, varied bottles, amber backlight, porthole screen",
+  "scale": 1.0,
+  "lod1": "cantina_back_bar_lod1.glb",
+  "dims_mm": {
+   "x": 3300.0,
+   "y": 2530.0,
+   "z": 500.0
+  },
+  "tris": 3688,
+  "tris_lod1": 1900,
+  "bytes": 167796,
+  "bytes_lod1": 163316,
+  "draws": 2,
+  "materials": [
+   "cantina_back_bar_atlas",
+   "cantina_glow_backlight"
+  ],
+  "unlit_baked": true,
+  "room": "cantina",
+  "method": "procedural+CC0 PBR bake",
+  "date": "2026-10-16T13:07:17-07:00"
+ }
+]

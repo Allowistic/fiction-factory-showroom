@@ -1,0 +1,232 @@
+[
+ {
+  "file": "cantina_prop_cargo_A.glb",
+  "name": "Cantina prop: Cargo crate",
+  "scale": 1.0,
+  "lod1": "cantina_prop_cargo_A_lod1.glb",
+  "dims_mm": {
+   "x": 500.0,
+   "y": 520.0,
+   "z": 520.5
+  },
+  "tris": 128,
+  "tris_lod1": 64,
+  "bytes": 27296,
+  "bytes_lod1": 27032,
+  "draws": 1,
+  "materials": [
+   "spacebits_texture"
+  ],
+  "room": "cantina",
+  "source": "KayKit Space Base Bits 1.0 / cargo_A.gltf (CC0, Kay Lousberg)",
+  "license": "CC0",
+  "date": "2026-10-16T11:49:35-07:00"
+ },
+ {
+  "file": "cantina_prop_cargo_A_stacked.glb",
+  "name": "Cantina prop: Stacked cargo crates",
+  "scale": 1.0,
+  "lod1": "cantina_prop_cargo_A_stacked_lod1.glb",
+  "dims_mm": {
+   "x": 1020.5,
+   "y": 1020.5,
+   "z": 1020.5
+  },
+  "tris": 488,
+  "tris_lod1": 244,
+  "bytes": 30208,
+  "bytes_lod1": 29508,
+  "draws": 1,
+  "materials": [
+   "spacebits_texture"
+  ],
+  "room": "cantina",
+  "source": "KayKit Space Base Bits 1.0 / cargo_A_stacked.gltf (CC0, Kay Lousberg)",
+  "license": "CC0",
+  "date": "2026-10-16T11:49:35-07:00"
+ },
+ {
+  "file": "cantina_prop_containers_B.glb",
+  "name": "Cantina prop: Fuel containers",
+  "scale": 1.0,
+  "lod1": "cantina_prop_containers_B_lod1.glb",
+  "dims_mm": {
+   "x": 500.0,
+   "y": 200.0,
+   "z": 500.0
+  },
+  "tris": 280,
+  "tris_lod1": 140,
+  "bytes": 28560,
+  "bytes_lod1": 28276,
+  "draws": 1,
+  "materials": [
+   "spacebits_texture"
+  ],
+  "room": "cantina",
+  "source": "KayKit Space Base Bits 1.0 / containers_B.gltf (CC0, Kay Lousberg)",
+  "license": "CC0",
+  "date": "2026-10-16T11:49:36-07:00"
+ },
+ {
+  "file": "cantina_prop_containers_D.glb",
+  "name": "Cantina prop: Container cluster",
+  "scale": 1.0,
+  "lod1": "cantina_prop_containers_D_lod1.glb",
+  "dims_mm": {
+   "x": 500.0,
+   "y": 200.0,
+   "z": 500.0
+  },
+  "tris": 280,
+  "tris_lod1": 140,
+  "bytes": 28568,
+  "bytes_lod1": 28284,
+  "draws": 1,
+  "materials": [
+   "spacebits_texture"
+  ],
+  "room": "cantina",
+  "source": "KayKit Space Base Bits 1.0 / containers_D.gltf (CC0, Kay Lousberg)",
+  "license": "CC0",
+  "date": "2026-10-16T11:49:36-07:00"
+ },
+ {
+  "file": "cantina_prop_lights.glb",
+  "name": "Cantina prop: Floor light post",
+  "scale": 1.0,
+  "lod1": "cantina_prop_lights_lod1.glb",
+  "dims_mm": {
+   "x": 680.0,
+   "y": 998.4,
+   "z": 680.0
+  },
+  "tris": 356,
+  "tris_lod1": 178,
+  "bytes": 30328,
+  "bytes_lod1": 29040,
+  "draws": 1,
+  "materials": [
+   "spacebits_texture"
+  ],
+  "room": "cantina",
+  "source": "KayKit Space Base Bits 1.0 / lights.gltf (CC0, Kay Lousberg)",
+  "license": "CC0",
+  "date": "2026-10-16T11:49:36-07:00"
+ },
+ {
+  "file": "cantina_prop_jar_A_large.glb",
+  "name": "Cantina prop: Large jar (bar-top)",
+  "scale": 1.0,
+  "lod1": "cantina_prop_jar_A_large_lod1.glb",
+  "dims_mm": {
+   "x": 165.0,
+   "y": 247.5,
+   "z": 165.0
+  },
+  "tris": 168,
+  "tris_lod1": 84,
+  "bytes": 18176,
+  "bytes_lod1": 17584,
+  "draws": 1,
+  "materials": [
+   "restaurant"
+  ],
+  "room": "cantina",
+  "source": "KayKit Restaurant Bits 1.0 / jar_A_large.gltf (CC0, Kay Lousberg)",
+  "license": "CC0",
+  "date": "2026-10-16T11:49:36-07:00"
+ },
+ {
+  "file": "cantina_prop_jar_C_medium.glb",
+  "name": "Cantina prop: Medium jar (bar-top)",
+  "scale": 1.0,
+  "lod1": "cantina_prop_jar_C_medium_lod1.glb",
+  "dims_mm": {
+   "x": 165.0,
+   "y": 214.5,
+   "z": 165.0
+  },
+  "tris": 188,
+  "tris_lod1": 94,
+  "bytes": 18392,
+  "bytes_lod1": 17712,
+  "draws": 1,
+  "materials": [
+   "restaurant"
+  ],
+  "room": "cantina",
+  "source": "KayKit Restaurant Bits 1.0 / jar_C_medium.gltf (CC0, Kay Lousberg)",
+  "license": "CC0",
+  "date": "2026-10-16T11:49:36-07:00"
+ },
+ {
+  "file": "cantina_prop_menu.glb",
+  "name": "Cantina prop: Menu stand",
+  "scale": 1.0,
+  "lod1": "cantina_prop_menu_lod1.glb",
+  "dims_mm": {
+   "x": 165.0,
+   "y": 264.0,
+   "z": 99.0
+  },
+  "tris": 108,
+  "tris_lod1": 54,
+  "bytes": 18028,
+  "bytes_lod1": 17544,
+  "draws": 1,
+  "materials": [
+   "restaurant"
+  ],
+  "room": "cantina",
+  "source": "KayKit Restaurant Bits 1.0 / menu.gltf (CC0, Kay Lousberg)",
+  "license": "CC0",
+  "date": "2026-10-16T11:49:36-07:00"
+ },
+ {
+  "file": "cantina_prop_food_dinner.glb",
+  "name": "Cantina prop: Dinner plate",
+  "scale": 1.0,
+  "lod1": "cantina_prop_food_dinner_lod1.glb",
+  "dims_mm": {
+   "x": 342.4,
+   "y": 299.6,
+   "z": 313.5
+  },
+  "tris": 1196,
+  "tris_lod1": 598,
+  "bytes": 27080,
+  "bytes_lod1": 23032,
+  "draws": 1,
+  "materials": [
+   "restaurant"
+  ],
+  "room": "cantina",
+  "source": "KayKit Restaurant Bits 1.0 / food_dinner.gltf (CC0, Kay Lousberg)",
+  "license": "CC0",
+  "date": "2026-10-16T11:49:36-07:00"
+ },
+ {
+  "file": "cantina_prop_pot_large.glb",
+  "name": "Cantina prop: Large pot (back bar)",
+  "scale": 1.0,
+  "lod1": "cantina_prop_pot_large_lod1.glb",
+  "dims_mm": {
+   "x": 660.0,
+   "y": 247.5,
+   "z": 396.0
+  },
+  "tris": 388,
+  "tris_lod1": 194,
+  "bytes": 20716,
+  "bytes_lod1": 19352,
+  "draws": 1,
+  "materials": [
+   "restaurant"
+  ],
+  "room": "cantina",
+  "source": "KayKit Restaurant Bits 1.0 / pot_large.gltf (CC0, Kay Lousberg)",
+  "license": "CC0",
+  "date": "2026-10-16T11:49:37-07:00"
+ }
+]

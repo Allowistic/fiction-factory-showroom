@@ -1,4 +1,6 @@
-# Showroom XR (v1, unpublished)
+# Showroom XR
+
+Live on GitHub Pages: https://allowistic.github.io/fiction-factory-showroom/showroom/ (repo: https://github.com/Allowistic/fiction-factory-showroom). Open it in the Quest Browser for VR.
 Imagined virtual showroom from Mira's `../SHOWROOM_SPEC.md`. Open `showroom/index.html`. The old loft is untouched at `../` (`showroom/?loft` redirects there).
 
 - `layout.js`: all design sizes, the cove polygon, plinths, `SPAWNS` (5), `GROUP_SPOTS`, `MAX_USERS = 5`. Origin = arrival, +Z forward; facing +Z, the viewer's left is +X.
@@ -32,3 +34,10 @@ u-values on the cove strip (index 0 = entry corner (4,1.5), clockwise):
 - Clay's pieces: manifest entries matching entertain/ent_center/led_strip/cantina (or `room:"cantina"`) load into the cantina. The ent center sits at local [0,0,6.3] facing the entry, and meshes named `led_strip` follow the current cove scene colour. The rest are labeled placeholders.
 - Root `index.html` redirects here; the old loft is `../loft.html` (`?loft` too).
 - Clay's cantina files load from the builds-opt manifest: entries with `room:"cantina"` in `builds[]` or `skipped[]`. The GLB URLs are cache-busted by `date`. The placement table (`CANT_PLACE`, mirrored layout) is matched by file name, and unknown files go along the side walls. At load, all baked maps are packed into one 2048 runtime atlas, giving 1 draw plus `led_strip`. lod1 is used in `?low` and XR.
+
+## 2026-10-16 QA fixes (Penny smoke report)
+- Control panel starts collapsed (☰ toggle); Camera/Photo pick under "Advanced"; "Spots" renamed "Floor rings".
+- "Look around" only on touch devices; VR hint is a small bottom-right chip.
+- Cantina TV: clickable iframe warped over the screen (lazy-loaded on first cantina visit); XR shows the baked snapshot.
+- Desktop: LED ribbon instead of 7560 instanced pixels (`?pixels` restores them); brighter desktop exposure (XR unchanged).
+- VR from the default URL swaps the HOPE board to lod1 as well as the shelf builds.

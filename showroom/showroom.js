@@ -5,7 +5,6 @@ import { VRButton } from 'three/addons/webxr/VRButton.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { CSS3DRenderer, CSS3DObject } from 'three/addons/renderers/CSS3DRenderer.js';
 import { HALL, VEST, COVE, BUILDS_WALL as BW, GATHER, PIT, WINDOW, NOOK, PLINTHS, SPAWNS, GROUP_SPOTS, MAX_USERS, coveSegments, covePerimeter, DOOR, PASSAGE, CANTINA, toCantinaWorld } from './layout.js';
 import { buildPassage, buildCantina } from './cantina.js';
 import { createState } from './state.js';
@@ -25,7 +24,8 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure
 renderer.shadowMap.enabled = false; // B5: no shadow pass at all (0 shadow draws); contact darkening is baked as AO blobs
 document.body.appendChild(renderer.domElement);
 const vrBtn = VRButton.createButton(renderer); document.body.appendChild(vrBtn);
-const fixVRText = () => { if (/NOT (AVAILABLE|SUPPORTED)/i.test(vrBtn.textContent)) { vrBtn.textContent = 'For VR, open this link in the Quest Browser'; vrBtn.style.width = '300px'; vrBtn.style.left = 'calc(50% - 150px)'; vrBtn.removeAttribute('href'); } };
+const fixVRText = () => { if (/NOT (AVAILABLE|SUPPORTED)/i.test(vrBtn.textContent)) { vrBtn.textContent = 'VR: open in Quest Browser'; vrBtn.title = 'For VR, open this link in the Quest Browser'; vrBtn.removeAttribute('href');
+  Object.assign(vrBtn.style, { left: 'auto', right: '10px', bottom: '10px', width: 'auto', padding: '5px 10px', font: '11px system-ui', opacity: '.75', borderRadius: '12px' }); } }; // P0-3: small corner chip (Enter VR on Quest keeps its normal size) // P0-3: small corner chip
 new MutationObserver(fixVRText).observe(vrBtn, { childList: true, characterData: true, subtree: true }); fixVRText();
 
 const scene = new THREE.Scene(); scene.background = new THREE.Color(0x07060a);
@@ -33,8 +33,6 @@ const camera = new THREE.PerspectiveCamera(68, innerWidth / innerHeight, 0.03, 8
 const rig = new THREE.Group(); scene.add(rig); rig.add(camera);
 const hall = new THREE.Group(); hall.name = 'hall'; scene.add(hall); // room culling: hall / passage / cantina are separate groups
 const controls = new OrbitControls(camera, renderer.domElement); controls.enableDamping = false;
-const cssR = new CSS3DRenderer(); cssR.setSize(innerWidth, innerHeight); cssR.domElement.id = 'tv-css'; Object.assign(cssR.domElement.style, { position: 'fixed', inset: '0', pointerEvents: 'none', zIndex: '1' }); document.body.appendChild(cssR.domElement);
-addEventListener('resize', () => cssR.setSize(innerWidth, innerHeight));
 addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); });
 
 // ---------- single shared state (no pose inside; see state.js) ----------
@@ -46,6 +44,7 @@ const net = { peers: null, rtt: null, poseHz: null }; // stats hook for future m
 const H = HALL.H, PIT_Y = -PIT.depth;
 const VIEWS = {
   vestibule: { p: [0, 1.6, -1.2], t: [0.5, 1.7, 10.5] },
+  hall: { p: [-1.2, 1.6, 2.4], t: [0.8, 1.4, 9.5] }, // P2: desktop spawn, already inside the lit hall
   builds: { p: [0.2, 1.65, 6.0], t: [0.2, 2.0, 10.5] },
   passage: { p: [2.75, 1.6, 9.6], t: [4.4, 1.2, 12.2] }, // from the hall side: hall arch + the dogleg turn beyond
   cantina: { p: [toCantinaWorld(0, 0.05)[0], 1.6, toCantinaWorld(0, 0.05)[1]], t: [toCantinaWorld(0, 6.3)[0], 1.0, toCantinaWorld(0, 6.3)[1]] }, // passage exit, ent center ~6 m ahead
@@ -57,7 +56,8 @@ let ceilingGroup = null;
 function setView(n) { const v = VIEWS[n]; if (!v) return; cullOverride = n === 'plan' ? 'all' : null; look.on && stopLook(); camera.position.set(...v.p); controls.target.set(...v.t); controls.update();
   if (ceilingGroup) ceilingGroup.visible = n !== 'plan'; }
 function spawnRig(i = 0) { const s = SPAWNS[i % SPAWNS.length]; rig.position.set(s.x, 0, s.z); rig.rotation.y = Math.PI + s.yaw; } // XR camera looks -Z; spawn faces +Z
-renderer.xr.addEventListener('sessionstart', () => { spawnRig(0); setLow(true); placePanel(); });
+renderer.xr.addEventListener('sessionstart', () => { spawnRig(0); setLow(true); placePanel(); applyPreset(presetNow); });
+renderer.xr.addEventListener('sessionend', () => applyPreset(presetNow));
 renderer.xr.addEventListener('sessionend', () => { rig.position.set(0, 0, 0); rig.rotation.y = 0; setLow(low); setView('vestibule'); });
 
 // ---------- textures ----------
@@ -338,6 +338,7 @@ const BWW = BW.x1 - BW.x0, BCX = (BW.x0 + BW.x1) / 2;
   gm.rotation.y = Math.PI; gm.position.set(2 * BCX, 0, 2 * BW.z - 0.016); gm.renderOrder = 3; hall.add(gm);
   pool(BCX, 0, BW.z - 1.6, 2.2, 0x6a4a30); }
 const slots = []; for (let t = 0; t < BW.tiers.length; t++) for (let i = 0; i < 3; i++) slots.push([BCX + (-1 + i) * (BWW - 0.6) / 3, BW.tiers[t], BW.z - BW.depth / 2]);
+const signSet = { full: null, lo: null }; function applySignSet() { if (signSet.full && signSet.lo) { signSet.lo.visible = lowNow; signSet.full.visible = !lowNow; } }
 const lodObjs = []; let buildsInfo = 'loading', reliefSize = null;
 function mergeByMaterial(root) { root.updateMatrixWorld(true); const inv = new THREE.Matrix4().copy(root.matrixWorld).invert(), groups = new Map();
   root.traverse(m => { if (m.isMesh && !Array.isArray(m.material)) { const k = m.material.uuid; if (!groups.has(k)) groups.set(k, []); groups.get(k).push(m); } });
@@ -407,7 +408,7 @@ function applyCantSet() { const lo = lowNow; if (cantSets.full) cantSets.full.vi
 function loadGLB(u) { return new Promise(res => loader.load(u, g => res(g.scene), undefined, () => { console.info('cantina piece missing', u); res(null); })); }
 // ---------- entertainment-center TV = web browser (bombshelldiscovery.com) ----------
 // .com 302s to .org; the .com redirect sends X-Frame-Options: sameorigin, .org sends no XFO/CSP, so the iframe loads .org directly.
-// Desktop: live iframe via CSS3DRenderer on top of the canvas. XR (no DOM in WebXR) + fallback: snapshot tv-bombshell.jpg baked into Clay's atlas (0 extra draws).
+// Desktop: live iframe warped over the screen rect (updateTV). XR (no DOM in WebXR) + fallback: snapshot tv-bombshell.jpg baked into Clay's atlas (0 extra draws).
 const TV = { url: 'https://bombshelldiscovery.org/', pos: [0.51, 1.09, 6.47], w: 1.56, h: 0.88, img: 'tv-bombshell.jpg' };
 const tvImg = new Promise(res => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = TV.img; });
 async function buildCantSet(entries, base, useLod) {
@@ -488,7 +489,7 @@ async function loadBuilds() {
   if (sign) { // warm front key on the relief (~2700K), from above and in front, no shadows
     const cy = BW.relief.bottom + BW.relief.h / 2, key = pin(BCX + 0.3, H - 0.1, BW.z - 2.6, BCX, cy, BW.z - 0.05, 5, 0.12, 0xffb46b); key.penumbra = 0.35; /* narrowed cone (0.2 -> 0.12 rad) */ key.distance = 5; } // key dimmed (9 -> 5) so the neon reads
   if (sign) loader.load(url(low && sign.lod1 ? sign.lod1 : sign.file), g => { const h = new THREE.Group(); h.position.set(BCX, BW.relief.bottom, BW.z - 0.02); h.rotation.y = Math.PI; // real size (manifest metres, scale 1): no fit-to-slot
-    const o = mergeByMaterial(g.scene); o.scale.setScalar(sign.scale || 1); o.traverse(m => { if (m.isMesh) m.material = new THREE.MeshStandardMaterial({ color: 0x120d0a, roughness: 1, metalness: 0 }); }); /* dark matte board near the alcove colour: the neon overlay carries the image */ const w = standUp(o); h.add(w); hall.add(h);
+    const o = mergeByMaterial(g.scene); o.scale.setScalar(sign.scale || 1); o.traverse(m => { if (m.isMesh) m.material = new THREE.MeshStandardMaterial({ color: 0x120d0a, roughness: 1, metalness: 0 }); }); /* dark matte board near the alcove colour: the neon overlay carries the image */ const w = standUp(o); h.add(w); signSet.full = w; if (!low && sign.lod1) loader.load(url(sign.lod1), g1 => { const o1 = mergeByMaterial(g1.scene); o1.scale.setScalar(sign.scale || 1); o1.traverse(m => { if (m.isMesh) m.material = o.children[0]?.material || new THREE.MeshStandardMaterial({ color: 0x120d0a, roughness: 1 }); }); const w1 = standUp(o1); h.add(w1); signSet.lo = w1; applySignSet(); if (lowNow) scheduleMerge(0); }, undefined, () => {}); /* F5: lod1 board for VR */ hall.add(h);
     const sz = new THREE.Box3().setFromObject(w).getSize(new THREE.Vector3()); reliefSize = [sz.x, sz.y, sz.z].map(v => +v.toFixed(3)); console.info('HOPE relief size', reliefSize);
     if (neonE) loader.load(url(neonE.file), gn => buildNeon(gn.scene, o, h, sz), undefined, () => console.info('neon missing')); }, undefined, () => {});
 }
@@ -500,7 +501,8 @@ const PRESETS = {
   night: { hemi: 0.25, cove: 0.22, win: 1.6, pins: 1, exposure: 1.05 },
   gallery: { hemi: 1.2, cove: 0.7, win: 3.0, pins: 0.8, exposure: 1.0 },
 };
-function applyPreset(k) { const p = PRESETS[k]; if (!p) return; hemi.intensity = p.hemi; renderer.toneMappingExposure = p.exposure; store.apply({ preset: k, brightness: p.cove }); }
+const DESK_EXP = 1.45, DESK_HEMI = 1.5; let presetNow = 'dusk'; // P2: brighter desktop default; XR keeps the preset as designed
+function applyPreset(k) { const p = PRESETS[k]; if (!p) return; presetNow = k; const xr = renderer.xr.isPresenting; hemi.intensity = p.hemi * (xr ? 1 : DESK_HEMI); renderer.toneMappingExposure = p.exposure * (xr ? 1 : DESK_EXP); store.apply({ preset: k, brightness: p.cove }); }
 store.subscribe(p => { if ('pins' in p || 'preset' in p) { const s = store.get(), f = (PRESETS[s.preset]?.pins ?? 1) * (s.pins ? 1 : 0); pins.forEach(o => o.s.intensity = o.I * f); }
   if ('labels' in p) ringMesh.visible = store.get().labels || renderer.xr.isPresenting; });
 
@@ -517,8 +519,15 @@ const api = {
 const overlay = initOverlay(api, { N, P });
 { const el = document.getElementById('panel'); const b = el.querySelector('b'); if (b) b.textContent = 'Showroom'; const sm = el.querySelector('small'); if (sm) sm.textContent = '(design sizes)';
   const tl = [...el.querySelectorAll('label')].find(l => /Task lights/.test(l.textContent)); if (tl) tl.lastChild.textContent = ' Pin spots';
-  const tl2 = [...el.querySelectorAll('label')].find(l => /Labels/.test(l.textContent)); if (tl2) tl2.lastChild.textContent = ' Spots';
-  const row = document.createElement('label'); row.innerHTML = `Go to <select id="go">${Object.keys(VIEWS).map(v => `<option>${v}</option>`).join('')}</select>`; el.insertBefore(row, el.querySelector('details'));
+  const tl2 = [...el.querySelectorAll('label')].find(l => /Labels/.test(l.textContent)); if (tl2) tl2.lastChild.textContent = ' Floor rings'; // P1: it toggles the floor spot rings
+  { const adv = document.createElement('details'); adv.innerHTML = '<summary><small>Advanced</small></summary>'; const r = el.querySelector('#cam')?.closest('.row'), pk = el.querySelector('#pick'); // P1: Camera/Photo pick under Advanced
+    if (r) { el.insertBefore(adv, r); adv.append(r); if (pk) adv.append(pk); } }
+  { const body = document.createElement('div'); body.id = 'panel-body'; body.style.cssText = 'display:none;flex-direction:column;gap:6px'; const head = el.querySelector('b'), sm0 = el.querySelector('small'); // P0-1: collapsible, starts collapsed
+    [...el.childNodes].filter(n => n !== head && n !== sm0).forEach(n => body.append(n)); el.append(body); sm0?.remove();
+    const tg = document.createElement('button'); tg.id = 'panel-toggle'; tg.textContent = '☰'; tg.title = 'Show controls'; tg.setAttribute('aria-expanded', 'false'); tg.style.cssText = 'padding:2px 8px;margin-left:8px';
+    const hd = document.createElement('div'); hd.style.cssText = 'display:flex;align-items:center;justify-content:space-between'; el.prepend(hd); hd.append(head, tg);
+    tg.onclick = () => { const open = body.style.display === 'none'; body.style.display = open ? 'flex' : 'none'; tg.textContent = open ? '✕' : '☰'; tg.title = open ? 'Hide controls' : 'Show controls'; tg.setAttribute('aria-expanded', String(open)); }; }
+  const row = document.createElement('label'); row.innerHTML = `Go to <select id="go">${Object.keys(VIEWS).map(v => `<option>${v}</option>`).join('')}</select>`; const pb = el.querySelector('#panel-body'); pb.insertBefore(row, pb.firstChild);
   row.querySelector('select').onchange = e => setView(e.target.value); } // local camera only
 const xrPanel = createXRPanel(THREE, renderer, scene, rig, api);
 function placePanel() { // control panel lives in the pit, on the table edge, facing the host seat (back banquette)
@@ -558,17 +567,18 @@ function unmerge() { if (!merged) return; merged.batches.forEach(m => { m.remove
   for (const l of lodObjs) l.levels.forEach(v => v.object.visible = true); } // B3
 let mergeT = 0; const scheduleMerge = (ms = 1200) => { clearTimeout(mergeT); mergeT = setTimeout(() => { if (lowNow) { staticMerge(); status(true); } }, ms); };
 THREE.DefaultLoadingManager.onLoad = () => scheduleMerge(); THREE.DefaultLoadingManager.onProgress = () => scheduleMerge();
-function setLow(on) { const was = lowNow; lowNow = on; applyCantSet(); pixels.visible = !on; ledRibbon.visible = on; bracketGroup.visible = !on;
+const PIX = Q.has('pixels'); // F3: desktop uses the LED ribbon too (90k tris saved); ?pixels brings back the per-pixel strip
+function setLow(on) { const was = lowNow; lowNow = on; applyCantSet(); pixels.visible = !on && PIX; ledRibbon.visible = on || !PIX; bracketGroup.visible = !on;
   ringMesh.visible = store.get().labels || renderer.xr.isPresenting;
-  if (on && !was) scheduleMerge(0); if (!on && was) unmerge(); applyNeonMode(); statusFrames = 2; } // B6: refresh status right after the transition
+  applySignSet(); if (on && !was) scheduleMerge(0); if (!on && was) unmerge(); applyNeonMode(); statusFrames = 2; } // B6: refresh status right after the transition
 setLow(low); if (low) scheduleMerge(0);
 
 // ---------- phone fallback: Look around (B1 heading, B2 permissions) ----------
 const look = { on: false, a: null, b: null, g: null, yawOff: 0, dragX: null, aligned: false };
 const lookBtn = document.createElement('button'); lookBtn.textContent = 'Look around';
-lookBtn.style.cssText = 'position:fixed;bottom:70px;left:50%;transform:translateX(-50%);padding:12px 20px;border:1px solid #fff;border-radius:6px;background:rgba(0,0,0,.6);color:#fff;font:14px system-ui;z-index:999;display:none';
+lookBtn.style.cssText = 'position:fixed;bottom:44px;right:10px;padding:12px 20px;border:1px solid #fff;border-radius:6px;background:rgba(0,0,0,.6);color:#fff;font:14px system-ui;z-index:999;display:none';
 document.body.appendChild(lookBtn);
-(navigator.xr?.isSessionSupported?.('immersive-vr') ?? Promise.resolve(false)).catch(() => false).then(ok => { if (!ok) lookBtn.style.display = 'block'; });
+(navigator.xr?.isSessionSupported?.('immersive-vr') ?? Promise.resolve(false)).catch(() => false).then(ok => { const touch = matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window; if (!ok && touch) lookBtn.style.display = 'block'; }); // P0-2: phones/tablets only
 const onOri = e => { if (e.alpha == null) return; look.a = e.alpha; look.b = e.beta; look.g = e.gamma; };
 function stopLook() { look.on = false; controls.enabled = true; lookBtn.textContent = 'Look around'; }
 const SPAWN_EYE = () => { const s = SPAWNS[0]; return [s.x, 1.6, s.z]; };
@@ -607,14 +617,29 @@ if (TESTROOM) { const g = mergeGeometries([new THREE.CapsuleGeometry(0.18, 0.9, 
 function status(force) { if (force) statusFrames = 1; }
 function writeStatus() { overlay.status(`N=${N} px · cove ${P.toFixed(2)} m · u window ${U.window[0].toFixed(3)}–${U.window[1].toFixed(3)} · u builds ${U.builds[0].toFixed(3)}–${U.builds[1].toFixed(3)} · brackets ${brackets.length} (${bracketStatus}) · builds ${buildsInfo} · props ${propTris} tris · room ${roomNow} · cantina ${cantInfo} · draws ${drawCalls}${lowNow ? ' · LOW' : ''}${TESTROOM ? ' · TESTROOM' : ''}`); }
 
-window.LOFT = { scene, renderer, rig, camera, controls, rooms: { hall, passage, cantina }, get room() { return roomNow; }, get ledStrip() { return ledStrip; }, N, perimeter: P, U, store, api, setView, spawns: SPAWNS, groupSpots: GROUP_SPOTS, MAX_USERS, net,
+window.LOFT = { scene, renderer, rig, camera, controls, setLow: on => setLow(on), get lodObjs() { return lodObjs; }, rooms: { hall, passage, cantina }, get room() { return roomNow; }, get ledStrip() { return ledStrip; }, N, perimeter: P, U, store, api, setView, spawns: SPAWNS, groupSpots: GROUP_SPOTS, MAX_USERS, net,
   get lowNow() { return lowNow; }, get reliefSize() { return reliefSize; }, get drawCalls() { return drawCalls; }, layout: { HALL, VEST, COVE, BW, GATHER, PIT, WINDOW, NOOK, PLINTHS } };
-applyPreset('dusk'); setView('vestibule');
+applyPreset('dusk'); setView('hall');
 
-let tvCss = null; if (!Q.has('notv')) { const f = document.createElement('iframe'); f.src = TV.url; f.title = 'Bombshell Discovery'; Object.assign(f.style, { width: '1280px', height: '720px', border: '0', background: '#000', pointerEvents: 'auto' });
-  f.setAttribute('referrerpolicy', 'no-referrer'); f.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-forms');
-  tvCss = new CSS3DObject(f); tvCss.position.set(...TV.pos); tvCss.rotation.y = Math.PI; tvCss.scale.setScalar(TV.w / 1280); cantina.add(tvCss); }
-window.LOFT.tv = { url: TV.url, get css() { return tvCss; } };
+// P2: the TV iframe is a plain fixed-position element warped onto the screen's projected corners (matrix3d homography), so it sits above the canvas
+// only over the screen rect and receives clicks (CSS3DRenderer's perspective tree did not hit-test). Hidden in XR (no DOM) -> atlas snapshot shows.
+let tvCss = null; const tvCorners = [[-1, 1], [1, 1], [1, -1], [-1, -1]].map(([sx, sy]) => new THREE.Vector3(-sx * TV.w / 2, sy * TV.h / 2, 0)); // TL, TR, BR, BL as seen from the room (screen faces -Z local)
+if (!Q.has('notv')) { const f = document.createElement('iframe'); f.dataset.src = TV.url; f.title = 'Bombshell Discovery'; f.id = 'tv-frame';
+  Object.assign(f.style, { position: 'fixed', left: '0', top: '0', width: '1280px', height: '720px', border: '0', background: '#000', transformOrigin: '0 0', zIndex: '2', display: 'none' });
+  f.setAttribute('referrerpolicy', 'no-referrer'); f.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-forms'); document.body.appendChild(f);
+  const anchor = new THREE.Object3D(); anchor.position.set(...TV.pos); cantina.add(anchor); tvCss = { element: f, anchor }; }
+const _tv = new THREE.Vector3();
+function homography(src, dst) { // 4-point projective map -> CSS matrix3d (column-major)
+  const A = [], b = []; for (let i = 0; i < 4; i++) { const [x, y] = src[i], [u, v] = dst[i]; A.push([x, y, 1, 0, 0, 0, -u * x, -u * y]); b.push(u); A.push([0, 0, 0, x, y, 1, -v * x, -v * y]); b.push(v); }
+  for (let c = 0; c < 8; c++) { let piv = c; for (let r = c + 1; r < 8; r++) if (Math.abs(A[r][c]) > Math.abs(A[piv][c])) piv = r; [A[c], A[piv]] = [A[piv], A[c]]; [b[c], b[piv]] = [b[piv], b[c]];
+    for (let r = 0; r < 8; r++) if (r !== c) { const k = A[r][c] / A[c][c]; for (let q = c; q < 8; q++) A[r][q] -= k * A[c][q]; b[r] -= k * b[c]; } }
+  const h = b.map((v, i) => v / A[i][i]); return [h[0], h[3], 0, h[6], h[1], h[4], 0, h[7], 0, 0, 1, 0, h[2], h[5], 0, 1]; }
+function updateTV() { if (!tvCss) return; const f = tvCss.element, on = !renderer.xr.isPresenting && cantina.visible;
+  if (!on) { f.style.display = 'none'; return; } tvCss.anchor.updateMatrixWorld(); const pts = [];
+  for (const c of tvCorners) { _tv.copy(c).applyMatrix4(tvCss.anchor.matrixWorld); const vz = _tv.clone().applyMatrix4(camera.matrixWorldInverse).z; if (vz > -0.05) { f.style.display = 'none'; return; }
+    _tv.project(camera); pts.push([(_tv.x + 1) / 2 * innerWidth, (1 - _tv.y) / 2 * innerHeight]); }
+  if (!f.src) f.src = f.dataset.src; f.style.display = 'block'; f.style.transform = `matrix3d(${homography([[0, 0], [1280, 0], [1280, 720], [0, 720]], pts).join(',')})`; }
+window.LOFT.tv = { url: TV.url, get frame() { return tvCss?.element; } };
 // ---------- loop ----------
 const avg = new Float32Array(3); let frame = 0;
 renderer.setAnimationLoop(() => {
@@ -631,7 +656,7 @@ renderer.setAnimationLoop(() => {
   cull(); xrPanel.group.visible = (renderer.xr.isPresenting || window.LOFT.showPanel === true) && hall.visible; xrPanel.update();
   ledStripUpdate();
   renderer.render(scene, camera);
-  if (tvCss) { const on = !renderer.xr.isPresenting && cantina.visible; tvCss.visible = on; cssR.domElement.style.display = on ? '' : 'none'; if (on) cssR.render(scene, camera); }
+  updateTV();
   drawCalls = renderer.info.render.calls;
   if (statusFrames > 0 && --statusFrames === 0) writeStatus(); else if (++frame % 60 === 0) writeStatus();
 });

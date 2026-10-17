@@ -53,7 +53,8 @@ const VIEWS = {
   plan: { p: [1.8, 33, 8.0], t: [1.8, 0, 8.01] },
 };
 let ceilingGroup = null;
-function setView(n) { const v = VIEWS[n]; if (!v) return; cullOverride = n === 'plan' ? 'all' : null; look.on && stopLook(); camera.position.set(...v.p); controls.target.set(...v.t); controls.update();
+var walk = null; // touch/desktop walking (set up below the gyro code)
+function setView(n) { const v = VIEWS[n]; if (!v) return; cullOverride = n === 'plan' ? 'all' : null; look.on && stopLook(); camera.position.set(...v.p); controls.target.set(...v.t); controls.update(); if (walk && walk.on) walk.syncFromCamera();
   if (ceilingGroup) ceilingGroup.visible = n !== 'plan'; }
 function spawnRig(i = 0) { const s = SPAWNS[i % SPAWNS.length]; rig.position.set(s.x, 0, s.z); rig.rotation.y = Math.PI + s.yaw; } // XR camera looks -Z; spawn faces +Z
 renderer.xr.addEventListener('sessionstart', () => { spawnRig(0); setLow(true); placePanel(); applyPreset(presetNow); });
@@ -580,22 +581,22 @@ lookBtn.style.cssText = 'position:fixed;bottom:44px;right:10px;padding:12px 20px
 document.body.appendChild(lookBtn);
 (navigator.xr?.isSessionSupported?.('immersive-vr') ?? Promise.resolve(false)).catch(() => false).then(ok => { const touch = matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window; if (!ok && touch) lookBtn.style.display = 'block'; }); // P0-2: phones/tablets only
 const onOri = e => { if (e.alpha == null) return; look.a = e.alpha; look.b = e.beta; look.g = e.gamma; };
-function stopLook() { look.on = false; controls.enabled = true; lookBtn.textContent = 'Look around'; }
+function stopLook() { look.on = false; controls.enabled = !(walk && walk.on); lookBtn.textContent = 'Look around'; }
 const SPAWN_EYE = () => { const s = SPAWNS[0]; return [s.x, 1.6, s.z]; };
 lookBtn.addEventListener('click', async () => {
-  if (look.on) { stopLook(); setView('vestibule'); return; }
+  if (look.on) { stopLook(); if (walk.on) walk.syncFromCamera(); else setView('vestibule'); return; }
   let res = 'granted';
   try { if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') res = await DeviceOrientationEvent.requestPermission(); } // iOS: inside the tap
   catch (err) { console.warn('orientation permission', err); res = 'error'; }
   if (res === 'denied') { lookBtn.textContent = 'Motion access denied'; return; } // B2: only an explicit 'denied' stops us; 'prompt'/'default'/errors still listen
   addEventListener('deviceorientation', onOri);
-  look.on = true; look.aligned = false; look.a = null; controls.enabled = false; look.yawOff = 0; lookBtn.textContent = 'Back to orbit';
-  camera.position.set(...SPAWN_EYE());
+  look.on = true; look.aligned = false; look.a = null; controls.enabled = false; look.yawOff = 0; lookBtn.textContent = walk.on ? 'Stop gyro' : 'Back to orbit';
+  if (!walk.on) camera.position.set(...SPAWN_EYE());
 });
 const _z = new THREE.Vector3(0, 0, 1), _e = new THREE.Euler(), _q0 = new THREE.Quaternion(), _q1 = new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)), _qy = new THREE.Quaternion(), _f = new THREE.Vector3();
 const SPAWN_YAW = Math.PI + SPAWNS[0].yaw; // camera yaw that faces +Z (into the room)
 function applyLook() {
-  if (!look.on) return; camera.position.set(...SPAWN_EYE());
+  if (!look.on) return; if (walk && walk.on) camera.position.set(walk.x, EYE, walk.z); else camera.position.set(...SPAWN_EYE());
   if (look.a == null) { camera.quaternion.setFromEuler(_e.set(0, SPAWN_YAW + look.yawOff, 0, 'YXZ')); return; }
   const D2R = Math.PI / 180, orient = (screen.orientation?.angle ?? window.orientation ?? 0) * D2R;
   _e.set(look.b * D2R, look.a * D2R, -look.g * D2R, 'YXZ');
@@ -604,9 +605,73 @@ function applyLook() {
     _f.set(0, 0, -1).applyQuaternion(camera.quaternion); const yawNow = Math.atan2(-_f.x, -_f.z); look.yawOff = SPAWN_YAW - yawNow; look.aligned = true; }
   camera.quaternion.premultiply(_qy.setFromAxisAngle(THREE.Object3D.DEFAULT_UP, look.yawOff));
 }
-renderer.domElement.addEventListener('pointerdown', e => { if (look.on) look.dragX = e.clientX; });
-addEventListener('pointermove', e => { if (look.on && look.dragX != null) { look.yawOff += (e.clientX - look.dragX) * 0.005; look.dragX = e.clientX; } });
-addEventListener('pointerup', () => { look.dragX = null; });
+
+// ---------- walking: touch joystick + drag-look + tap-to-walk (touch devices); WASD on desktop. Local camera only. ----------
+// Walkable area = union of rects already inset by the body radius (0.25 m), from layout.js; door connectors join rooms. No VR cost (DOM + math only).
+const EYE = 1.6, WALK_V = 1.4, RAD = 0.25, IS_TOUCH = matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
+const WALK_RECTS = (() => { const r = RAD, w2 = PASSAGE.w / 2, [tx, tz] = PASSAGE.turn, ex = PASSAGE.exit[0], C = CANTINA, cx0 = C.origin[0], cz = C.origin[1];
+  return [
+    [VEST.x0 + r, VEST.x1 - r, VEST.z0 + r, VEST.z1 - r],                                      // vestibule
+    [VEST.opening.x0 + r, VEST.opening.x1 - r, VEST.z1 - 0.5, HALL.z0 + 0.5],                  // vestibule -> hall opening
+    [HALL.notch.x1 + r, HALL.x1 - r, HALL.z0 + r, HALL.z1 - r],                                // hall, front part (right of the notch)
+    [HALL.x0 + r, HALL.x1 - r, HALL.notch.z1 + r, HALL.z1 - r],                                // hall, back part (full width)
+    [tx - w2 + r, tx + w2 - r, HALL.z1 - 0.5, tz + w2 - r],                                    // hall door + passage leg A
+    [tx - w2 + r, ex + 0.5, tz - w2 + r, tz + w2 - r],                                         // passage leg B -> cantina door
+    [cx0 + r, cx0 + C.D - r, cz - C.W / 2 + r, cz + C.W / 2 - r],                              // cantina
+  ]; })();
+const walkable = (x, z) => WALK_RECTS.some(([x0, x1, z0, z1]) => x >= x0 && x <= x1 && z >= z0 && z <= z1);
+walk = { on: IS_TOUCH && !Q.has('orbit'), x: 0, z: 0, yaw: 0, pitch: 0, joy: [0, 0], goal: null, keys: new Set(), last: performance.now(),
+  syncFromCamera() { camera.updateMatrixWorld(); const f = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
+    this.yaw = Math.atan2(-f.x, -f.z); this.pitch = Math.max(-1.2, Math.min(1.2, Math.asin(f.y))); this.goal = null;
+    let x = camera.position.x, z = camera.position.z; if (!walkable(x, z)) { const s = SPAWNS[0]; x = s.x; z = s.z; } this.x = x; this.z = z; } };
+const tryMove = (dx, dz) => { // slide along walls: full move, else per-axis
+  if (walkable(walk.x + dx, walk.z + dz)) { walk.x += dx; walk.z += dz; return true; }
+  let ok = false; if (dx && walkable(walk.x + dx, walk.z)) { walk.x += dx; ok = true; } if (dz && walkable(walk.x, walk.z + dz)) { walk.z += dz; ok = true; } return ok; };
+const heading = () => { const f = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion); f.y = 0; if (f.lengthSq() < 1e-6) f.set(-Math.sin(walk.yaw), 0, -Math.cos(walk.yaw)); return f.normalize(); };
+function walkUpdate() {
+  const now = performance.now(), dt = Math.min(0.1, (now - walk.last) / 1000); walk.last = now;
+  if (renderer.xr.isPresenting) return;
+  let mx = walk.joy[0], mz = walk.joy[1]; // joystick: x = strafe right, y = forward
+  const k = walk.keys; if (k.has('KeyW') || k.has('ArrowUp')) mz += 1; if (k.has('KeyS') || k.has('ArrowDown')) mz -= 1; if (k.has('KeyD') || k.has('ArrowRight')) mx += 1; if (k.has('KeyA') || k.has('ArrowLeft')) mx -= 1;
+  const len = Math.hypot(mx, mz);
+  if (len > 0.01) { walk.goal = null; if (!walk.on) { walk.syncFromCamera(); } // desktop WASD: move the orbit pivot with the camera
+    const f = heading(), r = new THREE.Vector3(-f.z, 0, f.x), sc = Math.min(1, len) / len * WALK_V * dt; const dx = (f.x * mz + r.x * mx) * sc, dz = (f.z * mz + r.z * mx) * sc;
+    const ox = walk.x, oz = walk.z; tryMove(dx, dz);
+    if (!walk.on && !look.on) { camera.position.x += walk.x - ox; camera.position.z += walk.z - oz; controls.target.x += walk.x - ox; controls.target.z += walk.z - oz; } }
+  if (walk.goal) { const g = walk.goal; g.t += dt / g.dur; const u = Math.min(1, g.t), e = u * u * (3 - 2 * u); // eased tap-to-walk
+    const tx = g.x0 + (g.x1 - g.x0) * e, tz = g.z0 + (g.z1 - g.z0) * e; if (!tryMove(tx - walk.x, tz - walk.z) || u >= 1) walk.goal = null; }
+  if (walk.on && !look.on) { camera.position.set(walk.x, EYE, walk.z); camera.quaternion.setFromEuler(_e.set(walk.pitch, walk.yaw, 0, 'YXZ')); }
+  else if (walk.on && look.on) camera.position.set(walk.x, EYE, walk.z);
+}
+addEventListener('keydown', e => { if (e.target.closest?.('input,select,textarea')) return; if (/^(Key[WASD]|Arrow)/.test(e.code)) { walk.keys.add(e.code); e.preventDefault?.(); } });
+addEventListener('keyup', e => walk.keys.delete(e.code)); addEventListener('blur', () => walk.keys.clear());
+// touch: no pinch zoom / scroll on the canvas
+renderer.domElement.style.touchAction = 'none'; document.body.style.overscrollBehavior = 'none';
+// joystick (bottom-left; corner UI is top-left / bottom-right)
+const joy = document.createElement('div'); joy.id = 'joystick'; const knob = document.createElement('div'); joy.append(knob);
+joy.style.cssText = 'position:fixed;left:18px;bottom:18px;width:120px;height:120px;border-radius:50%;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.35);touch-action:none;z-index:6;display:none';
+knob.style.cssText = 'position:absolute;left:35px;top:35px;width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.45);pointer-events:none';
+document.body.append(joy); let joyId = null;
+const joyMove = e => { const r = joy.getBoundingClientRect(), cx = r.left + 60, cy = r.top + 60; let dx = e.clientX - cx, dy = e.clientY - cy; const d = Math.hypot(dx, dy), m = 45; if (d > m) { dx *= m / d; dy *= m / d; }
+  knob.style.transform = `translate(${dx}px,${dy}px)`; walk.joy = [dx / m, -dy / m]; };
+joy.addEventListener('pointerdown', e => { joyId = e.pointerId; joy.setPointerCapture(e.pointerId); joyMove(e); e.preventDefault(); });
+joy.addEventListener('pointermove', e => { if (e.pointerId === joyId) joyMove(e); });
+const joyEnd = e => { if (e.pointerId !== joyId) return; joyId = null; walk.joy = [0, 0]; knob.style.transform = ''; }; joy.addEventListener('pointerup', joyEnd); joy.addEventListener('pointercancel', joyEnd);
+// one-finger drag = look (adds to the gyro yaw when 'Look around' is on); short tap on the floor = walk there
+const drag = { id: null, x: 0, y: 0, x0: 0, y0: 0, t0: 0 }, _ray = new THREE.Raycaster(), _floor = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), _hit = new THREE.Vector3();
+renderer.domElement.addEventListener('pointerdown', e => { if (!(walk.on || look.on) || drag.id != null) return; Object.assign(drag, { id: e.pointerId, x: e.clientX, y: e.clientY, x0: e.clientX, y0: e.clientY, t0: performance.now() }); });
+addEventListener('pointermove', e => { if (e.pointerId !== drag.id) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag.x = e.clientX; drag.y = e.clientY;
+  if (look.on) look.yawOff += dx * 0.005; else if (walk.on) { walk.yaw += dx * 0.005; walk.pitch = Math.max(-1.2, Math.min(1.2, walk.pitch + dy * 0.004)); } });
+addEventListener('pointerup', e => { if (e.pointerId !== drag.id) return; drag.id = null;
+  if (!walk.on || Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 10 || performance.now() - drag.t0 > 600) return;
+  _ray.setFromCamera(new THREE.Vector2(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1), camera);
+  if (!_ray.ray.intersectPlane(_floor, _hit) || !walkable(_hit.x, _hit.z)) return; const d = Math.hypot(_hit.x - walk.x, _hit.z - walk.z); if (d < 0.2 || d > 15) return;
+  walk.goal = { x0: walk.x, z0: walk.z, x1: _hit.x, z1: _hit.z, t: 0, dur: Math.max(0.5, d / WALK_V) }; });
+addEventListener('pointercancel', e => { if (e.pointerId === drag.id) drag.id = null; });
+function setWalk(on) { walk.on = on; joy.style.display = on && IS_TOUCH ? 'block' : 'none'; controls.enabled = !on && !look.on; if (on) walk.syncFromCamera(); }
+renderer.xr.addEventListener('sessionstart', () => { joy.style.display = 'none'; walk.joy = [0, 0]; walk.goal = null; });
+renderer.xr.addEventListener('sessionend', () => setWalk(walk.on));
+
 
 // ---------- ?testroom: 4 dummy avatars at spawns 1-4 (tagged 'avatar', never merged) to measure headroom ----------
 if (TESTROOM) { const g = mergeGeometries([new THREE.CapsuleGeometry(0.18, 0.9, 4, 10).translate(0, 0.9, 0), new THREE.SphereGeometry(0.13, 12, 8).translate(0, 1.62, 0)]);
@@ -619,7 +684,7 @@ function writeStatus() { overlay.status(`N=${N} px · cove ${P.toFixed(2)} m · 
 
 window.LOFT = { scene, renderer, rig, camera, controls, setLow: on => setLow(on), get lodObjs() { return lodObjs; }, rooms: { hall, passage, cantina }, get room() { return roomNow; }, get ledStrip() { return ledStrip; }, N, perimeter: P, U, store, api, setView, spawns: SPAWNS, groupSpots: GROUP_SPOTS, MAX_USERS, net,
   get lowNow() { return lowNow; }, get reliefSize() { return reliefSize; }, get drawCalls() { return drawCalls; }, layout: { HALL, VEST, COVE, BW, GATHER, PIT, WINDOW, NOOK, PLINTHS } };
-applyPreset('dusk'); setView('hall');
+applyPreset('dusk'); setView('hall'); setWalk(walk.on); if (!walk.on) walk.syncFromCamera(); window.LOFT.walk = walk; window.LOFT.walkable = walkable;
 
 // P2: the TV iframe is a plain fixed-position element warped onto the screen's projected corners (matrix3d homography), so it sits above the canvas
 // only over the screen rect and receives clicks (CSS3DRenderer's perspective tree did not hit-test). Hidden in XR (no DOM) -> atlas snapshot shows.
@@ -643,8 +708,8 @@ window.LOFT.tv = { url: TV.url, get frame() { return tvCss?.element; } };
 // ---------- loop ----------
 const avg = new Float32Array(3); let frame = 0;
 renderer.setAnimationLoop(() => {
-  const t = clock.getElapsedTime(); applyLook();
-  if (!renderer.xr.isPresenting && !look.on) controls.update();
+  const t = clock.getElapsedTime(); walkUpdate(); applyLook();
+  if (!renderer.xr.isPresenting && !look.on && !walk.on) controls.update();
   engineRender(t);
   const d = tex.image.data, step = N / TW; avg.fill(0); let wn = 0; const i0 = Math.floor(U.window[0] * N), i1 = Math.floor(U.window[1] * N);
   for (let x = 0; x < TW; x++) { const i = Math.floor(x * step) * 3; d[x * 4] = Math.min(255, colors[i] * 255); d[x * 4 + 1] = Math.min(255, colors[i + 1] * 255); d[x * 4 + 2] = Math.min(255, colors[i + 2] * 255); d[x * 4 + 3] = 255; }

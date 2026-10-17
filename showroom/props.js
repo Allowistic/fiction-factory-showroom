@@ -71,7 +71,7 @@ export function banquette(THREE, B, cx, cz, size, floorY) { const P = PAL; // U 
     B.put(B.solid, new THREE.BoxGeometry(0.18, back, len), P.rust, mx - nx * 0.38, floorY + back / 2, mz - nz * 0.38, 0, ry, 0);
     B.put(B.glow, new THREE.BoxGeometry(0.02, 0.025, len - 0.1), P.gold, mx + nx * 0.3, floorY + 0.03, mz + nz * 0.3, 0, ry, 0); };
   run(cx + r, cz + r, cx + r, cz + 0.55); run(cx + r, cz - 0.55, cx + r, cz - r); // back, faces -X, split: 1.1 m walk-in gap on the hall side
-  B.box(1.1, 0.012, 0.05, P.gold, cx + size / 2 + 0.06, 0.006, cz, 0, B.glow); B.box(0.05, 0.012, 1.1, P.gold, cx + size / 2 + 0.06, 0.006, cz, 0, B.glow); // gold threshold strip marks the gap
+  B.box(0.03, 0.008, 1.1, P.gold, cx + size / 2 + 0.05, 0.004, cz, 0, B.glow); // single thin gold threshold line across the gap (on the hall floor at the pit edge)
   run(cx - r * 0.55, cz + r, cx + r - 0.3, cz + r); // side, faces -Z
   run(cx + r - 0.3, cz - r, cx - r * 0.55, cz - r); // side, faces +Z
   B.cyl(0.55, 0.55, 0.06, P.walnut, cx - 0.1, floorY + 0.36, cz, 24); B.cyl(0.35, 0.4, 0.33, P.choc, cx - 0.1, floorY + 0.165, cz, 16); // low walnut table

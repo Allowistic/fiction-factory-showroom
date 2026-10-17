@@ -58,7 +58,7 @@ function setView(n) { const v = VIEWS[n]; if (!v) return; cullOverride = n === '
   if (ceilingGroup) ceilingGroup.visible = n !== 'plan'; }
 function spawnRig(i = 0) { const s = SPAWNS[i % SPAWNS.length]; rig.position.set(s.x, 0, s.z); rig.rotation.y = Math.PI + s.yaw; } // XR camera looks -Z; spawn faces +Z
 renderer.xr.addEventListener('sessionstart', () => { spawnRig(0); setLow(true); placePanel(); applyPreset(presetNow); });
-renderer.xr.addEventListener('sessionend', () => { rig.position.set(0, 0, 0); rig.rotation.y = 0; setLow(low); applyPreset(presetNow); setView('hall'); setWalk(walk.on); }); // N2/N3: the only exit handler: desktop spawn + walk/joystick restore
+renderer.xr.addEventListener('sessionend', () => { rig.position.set(0, 0, 0); rig.rotation.y = 0; setLow(low); applyPreset(presetNow); setView('hall'); setWalk(walk.on); resetXRLoco(); }); // N2/N3: the only exit handler (also clears vignette / teleport marker / aim): desktop spawn + walk/joystick restore
 
 // ---------- textures ----------
 const rnd = (() => { let s = 11; return () => ((s = (s * 16807) % 2147483647) / 2147483647); })();
@@ -509,7 +509,15 @@ store.subscribe(p => { if ('pins' in p || 'preset' in p) { const s = store.get()
 
 // ---------- panels (both reuse ../panel-*.js via an adapter over the single state) ----------
 const CHIPS = ['#d9a066', '#e7dccb', '#b5655a', '#6f9a7d', '#6b7fa8', '#8c76a6'];
+// comfort settings (VR): persisted; defaults = previous behaviour (snap 30, vignette on, smooth move, right-handed)
+const COMFORT_KEY = 'ff-comfort', COMFORT_OPTS = { turn: ['snap30', 'snap45', 'smooth'], vignette: [true, false], move: ['smooth', 'teleport'], lefty: [false, true] };
+const comfort = (() => { let c = { turn: 'snap30', vignette: true, move: 'smooth', lefty: false }; try { Object.assign(c, JSON.parse(localStorage.getItem(COMFORT_KEY) || '{}')); } catch (e) {}
+  for (const k of Object.keys(COMFORT_OPTS)) if (!COMFORT_OPTS[k].includes(c[k])) c[k] = COMFORT_OPTS[k][0]; if (Q.has('lefty')) c.lefty = true; return c; })();
+const comfortApi = { get: () => ({ ...comfort }), set(k, v) { if (!COMFORT_OPTS[k]?.includes(v)) return; comfort[k] = v; try { localStorage.setItem(COMFORT_KEY, JSON.stringify(comfort)); } catch (e) {} syncComfortUI?.(); },
+  cycle(k) { const o = COMFORT_OPTS[k]; this.set(k, o[(o.indexOf(comfort[k]) + 1) % o.length]); } };
+var syncComfortUI = null;
 const api = {
+  comfort: comfortApi,
   scenes: [...fx.scenes, 'solid'], presets: Object.keys(PRESETS), chips: CHIPS,
   setScene: id => store.apply({ scene: id, ...(id !== 'solid' ? { chip: -1 } : {}) }),
   setBrightness: b => store.apply({ brightness: b }),
@@ -529,6 +537,14 @@ const overlay = initOverlay(api, { N, P });
     const hd = document.createElement('div'); hd.style.cssText = 'display:flex;align-items:center;justify-content:space-between'; el.prepend(hd); hd.append(head, tg);
     tg.onclick = () => { const open = body.style.display === 'none'; body.style.display = open ? 'flex' : 'none'; tg.textContent = open ? '✕' : '☰'; tg.title = open ? 'Hide controls' : 'Show controls'; tg.setAttribute('aria-expanded', String(open)); }; }
   const row = document.createElement('label'); row.innerHTML = `Go to <select id="go">${Object.keys(VIEWS).map(v => `<option>${v}</option>`).join('')}</select>`; const pb = el.querySelector('#panel-body'); pb.insertBefore(row, pb.firstChild); const help = document.createElement('small'); help.id = 'panel-help'; help.style.opacity = '.75'; help.textContent = IS_TOUCH_UI ? 'Stick: walk · drag: look · tap floor: walk there' : 'Drag: orbit · WASD / arrows: walk'; pb.append(help);
+  { const d = document.createElement('details'); d.id = 'comfort'; d.innerHTML = `<summary><small>Comfort (VR)</small></summary>
+    <label>Turn <select id="cf-turn"><option value="snap30">snap 30°</option><option value="snap45">snap 45°</option><option value="smooth">smooth</option></select></label>
+    <label>Move <select id="cf-move"><option value="smooth">smooth</option><option value="teleport">teleport only</option></select></label>
+    <label><input id="cf-vig" type="checkbox"> Vignette</label> <label><input id="cf-lefty" type="checkbox"> Swap hands</label>`;
+    pb.insertBefore(d, help); const $ = id => d.querySelector('#' + id);
+    $('cf-turn').onchange = e => comfortApi.set('turn', e.target.value); $('cf-move').onchange = e => comfortApi.set('move', e.target.value);
+    $('cf-vig').onchange = e => comfortApi.set('vignette', e.target.checked); $('cf-lefty').onchange = e => comfortApi.set('lefty', e.target.checked);
+    syncComfortUI = () => { $('cf-turn').value = comfort.turn; $('cf-move').value = comfort.move; $('cf-vig').checked = comfort.vignette; $('cf-lefty').checked = comfort.lefty; }; syncComfortUI(); }
   row.querySelector('select').onchange = e => setView(e.target.value); } // local camera only
 const xrPanel = createXRPanel(THREE, renderer, scene, rig, api);
 function placePanel() { // control panel lives in the pit, on the table edge, facing the host seat (back banquette)
@@ -708,7 +724,7 @@ addEventListener('pointercancel', e => { if (e.pointerId === drag.id) drag.id = 
 // Right stick: 30 deg snap turn about the head (deadzone + re-arm). Trigger: hold to aim (straight ray from the controller; reuses the panel's ray line),
 // release to teleport to a valid floor point or a group-spot ring. Draw budget: aiming marker (+1) hides the idle controller ray (-1); while moving,
 // the vignette (+1) replaces both rays (-2), so the hall never exceeds the idle count.
-const XRM = { armed: true, aim: null, moveAmt: 0, lastT: performance.now(), dead: 0.18, turn: Math.PI / 6 };
+const XRM = { armed: true, aim: null, moveAmt: 0, lastT: performance.now(), dead: 0.18, smoothRate: Math.PI / 2 };
 const xrCtl = [0, 1].map(i => { const c = renderer.xr.getController(i); c.addEventListener('connected', e => { c.userData.src = e.data; }); c.addEventListener('disconnected', () => { c.userData.src = null; }); return c; });
 const ctlRay = c => c.children.find(o => o.isLine);
 const tpMarker = new THREE.Mesh(mergeGeometries([new THREE.RingGeometry(0.22, 0.27, 32), new THREE.CircleGeometry(0.06, 16)]).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0x7ff0e2, transparent: true, opacity: 0.85, depthWrite: false, toneMapped: false }));
@@ -732,15 +748,22 @@ function aimTarget(c) { _m4.identity().extractRotation(c.matrixWorld); _rr.ray.o
   return { ok: walkable(x, z), x, z, y: floorAt(x, z), dist: fh.distance }; }
 function xrLocomotion() {
   const now = performance.now(), dt = Math.min(0.5, (now - XRM.lastT) / 1000); XRM.lastT = now; if (!renderer.xr.isPresenting) return;
-  let mx = 0, my = 0, tx = 0, aiming = null;
+  let mx = 0, my = 0, tx = 0, aiming = null, single = false; const pads = [];
   for (const c of xrCtl) { const src = c.userData.src, gp = src?.gamepad; if (!gp) continue; const ax = gp.axes, sx = ax.length >= 4 ? ax[2] : ax[0] || 0, sy = ax.length >= 4 ? ax[3] : ax[1] || 0;
-    if (src.handedness === 'left') { mx = sx; my = sy; } else if (src.handedness === 'right') tx = sx;
+    pads.push({ hand: src.handedness, sx, sy });
     if (gp.buttons[0]?.pressed) aiming ||= c; }
+  const moveHand = comfort.lefty ? 'right' : 'left', turnHand = comfort.lefty ? 'left' : 'right';
+  if (pads.length === 1) { const p0 = pads[0]; my = p0.sy; tx = Math.abs(p0.sx) > 0.8 ? p0.sx : 0; single = true; } // one controller: fwd/back moves, strong flick turns
+  else for (const p0 of pads) { if (p0.hand === moveHand) { mx = p0.sx; my = p0.sy; } else if (p0.hand === turnHand) tx = p0.sx; }
+  if (comfort.move === 'teleport') { mx = 0; my = 0; }
   const h = headWorld().clone(), fx = _hd.x, fz = _hd.z, rx = -fz, rz = fx; // head + yaw as of the last frame, tracked through this frame's rig changes
   // snap turn with re-arm (first, while rig.matrixWorld still matches h)
-  if (Math.abs(tx) > 0.6 && XRM.armed) { snapTurn(h, -Math.sign(tx) * XRM.turn); XRM.armed = false; } else if (Math.abs(tx) < 0.3) XRM.armed = true;
+  let turning = false;
+  if (comfort.turn === 'smooth') { if (Math.abs(tx) > XRM.dead) { snapTurn(h, -Math.sign(tx) * (Math.abs(tx) - XRM.dead) / (1 - XRM.dead) * XRM.smoothRate * dt); turning = true; } }
+  else { const a = comfort.turn === 'snap45' ? Math.PI / 4 : Math.PI / 6;
+    if (Math.abs(tx) > (single ? 0.8 : 0.6) && XRM.armed) { snapTurn(h, -Math.sign(tx) * a); XRM.armed = false; } else if (Math.abs(tx) < 0.3) XRM.armed = true; }
   // smooth move (substeps, same 1/60 s as touch walking)
-  const mag = Math.hypot(mx, my), moving = mag > XRM.dead;
+  if (single) { mx = 0; if (Math.abs(my) <= XRM.dead) my = 0; } const mag = Math.hypot(mx, my), moving = mag > XRM.dead;
   if (moving) { const k = Math.min(1, (mag - XRM.dead) / (1 - XRM.dead)) / mag, n = Math.max(1, Math.ceil(dt * 60)), sd = dt / n;
     for (let i = 0; i < n; i++) rigMove(h, (fx * -my + rx * mx) * k * WALK_V * sd, (fz * -my + rz * mx) * k * WALK_V * sd); }
   // floor height (pit) follows the head
@@ -750,10 +773,12 @@ function xrLocomotion() {
     tpMarker.visible = t.ok; if (t.ok) tpMarker.position.set(t.x, t.y + 0.01, t.z); }
   else if (XRM.aim) { const { c, t } = XRM.aim; XRM.aim = null; tpMarker.visible = false; const ln = ctlRay(c); if (ln) { ln.scale.z = 3; ln.material.color.set(0xffffff); } if (t.ok) rigTeleport(h, t.x, t.z); }
   // budget: marker hides the idle ray; vignette replaces both rays while moving
-  XRM.moveAmt += ((moving ? 1 : 0) - XRM.moveAmt) * (1 - Math.exp(-dt * 10)); vignette.visible = XRM.moveAmt > 0.02; vignette.material.opacity = XRM.moveAmt * 0.75;
+  XRM.moveAmt += (((moving || turning) && comfort.vignette ? 1 : 0) - XRM.moveAmt) * (1 - Math.exp(-dt * 10)); vignette.visible = XRM.moveAmt > 0.02; vignette.material.opacity = XRM.moveAmt * 0.75;
   for (const c of xrCtl) { const ln = ctlRay(c); if (ln) ln.visible = !vignette.visible && (!aiming || c === aiming); }
 }
-renderer.xr.addEventListener('sessionstart', () => { XRM.aim = null; tpMarker.visible = false; vignette.visible = false; XRM.moveAmt = 0; XRM.lastT = performance.now(); });
+function resetXRLoco() { XRM.aim = null; XRM.armed = true; XRM.moveAmt = 0; XRM.lastT = performance.now(); tpMarker.visible = false; vignette.visible = false; vignette.material.opacity = 0;
+  for (const c of xrCtl) { const ln = ctlRay(c); if (ln) { ln.scale.z = 3; ln.material.color.set(0xffffff); ln.visible = true; } } }
+renderer.xr.addEventListener('sessionstart', resetXRLoco);
 function setWalk(on) { walk.on = on; joy.style.display = on && IS_TOUCH && !renderer.xr.isPresenting ? 'block' : 'none'; controls.enabled = !on && !look.on; if (on) { walk.syncFromCamera(); showHint(); } }
 renderer.xr.addEventListener('sessionstart', () => { joy.style.display = 'none'; walk.joy = [0, 0]; walk.goal = null; });
 
@@ -769,7 +794,7 @@ function writeStatus() { overlay.status(`N=${N} px · cove ${P.toFixed(2)} m · 
 
 window.LOFT = { scene, renderer, rig, camera, controls, setLow: on => setLow(on), get lodObjs() { return lodObjs; }, rooms: { hall, passage, cantina }, get room() { return roomNow; }, get ledStrip() { return ledStrip; }, N, perimeter: P, U, store, api, setView, spawns: SPAWNS, groupSpots: GROUP_SPOTS, MAX_USERS, net,
   get lowNow() { return lowNow; }, get reliefSize() { return reliefSize; }, get drawCalls() { return drawCalls; }, layout: { HALL, VEST, COVE, BW, GATHER, PIT, WINDOW, NOOK, PLINTHS } };
-applyPreset('dusk'); setView('hall'); setWalk(walk.on); if (!walk.on) walk.syncFromCamera(); window.LOFT.walk = walk; window.LOFT.walkable = walkable; window.LOFT.xrm = { XRM, tpMarker, vignette, xrCtl, nearestFree };
+applyPreset('dusk'); setView('hall'); setWalk(walk.on); if (!walk.on) walk.syncFromCamera(); window.LOFT.walk = walk; window.LOFT.walkable = walkable; window.LOFT.xrm = { XRM, tpMarker, vignette, xrCtl, nearestFree, comfort: comfortApi };
 
 // P2: the TV iframe is a plain fixed-position element warped onto the screen's projected corners (matrix3d homography), so it sits above the canvas
 // only over the screen rect and receives clicks (CSS3DRenderer's perspective tree did not hit-test). Hidden in XR (no DOM) -> atlas snapshot shows.

@@ -1,7 +1,7 @@
 // In-world control panel: canvas texture + controller/hand-ray picking (select = trigger or pinch; squeeze = recenter panel).
 // Canvas is 1 px = 1 mm: 30 px font -> ~21 mm cap height, buttons >= 48 mm.
 export function createXRPanel(THREE, renderer, scene, rig, api) {
-  const Wc = 600, Hc = 600, c = document.createElement('canvas'); c.width = Wc; c.height = Hc;
+  const Wc = 600, Hc = api.comfort ? 760 : 600, c = document.createElement('canvas'); c.width = Wc; c.height = Hc;
   const g = c.getContext('2d'), tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
   const group = new THREE.Group();
   const plane = new THREE.Mesh(new THREE.PlaneGeometry(Wc / 1000, Hc / 1000), new THREE.MeshBasicMaterial({ map: tex, transparent: true, toneMapped: false }));
@@ -25,6 +25,11 @@ export function createXRPanel(THREE, renderer, scene, rig, api) {
     head('SOLID COLOUR  (camera/photo pick on phone)', 506);
     api.chips.forEach((h, i) => buttons.push({ chip: i, x: 24 + i * 70, y: 522, w: 48, h: 48, color: h,
       act: () => api.setSolidSRGB(parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16), i) }));
+    if (api.comfort) { const C = api.comfort.get(); head('COMFORT (VR)', 612); // optional: showroom only
+      buttons.push({ x: 20, y: 622, w: 180, h: 56, label: { snap30: 'Turn 30°', snap45: 'Turn 45°', smooth: 'Turn smooth' }[C.turn], act: () => api.comfort.cycle('turn') });
+      buttons.push({ x: 210, y: 622, w: 180, h: 56, label: `Vignette ${C.vignette ? 'on' : 'off'}`, on: C.vignette, act: () => api.comfort.cycle('vignette') });
+      buttons.push({ x: 400, y: 622, w: 180, h: 56, label: C.move === 'smooth' ? 'Move smooth' : 'Teleport only', act: () => api.comfort.cycle('move') });
+      buttons.push({ x: 20, y: 688, w: 275, h: 56, label: `Swap hands ${C.lefty ? 'on' : 'off'}`, on: C.lefty, act: () => api.comfort.cycle('lefty') }); }
     for (const b of buttons) {
       if (b.color) {
         g.fillStyle = b.color; g.beginPath(); g.arc(b.x + 24, b.y + 24, 20, 0, 7); g.fill();
@@ -54,6 +59,6 @@ export function createXRPanel(THREE, renderer, scene, rig, api) {
     ctl.addEventListener('squeeze', () => api2.onRecenter?.());
   });
   let last = '';
-  function update() { const s = api.state, k = [s.scene, s.brightness, s.preset, s.task, s.labels, s.chip].join(); if (k !== last) { last = k; draw(); } }
+  function update() { const s = api.state, k = [s.scene, s.brightness, s.preset, s.task, s.labels, s.chip, api.comfort ? JSON.stringify(api.comfort.get()) : ''].join(); if (k !== last) { last = k; draw(); } }
   return api2;
 }

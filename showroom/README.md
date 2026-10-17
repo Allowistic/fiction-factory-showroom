@@ -54,3 +54,9 @@ u-values on the cove strip (index 0 = entry corner (4,1.5), clockwise):
 - Comfort vignette while smooth moving. Draw budget: the marker hides the idle ray, the vignette replaces both rays, so the hall stays at ≤ 60 stereo draws.
 - Banquette has a 1.1 m walk-in gap on the hall side (gold threshold strip). Using the stick while inside a prop pushes you to the nearest free point.
 - Fix: LOD builds no longer auto-switch to full detail in low/XR (was up to 110 stereo draws near the builds wall).
+
+## VR comfort settings (2026-10-17)
+- Panel (HTML "Comfort (VR)" section and the in-VR panel's COMFORT row): Turn = snap 30° (default) / snap 45° / smooth (90°/s); Vignette on (default) / off (also shown while smooth-turning); Move = smooth (default) / teleport only; Swap hands (or `?lefty`). Saved in localStorage `ff-comfort`.
+- One controller only: stick forward/back moves, a strong left/right flick (> 0.8) snap-turns, trigger teleports.
+- Exiting VR mid-move or mid-aim now clears the vignette, teleport marker and aim state.
+- Pit gap marker is a single thin gold threshold line.

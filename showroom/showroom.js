@@ -483,7 +483,7 @@ async function loadBuilds() {
   items.slice(0, slots.length).forEach((e, i) => { const holder = new THREE.Group(); holder.position.set(...slots[i]); holder.rotation.y = Math.PI; shelf.add(holder);
     const file = e.file; if (!file) return; const lf = e.lod1 || null;
     loader.load(url(low && lf ? lf : file), g => {
-      if (!low && lf) { const lod = new THREE.LOD(); lod.addLevel(fit(g.scene, e, 0.6, 0.42, 0.26), 0); holder.add(lod); lodObjs.push(lod);
+      if (!low && lf) { const lod = new THREE.LOD(); lod.autoUpdate = !lowNow; lod.addLevel(fit(g.scene, e, 0.6, 0.42, 0.26), 0); holder.add(lod); lodObjs.push(lod);
         loader.load(url(lf), g2 => lod.addLevel(fit(g2.scene, e, 0.6, 0.42, 0.26), 3.5), undefined, () => {}); }
       else holder.add(fit(g.scene, e, 0.6, 0.42, 0.26));
       loaded++; buildsInfo = `${loaded}/${items.length}${base.includes('opt') ? ' opt' : ''}`; status(true); }, undefined, () => console.info('build missing', file)); });
@@ -569,7 +569,7 @@ function unmerge() { if (!merged) return; merged.batches.forEach(m => { m.remove
 let mergeT = 0; const scheduleMerge = (ms = 1200) => { clearTimeout(mergeT); mergeT = setTimeout(() => { if (lowNow) { staticMerge(); status(true); } }, ms); };
 THREE.DefaultLoadingManager.onLoad = () => scheduleMerge(); THREE.DefaultLoadingManager.onProgress = () => scheduleMerge();
 const PIX = Q.has('pixels'); // F3: desktop uses the LED ribbon too (90k tris saved); ?pixels brings back the per-pixel strip
-function setLow(on) { const was = lowNow; lowNow = on; washSet[120].visible = !on; washSet[48].visible = on; applyCantSet(); pixels.visible = !on && PIX; ledRibbon.visible = on || !PIX; bracketGroup.visible = !on;
+function setLow(on) { const was = lowNow; lowNow = on; for (const l of lodObjs) l.autoUpdate = !on; /* renderer auto-updates LODs: in low/XR that re-showed full builds over the merged lod1 batch near the wall */ washSet[120].visible = !on; washSet[48].visible = on; applyCantSet(); pixels.visible = !on && PIX; ledRibbon.visible = on || !PIX; bracketGroup.visible = !on;
   ringMesh.visible = store.get().labels || renderer.xr.isPresenting;
   applySignSet(); if (on && !was) scheduleMerge(0); if (!on && was) unmerge(); applyNeonMode(); statusFrames = 2; } // B6: refresh status right after the transition
 setLow(low); if (low) scheduleMerge(0);
@@ -623,7 +623,7 @@ const WALK_RECTS = (() => { const r = RAD, w2 = PASSAGE.w / 2, [tx, tz] = PASSAG
 const PR = PIT.size / 2 - 0.45, cw = (lx0, lx1, lz0, lz1) => { const C = CANTINA.origin; return [C[0] + lz0, C[0] + lz1, C[1] - lx1, C[1] - lx0]; }; // cantina-local box -> world
 const SOLIDS = [
   ...PLINTHS.map(p => [p.x - p.w / 2, p.x + p.w / 2, p.z - p.d / 2, p.z + p.d / 2]),
-  [PIT.cx + PR - 0.35, PIT.cx + PR + 0.5, PIT.cz - PR - 0.3, PIT.cz + PR + 0.3],                 // banquette back run
+  [PIT.cx + PR - 0.35, PIT.cx + PR + 0.5, PIT.cz + 0.5, PIT.cz + PR + 0.3], [PIT.cx + PR - 0.35, PIT.cx + PR + 0.5, PIT.cz - PR - 0.3, PIT.cz - 0.5], // banquette back run, split by the hall-side gap                 // banquette back run
   [PIT.cx - PR * 0.55, PIT.cx + PR, PIT.cz + PR - 0.35, PIT.cz + PR + 0.5],                      // banquette +Z run
   [PIT.cx - PR * 0.55, PIT.cx + PR, PIT.cz - PR - 0.5, PIT.cz - PR + 0.35],                      // banquette -Z run
   [PIT.cx - 0.65, PIT.cx + 0.45, PIT.cz - 0.55, PIT.cz + 0.55],                                  // pit table
@@ -634,11 +634,15 @@ const SOLIDS = [
 ];
 const inSolid = (x, z) => SOLIDS.some(([x0, x1, z0, z1]) => x > x0 - RAD && x < x1 + RAD && z > z0 - RAD && z < z1 + RAD);
 const walkable = (x, z) => WALK_RECTS.some(([x0, x1, z0, z1]) => x >= x0 && x <= x1 && z >= z0 && z <= z1) && !inSolid(x, z);
+function nearestFree(x, z) { // escape: push out of a solid prop / wall to the nearest walkable point (rings of 16 probes, 5 cm steps, up to 3 m); else spawn
+  if (walkable(x, z)) return [x, z];
+  for (let d = 0.05; d <= 3; d += 0.05) for (let k = 0; k < 16; k++) { const a = k / 16 * Math.PI * 2, px = x + Math.cos(a) * d, pz = z + Math.sin(a) * d; if (walkable(px, pz)) return [px, pz]; }
+  return [SPAWNS[0].x, SPAWNS[0].z]; }
 const PH = PIT.size / 2, floorAt = (x, z) => (Math.abs(x - PIT.cx) < PH && Math.abs(z - PIT.cz) < PH ? PIT_Y : 0); // only the pit steps down
 walk = { on: IS_TOUCH && !Q.has('orbit'), x: 0, z: 0, eyeY: EYE, yaw: 0, pitch: 0, joy: [0, 0], goal: null, keys: new Set(), last: performance.now(),
   syncFromCamera() { camera.updateMatrixWorld(); const f = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
     this.yaw = Math.atan2(-f.x, -f.z); this.pitch = Math.max(-1.2, Math.min(1.2, Math.asin(f.y))); this.goal = null;
-    let x = camera.position.x, z = camera.position.z; if (!walkable(x, z)) { const s = SPAWNS[0]; x = s.x; z = s.z; } this.x = x; this.z = z; this.eyeY = floorAt(x, z) + EYE; } };
+    let [x, z] = nearestFree(camera.position.x, camera.position.z); this.x = x; this.z = z; this.eyeY = floorAt(x, z) + EYE; } };
 const tryMove = (dx, dz) => { // slide along walls: full move, else per-axis
   if (walkable(walk.x + dx, walk.z + dz)) { walk.x += dx; walk.z += dz; return true; }
   let ok = false; if (dx && walkable(walk.x + dx, walk.z)) { walk.x += dx; ok = true; } if (dz && walkable(walk.x, walk.z + dz)) { walk.z += dz; ok = true; } return ok; };
@@ -699,6 +703,57 @@ addEventListener('pointerup', e => { if (e.pointerId !== drag.id) return; drag.i
   if (fh) _hit.copy(fh.point); else if (!_ray.ray.intersectPlane(_floor, _hit)) return; if (!walkable(_hit.x, _hit.z)) return; const d = Math.hypot(_hit.x - walk.x, _hit.z - walk.z); if (d < 0.2 || d > 15) return;
   walk.goal = { x0: walk.x, z0: walk.z, x1: _hit.x, z1: _hit.z, t: 0, dur: Math.max(0.5, d / WALK_V) }; });
 addEventListener('pointercancel', e => { if (e.pointerId === drag.id) drag.id = null; });
+// ---------- VR locomotion (WebXR gamepads; local input only: remote/state messages never move the rig) ----------
+// Left stick: smooth move along head yaw (1.4 m/s, same collision/props/pit step as touch walking; rig y follows the floor).
+// Right stick: 30 deg snap turn about the head (deadzone + re-arm). Trigger: hold to aim (straight ray from the controller; reuses the panel's ray line),
+// release to teleport to a valid floor point or a group-spot ring. Draw budget: aiming marker (+1) hides the idle controller ray (-1); while moving,
+// the vignette (+1) replaces both rays (-2), so the hall never exceeds the idle count.
+const XRM = { armed: true, aim: null, moveAmt: 0, lastT: performance.now(), dead: 0.18, turn: Math.PI / 6 };
+const xrCtl = [0, 1].map(i => { const c = renderer.xr.getController(i); c.addEventListener('connected', e => { c.userData.src = e.data; }); c.addEventListener('disconnected', () => { c.userData.src = null; }); return c; });
+const ctlRay = c => c.children.find(o => o.isLine);
+const tpMarker = new THREE.Mesh(mergeGeometries([new THREE.RingGeometry(0.22, 0.27, 32), new THREE.CircleGeometry(0.06, 16)]).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0x7ff0e2, transparent: true, opacity: 0.85, depthWrite: false, toneMapped: false }));
+tpMarker.visible = false; tpMarker.renderOrder = 3; tpMarker.userData.noMerge = true; scene.add(tpMarker);
+const vignette = (() => { const g = new THREE.RingGeometry(0.16, 0.9, 48, 2), n = g.attributes.position.count, c = new Float32Array(n * 4);
+  for (let i = 0; i < n; i++) { const r = Math.hypot(g.attributes.position.getX(i), g.attributes.position.getY(i)); c[i * 4 + 3] = r < 0.2 ? 0 : 0.85; } g.setAttribute('color', new THREE.BufferAttribute(c, 4));
+  const m = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: 0x000000, vertexColors: true, transparent: true, opacity: 0, depthTest: false, depthWrite: false, toneMapped: false }));
+  m.position.z = -0.3; m.renderOrder = 999; m.frustumCulled = false; m.visible = false; m.userData.noMerge = true; camera.add(m); return m; })();
+const _hp = new THREE.Vector3(), _hd = new THREE.Vector3(), _m4 = new THREE.Matrix4(), _rr = new THREE.Raycaster(), _hl = new THREE.Vector3();
+function headWorld() { const xc = renderer.xr.getCamera(); /* matrixWorld as of the last render (includes the rig); don't recompute it */ _hp.setFromMatrixPosition(xc.matrixWorld); _hd.setFromMatrixColumn(xc.matrixWorld, 2).negate(); _hd.y = 0; if (_hd.lengthSq() < 1e-6) _hd.set(0, 0, -1); _hd.normalize(); return _hp; }
+function rigMove(h, dx, dz) { const x0 = h.x, z0 = h.z; let x = x0, z = z0; // h = tracked head position (updated in place)
+  if (!walkable(x0, z0)) { const [fx, fz] = nearestFree(x0, z0); rig.position.x += fx - x0; rig.position.z += fz - z0; h.x = fx; h.z = fz; return; } // escape: stick used while inside a prop/wall (room-scale step) -> push to the nearest free point
+  if (walkable(x0 + dx, z0 + dz)) { x += dx; z += dz; } else { if (walkable(x0 + dx, z0)) x += dx; if (walkable(x, z0 + dz)) z += dz; }
+  rig.position.x += x - x0; rig.position.z += z - z0; h.x = x; h.z = z; }
+function rigTeleport(h, x, z) { [x, z] = nearestFree(x, z); rig.position.x += x - h.x; rig.position.z += z - h.z; rig.position.y = floorAt(x, z); h.x = x; h.z = z; }
+function snapTurn(h, a) { rig.updateMatrixWorld(true); _hl.copy(h).applyMatrix4(_m4.copy(rig.matrixWorld).invert()); rig.rotation.y += a; rig.updateMatrixWorld(true); _hl.applyMatrix4(rig.matrixWorld); rig.position.x += h.x - _hl.x; rig.position.z += h.z - _hl.z; }
+function aimTarget(c) { _m4.identity().extractRotation(c.matrixWorld); _rr.ray.origin.setFromMatrixPosition(c.matrixWorld); _rr.ray.direction.set(0, 0, -1).applyMatrix4(_m4); _rr.far = 12;
+  const ph = xrPanel.group.visible ? _rr.intersectObject(xrPanel.group, true)[0] : null; const fh = _rr.intersectObjects(getFloors(), false).filter(h => h.face && h.face.normal.y > 0.5)[0];
+  if (!fh || (ph && ph.distance < fh.distance)) return { ok: false, dist: ph ? ph.distance : 3, panel: !!ph };
+  let x = fh.point.x, z = fh.point.z; const spot = GROUP_SPOTS.find(g => Math.hypot(g.x - x, g.z - z) < 0.45); if (spot) { x = spot.x; z = spot.z; } // snap to a group-spot ring
+  return { ok: walkable(x, z), x, z, y: floorAt(x, z), dist: fh.distance }; }
+function xrLocomotion() {
+  const now = performance.now(), dt = Math.min(0.5, (now - XRM.lastT) / 1000); XRM.lastT = now; if (!renderer.xr.isPresenting) return;
+  let mx = 0, my = 0, tx = 0, aiming = null;
+  for (const c of xrCtl) { const src = c.userData.src, gp = src?.gamepad; if (!gp) continue; const ax = gp.axes, sx = ax.length >= 4 ? ax[2] : ax[0] || 0, sy = ax.length >= 4 ? ax[3] : ax[1] || 0;
+    if (src.handedness === 'left') { mx = sx; my = sy; } else if (src.handedness === 'right') tx = sx;
+    if (gp.buttons[0]?.pressed) aiming ||= c; }
+  const h = headWorld().clone(), fx = _hd.x, fz = _hd.z, rx = -fz, rz = fx; // head + yaw as of the last frame, tracked through this frame's rig changes
+  // snap turn with re-arm (first, while rig.matrixWorld still matches h)
+  if (Math.abs(tx) > 0.6 && XRM.armed) { snapTurn(h, -Math.sign(tx) * XRM.turn); XRM.armed = false; } else if (Math.abs(tx) < 0.3) XRM.armed = true;
+  // smooth move (substeps, same 1/60 s as touch walking)
+  const mag = Math.hypot(mx, my), moving = mag > XRM.dead;
+  if (moving) { const k = Math.min(1, (mag - XRM.dead) / (1 - XRM.dead)) / mag, n = Math.max(1, Math.ceil(dt * 60)), sd = dt / n;
+    for (let i = 0; i < n; i++) rigMove(h, (fx * -my + rx * mx) * k * WALK_V * sd, (fz * -my + rz * mx) * k * WALK_V * sd); }
+  // floor height (pit) follows the head
+  rig.position.y += (floorAt(h.x, h.z) - rig.position.y) * (1 - Math.exp(-dt * 6));
+  // teleport aim / release
+  if (aiming) { const t = aimTarget(aiming); XRM.aim = { c: aiming, t }; const ln = ctlRay(aiming); if (ln) { ln.scale.z = t.dist; ln.material.color.set(t.ok ? 0x7ff0e2 : t.panel ? 0xffffff : 0xff5a4a); }
+    tpMarker.visible = t.ok; if (t.ok) tpMarker.position.set(t.x, t.y + 0.01, t.z); }
+  else if (XRM.aim) { const { c, t } = XRM.aim; XRM.aim = null; tpMarker.visible = false; const ln = ctlRay(c); if (ln) { ln.scale.z = 3; ln.material.color.set(0xffffff); } if (t.ok) rigTeleport(h, t.x, t.z); }
+  // budget: marker hides the idle ray; vignette replaces both rays while moving
+  XRM.moveAmt += ((moving ? 1 : 0) - XRM.moveAmt) * (1 - Math.exp(-dt * 10)); vignette.visible = XRM.moveAmt > 0.02; vignette.material.opacity = XRM.moveAmt * 0.75;
+  for (const c of xrCtl) { const ln = ctlRay(c); if (ln) ln.visible = !vignette.visible && (!aiming || c === aiming); }
+}
+renderer.xr.addEventListener('sessionstart', () => { XRM.aim = null; tpMarker.visible = false; vignette.visible = false; XRM.moveAmt = 0; XRM.lastT = performance.now(); });
 function setWalk(on) { walk.on = on; joy.style.display = on && IS_TOUCH && !renderer.xr.isPresenting ? 'block' : 'none'; controls.enabled = !on && !look.on; if (on) { walk.syncFromCamera(); showHint(); } }
 renderer.xr.addEventListener('sessionstart', () => { joy.style.display = 'none'; walk.joy = [0, 0]; walk.goal = null; });
 
@@ -714,7 +769,7 @@ function writeStatus() { overlay.status(`N=${N} px · cove ${P.toFixed(2)} m · 
 
 window.LOFT = { scene, renderer, rig, camera, controls, setLow: on => setLow(on), get lodObjs() { return lodObjs; }, rooms: { hall, passage, cantina }, get room() { return roomNow; }, get ledStrip() { return ledStrip; }, N, perimeter: P, U, store, api, setView, spawns: SPAWNS, groupSpots: GROUP_SPOTS, MAX_USERS, net,
   get lowNow() { return lowNow; }, get reliefSize() { return reliefSize; }, get drawCalls() { return drawCalls; }, layout: { HALL, VEST, COVE, BW, GATHER, PIT, WINDOW, NOOK, PLINTHS } };
-applyPreset('dusk'); setView('hall'); setWalk(walk.on); if (!walk.on) walk.syncFromCamera(); window.LOFT.walk = walk; window.LOFT.walkable = walkable;
+applyPreset('dusk'); setView('hall'); setWalk(walk.on); if (!walk.on) walk.syncFromCamera(); window.LOFT.walk = walk; window.LOFT.walkable = walkable; window.LOFT.xrm = { XRM, tpMarker, vignette, xrCtl, nearestFree };
 
 // P2: the TV iframe is a plain fixed-position element warped onto the screen's projected corners (matrix3d homography), so it sits above the canvas
 // only over the screen rect and receives clicks (CSS3DRenderer's perspective tree did not hit-test). Hidden in XR (no DOM) -> atlas snapshot shows.
@@ -738,7 +793,7 @@ window.LOFT.tv = { url: TV.url, get frame() { return tvCss?.element; } };
 // ---------- loop ----------
 const avg = new Float32Array(3); let frame = 0;
 renderer.setAnimationLoop(() => {
-  const t = clock.getElapsedTime(); walkUpdate(); applyLook();
+  const t = clock.getElapsedTime(); walkUpdate(); xrLocomotion(); applyLook();
   if (!renderer.xr.isPresenting && !look.on && !walk.on) controls.update();
   engineRender(t);
   const d = tex.image.data, step = N / TW; avg.fill(0); let wn = 0; const i0 = Math.floor(U.window[0] * N), i1 = Math.floor(U.window[1] * N);

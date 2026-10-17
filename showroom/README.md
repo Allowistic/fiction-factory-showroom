@@ -46,3 +46,11 @@ u-values on the cove strip (index 0 = entry corner (4,1.5), clockwise):
 - Phones/tablets: stick (bottom-left) to walk, one-finger drag to look (adds to the gyro when "Look around" is on), tap the floor to walk there. Two-finger gestures are ignored. `?orbit` restores orbit controls.
 - Desktop: drag to orbit, **WASD / arrow keys** to walk (moves the orbit pivot with you).
 - Collision: walkable rects from `layout.js` plus box colliders for plinths, banquette, pit table, nook, builds shelves and the cantina bar/back bar/booth/entertainment center. Eye height follows the floor (smooth step down into the pit).
+
+## VR locomotion (2026-10-17)
+- Left stick: smooth move along head yaw (1.4 m/s), same collision/solid props/pit step as touch walking; rig y follows the floor.
+- Right stick: 30° snap turn about the head (deadzone 0.6 on, re-arm below 0.3).
+- Trigger (hold, aim, release): teleport to a valid floor point or snap to a group-spot ring; teal marker = valid, red ray = invalid. The panel still takes trigger clicks when the ray hits it first.
+- Comfort vignette while smooth moving. Draw budget: the marker hides the idle ray, the vignette replaces both rays, so the hall stays at ≤ 60 stereo draws.
+- Banquette has a 1.1 m walk-in gap on the hall side (gold threshold strip). Using the stick while inside a prop pushes you to the nearest free point.
+- Fix: LOD builds no longer auto-switch to full detail in low/XR (was up to 110 stereo draws near the builds wall).

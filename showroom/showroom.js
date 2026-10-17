@@ -53,12 +53,12 @@ const VIEWS = {
   plan: { p: [1.8, 33, 8.0], t: [1.8, 0, 8.01] },
 };
 let ceilingGroup = null;
-var walk = null; // touch/desktop walking (set up below the gyro code)
+var walk = null; const IS_TOUCH_UI = matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window; // touch/desktop walking (set up below the gyro code)
 function setView(n) { const v = VIEWS[n]; if (!v) return; cullOverride = n === 'plan' ? 'all' : null; look.on && stopLook(); camera.position.set(...v.p); controls.target.set(...v.t); controls.update(); if (walk && walk.on) walk.syncFromCamera();
   if (ceilingGroup) ceilingGroup.visible = n !== 'plan'; }
 function spawnRig(i = 0) { const s = SPAWNS[i % SPAWNS.length]; rig.position.set(s.x, 0, s.z); rig.rotation.y = Math.PI + s.yaw; } // XR camera looks -Z; spawn faces +Z
 renderer.xr.addEventListener('sessionstart', () => { spawnRig(0); setLow(true); placePanel(); applyPreset(presetNow); });
-renderer.xr.addEventListener('sessionend', () => { rig.position.set(0, 0, 0); rig.rotation.y = 0; setLow(low); applyPreset(presetNow); setView('hall'); }); // N2/N3: one exit handler, back to the desktop spawn
+renderer.xr.addEventListener('sessionend', () => { rig.position.set(0, 0, 0); rig.rotation.y = 0; setLow(low); applyPreset(presetNow); setView('hall'); setWalk(walk.on); }); // N2/N3: the only exit handler: desktop spawn + walk/joystick restore
 
 // ---------- textures ----------
 const rnd = (() => { let s = 11; return () => ((s = (s * 16807) % 2147483647) / 2147483647); })();
@@ -528,7 +528,7 @@ const overlay = initOverlay(api, { N, P });
     const tg = document.createElement('button'); tg.id = 'panel-toggle'; tg.textContent = '☰'; tg.title = 'Show controls'; tg.setAttribute('aria-expanded', 'false'); tg.style.cssText = 'padding:2px 8px;margin-left:8px';
     const hd = document.createElement('div'); hd.style.cssText = 'display:flex;align-items:center;justify-content:space-between'; el.prepend(hd); hd.append(head, tg);
     tg.onclick = () => { const open = body.style.display === 'none'; body.style.display = open ? 'flex' : 'none'; tg.textContent = open ? '✕' : '☰'; tg.title = open ? 'Hide controls' : 'Show controls'; tg.setAttribute('aria-expanded', String(open)); }; }
-  const row = document.createElement('label'); row.innerHTML = `Go to <select id="go">${Object.keys(VIEWS).map(v => `<option>${v}</option>`).join('')}</select>`; const pb = el.querySelector('#panel-body'); pb.insertBefore(row, pb.firstChild);
+  const row = document.createElement('label'); row.innerHTML = `Go to <select id="go">${Object.keys(VIEWS).map(v => `<option>${v}</option>`).join('')}</select>`; const pb = el.querySelector('#panel-body'); pb.insertBefore(row, pb.firstChild); const help = document.createElement('small'); help.id = 'panel-help'; help.style.opacity = '.75'; help.textContent = IS_TOUCH_UI ? 'Stick: walk · drag: look · tap floor: walk there' : 'Drag: orbit · WASD / arrows: walk'; pb.append(help);
   row.querySelector('select').onchange = e => setView(e.target.value); } // local camera only
 const xrPanel = createXRPanel(THREE, renderer, scene, rig, api);
 function placePanel() { // control panel lives in the pit, on the table edge, facing the host seat (back banquette)
@@ -577,7 +577,7 @@ setLow(low); if (low) scheduleMerge(0);
 // ---------- phone fallback: Look around (B1 heading, B2 permissions) ----------
 const look = { on: false, a: null, b: null, g: null, yawOff: 0, dragX: null, aligned: false };
 const lookBtn = document.createElement('button'); lookBtn.textContent = 'Look around';
-lookBtn.style.cssText = 'position:fixed;bottom:44px;right:10px;padding:12px 20px;border:1px solid #fff;border-radius:6px;background:rgba(0,0,0,.6);color:#fff;font:14px system-ui;z-index:999;display:none';
+lookBtn.style.cssText = 'position:fixed;bottom:42px;right:10px;padding:7px 12px;border:1px solid #fff;border-radius:6px;background:rgba(0,0,0,.6);color:#fff;font:14px system-ui;z-index:999;display:none';
 document.body.appendChild(lookBtn);
 (navigator.xr?.isSessionSupported?.('immersive-vr') ?? Promise.resolve(false)).catch(() => false).then(ok => { const touch = matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window; if (!ok && touch) lookBtn.style.display = 'block'; }); // P0-2: phones/tablets only
 const onOri = e => { if (e.alpha == null) return; look.a = e.alpha; look.b = e.beta; look.g = e.gamma; };
@@ -596,7 +596,7 @@ lookBtn.addEventListener('click', async () => {
 const _z = new THREE.Vector3(0, 0, 1), _e = new THREE.Euler(), _q0 = new THREE.Quaternion(), _q1 = new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)), _qy = new THREE.Quaternion(), _f = new THREE.Vector3();
 const SPAWN_YAW = Math.PI + SPAWNS[0].yaw; // camera yaw that faces +Z (into the room)
 function applyLook() {
-  if (!look.on) return; if (walk && walk.on) camera.position.set(walk.x, EYE, walk.z); else camera.position.set(...SPAWN_EYE());
+  if (!look.on) return; if (walk && walk.on) camera.position.set(walk.x, walk.eyeY, walk.z); else camera.position.set(...SPAWN_EYE());
   if (look.a == null) { camera.quaternion.setFromEuler(_e.set(0, SPAWN_YAW + look.yawOff, 0, 'YXZ')); return; }
   const D2R = Math.PI / 180, orient = (screen.orientation?.angle ?? window.orientation ?? 0) * D2R;
   _e.set(look.b * D2R, look.a * D2R, -look.g * D2R, 'YXZ');
@@ -619,18 +619,39 @@ const WALK_RECTS = (() => { const r = RAD, w2 = PASSAGE.w / 2, [tx, tz] = PASSAG
     [tx - w2 + r, ex + 0.5, tz - w2 + r, tz + w2 - r],                                         // passage leg B -> cantina door
     [cx0 + r, cx0 + C.D - r, cz - C.W / 2 + r, cz + C.W / 2 - r],                              // cantina
   ]; })();
-const walkable = (x, z) => WALK_RECTS.some(([x0, x1, z0, z1]) => x >= x0 && x <= x1 && z >= z0 && z <= z1);
-walk = { on: IS_TOUCH && !Q.has('orbit'), x: 0, z: 0, yaw: 0, pitch: 0, joy: [0, 0], goal: null, keys: new Set(), last: performance.now(),
+// solid props: simple world-space boxes [x0, x1, z0, z1] (inflated by RAD when tested)
+const PR = PIT.size / 2 - 0.45, cw = (lx0, lx1, lz0, lz1) => { const C = CANTINA.origin; return [C[0] + lz0, C[0] + lz1, C[1] - lx1, C[1] - lx0]; }; // cantina-local box -> world
+const SOLIDS = [
+  ...PLINTHS.map(p => [p.x - p.w / 2, p.x + p.w / 2, p.z - p.d / 2, p.z + p.d / 2]),
+  [PIT.cx + PR - 0.35, PIT.cx + PR + 0.5, PIT.cz - PR - 0.3, PIT.cz + PR + 0.3],                 // banquette back run
+  [PIT.cx - PR * 0.55, PIT.cx + PR, PIT.cz + PR - 0.35, PIT.cz + PR + 0.5],                      // banquette +Z run
+  [PIT.cx - PR * 0.55, PIT.cx + PR, PIT.cz - PR - 0.5, PIT.cz - PR + 0.35],                      // banquette -Z run
+  [PIT.cx - 0.65, PIT.cx + 0.45, PIT.cz - 0.55, PIT.cz + 0.55],                                  // pit table
+  [NOOK.x0, NOOK.x0 + 0.5, NOOK.z0 + 0.35, NOOK.z1 - 0.35],                                     // hi-fi
+  [NOOK.x1 - 0.75, NOOK.x1, NOOK.z0, NOOK.z0 + 0.85], [NOOK.x1 - 0.75, NOOK.x1, NOOK.z1 - 0.85, NOOK.z1], // lounge chairs
+  [BW.x0, BW.x1, BW.z - BW.depth, BW.z],                                                         // builds shelves
+  cw(1.5, 2.55, 1.19, 5.21), cw(3.48, 3.98, 2.65, 5.95), cw(-4, -0.8, 2.2, 5.4), cw(-2.05, 2.05, 6.02, 6.5), // cantina bar, back bar, booth, ent center
+];
+const inSolid = (x, z) => SOLIDS.some(([x0, x1, z0, z1]) => x > x0 - RAD && x < x1 + RAD && z > z0 - RAD && z < z1 + RAD);
+const walkable = (x, z) => WALK_RECTS.some(([x0, x1, z0, z1]) => x >= x0 && x <= x1 && z >= z0 && z <= z1) && !inSolid(x, z);
+const PH = PIT.size / 2, floorAt = (x, z) => (Math.abs(x - PIT.cx) < PH && Math.abs(z - PIT.cz) < PH ? PIT_Y : 0); // only the pit steps down
+walk = { on: IS_TOUCH && !Q.has('orbit'), x: 0, z: 0, eyeY: EYE, yaw: 0, pitch: 0, joy: [0, 0], goal: null, keys: new Set(), last: performance.now(),
   syncFromCamera() { camera.updateMatrixWorld(); const f = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
     this.yaw = Math.atan2(-f.x, -f.z); this.pitch = Math.max(-1.2, Math.min(1.2, Math.asin(f.y))); this.goal = null;
-    let x = camera.position.x, z = camera.position.z; if (!walkable(x, z)) { const s = SPAWNS[0]; x = s.x; z = s.z; } this.x = x; this.z = z; } };
+    let x = camera.position.x, z = camera.position.z; if (!walkable(x, z)) { const s = SPAWNS[0]; x = s.x; z = s.z; } this.x = x; this.z = z; this.eyeY = floorAt(x, z) + EYE; } };
 const tryMove = (dx, dz) => { // slide along walls: full move, else per-axis
   if (walkable(walk.x + dx, walk.z + dz)) { walk.x += dx; walk.z += dz; return true; }
   let ok = false; if (dx && walkable(walk.x + dx, walk.z)) { walk.x += dx; ok = true; } if (dz && walkable(walk.x, walk.z + dz)) { walk.z += dz; ok = true; } return ok; };
 const heading = () => { const f = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion); f.y = 0; if (f.lengthSq() < 1e-6) f.set(-Math.sin(walk.yaw), 0, -Math.cos(walk.yaw)); return f.normalize(); };
 function walkUpdate() {
-  const now = performance.now(), dt = Math.min(0.1, (now - walk.last) / 1000); walk.last = now;
-  if (renderer.xr.isPresenting) return;
+  const now = performance.now(), dtAll = Math.min(0.5, (now - walk.last) / 1000); walk.last = now; // substeps keep 1.4 m/s at low fps (only >0.5 s hitches are dropped)
+  if (renderer.xr.isPresenting) return; const nSub = Math.max(1, Math.ceil(dtAll / (1 / 60))), dt = dtAll / nSub;
+  for (let i = 0; i < nSub; i++) walkStep(dt);
+  walk.eyeY += (floorAt(walk.x, walk.z) + EYE - walk.eyeY) * (1 - Math.exp(-dtAll * 6)); // smooth step down into / up out of the pit
+  if (walk.on && !look.on) { camera.position.set(walk.x, walk.eyeY, walk.z); camera.quaternion.setFromEuler(_e.set(walk.pitch, walk.yaw, 0, 'YXZ')); }
+  else if (walk.on && look.on) camera.position.set(walk.x, walk.eyeY, walk.z);
+}
+function walkStep(dt) {
   let mx = walk.joy[0], mz = walk.joy[1]; // joystick: x = strafe right, y = forward
   const k = walk.keys; if (k.has('KeyW') || k.has('ArrowUp')) mz += 1; if (k.has('KeyS') || k.has('ArrowDown')) mz -= 1; if (k.has('KeyD') || k.has('ArrowRight')) mx += 1; if (k.has('KeyA') || k.has('ArrowLeft')) mx -= 1;
   const len = Math.hypot(mx, mz);
@@ -640,8 +661,6 @@ function walkUpdate() {
     if (!walk.on && !look.on) { camera.position.x += walk.x - ox; camera.position.z += walk.z - oz; controls.target.x += walk.x - ox; controls.target.z += walk.z - oz; } }
   if (walk.goal) { const g = walk.goal; g.t += dt / g.dur; const u = Math.min(1, g.t), e = u * u * (3 - 2 * u); // eased tap-to-walk
     const tx = g.x0 + (g.x1 - g.x0) * e, tz = g.z0 + (g.z1 - g.z0) * e; if (!tryMove(tx - walk.x, tz - walk.z) || u >= 1) walk.goal = null; }
-  if (walk.on && !look.on) { camera.position.set(walk.x, EYE, walk.z); camera.quaternion.setFromEuler(_e.set(walk.pitch, walk.yaw, 0, 'YXZ')); }
-  else if (walk.on && look.on) camera.position.set(walk.x, EYE, walk.z);
 }
 addEventListener('keydown', e => { if (e.target.closest?.('input,select,textarea')) return; if (/^(Key[WASD]|Arrow)/.test(e.code)) { walk.keys.add(e.code); e.preventDefault?.(); } });
 addEventListener('keyup', e => walk.keys.delete(e.code)); addEventListener('blur', () => walk.keys.clear());
@@ -649,28 +668,39 @@ addEventListener('keyup', e => walk.keys.delete(e.code)); addEventListener('blur
 renderer.domElement.style.touchAction = 'none'; document.body.style.overscrollBehavior = 'none';
 // joystick (bottom-left; corner UI is top-left / bottom-right)
 const joy = document.createElement('div'); joy.id = 'joystick'; const knob = document.createElement('div'); joy.append(knob);
-joy.style.cssText = 'position:fixed;left:18px;bottom:18px;width:120px;height:120px;border-radius:50%;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.35);touch-action:none;z-index:6;display:none';
-knob.style.cssText = 'position:absolute;left:35px;top:35px;width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.45);pointer-events:none';
+joy.style.cssText = 'position:fixed;left:18px;bottom:18px;width:104px;height:104px;border-radius:50%;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.35);touch-action:none;z-index:6;display:none';
+knob.style.cssText = 'position:absolute;left:29px;top:29px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.45);pointer-events:none';
 document.body.append(joy); let joyId = null;
-const joyMove = e => { const r = joy.getBoundingClientRect(), cx = r.left + 60, cy = r.top + 60; let dx = e.clientX - cx, dy = e.clientY - cy; const d = Math.hypot(dx, dy), m = 45; if (d > m) { dx *= m / d; dy *= m / d; }
+const joyMove = e => { const r = joy.getBoundingClientRect(), cx = r.left + 52, cy = r.top + 52; let dx = e.clientX - cx, dy = e.clientY - cy; const d = Math.hypot(dx, dy), m = 40; if (d > m) { dx *= m / d; dy *= m / d; }
   knob.style.transform = `translate(${dx}px,${dy}px)`; walk.joy = [dx / m, -dy / m]; };
 joy.addEventListener('pointerdown', e => { joyId = e.pointerId; joy.setPointerCapture(e.pointerId); joyMove(e); e.preventDefault(); });
 joy.addEventListener('pointermove', e => { if (e.pointerId === joyId) joyMove(e); });
 const joyEnd = e => { if (e.pointerId !== joyId) return; joyId = null; walk.joy = [0, 0]; knob.style.transform = ''; }; joy.addEventListener('pointerup', joyEnd); joy.addEventListener('pointercancel', joyEnd);
 // one-finger drag = look (adds to the gyro yaw when 'Look around' is on); short tap on the floor = walk there
 const drag = { id: null, x: 0, y: 0, x0: 0, y0: 0, t0: 0 }, _ray = new THREE.Raycaster(), _floor = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), _hit = new THREE.Vector3();
-renderer.domElement.addEventListener('pointerdown', e => { if (!(walk.on || look.on) || drag.id != null) return; Object.assign(drag, { id: e.pointerId, x: e.clientX, y: e.clientY, x0: e.clientX, y0: e.clientY, t0: performance.now() }); });
-addEventListener('pointermove', e => { if (e.pointerId !== drag.id) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag.x = e.clientX; drag.y = e.clientY;
+const canvasTouches = new Set(); let multi = false;
+const hintKey = 'ff-walk-hint'; let hint = null;
+function hideHint() { if (!hint) return; hint.style.opacity = '0'; const h = hint; hint = null; setTimeout(() => h.remove(), 600); try { localStorage.setItem(hintKey, '1'); } catch (e) {} }
+function showHint() { let seen = false; try { seen = !!localStorage.getItem(hintKey); } catch (e) {} if (seen || hint || !walk.on || !IS_TOUCH) return;
+  hint = document.createElement('div'); hint.id = 'walk-hint'; hint.textContent = 'Drag to look, tap floor to walk';
+  hint.style.cssText = 'position:fixed;left:50%;top:38%;transform:translateX(-50%);padding:8px 14px;border-radius:16px;background:rgba(0,0,0,.55);color:#fff;font:14px system-ui;pointer-events:none;z-index:7;transition:opacity .6s;opacity:1';
+  document.body.append(hint); setTimeout(hideHint, 4500); }
+addEventListener('pointerdown', hideHint, true);
+let floorMeshes = null; const getFloors = () => floorMeshes ||= (() => { const out = [], mats = new Set([M.floor, M.rug, M.deck]); scene.traverse(o => { if (o.isMesh && !o.userData.batch && mats.has(o.material)) out.push(o); }); return out; })();
+renderer.domElement.addEventListener('pointerdown', e => { canvasTouches.add(e.pointerId); if (canvasTouches.size > 1) { multi = true; drag.id = null; return; } }, true); // 2+ fingers on the view: ignore (no pinch rotate)
+addEventListener('pointerup', e => { canvasTouches.delete(e.pointerId); if (!canvasTouches.size) multi = false; }, true); addEventListener('pointercancel', e => { canvasTouches.delete(e.pointerId); if (!canvasTouches.size) multi = false; }, true);
+renderer.domElement.addEventListener('pointerdown', e => { if (multi || !(walk.on || look.on) || drag.id != null) return; Object.assign(drag, { id: e.pointerId, x: e.clientX, y: e.clientY, x0: e.clientX, y0: e.clientY, t0: performance.now() }); });
+addEventListener('pointermove', e => { if (e.pointerId !== drag.id || multi) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag.x = e.clientX; drag.y = e.clientY;
   if (look.on) look.yawOff += dx * 0.005; else if (walk.on) { walk.yaw += dx * 0.005; walk.pitch = Math.max(-1.2, Math.min(1.2, walk.pitch + dy * 0.004)); } });
 addEventListener('pointerup', e => { if (e.pointerId !== drag.id) return; drag.id = null;
   if (!walk.on || Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 10 || performance.now() - drag.t0 > 600) return;
   _ray.setFromCamera(new THREE.Vector2(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1), camera);
-  if (!_ray.ray.intersectPlane(_floor, _hit) || !walkable(_hit.x, _hit.z)) return; const d = Math.hypot(_hit.x - walk.x, _hit.z - walk.z); if (d < 0.2 || d > 15) return;
+  const hits = _ray.intersectObjects(getFloors(), false).filter(h => h.object.visible || h.object.parent?.visible); const fh = hits[0]; // the real floor meshes (hall, pit, passage, cantina)
+  if (fh) _hit.copy(fh.point); else if (!_ray.ray.intersectPlane(_floor, _hit)) return; if (!walkable(_hit.x, _hit.z)) return; const d = Math.hypot(_hit.x - walk.x, _hit.z - walk.z); if (d < 0.2 || d > 15) return;
   walk.goal = { x0: walk.x, z0: walk.z, x1: _hit.x, z1: _hit.z, t: 0, dur: Math.max(0.5, d / WALK_V) }; });
 addEventListener('pointercancel', e => { if (e.pointerId === drag.id) drag.id = null; });
-function setWalk(on) { walk.on = on; joy.style.display = on && IS_TOUCH ? 'block' : 'none'; controls.enabled = !on && !look.on; if (on) walk.syncFromCamera(); }
+function setWalk(on) { walk.on = on; joy.style.display = on && IS_TOUCH && !renderer.xr.isPresenting ? 'block' : 'none'; controls.enabled = !on && !look.on; if (on) { walk.syncFromCamera(); showHint(); } }
 renderer.xr.addEventListener('sessionstart', () => { joy.style.display = 'none'; walk.joy = [0, 0]; walk.goal = null; });
-renderer.xr.addEventListener('sessionend', () => setWalk(walk.on));
 
 
 // ---------- ?testroom: 4 dummy avatars at spawns 1-4 (tagged 'avatar', never merged) to measure headroom ----------

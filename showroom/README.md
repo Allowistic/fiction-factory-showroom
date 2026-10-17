@@ -41,3 +41,8 @@ u-values on the cove strip (index 0 = entry corner (4,1.5), clockwise):
 - Cantina TV: clickable iframe warped over the screen (lazy-loaded on first cantina visit); XR shows the baked snapshot.
 - Desktop: LED ribbon instead of 7560 instanced pixels (`?pixels` restores them); brighter desktop exposure (XR unchanged).
 - VR from the default URL swaps the HOPE board to lod1 as well as the shelf builds.
+
+## Walking (2026-10-16)
+- Phones/tablets: stick (bottom-left) to walk, one-finger drag to look (adds to the gyro when "Look around" is on), tap the floor to walk there. Two-finger gestures are ignored. `?orbit` restores orbit controls.
+- Desktop: drag to orbit, **WASD / arrow keys** to walk (moves the orbit pivot with you).
+- Collision: walkable rects from `layout.js` plus box colliders for plinths, banquette, pit table, nook, builds shelves and the cantina bar/back bar/booth/entertainment center. Eye height follows the floor (smooth step down into the pit).

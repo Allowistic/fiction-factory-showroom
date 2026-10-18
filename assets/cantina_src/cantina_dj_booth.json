@@ -1,0 +1,93 @@
+{
+ "file": "cantina_dj_booth.glb",
+ "name": "DJ booth: walnut/brass counter, 2 decks (A at -X = visitors' left) with spinning platters, 2-ch mixer + crossfader, Dex riser, 1.4 x 0.7 m video screen on brass posts, teal kick/riser/request lights",
+ "scale": 1.0,
+ "lod1": "cantina_dj_booth_lod1.glb",
+ "tris": 3374,
+ "tris_lod1": 2494,
+ "bytes": 246356,
+ "bytes_lod1": 246464,
+ "draws": 3,
+ "materials": [
+  "cantina_dj_booth_atlas",
+  "cantina_dj_screen",
+  "cantina_glow_teal"
+ ],
+ "pivots": {
+  "root": "booth",
+  "platters": [
+   "platterA",
+   "platterB"
+  ],
+  "crossfader": "xfader"
+ },
+ "joints": {
+  "booth": {
+   "pos_gltf": [
+    0.0,
+    0.0,
+    -0.0
+   ],
+   "parent": null
+  },
+  "platterA": {
+   "pos_gltf": [
+    -0.48,
+    1.07,
+    0.02
+   ],
+   "parent": "booth"
+  },
+  "platterB": {
+   "pos_gltf": [
+    0.48,
+    1.07,
+    0.02
+   ],
+   "parent": "booth"
+  },
+  "xfader": {
+   "pos_gltf": [
+    0.0,
+    1.075,
+    0.15
+   ],
+   "parent": "booth"
+  }
+ },
+ "nonmanifold_edges": {
+  "lod0": 0,
+  "lod1": 0
+ },
+ "screen": {
+  "node": "dj-screen",
+  "material": "cantina_dj_screen",
+  "size_m": [
+   1.4,
+   0.7
+  ],
+  "aspect": "2:1 (canvas 1024x512)",
+  "center_gltf": [
+   0,
+   2.18,
+   -0.66
+  ],
+  "tilt_x_rad": 0.06,
+  "faces": "+Z (visitors)",
+  "placeholder": "cantina_dj_screen_placeholder.jpg",
+  "uv": "0..1, u left->right, v bottom->top as seen by visitors"
+ },
+ "dex_spot": {
+  "pos_booth_local": [
+   0,
+   0.25,
+   -0.45
+  ],
+  "note": "Dex root on the riser, same as showroom.js"
+ },
+ "unlit_baked": true,
+ "room": "cantina",
+ "method": "procedural + CC0 PBR bake, skinned rigid rig",
+ "date": "2026-10-17T16:57:53-07:00",
+ "source": "/workspace/loft-xr/assets/cantina_src/cantina_dj_booth.blend"
+}

@@ -1,0 +1,129 @@
+{
+ "version": 1,
+ "bpm": 120,
+ "groups": [
+  "cove",
+  "wash",
+  "spot"
+ ],
+ "palette": {
+  "void": "#0a0a12",
+  "slate": "#3a4450",
+  "steel": "#6b7c8a",
+  "amber": "#c49a6c",
+  "copper": "#b87333",
+  "teal": "#3d8b8b",
+  "indigo": "#4b5e9b",
+  "violet": "#7a5ea8",
+  "rose": "#a85e7a",
+  "warm_white": "#e8dcc8",
+  "cool_white": "#c8d4e0",
+  "deep_blue": "#1a2744"
+ },
+ "palette_note": "Neutral placeholders (Dex's package). Nova will supply real Fiction Factory show colors.",
+ "safety": {
+  "max_strobe_hz": 3.0,
+  "spots_audience_aim": false,
+  "note": "No strobes faster than 3 Hz. Spots never aim at the audience."
+ },
+ "note": "Jules demo, 32 s at 120 BPM, Dex's lights.json format. 'bpm' is our optional extension: the beat grid used when no audio/cues.json is playing (free-running clock).",
+ "cues": [
+  {
+   "t": 0.0,
+   "group": "all",
+   "fx": "fade",
+   "color": "deep_blue",
+   "intensity": 0.4,
+   "dur_s": 4.0
+  },
+  {
+   "t": 0.0,
+   "group": "cove",
+   "fx": "chase",
+   "color": "indigo",
+   "intensity": 0.6,
+   "dur_s": 16.0,
+   "rate": "2bar",
+   "dir": "lr"
+  },
+  {
+   "t": 4.0,
+   "group": "wash",
+   "fx": "color",
+   "color": "violet",
+   "intensity": 0.55,
+   "dur_s": 28.0
+  },
+  {
+   "t": 4.0,
+   "group": "wash",
+   "fx": "pulse",
+   "color": "cool_white",
+   "intensity": 0.35,
+   "dur_s": 12.0,
+   "rate": "bar"
+  },
+  {
+   "t": 8.0,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.8,
+   "dur_s": 8.0,
+   "rate": "half"
+  },
+  {
+   "t": 16.0,
+   "group": "cove",
+   "fx": "sweep",
+   "color": "warm_white",
+   "intensity": 0.7,
+   "dur_s": 4.0,
+   "dir": "center"
+  },
+  {
+   "t": 16.0,
+   "group": "cove",
+   "fx": "chase",
+   "color": "teal",
+   "intensity": 0.6,
+   "dur_s": 16.0,
+   "rate": "bar",
+   "dir": "rl"
+  },
+  {
+   "t": 16.0,
+   "group": "wash",
+   "fx": "pulse",
+   "color": "rose",
+   "intensity": 0.4,
+   "dur_s": 8.0,
+   "rate": "beat"
+  },
+  {
+   "t": 20.0,
+   "group": "spot",
+   "fx": "chase",
+   "color": "amber",
+   "intensity": 0.7,
+   "dur_s": 8.0,
+   "rate": "bar"
+  },
+  {
+   "t": 24.0,
+   "group": "all",
+   "fx": "blackout_soft",
+   "color": "void",
+   "intensity": 0.15,
+   "dur_s": 4.0
+  },
+  {
+   "t": 28.0,
+   "group": "all",
+   "fx": "fade",
+   "color": "copper",
+   "intensity": 0.5,
+   "dur_s": 4.0
+  }
+ ]
+}

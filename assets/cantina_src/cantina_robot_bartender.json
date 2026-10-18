@@ -1,0 +1,109 @@
+{
+ "file": "cantina_robot_bartender.glb",
+ "name": "Cantina robot bartender \"Tapper\": skinned rigid rig, joints named per ROBOT_MANIFEST (root/torso/head/armR/foreR/armL/foreL/antenna), identity rest rotations, brass + gunmetal + oxblood apron, teal visor",
+ "pivots": {
+  "root": "root",
+  "torso": "torso",
+  "head": "head",
+  "arm": "armR",
+  "forearm": "foreR",
+  "armL": "armL",
+  "forearmL": "foreL",
+  "antenna": "antenna"
+ },
+ "scale": 1.0,
+ "lod1": "cantina_robot_bartender_lod1.glb",
+ "tris": 3992,
+ "tris_lod1": 2782,
+ "bytes": 194520,
+ "bytes_lod1": 189924,
+ "draws": 2,
+ "materials": [
+  "cantina_robot_bartender_atlas",
+  "cantina_glow_teal"
+ ],
+ "joints": {
+  "root": {
+   "pos_gltf": [
+    0.0,
+    0.0,
+    -0.0
+   ],
+   "parent": null
+  },
+  "torso": {
+   "pos_gltf": [
+    0.0,
+    0.96,
+    -0.0
+   ],
+   "parent": "root"
+  },
+  "head": {
+   "pos_gltf": [
+    0.0,
+    1.5,
+    -0.0
+   ],
+   "parent": "torso"
+  },
+  "antenna": {
+   "pos_gltf": [
+    0.0,
+    1.775,
+    -0.0
+   ],
+   "parent": "head"
+  },
+  "armR": {
+   "pos_gltf": [
+    -0.29,
+    1.4,
+    -0.0
+   ],
+   "parent": "torso"
+  },
+  "foreR": {
+   "pos_gltf": [
+    -0.32,
+    1.12,
+    0.02
+   ],
+   "parent": "armR"
+  },
+  "armL": {
+   "pos_gltf": [
+    0.29,
+    1.4,
+    -0.0
+   ],
+   "parent": "torso"
+  },
+  "foreL": {
+   "pos_gltf": [
+    0.32,
+    1.12,
+    0.02
+   ],
+   "parent": "armL"
+  }
+ },
+ "height_m": 1.968,
+ "width_m": 0.769,
+ "depth_m": 0.61,
+ "nonmanifold_edges": {
+  "lod0": 0,
+  "lod1": 0
+ },
+ "clips": [
+  "idle",
+  "turn_to_player",
+  "wave",
+  "beckon"
+ ],
+ "unlit_baked": true,
+ "room": "cantina",
+ "method": "procedural + CC0 PBR bake, skinned rigid rig",
+ "date": "2026-10-17T16:45:13-07:00",
+ "source": "/workspace/loft-xr/assets/cantina_src/cantina_robot_bartender.blend"
+}

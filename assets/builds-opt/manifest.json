@@ -1,817 +1,1467 @@
 {
-  "version": 1,
-  "generated": "2026-10-15T16:49:15-07:00",
-  "variant": "quest-opt",
-  "conventions": {
-    "format": "GLB",
-    "up": "+Y",
-    "forward": "+Z",
-    "units": "meters",
-    "textures_max": 512,
-    "max_tris_per_model": 5000,
-    "max_tris_shelf": 60000,
-    "lod1_target_tris": 1000,
-    "compression": "draco",
-    "materials": "simple PBR; crest_card/fridge use 512 baked albedo on remesh"
+ "version": 1,
+ "generated": "2026-10-15T16:49:15-07:00",
+ "variant": "quest-opt",
+ "conventions": {
+  "format": "GLB",
+  "up": "+Y",
+  "forward": "+Z",
+  "units": "meters",
+  "textures_max": 512,
+  "max_tris_per_model": 5000,
+  "max_tris_shelf": 60000,
+  "lod1_target_tris": 1000,
+  "compression": "draco",
+  "materials": "simple PBR; crest_card/fridge use 512 baked albedo on remesh"
+ },
+ "totals": {
+  "models": 13,
+  "tris": 42554,
+  "bytes": 1164668,
+  "mb": 1.11,
+  "lod1_tris": 12042,
+  "lod1_mb": 0.74
+ },
+ "contact_sheet": "contact_sheet.png",
+ "skipped": [
+  {
+   "name": "Tommy checker sleeves",
+   "reason": "No STL/3MF under /workspace; tommy folders only have photos / KEEP-IT-FLYING.md"
   },
-  "totals": {
-    "models": 13,
-    "tris": 42554,
-    "bytes": 1164668,
-    "mb": 1.11,
-    "lod1_tris": 12042,
-    "lod1_mb": 0.74
+  {
+   "file": "ent_center_bar.glb",
+   "name": "Marcos Bini Entertainment Center (cantina, baked)",
+   "scale": 1.0,
+   "lod1": "ent_center_bar_lod1.glb",
+   "dims_mm": {
+    "x": 4102.1,
+    "y": 2546.5,
+    "z": 482.6
+   },
+   "tris": 9669,
+   "tris_lod1": 3274,
+   "bytes": 288548,
+   "bytes_lod1": 258552,
+   "draws": 5,
+   "materials": [
+    "ent_body",
+    "ent_walnut",
+    "ent_dark",
+    "ent_decor",
+    "led_strip"
+   ],
+   "unlit_baked": true,
+   "textures": {
+    "ent_body": 1024,
+    "ent_walnut": 1024,
+    "ent_dark": 512,
+    "ent_decor": 512
+   },
+   "emissive_driven": "led_strip",
+   "room": "cantina",
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     0,
+     0,
+     6.26
+    ],
+    "rot_y_deg": 180,
+    "note": "flush to far wall at z=6.5 (depth 0.48)"
+   },
+   "description": "Campbell Creek / Marcos Bini entertainment center, baked: 2700K pucks + sconce, ~20% ambient, one teal LED niche (light only), dim amber TV screen, 2 in radiused openings",
+   "source": "/workspace/campbell-creek/ent-center/ent_center_lit.blend",
+   "date": "2026-10-16T11:48:32-07:00",
+   "method": "bake+decimate",
+   "previews": [
+    "ent_center_bar_preview_front.png",
+    "ent_center_bar_preview_3q.png"
+   ]
   },
-  "contact_sheet": "contact_sheet.png",
-  "skipped": [
-    {
-      "name": "Tommy checker sleeves",
-      "reason": "No STL/3MF under /workspace; tommy folders only have photos / KEEP-IT-FLYING.md"
+  {
+   "file": "cantina_bar.glb",
+   "name": "Cantina arc bar 4 m, 1.05 m, walnut/brass, amber underglow + teal rim",
+   "scale": 1.0,
+   "lod1": "cantina_bar_lod1.glb",
+   "dims_mm": {
+    "x": 4011.4,
+    "y": 1050.0,
+    "z": 1046.1
+   },
+   "tris": 1092,
+   "tris_lod1": 654,
+   "bytes": 80440,
+   "bytes_lod1": 79544,
+   "draws": 3,
+   "materials": [
+    "cantina_bar_atlas",
+    "cantina_glow_amber",
+    "cantina_glow_teal"
+   ],
+   "unlit_baked": true,
+   "room": "cantina",
+   "method": "procedural+CC0 PBR bake",
+   "date": "2026-10-16T11:54:51-07:00",
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     -2.024,
+     0,
+     3.2
+    ],
+    "rot_y_deg": 90
+   },
+   "note": "4 m arc, chord parallel to left wall; front ends at x=-1.96, front middle x=-1.63; bartender aisle to back bar >=0.9 m (0.90 at ends, 1.23 mid)"
+  },
+  {
+   "file": "cantina_back_bar.glb",
+   "name": "Cantina back bar: walnut, brass shelves, varied bottles, amber backlight, porthole screen",
+   "scale": 1.0,
+   "lod1": "cantina_back_bar_lod1.glb",
+   "dims_mm": {
+    "x": 3300.0,
+    "y": 2530.0,
+    "z": 500.0
+   },
+   "tris": 3688,
+   "tris_lod1": 1900,
+   "bytes": 167796,
+   "bytes_lod1": 163316,
+   "draws": 2,
+   "materials": [
+    "cantina_back_bar_atlas",
+    "cantina_glow_backlight"
+   ],
+   "unlit_baked": true,
+   "room": "cantina",
+   "method": "procedural+CC0 PBR bake",
+   "date": "2026-10-16T13:07:17-07:00",
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     -3.73,
+     0,
+     4.3
+    ],
+    "rot_y_deg": 90
+   }
+  },
+  {
+   "file": "cantina_stools.glb",
+   "name": "4 bar stools 0.75 m (oxblood leather, brass), on bar arc",
+   "scale": 1.0,
+   "lod1": "cantina_stools_lod1.glb",
+   "dims_mm": {
+    "x": 2342.6,
+    "y": 765.0,
+    "z": 465.4
+   },
+   "tris": 1168,
+   "tris_lod1": 584,
+   "bytes": 40820,
+   "bytes_lod1": 37900,
+   "draws": 1,
+   "materials": [
+    "cantina_stools_atlas"
+   ],
+   "unlit_baked": true,
+   "room": "cantina",
+   "method": "procedural+CC0 PBR bake",
+   "date": "2026-10-16T11:55:36-07:00",
+   "note": "bar transform + local +Z 0.81 m (pos already includes it)",
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     -1.214,
+     0,
+     3.2
+    ],
+    "rot_y_deg": 90
+   }
+  },
+  {
+   "file": "cantina_booth.glb",
+   "name": "Curved oxblood-leather booth (3-4), 1.0 m walnut/brass table, amber pendant",
+   "scale": 1.0,
+   "lod1": "cantina_booth_lod1.glb",
+   "dims_mm": {
+    "x": 3194.6,
+    "y": 2500.0,
+    "z": 2628.5
+   },
+   "tris": 1068,
+   "tris_lod1": 564,
+   "bytes": 76164,
+   "bytes_lod1": 73236,
+   "draws": 2,
+   "materials": [
+    "cantina_booth_atlas",
+    "cantina_glow_amber"
+   ],
+   "unlit_baked": true,
+   "room": "cantina",
+   "method": "procedural+CC0 PBR bake",
+   "date": "2026-10-16T12:17:33-07:00",
+   "note": "opening faces +Z; rotate toward ent center",
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     2.6,
+     0,
+     3.6
+    ],
+    "rot_y_deg": -44
+   }
+  },
+  {
+   "file": "cantina_prop_cargo_A.glb",
+   "name": "Cantina prop: Walnut cargo crate, steel corners",
+   "scale": 1.0,
+   "lod1": "cantina_prop_cargo_A_lod1.glb",
+   "dims_mm": {
+    "x": 710.0,
+    "y": 520.0,
+    "z": 515.0
+   },
+   "tris": 72,
+   "tris_lod1": 72,
+   "bytes": 102284,
+   "bytes_lod1": 102284,
+   "draws": 1,
+   "materials": [
+    "cantina_props_atlas"
+   ],
+   "unlit_baked": true,
+   "room": "cantina",
+   "method": "procedural+CC0 PBR bake",
+   "date": "2026-10-16T11:56:42-07:00",
+   "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     2.6,
+     0,
+     6.0
+    ],
+    "rot_y_deg": -15
+   }
+  },
+  {
+   "file": "cantina_prop_cargo_A_stacked.glb",
+   "name": "Cantina prop: Stacked walnut crates",
+   "scale": 1.0,
+   "lod1": "cantina_prop_cargo_A_stacked_lod1.glb",
+   "dims_mm": {
+    "x": 720.0,
+    "y": 975.0,
+    "z": 520.0
+   },
+   "tris": 48,
+   "tris_lod1": 48,
+   "bytes": 102184,
+   "bytes_lod1": 102184,
+   "draws": 1,
+   "materials": [
+    "cantina_props_atlas"
+   ],
+   "unlit_baked": true,
+   "room": "cantina",
+   "method": "procedural+CC0 PBR bake",
+   "date": "2026-10-16T11:56:42-07:00",
+   "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     3.4,
+     0,
+     5.9
+    ],
+    "rot_y_deg": 10
+   }
+  },
+  {
+   "file": "cantina_prop_containers_B.glb",
+   "name": "Cantina prop: Steel fuel canisters x3",
+   "scale": 1.0,
+   "lod1": "cantina_prop_containers_B_lod1.glb",
+   "dims_mm": {
+    "x": 754.0,
+    "y": 630.0,
+    "z": 240.0
+   },
+   "tris": 264,
+   "tris_lod1": 132,
+   "bytes": 103800,
+   "bytes_lod1": 103544,
+   "draws": 1,
+   "materials": [
+    "cantina_props_atlas"
+   ],
+   "unlit_baked": true,
+   "room": "cantina",
+   "method": "procedural+CC0 PBR bake",
+   "date": "2026-10-16T11:56:42-07:00",
+   "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     -3.55,
+     0,
+     6.05
+    ],
+    "rot_y_deg": 90
+   }
+  },
+  {
+   "file": "cantina_prop_containers_D.glb",
+   "name": "Cantina prop: Walnut keg, brass bands",
+   "scale": 1.0,
+   "lod1": "cantina_prop_containers_D_lod1.glb",
+   "dims_mm": {
+    "x": 460.0,
+    "y": 760.0,
+    "z": 448.5
+   },
+   "tris": 240,
+   "tris_lod1": 120,
+   "bytes": 103728,
+   "bytes_lod1": 103080,
+   "draws": 1,
+   "materials": [
+    "cantina_props_atlas"
+   ],
+   "unlit_baked": true,
+   "room": "cantina",
+   "method": "procedural+CC0 PBR bake",
+   "date": "2026-10-16T11:56:42-07:00",
+   "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     -3.6,
+     0,
+     1.0
+    ],
+    "rot_y_deg": 0
+   }
+  },
+  {
+   "file": "cantina_prop_lights.glb",
+   "name": "Cantina prop: Brass floor lamp",
+   "scale": 1.0,
+   "lod1": "cantina_prop_lights_lod1.glb",
+   "dims_mm": {
+    "x": 360.0,
+    "y": 1350.0,
+    "z": 360.0
+   },
+   "tris": 212,
+   "tris_lod1": 106,
+   "bytes": 103296,
+   "bytes_lod1": 102564,
+   "draws": 1,
+   "materials": [
+    "cantina_props_atlas"
+   ],
+   "unlit_baked": true,
+   "room": "cantina",
+   "method": "procedural+CC0 PBR bake",
+   "date": "2026-10-16T11:56:43-07:00",
+   "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     3.6,
+     0,
+     2.0
+    ],
+    "rot_y_deg": 0
+   }
+  },
+  {
+   "file": "cantina_prop_jar_A_large.glb",
+   "name": "Cantina prop: Amber glass jar",
+   "scale": 1.0,
+   "lod1": "cantina_prop_jar_A_large_lod1.glb",
+   "dims_mm": {
+    "x": 160.0,
+    "y": 265.0,
+    "z": 160.0
+   },
+   "tris": 160,
+   "tris_lod1": 80,
+   "bytes": 102976,
+   "bytes_lod1": 102480,
+   "draws": 1,
+   "materials": [
+    "cantina_props_atlas"
+   ],
+   "unlit_baked": true,
+   "room": "cantina",
+   "method": "procedural+CC0 PBR bake",
+   "date": "2026-10-16T11:56:43-07:00",
+   "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     -1.95,
+     1.05,
+     3.7
+    ],
+    "rot_y_deg": 0
+   }
+  },
+  {
+   "file": "cantina_prop_jar_C_medium.glb",
+   "name": "Cantina prop: Dark glass bottle trio",
+   "scale": 1.0,
+   "lod1": "cantina_prop_jar_C_medium_lod1.glb",
+   "dims_mm": {
+    "x": 150.0,
+    "y": 280.0,
+    "z": 70.0
+   },
+   "tris": 228,
+   "tris_lod1": 114,
+   "bytes": 103172,
+   "bytes_lod1": 102840,
+   "draws": 1,
+   "materials": [
+    "cantina_props_atlas"
+   ],
+   "unlit_baked": true,
+   "room": "cantina",
+   "method": "procedural+CC0 PBR bake",
+   "date": "2026-10-16T11:56:43-07:00",
+   "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     -2.05,
+     1.05,
+     2.6
+    ],
+    "rot_y_deg": 0
+   }
+  },
+  {
+   "file": "cantina_prop_menu.glb",
+   "name": "Cantina prop: Brass/walnut menu stand",
+   "scale": 1.0,
+   "lod1": "cantina_prop_menu_lod1.glb",
+   "dims_mm": {
+    "x": 160.0,
+    "y": 250.0,
+    "z": 100.0
+   },
+   "tris": 36,
+   "tris_lod1": 36,
+   "bytes": 101988,
+   "bytes_lod1": 101988,
+   "draws": 1,
+   "materials": [
+    "cantina_props_atlas"
+   ],
+   "unlit_baked": true,
+   "room": "cantina",
+   "method": "procedural+CC0 PBR bake",
+   "date": "2026-10-16T11:56:43-07:00",
+   "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     -1.9,
+     1.05,
+     3.2
+    ],
+    "rot_y_deg": 0
+   }
+  },
+  {
+   "file": "cantina_prop_food_dinner.glb",
+   "name": "Cantina prop: Brass cloche on plate",
+   "scale": 1.0,
+   "lod1": "cantina_prop_food_dinner_lod1.glb",
+   "dims_mm": {
+    "x": 320.0,
+    "y": 175.0,
+    "z": 320.0
+   },
+   "tris": 228,
+   "tris_lod1": 114,
+   "bytes": 103644,
+   "bytes_lod1": 102796,
+   "draws": 1,
+   "materials": [
+    "cantina_props_atlas"
+   ],
+   "unlit_baked": true,
+   "room": "cantina",
+   "method": "procedural+CC0 PBR bake",
+   "date": "2026-10-16T11:56:43-07:00",
+   "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     2.6,
+     0.761,
+     3.6
+    ],
+    "rot_y_deg": 0
+   }
+  },
+  {
+   "file": "cantina_prop_pot_large.glb",
+   "name": "Cantina prop: Brass samovar",
+   "scale": 1.0,
+   "lod1": "cantina_prop_pot_large_lod1.glb",
+   "dims_mm": {
+    "x": 350.0,
+    "y": 340.0,
+    "z": 292.5
+   },
+   "tris": 184,
+   "tris_lod1": 92,
+   "bytes": 103096,
+   "bytes_lod1": 102352,
+   "draws": 1,
+   "materials": [
+    "cantina_props_atlas"
+   ],
+   "unlit_baked": true,
+   "room": "cantina",
+   "method": "procedural+CC0 PBR bake",
+   "date": "2026-10-16T11:56:43-07:00",
+   "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     -3.7,
+     0.94,
+     4.0
+    ],
+    "rot_y_deg": 0
+   }
+  }
+ ],
+ "builds": [
+  {
+   "file": "crest_L_magnet_v2.glb",
+   "name": "Bombshell Crest (plaque)",
+   "scale": 1.0,
+   "lod1": "crest_L_magnet_v2_lod1.glb",
+   "dims_mm": {
+    "x": 154.0,
+    "y": 10.5,
+    "z": 178.82
+   },
+   "tris": 4998,
+   "tris_lod1": 996,
+   "bytes": 51580,
+   "bytes_lod1": 17132,
+   "description": "Bombshell Discovery crest, beveled plaque with four magnet pockets",
+   "source": "/workspace/bombshell-crest/variant_L_magnet_v2",
+   "date": "2026-10-15T16:37:30-07:00",
+   "method": "decimate"
+  },
+  {
+   "file": "crest_card.glb",
+   "name": "Bombshell Crest Card",
+   "scale": 1.0,
+   "lod1": "crest_card_lod1.glb",
+   "dims_mm": {
+    "x": 53.98,
+    "y": 7.05,
+    "z": 85.6
+   },
+   "tris": 2140,
+   "tris_lod1": 1178,
+   "bytes": 317844,
+   "bytes_lod1": 298632,
+   "description": "Credit-card crest plaque with Est. 2026 and dual magnet pockets",
+   "source": "/workspace/bombshell-crest/variant_card",
+   "date": "2026-10-15T16:47:20-07:00",
+   "method": "remesh+tex512"
+  },
+  {
+   "file": "crest_fridge_only.glb",
+   "name": "Bombshell Crest Magnet",
+   "scale": 1.0,
+   "lod1": "crest_fridge_only_lod1.glb",
+   "dims_mm": {
+    "x": 54.91,
+    "y": 7.05,
+    "z": 64.43
+   },
+   "tris": 2088,
+   "tris_lod1": 1156,
+   "bytes": 323716,
+   "bytes_lod1": 304560,
+   "description": "Crest-only fridge magnet, shield silhouette with bolt pocket",
+   "source": "/workspace/bombshell-crest/variant_fridge_crest_only",
+   "date": "2026-10-15T16:48:26-07:00",
+   "method": "remesh+tex512"
+  },
+  {
+   "file": "crest_magnet_flatstack.glb",
+   "name": "Bombshell Flatstack Magnet",
+   "scale": 1.0,
+   "lod1": "crest_magnet_flatstack_lod1.glb",
+   "dims_mm": {
+    "x": 58.27,
+    "y": 4.8,
+    "z": 68.6
+   },
+   "tris": 1998,
+   "tris_lod1": 998,
+   "bytes": 27532,
+   "bytes_lod1": 16016,
+   "description": "Flat-stack fridge magnet, grey base white top, dual 6x1.9 pockets",
+   "source": "/workspace/bombshell-crest/variant_magnet_flatstack",
+   "date": "2026-10-15T16:36:55-07:00",
+   "method": "decimate"
+  },
+  {
+   "file": "crest_shirt_press.glb",
+   "name": "Bombshell Shirt Press Crest",
+   "scale": 1.0,
+   "lod1": "crest_shirt_press_lod1.glb",
+   "dims_mm": {
+    "x": 90.0,
+    "y": 0.8,
+    "z": 105.95
+   },
+   "tris": 1998,
+   "tris_lod1": 998,
+   "bytes": 24708,
+   "bytes_lod1": 15688,
+   "description": "Thin heat-press shirt crest, grey base with white overlay",
+   "source": "/workspace/bombshell-crest/variant_shirt_press",
+   "date": "2026-10-15T16:36:52-07:00",
+   "method": "decimate"
+  },
+  {
+   "file": "rocket_d1.glb",
+   "name": "Rocket Lamp D1 Surplus Courier",
+   "scale": 1.0,
+   "lod1": "rocket_d1_lod1.glb",
+   "dims_mm": {
+    "x": 181.56,
+    "y": 181.56,
+    "z": 225.0
+   },
+   "tris": 5018,
+   "tris_lod1": 898,
+   "bytes": 80728,
+   "bytes_lod1": 22744,
+   "description": "ShadyAF D1 rocket lamp base, multi-color assembled",
+   "source": "/workspace/shadyaf/rocket-base/clay/D1_surplus_courier",
+   "date": "2026-10-15T16:37:37-07:00",
+   "method": "decimate"
+  },
+  {
+   "file": "rocket_d2.glb",
+   "name": "Rocket Lamp D2 Pulp Needle",
+   "scale": 1.0,
+   "lod1": "rocket_d2_lod1.glb",
+   "dims_mm": {
+    "x": 178.19,
+    "y": 178.19,
+    "z": 226.0
+   },
+   "tris": 5000,
+   "tris_lod1": 896,
+   "bytes": 80432,
+   "bytes_lod1": 21336,
+   "description": "ShadyAF D2 rocket lamp base, multi-color assembled",
+   "source": "/workspace/shadyaf/rocket-base/clay/D2_pulp_needle",
+   "date": "2026-10-15T16:37:41-07:00",
+   "method": "decimate"
+  },
+  {
+   "file": "holddown_m6_kit.glb",
+   "name": "3018 M6 Hold-Down Kit",
+   "scale": 1.0,
+   "lod1": "holddown_m6_kit_lod1.glb",
+   "dims_mm": {
+    "x": 308.5,
+    "y": 26.83,
+    "z": 34.0
+   },
+   "tris": 1996,
+   "tris_lod1": 806,
+   "bytes": 20332,
+   "bytes_lod1": 13048,
+   "description": "M6 hold-down arm, heel blocks A/B, and knob laid out as a kit",
+   "source": "/workspace/cnc-3018/holddown/test_set_m6",
+   "date": "2026-10-15T16:36:49-07:00",
+   "method": "decimate"
+  },
+  {
+   "file": "wingnut_1_4_20.glb",
+   "name": "1/4-20 Wing Nut",
+   "scale": 1.0,
+   "lod1": "wingnut_1_4_20_lod1.glb",
+   "dims_mm": {
+    "x": 50.8,
+    "y": 14.66,
+    "z": 9.53
+   },
+   "tris": 1998,
+   "tris_lod1": 998,
+   "bytes": 29480,
+   "bytes_lod1": 16076,
+   "description": "Printable 1/4-20 wing nut for CNC hold-downs",
+   "source": "/workspace/cnc-3018/holddown/wingnut_1-4-20/wingnut_1-4-20.stl",
+   "date": "2026-10-15T16:36:58-07:00",
+   "method": "decimate"
+  },
+  {
+   "file": "bini_fillet_clipped.glb",
+   "name": "Bini Corner Fillet",
+   "scale": 1.0,
+   "lod1": "bini_fillet_clipped_lod1.glb",
+   "dims_mm": {
+    "x": 50.8,
+    "y": 50.8,
+    "z": 101.6
+   },
+   "tris": 320,
+   "tris_lod1": 120,
+   "bytes": 3084,
+   "bytes_lod1": 2256,
+   "description": "Marcos Bini corner cove fillet, clipped solid, square ends",
+   "source": "/workspace/campbell-creek/bini-fillets/v3_clipped/bini_fillet_B_clip_onend.stl",
+   "date": "2026-10-15T16:36:46-07:00",
+   "method": "decimate"
+  },
+  {
+   "file": "night_owls_owl.glb",
+   "name": "Night Owls Owl",
+   "scale": 1.0,
+   "lod1": "night_owls_owl_lod1.glb",
+   "dims_mm": {
+    "x": 169.58,
+    "y": 212.68,
+    "z": 180.97
+   },
+   "tris": 5000,
+   "tris_lod1": 1000,
+   "bytes": 58116,
+   "bytes_lod1": 15812,
+   "description": "Night Owls one-piece owl print",
+   "source": "/workspace/night-owls/clay_build/print/P0_onepiece_owl.stl",
+   "date": "2026-10-15T16:37:34-07:00",
+   "method": "decimate"
+  },
+  {
+   "file": "hope_relief.glb",
+   "name": "HOPE Relief Sign",
+   "scale": 1.0,
+   "lod1": "hope_relief_lod1.glb",
+   "dims_mm": {
+    "x": 914.4,
+    "y": 19.05,
+    "z": 844.83
+   },
+   "tris": 8000,
+   "tris_lod1": 2500,
+   "bytes": 113248,
+   "bytes_lod1": 38468,
+   "description": "HOPE skull-and-antlers relief sign (v4.8.7 release), 36\u00d734 in",
+   "source": "/workspace/hope/clay/HOPE_relief_v4_8p7_release.stl",
+   "date": "2026-10-16T07:50:34-07:00",
+   "method": "decimate"
+  },
+  {
+   "file": "vw_t1_restomod.glb",
+   "name": "VW T1 Restomod",
+   "scale": 1.0,
+   "lod1": "vw_t1_restomod_lod1.glb",
+   "dims_mm": {
+    "x": 181.64,
+    "y": 85.4,
+    "z": 75.51
+   },
+   "tris": 5000,
+   "tris_lod1": 998,
+   "bytes": 73800,
+   "bytes_lod1": 16832,
+   "description": "1:18 VW T1 restomod one-piece body",
+   "source": "/workspace/vw-t1-restomod/clay_build/print/vw_t1_restomod_1to18_onepiece.stl",
+   "date": "2026-10-15T16:41:09-07:00",
+   "method": "decimate"
+  },
+  {
+   "file": "hope_neon.glb",
+   "name": "Antlers of HOPE neon overlay",
+   "scale": 1.0,
+   "overlay_of": "hope_relief.glb",
+   "lod1": null,
+   "dims_mm": {
+    "x": 914.4,
+    "y": 19.05,
+    "z": 844.83
+   },
+   "tris": 1864,
+   "bytes": 10180,
+   "emissive": true,
+   "colors": {
+    "white": "#FFE9C4",
+    "red": "#FF2020",
+    "purple": "#A633FF"
+   },
+   "svg": "hope_neon.svg"
+  }
+ ],
+ "rigged": [
+  {
+   "file": "cantina_robot_bartender.glb",
+   "name": "Cantina robot bartender \"Tapper\": skinned rigid rig (ROBOT_MANIFEST joints), gunmetal barrel with brass shoulder flange, oxblood A-line apron, brass bar-stool column, teal visor only",
+   "pivots": {
+    "root": "root",
+    "torso": "torso",
+    "head": "head",
+    "arm": "armR",
+    "forearm": "foreR",
+    "armL": "armL",
+    "forearmL": "foreL",
+    "antenna": "antenna"
+   },
+   "scale": 1.0,
+   "lod1": "cantina_robot_bartender_lod1.glb",
+   "tris": 3992,
+   "tris_lod1": 2782,
+   "bytes": 194520,
+   "bytes_lod1": 189924,
+   "draws": 2,
+   "materials": [
+    "cantina_robot_bartender_atlas",
+    "cantina_glow_teal"
+   ],
+   "joints": {
+    "root": {
+     "pos_gltf": [
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "parent": null
     },
-    {
-      "file": "ent_center_bar.glb",
-      "name": "Marcos Bini Entertainment Center (cantina, baked)",
-      "scale": 1.0,
-      "lod1": "ent_center_bar_lod1.glb",
-      "dims_mm": {
-        "x": 4102.1,
-        "y": 2546.5,
-        "z": 482.6
-      },
-      "tris": 9669,
-      "tris_lod1": 3274,
-      "bytes": 288548,
-      "bytes_lod1": 258552,
-      "draws": 5,
-      "materials": [
-        "ent_body",
-        "ent_walnut",
-        "ent_dark",
-        "ent_decor",
-        "led_strip"
+    "torso": {
+     "pos_gltf": [
+      0.0,
+      0.96,
+      -0.0
+     ],
+     "parent": "root"
+    },
+    "head": {
+     "pos_gltf": [
+      0.0,
+      1.5,
+      -0.0
+     ],
+     "parent": "torso"
+    },
+    "antenna": {
+     "pos_gltf": [
+      0.0,
+      1.775,
+      -0.0
+     ],
+     "parent": "head"
+    },
+    "armR": {
+     "pos_gltf": [
+      -0.29,
+      1.4,
+      -0.0
+     ],
+     "parent": "torso"
+    },
+    "foreR": {
+     "pos_gltf": [
+      -0.32,
+      1.12,
+      0.02
+     ],
+     "parent": "armR"
+    },
+    "armL": {
+     "pos_gltf": [
+      0.29,
+      1.4,
+      -0.0
+     ],
+     "parent": "torso"
+    },
+    "foreL": {
+     "pos_gltf": [
+      0.32,
+      1.12,
+      0.02
+     ],
+     "parent": "armL"
+    }
+   },
+   "clips": [
+    "idle",
+    "turn_to_player",
+    "wave",
+    "beckon"
+   ],
+   "unlit_baked": true,
+   "room": "cantina_rigged",
+   "method": "procedural + CC0 PBR bake, skinned rigid rig",
+   "date": "2026-10-17T16:45:13-07:00",
+   "source": "/workspace/loft-xr/assets/cantina_src/cantina_robot_bartender.blend",
+   "load": "rigged: load as its own GLB and drive the joints (pivotsFromGLTF + ROBOT_MANIFEST in showroom/bartender.js). Do NOT merge into the static cantina set (that is why room is not \"cantina\").",
+   "textures": {
+    "cantina_robot_bartender_atlas": 1024
+   },
+   "emissive_driven": "cantina_glow_teal",
+   "previews": [
+    "cantina_robot_bartender_preview_front.png",
+    "cantina_robot_bartender_preview_3q.png",
+    "cantina_robot_bartender_preview_pose.png"
+   ],
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     -3.0,
+     0,
+     3.3
+    ],
+    "rot_y_deg": 90,
+    "note": "bartender aisle between bar back and back bar (showroom.js mirrors X: bot.place(3.0,0,3.3))"
+   },
+   "credits": "original procedural geometry (Clay, Blender 4.3); textures ambientCG CC0 (see CREDITS_cantina.md)",
+   "revision": "v3",
+   "height_m": 1.968,
+   "width_m": 0.769,
+   "depth_m": 0.61,
+   "nonmanifold_edges": {
+    "lod0": 0,
+    "lod1": 0
+   },
+   "v3_changes": "head + visor scaled 1.3x about the neck (1.56 m), shoulders unchanged; antenna rod lengthened, antenna pivot unchanged; idle clip carries forearms bent ~60 deg so hands sit above the 1.05 m bar top (rest pose unchanged)",
+   "bar_check": {
+    "idle": {
+     "forearm+hand_lowest_z_m": 0.891,
+     "forearm+hand_highest_z_m": 1.191,
+     "min_gap_hand_to_bar_or_backbar_m": 0.346,
+     "mesh_overlaps_with_bar": 0
+    },
+    "turn_to_player": {
+     "forearm+hand_lowest_z_m": 0.729,
+     "forearm+hand_highest_z_m": 1.186,
+     "min_gap_hand_to_bar_or_backbar_m": 0.245,
+     "mesh_overlaps_with_bar": 0
+    },
+    "wave": {
+     "forearm+hand_lowest_z_m": 0.729,
+     "forearm+hand_highest_z_m": 2.039,
+     "min_gap_hand_to_bar_or_backbar_m": 0.465,
+     "mesh_overlaps_with_bar": 0
+    },
+    "beckon": {
+     "forearm+hand_lowest_z_m": 0.724,
+     "forearm+hand_highest_z_m": 1.701,
+     "min_gap_hand_to_bar_or_backbar_m": 0.12,
+     "mesh_overlaps_with_bar": 0
+    }
+   }
+  },
+  {
+   "file": "cantina_robot_dex.glb",
+   "name": "Robot DJ Dex: skinned rigid rig (ROBOT_MANIFEST joints), oxblood leather jacket torso with brass belt + squared yoke, brass headphones, teal eyes + antenna tip, amber breast meter",
+   "pivots": {
+    "root": "root",
+    "torso": "torso",
+    "head": "head",
+    "arm": "armR",
+    "forearm": "foreR",
+    "armL": "armL",
+    "forearmL": "foreL",
+    "antenna": "antenna"
+   },
+   "scale": 1.0,
+   "lod1": "cantina_robot_dex_lod1.glb",
+   "tris": 4260,
+   "tris_lod1": 2810,
+   "bytes": 185640,
+   "bytes_lod1": 180164,
+   "draws": 2,
+   "materials": [
+    "cantina_robot_dex_atlas",
+    "cantina_glow_teal"
+   ],
+   "joints": {
+    "root": {
+     "pos_gltf": [
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "parent": null
+    },
+    "torso": {
+     "pos_gltf": [
+      0.0,
+      0.68,
+      -0.0
+     ],
+     "parent": "root"
+    },
+    "head": {
+     "pos_gltf": [
+      0.0,
+      1.18,
+      -0.0
+     ],
+     "parent": "torso"
+    },
+    "antenna": {
+     "pos_gltf": [
+      0.0,
+      1.4,
+      -0.07
+     ],
+     "parent": "head"
+    },
+    "armR": {
+     "pos_gltf": [
+      -0.25,
+      1.04,
+      -0.0
+     ],
+     "parent": "torso"
+    },
+    "foreR": {
+     "pos_gltf": [
+      -0.26,
+      0.77,
+      -0.0
+     ],
+     "parent": "armR"
+    },
+    "armL": {
+     "pos_gltf": [
+      0.25,
+      1.04,
+      -0.0
+     ],
+     "parent": "torso"
+    },
+    "foreL": {
+     "pos_gltf": [
+      0.26,
+      0.77,
+      -0.0
+     ],
+     "parent": "armL"
+    }
+   },
+   "clips": [
+    "hands_on_decks",
+    "idle_nod",
+    "scratch_R",
+    "wave"
+   ],
+   "unlit_baked": true,
+   "room": "cantina_rigged",
+   "method": "procedural + CC0 PBR bake, skinned rigid rig",
+   "date": "2026-10-17T16:47:06-07:00",
+   "source": "/workspace/loft-xr/assets/cantina_src/cantina_robot_dex.blend",
+   "load": "rigged: load as its own GLB and drive the joints (pivotsFromGLTF + ROBOT_MANIFEST in showroom/bartender.js). Do NOT merge into the static cantina set (that is why room is not \"cantina\").",
+   "textures": {
+    "cantina_robot_dex_atlas": 1024
+   },
+   "emissive_driven": "cantina_glow_teal",
+   "previews": [
+    "cantina_robot_dex_preview_front.png",
+    "cantina_robot_dex_preview_3q.png",
+    "cantina_robot_dex_preview_pose.png",
+    "cantina_robot_dex_preview_decks.png"
+   ],
+   "placement": {
+    "frame": "booth-local",
+    "pos": [
+     0,
+     0.25,
+     -0.45
+    ],
+    "rot_y_deg": 0,
+    "note": "on the booth riser behind the decks; hands reach the platters with the dj.js pose armR(-0.95,0.1,0.25) foreR(-0.55,0,0)"
+   },
+   "credits": "original procedural geometry (Clay, Blender 4.3); textures ambientCG CC0 (see CREDITS_cantina.md)",
+   "revision": "v3",
+   "height_m": 1.48,
+   "width_m": 0.651,
+   "depth_m": 0.386,
+   "nonmanifold_edges": {
+    "lod0": 0,
+    "lod1": 0
+   },
+   "height_on_riser_world_m": 1.73,
+   "v3_changes": "column r 0.105 (1.4x) + single brass collar ring at 0.5 m; forearm lengthened 0.08 m (wrist 0.56->0.48 m) so fingertips reach the platter rims/xfader from the unchanged spot (0,0.25,-0.45); base r 0.17 (clears counter back); shoulder pads closed boxes proud of the yoke; torso seams no longer coplanar; belt n64 / waist n40 / collar n40; all joints and rest pose unchanged",
+   "deck_pose_threejs_euler_XYZ": {
+    "note": "radians, three.js Euler XYZ (Blender ZYX); fingertips on the inner platter rim (+-0.328,~1.10,0.02) and xfader cap (0,1.11,0.15) booth-local; torso x 0.04",
+    "hands_on_decks": {
+     "R": {
+      "arm": [
+       0.1224,
+       0.2846,
+       -1.0205
       ],
-      "unlit_baked": true,
-      "textures": {
-        "ent_body": 1024,
-        "ent_walnut": 1024,
-        "ent_dark": 512,
-        "ent_decor": 512
-      },
-      "emissive_driven": "led_strip",
-      "room": "cantina",
-      "placement": {
-        "frame": "cantina-local glTF (door origin, +Z into room)",
-        "pos": [
-          0,
-          0,
-          6.26
-        ],
-        "rot_y_deg": 180,
-        "note": "flush to far wall at z=6.5 (depth 0.48)"
-      },
-      "description": "Campbell Creek / Marcos Bini entertainment center, baked: 2700K pucks + sconce, ~20% ambient, one teal LED niche (light only), dim amber TV screen, 2 in radiused openings",
-      "source": "/workspace/campbell-creek/ent-center/ent_center_lit.blend",
-      "date": "2026-10-16T11:48:32-07:00",
-      "method": "bake+decimate",
-      "previews": [
-        "ent_center_bar_preview_front.png",
-        "ent_center_bar_preview_3q.png"
+      "fore": [
+       -1.6223,
+       0,
+       0
+      ],
+      "tip": [
+       -0.328,
+       1.1014,
+       0.02
+      ],
+      "err_mm": 0.4,
+      "elbow": [
+       -0.476,
+       1.148,
+       -0.392
       ]
-    },
-    {
-      "file": "cantina_bar.glb",
-      "name": "Cantina arc bar 4 m, 1.05 m, walnut/brass, amber underglow + teal rim",
-      "scale": 1.0,
-      "lod1": "cantina_bar_lod1.glb",
-      "dims_mm": {
-        "x": 4011.4,
-        "y": 1050.0,
-        "z": 1046.1
-      },
-      "tris": 1092,
-      "tris_lod1": 654,
-      "bytes": 80440,
-      "bytes_lod1": 79544,
-      "draws": 3,
-      "materials": [
-        "cantina_bar_atlas",
-        "cantina_glow_amber",
-        "cantina_glow_teal"
+     },
+     "L": {
+      "arm": [
+       0.1224,
+       -0.2846,
+       1.0205
       ],
-      "unlit_baked": true,
-      "room": "cantina",
-      "method": "procedural+CC0 PBR bake",
-      "date": "2026-10-16T11:54:51-07:00",
-      "placement": {
-        "frame": "cantina-local glTF (door origin, +Z into room)",
-        "pos": [
-          -2.024,
-          0,
-          3.2
-        ],
-        "rot_y_deg": 90
-      },
-      "note": "4 m arc, chord parallel to left wall; front ends at x=-1.96, front middle x=-1.63; bartender aisle to back bar >=0.9 m (0.90 at ends, 1.23 mid)"
-    },
-    {
-      "file": "cantina_back_bar.glb",
-      "name": "Cantina back bar: walnut, brass shelves, varied bottles, amber backlight, porthole screen",
-      "scale": 1.0,
-      "lod1": "cantina_back_bar_lod1.glb",
-      "dims_mm": {
-        "x": 3300.0,
-        "y": 2530.0,
-        "z": 500.0
-      },
-      "tris": 3688,
-      "tris_lod1": 1900,
-      "bytes": 167796,
-      "bytes_lod1": 163316,
-      "draws": 2,
-      "materials": [
-        "cantina_back_bar_atlas",
-        "cantina_glow_backlight"
+      "fore": [
+       -1.6223,
+       0,
+       0
       ],
-      "unlit_baked": true,
-      "room": "cantina",
-      "method": "procedural+CC0 PBR bake",
-      "date": "2026-10-16T13:07:17-07:00",
-      "placement": {
-        "frame": "cantina-local glTF (door origin, +Z into room)",
-        "pos": [
-          -3.73,
-          0,
-          4.3
-        ],
-        "rot_y_deg": 90
-      }
-    },
-    {
-      "file": "cantina_stools.glb",
-      "name": "4 bar stools 0.75 m (oxblood leather, brass), on bar arc",
-      "scale": 1.0,
-      "lod1": "cantina_stools_lod1.glb",
-      "dims_mm": {
-        "x": 2342.6,
-        "y": 765.0,
-        "z": 465.4
-      },
-      "tris": 1168,
-      "tris_lod1": 584,
-      "bytes": 40820,
-      "bytes_lod1": 37900,
-      "draws": 1,
-      "materials": [
-        "cantina_stools_atlas"
+      "tip": [
+       0.328,
+       1.1014,
+       0.02
       ],
-      "unlit_baked": true,
-      "room": "cantina",
-      "method": "procedural+CC0 PBR bake",
-      "date": "2026-10-16T11:55:36-07:00",
-      "note": "bar transform + local +Z 0.81 m (pos already includes it)",
-      "placement": {
-        "frame": "cantina-local glTF (door origin, +Z into room)",
-        "pos": [
-          -1.214,
-          0,
-          3.2
-        ],
-        "rot_y_deg": 90
-      }
+      "err_mm": 0.4,
+      "elbow": [
+       0.476,
+       1.148,
+       -0.392
+      ]
+     }
     },
-    {
-      "file": "cantina_booth.glb",
-      "name": "Curved oxblood-leather booth (3-4), 1.0 m walnut/brass table, amber pendant",
-      "scale": 1.0,
-      "lod1": "cantina_booth_lod1.glb",
-      "dims_mm": {
-        "x": 3194.6,
-        "y": 2500.0,
-        "z": 2628.5
-      },
-      "tris": 1068,
-      "tris_lod1": 564,
-      "bytes": 76164,
-      "bytes_lod1": 73236,
-      "draws": 2,
-      "materials": [
-        "cantina_booth_atlas",
-        "cantina_glow_amber"
+    "scratch_R": {
+     "R_fwd": {
+      "arm": [
+       0.0482,
+       0.3847,
+       -1.0201
       ],
-      "unlit_baked": true,
-      "room": "cantina",
-      "method": "procedural+CC0 PBR bake",
-      "date": "2026-10-16T12:17:33-07:00",
-      "note": "opening faces +Z; rotate toward ent center",
-      "placement": {
-        "frame": "cantina-local glTF (door origin, +Z into room)",
-        "pos": [
-          2.6,
-          0,
-          3.6
-        ],
-        "rot_y_deg": -44
-      }
+      "fore": [
+       -1.4827,
+       0,
+       0
+      ],
+      "tip": [
+       -0.328,
+       1.1014,
+       0.0551
+      ],
+      "err_mm": 0.4,
+      "elbow": [
+       -0.468,
+       1.15,
+       -0.359
+      ]
+     },
+     "R_back": {
+      "arm": [
+       0.1956,
+       0.1847,
+       -1.0051
+      ],
+      "fore": [
+       -1.7529,
+       0,
+       0
+      ],
+      "tip": [
+       -0.328,
+       1.1014,
+       -0.015
+      ],
+      "err_mm": 0.4,
+      "elbow": [
+       -0.479,
+       1.147,
+       -0.426
+      ]
+     },
+     "L_xfader": {
+      "arm": [
+       -0.4966,
+       0.4196,
+       -0.7982
+      ],
+      "fore": [
+       -0.7456,
+       0,
+       0
+      ],
+      "tip": [
+       -0.0,
+       1.1101,
+       0.15
+      ],
+      "err_mm": 0.1,
+      "elbow": [
+       0.08,
+       1.148,
+       -0.281
+      ]
+     },
+     "L_xfader_left": {
+      "arm": [
+       -0.6702,
+       0.3182,
+       -0.6948
+      ],
+      "fore": [
+       -0.604,
+       0,
+       0
+      ],
+      "tip": [
+       -0.04,
+       1.1101,
+       0.15
+      ],
+      "err_mm": 0.1,
+      "elbow": [
+       0.093,
+       1.147,
+       -0.268
+      ]
+     },
+     "L_xfader_right": {
+      "arm": [
+       -0.3988,
+       0.4699,
+       -0.8531
+      ],
+      "fore": [
+       -0.8514,
+       0,
+       0
+      ],
+      "tip": [
+       0.04,
+       1.1101,
+       0.15
+      ],
+      "err_mm": 0.1,
+      "elbow": [
+       0.075,
+       1.148,
+       -0.287
+      ]
+     }
     },
-    {
-      "file": "cantina_prop_cargo_A.glb",
-      "name": "Cantina prop: Walnut cargo crate, steel corners",
-      "scale": 1.0,
-      "lod1": "cantina_prop_cargo_A_lod1.glb",
-      "dims_mm": {
-        "x": 710.0,
-        "y": 520.0,
-        "z": 515.0
-      },
-      "tris": 72,
-      "tris_lod1": 72,
-      "bytes": 102284,
-      "bytes_lod1": 102284,
-      "draws": 1,
-      "materials": [
-        "cantina_props_atlas"
+    "torso": [
+     0.04,
+     0,
+     0
+    ]
+   },
+   "reach_check": {
+    "hands_on_decks": {
+     "foreR": {
+      "target": [
+       -0.48,
+       1.09,
+       0.02
       ],
-      "unlit_baked": true,
-      "room": "cantina",
-      "method": "procedural+CC0 PBR bake",
-      "date": "2026-10-16T11:56:42-07:00",
-      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
-      "placement": {
-        "frame": "cantina-local glTF (door origin, +Z into room)",
-        "pos": [
-          2.6,
-          0,
-          6.0
-        ],
-        "rot_y_deg": -15
-      }
+      "closest_hand_vertex": [
+       -0.391,
+       1.106,
+       -0.032
+      ],
+      "gap_m": 0.104,
+      "closest_to_rim_m": 0.006
+     },
+     "foreL": {
+      "target": [
+       0.48,
+       1.09,
+       0.02
+      ],
+      "closest_hand_vertex": [
+       0.391,
+       1.106,
+       -0.032
+      ],
+      "gap_m": 0.104,
+      "closest_to_rim_m": 0.006
+     },
+     "mesh_overlaps_with_booth": 266
     },
-    {
-      "file": "cantina_prop_cargo_A_stacked.glb",
-      "name": "Cantina prop: Stacked walnut crates",
-      "scale": 1.0,
-      "lod1": "cantina_prop_cargo_A_stacked_lod1.glb",
-      "dims_mm": {
-        "x": 720.0,
-        "y": 975.0,
-        "z": 520.0
-      },
-      "tris": 48,
-      "tris_lod1": 48,
-      "bytes": 102184,
-      "bytes_lod1": 102184,
-      "draws": 1,
-      "materials": [
-        "cantina_props_atlas"
+    "scratch_R": {
+     "foreR": {
+      "target": [
+       -0.48,
+       1.09,
+       0.02
       ],
-      "unlit_baked": true,
-      "room": "cantina",
-      "method": "procedural+CC0 PBR bake",
-      "date": "2026-10-16T11:56:42-07:00",
-      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
-      "placement": {
-        "frame": "cantina-local glTF (door origin, +Z into room)",
-        "pos": [
-          3.4,
-          0,
-          5.9
-        ],
-        "rot_y_deg": 10
-      }
-    },
-    {
-      "file": "cantina_prop_containers_B.glb",
-      "name": "Cantina prop: Steel fuel canisters x3",
-      "scale": 1.0,
-      "lod1": "cantina_prop_containers_B_lod1.glb",
-      "dims_mm": {
-        "x": 754.0,
-        "y": 630.0,
-        "z": 240.0
-      },
-      "tris": 264,
-      "tris_lod1": 132,
-      "bytes": 103800,
-      "bytes_lod1": 103544,
-      "draws": 1,
-      "materials": [
-        "cantina_props_atlas"
+      "closest_hand_vertex": [
+       -0.39,
+       1.108,
+       0.002
       ],
-      "unlit_baked": true,
-      "room": "cantina",
-      "method": "procedural+CC0 PBR bake",
-      "date": "2026-10-16T11:56:42-07:00",
-      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
-      "placement": {
-        "frame": "cantina-local glTF (door origin, +Z into room)",
-        "pos": [
-          -3.55,
-          0,
-          6.05
-        ],
-        "rot_y_deg": 90
-      }
-    },
-    {
-      "file": "cantina_prop_containers_D.glb",
-      "name": "Cantina prop: Walnut keg, brass bands",
-      "scale": 1.0,
-      "lod1": "cantina_prop_containers_D_lod1.glb",
-      "dims_mm": {
-        "x": 460.0,
-        "y": 760.0,
-        "z": 448.5
-      },
-      "tris": 240,
-      "tris_lod1": 120,
-      "bytes": 103728,
-      "bytes_lod1": 103080,
-      "draws": 1,
-      "materials": [
-        "cantina_props_atlas"
+      "gap_m": 0.093,
+      "closest_to_rim_m": 0.002
+     },
+     "foreL": {
+      "target": [
+       0,
+       1.075,
+       0.15
       ],
-      "unlit_baked": true,
-      "room": "cantina",
-      "method": "procedural+CC0 PBR bake",
-      "date": "2026-10-16T11:56:42-07:00",
-      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
-      "placement": {
-        "frame": "cantina-local glTF (door origin, +Z into room)",
-        "pos": [
-          -3.6,
-          0,
-          1.0
-        ],
-        "rot_y_deg": 0
-      }
-    },
-    {
-      "file": "cantina_prop_lights.glb",
-      "name": "Cantina prop: Brass floor lamp",
-      "scale": 1.0,
-      "lod1": "cantina_prop_lights_lod1.glb",
-      "dims_mm": {
-        "x": 360.0,
-        "y": 1350.0,
-        "z": 360.0
-      },
-      "tris": 212,
-      "tris_lod1": 106,
-      "bytes": 103296,
-      "bytes_lod1": 102564,
-      "draws": 1,
-      "materials": [
-        "cantina_props_atlas"
+      "closest_hand_vertex": [
+       -0.032,
+       1.103,
+       0.151
       ],
-      "unlit_baked": true,
-      "room": "cantina",
-      "method": "procedural+CC0 PBR bake",
-      "date": "2026-10-16T11:56:43-07:00",
-      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
-      "placement": {
-        "frame": "cantina-local glTF (door origin, +Z into room)",
-        "pos": [
-          3.6,
-          0,
-          2.0
-        ],
-        "rot_y_deg": 0
-      }
-    },
-    {
-      "file": "cantina_prop_jar_A_large.glb",
-      "name": "Cantina prop: Amber glass jar",
-      "scale": 1.0,
-      "lod1": "cantina_prop_jar_A_large_lod1.glb",
-      "dims_mm": {
-        "x": 160.0,
-        "y": 265.0,
-        "z": 160.0
-      },
-      "tris": 160,
-      "tris_lod1": 80,
-      "bytes": 102976,
-      "bytes_lod1": 102480,
-      "draws": 1,
-      "materials": [
-        "cantina_props_atlas"
-      ],
-      "unlit_baked": true,
-      "room": "cantina",
-      "method": "procedural+CC0 PBR bake",
-      "date": "2026-10-16T11:56:43-07:00",
-      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
-      "placement": {
-        "frame": "cantina-local glTF (door origin, +Z into room)",
-        "pos": [
-          -1.95,
-          1.05,
-          3.7
-        ],
-        "rot_y_deg": 0
-      }
-    },
-    {
-      "file": "cantina_prop_jar_C_medium.glb",
-      "name": "Cantina prop: Dark glass bottle trio",
-      "scale": 1.0,
-      "lod1": "cantina_prop_jar_C_medium_lod1.glb",
-      "dims_mm": {
-        "x": 150.0,
-        "y": 280.0,
-        "z": 70.0
-      },
-      "tris": 228,
-      "tris_lod1": 114,
-      "bytes": 103172,
-      "bytes_lod1": 102840,
-      "draws": 1,
-      "materials": [
-        "cantina_props_atlas"
-      ],
-      "unlit_baked": true,
-      "room": "cantina",
-      "method": "procedural+CC0 PBR bake",
-      "date": "2026-10-16T11:56:43-07:00",
-      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
-      "placement": {
-        "frame": "cantina-local glTF (door origin, +Z into room)",
-        "pos": [
-          -2.05,
-          1.05,
-          2.6
-        ],
-        "rot_y_deg": 0
-      }
-    },
-    {
-      "file": "cantina_prop_menu.glb",
-      "name": "Cantina prop: Brass/walnut menu stand",
-      "scale": 1.0,
-      "lod1": "cantina_prop_menu_lod1.glb",
-      "dims_mm": {
-        "x": 160.0,
-        "y": 250.0,
-        "z": 100.0
-      },
-      "tris": 36,
-      "tris_lod1": 36,
-      "bytes": 101988,
-      "bytes_lod1": 101988,
-      "draws": 1,
-      "materials": [
-        "cantina_props_atlas"
-      ],
-      "unlit_baked": true,
-      "room": "cantina",
-      "method": "procedural+CC0 PBR bake",
-      "date": "2026-10-16T11:56:43-07:00",
-      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
-      "placement": {
-        "frame": "cantina-local glTF (door origin, +Z into room)",
-        "pos": [
-          -1.9,
-          1.05,
-          3.2
-        ],
-        "rot_y_deg": 0
-      }
-    },
-    {
-      "file": "cantina_prop_food_dinner.glb",
-      "name": "Cantina prop: Brass cloche on plate",
-      "scale": 1.0,
-      "lod1": "cantina_prop_food_dinner_lod1.glb",
-      "dims_mm": {
-        "x": 320.0,
-        "y": 175.0,
-        "z": 320.0
-      },
-      "tris": 228,
-      "tris_lod1": 114,
-      "bytes": 103644,
-      "bytes_lod1": 102796,
-      "draws": 1,
-      "materials": [
-        "cantina_props_atlas"
-      ],
-      "unlit_baked": true,
-      "room": "cantina",
-      "method": "procedural+CC0 PBR bake",
-      "date": "2026-10-16T11:56:43-07:00",
-      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
-      "placement": {
-        "frame": "cantina-local glTF (door origin, +Z into room)",
-        "pos": [
-          2.6,
-          0.761,
-          3.6
-        ],
-        "rot_y_deg": 0
-      }
-    },
-    {
-      "file": "cantina_prop_pot_large.glb",
-      "name": "Cantina prop: Brass samovar",
-      "scale": 1.0,
-      "lod1": "cantina_prop_pot_large_lod1.glb",
-      "dims_mm": {
-        "x": 350.0,
-        "y": 340.0,
-        "z": 292.5
-      },
-      "tris": 184,
-      "tris_lod1": 92,
-      "bytes": 103096,
-      "bytes_lod1": 102352,
-      "draws": 1,
-      "materials": [
-        "cantina_props_atlas"
-      ],
-      "unlit_baked": true,
-      "room": "cantina",
-      "method": "procedural+CC0 PBR bake",
-      "date": "2026-10-16T11:56:43-07:00",
-      "note": "shares cantina_props_atlas with all cantina_prop_* (merge to 1 draw)",
-      "placement": {
-        "frame": "cantina-local glTF (door origin, +Z into room)",
-        "pos": [
-          -3.7,
-          0.94,
-          4.0
-        ],
-        "rot_y_deg": 0
-      }
+      "gap_m": 0.042
+     },
+     "mesh_overlaps_with_booth": 229
     }
-  ],
-  "builds": [
-    {
-      "file": "crest_L_magnet_v2.glb",
-      "name": "Bombshell Crest (plaque)",
-      "scale": 1.0,
-      "lod1": "crest_L_magnet_v2_lod1.glb",
-      "dims_mm": {
-        "x": 154.0,
-        "y": 10.5,
-        "z": 178.82
-      },
-      "tris": 4998,
-      "tris_lod1": 996,
-      "bytes": 51580,
-      "bytes_lod1": 17132,
-      "description": "Bombshell Discovery crest, beveled plaque with four magnet pockets",
-      "source": "/workspace/bombshell-crest/variant_L_magnet_v2",
-      "date": "2026-10-15T16:37:30-07:00",
-      "method": "decimate"
+   }
+  },
+  {
+   "file": "cantina_dj_booth.glb",
+   "name": "DJ booth: walnut/brass counter, 2 decks (A at -X = visitors' left) with spinning platters, 2-ch mixer + crossfader, Dex riser, 1.4 x 0.7 m video screen on brass pipe posts, engraved brass request plaque, one teal kick light",
+   "scale": 1.0,
+   "lod1": "cantina_dj_booth_lod1.glb",
+   "tris": 3374,
+   "tris_lod1": 2494,
+   "bytes": 246356,
+   "bytes_lod1": 246464,
+   "draws": 3,
+   "materials": [
+    "cantina_dj_booth_atlas",
+    "cantina_dj_screen",
+    "cantina_glow_teal"
+   ],
+   "pivots": {
+    "root": "booth",
+    "platters": [
+     "platterA",
+     "platterB"
+    ],
+    "crossfader": "xfader"
+   },
+   "joints": {
+    "booth": {
+     "pos_gltf": [
+      0.0,
+      0.0,
+      -0.0
+     ],
+     "parent": null
     },
-    {
-      "file": "crest_card.glb",
-      "name": "Bombshell Crest Card",
-      "scale": 1.0,
-      "lod1": "crest_card_lod1.glb",
-      "dims_mm": {
-        "x": 53.98,
-        "y": 7.05,
-        "z": 85.6
-      },
-      "tris": 2140,
-      "tris_lod1": 1178,
-      "bytes": 317844,
-      "bytes_lod1": 298632,
-      "description": "Credit-card crest plaque with Est. 2026 and dual magnet pockets",
-      "source": "/workspace/bombshell-crest/variant_card",
-      "date": "2026-10-15T16:47:20-07:00",
-      "method": "remesh+tex512"
+    "platterA": {
+     "pos_gltf": [
+      -0.48,
+      1.07,
+      0.02
+     ],
+     "parent": "booth"
     },
-    {
-      "file": "crest_fridge_only.glb",
-      "name": "Bombshell Crest Magnet",
-      "scale": 1.0,
-      "lod1": "crest_fridge_only_lod1.glb",
-      "dims_mm": {
-        "x": 54.91,
-        "y": 7.05,
-        "z": 64.43
-      },
-      "tris": 2088,
-      "tris_lod1": 1156,
-      "bytes": 323716,
-      "bytes_lod1": 304560,
-      "description": "Crest-only fridge magnet, shield silhouette with bolt pocket",
-      "source": "/workspace/bombshell-crest/variant_fridge_crest_only",
-      "date": "2026-10-15T16:48:26-07:00",
-      "method": "remesh+tex512"
+    "platterB": {
+     "pos_gltf": [
+      0.48,
+      1.07,
+      0.02
+     ],
+     "parent": "booth"
     },
-    {
-      "file": "crest_magnet_flatstack.glb",
-      "name": "Bombshell Flatstack Magnet",
-      "scale": 1.0,
-      "lod1": "crest_magnet_flatstack_lod1.glb",
-      "dims_mm": {
-        "x": 58.27,
-        "y": 4.8,
-        "z": 68.6
-      },
-      "tris": 1998,
-      "tris_lod1": 998,
-      "bytes": 27532,
-      "bytes_lod1": 16016,
-      "description": "Flat-stack fridge magnet, grey base white top, dual 6x1.9 pockets",
-      "source": "/workspace/bombshell-crest/variant_magnet_flatstack",
-      "date": "2026-10-15T16:36:55-07:00",
-      "method": "decimate"
-    },
-    {
-      "file": "crest_shirt_press.glb",
-      "name": "Bombshell Shirt Press Crest",
-      "scale": 1.0,
-      "lod1": "crest_shirt_press_lod1.glb",
-      "dims_mm": {
-        "x": 90.0,
-        "y": 0.8,
-        "z": 105.95
-      },
-      "tris": 1998,
-      "tris_lod1": 998,
-      "bytes": 24708,
-      "bytes_lod1": 15688,
-      "description": "Thin heat-press shirt crest, grey base with white overlay",
-      "source": "/workspace/bombshell-crest/variant_shirt_press",
-      "date": "2026-10-15T16:36:52-07:00",
-      "method": "decimate"
-    },
-    {
-      "file": "rocket_d1.glb",
-      "name": "Rocket Lamp D1 Surplus Courier",
-      "scale": 1.0,
-      "lod1": "rocket_d1_lod1.glb",
-      "dims_mm": {
-        "x": 181.56,
-        "y": 181.56,
-        "z": 225.0
-      },
-      "tris": 5018,
-      "tris_lod1": 898,
-      "bytes": 80728,
-      "bytes_lod1": 22744,
-      "description": "ShadyAF D1 rocket lamp base, multi-color assembled",
-      "source": "/workspace/shadyaf/rocket-base/clay/D1_surplus_courier",
-      "date": "2026-10-15T16:37:37-07:00",
-      "method": "decimate"
-    },
-    {
-      "file": "rocket_d2.glb",
-      "name": "Rocket Lamp D2 Pulp Needle",
-      "scale": 1.0,
-      "lod1": "rocket_d2_lod1.glb",
-      "dims_mm": {
-        "x": 178.19,
-        "y": 178.19,
-        "z": 226.0
-      },
-      "tris": 5000,
-      "tris_lod1": 896,
-      "bytes": 80432,
-      "bytes_lod1": 21336,
-      "description": "ShadyAF D2 rocket lamp base, multi-color assembled",
-      "source": "/workspace/shadyaf/rocket-base/clay/D2_pulp_needle",
-      "date": "2026-10-15T16:37:41-07:00",
-      "method": "decimate"
-    },
-    {
-      "file": "holddown_m6_kit.glb",
-      "name": "3018 M6 Hold-Down Kit",
-      "scale": 1.0,
-      "lod1": "holddown_m6_kit_lod1.glb",
-      "dims_mm": {
-        "x": 308.5,
-        "y": 26.83,
-        "z": 34.0
-      },
-      "tris": 1996,
-      "tris_lod1": 806,
-      "bytes": 20332,
-      "bytes_lod1": 13048,
-      "description": "M6 hold-down arm, heel blocks A/B, and knob laid out as a kit",
-      "source": "/workspace/cnc-3018/holddown/test_set_m6",
-      "date": "2026-10-15T16:36:49-07:00",
-      "method": "decimate"
-    },
-    {
-      "file": "wingnut_1_4_20.glb",
-      "name": "1/4-20 Wing Nut",
-      "scale": 1.0,
-      "lod1": "wingnut_1_4_20_lod1.glb",
-      "dims_mm": {
-        "x": 50.8,
-        "y": 14.66,
-        "z": 9.53
-      },
-      "tris": 1998,
-      "tris_lod1": 998,
-      "bytes": 29480,
-      "bytes_lod1": 16076,
-      "description": "Printable 1/4-20 wing nut for CNC hold-downs",
-      "source": "/workspace/cnc-3018/holddown/wingnut_1-4-20/wingnut_1-4-20.stl",
-      "date": "2026-10-15T16:36:58-07:00",
-      "method": "decimate"
-    },
-    {
-      "file": "bini_fillet_clipped.glb",
-      "name": "Bini Corner Fillet",
-      "scale": 1.0,
-      "lod1": "bini_fillet_clipped_lod1.glb",
-      "dims_mm": {
-        "x": 50.8,
-        "y": 50.8,
-        "z": 101.6
-      },
-      "tris": 320,
-      "tris_lod1": 120,
-      "bytes": 3084,
-      "bytes_lod1": 2256,
-      "description": "Marcos Bini corner cove fillet, clipped solid, square ends",
-      "source": "/workspace/campbell-creek/bini-fillets/v3_clipped/bini_fillet_B_clip_onend.stl",
-      "date": "2026-10-15T16:36:46-07:00",
-      "method": "decimate"
-    },
-    {
-      "file": "night_owls_owl.glb",
-      "name": "Night Owls Owl",
-      "scale": 1.0,
-      "lod1": "night_owls_owl_lod1.glb",
-      "dims_mm": {
-        "x": 169.58,
-        "y": 212.68,
-        "z": 180.97
-      },
-      "tris": 5000,
-      "tris_lod1": 1000,
-      "bytes": 58116,
-      "bytes_lod1": 15812,
-      "description": "Night Owls one-piece owl print",
-      "source": "/workspace/night-owls/clay_build/print/P0_onepiece_owl.stl",
-      "date": "2026-10-15T16:37:34-07:00",
-      "method": "decimate"
-    },
-    {
-      "file": "hope_relief.glb",
-      "name": "HOPE Relief Sign",
-      "scale": 1.0,
-      "lod1": "hope_relief_lod1.glb",
-      "dims_mm": {
-        "x": 914.4,
-        "y": 19.05,
-        "z": 844.83
-      },
-      "tris": 8000,
-      "tris_lod1": 2500,
-      "bytes": 113248,
-      "bytes_lod1": 38468,
-      "description": "HOPE skull-and-antlers relief sign (v4.8.7 release), 36\u00d734 in",
-      "source": "/workspace/hope/clay/HOPE_relief_v4_8p7_release.stl",
-      "date": "2026-10-16T07:50:34-07:00",
-      "method": "decimate"
-    },
-    {
-      "file": "vw_t1_restomod.glb",
-      "name": "VW T1 Restomod",
-      "scale": 1.0,
-      "lod1": "vw_t1_restomod_lod1.glb",
-      "dims_mm": {
-        "x": 181.64,
-        "y": 85.4,
-        "z": 75.51
-      },
-      "tris": 5000,
-      "tris_lod1": 998,
-      "bytes": 73800,
-      "bytes_lod1": 16832,
-      "description": "1:18 VW T1 restomod one-piece body",
-      "source": "/workspace/vw-t1-restomod/clay_build/print/vw_t1_restomod_1to18_onepiece.stl",
-      "date": "2026-10-15T16:41:09-07:00",
-      "method": "decimate"
-    },
-    {
-      "file": "hope_neon.glb",
-      "name": "Antlers of HOPE neon overlay",
-      "scale": 1.0,
-      "overlay_of": "hope_relief.glb",
-      "lod1": null,
-      "dims_mm": {
-        "x": 914.4,
-        "y": 19.05,
-        "z": 844.83
-      },
-      "tris": 1864,
-      "bytes": 10180,
-      "emissive": true,
-      "colors": {
-        "white": "#FFE9C4",
-        "red": "#FF2020",
-        "purple": "#A633FF"
-      },
-      "svg": "hope_neon.svg"
+    "xfader": {
+     "pos_gltf": [
+      0.0,
+      1.075,
+      0.15
+     ],
+     "parent": "booth"
     }
-  ]
+   },
+   "screen": {
+    "node": "dj-screen",
+    "material": "cantina_dj_screen",
+    "size_m": [
+     1.4,
+     0.7
+    ],
+    "aspect": "2:1 (canvas 1024x512)",
+    "center_gltf": [
+     0,
+     2.18,
+     -0.66
+    ],
+    "tilt_x_rad": 0.06,
+    "faces": "+Z (visitors)",
+    "placeholder": "cantina_dj_screen_placeholder.jpg",
+    "uv": "0..1, u left->right, v bottom->top as seen by visitors"
+   },
+   "dex_spot": {
+    "pos_booth_local": [
+     0,
+     0.25,
+     -0.45
+    ],
+    "note": "Dex root on the riser, same as showroom.js"
+   },
+   "unlit_baked": true,
+   "room": "cantina_rigged",
+   "method": "procedural + CC0 PBR bake, skinned rigid rig",
+   "date": "2026-10-17T16:57:53-07:00",
+   "source": "/workspace/loft-xr/assets/cantina_src/cantina_dj_booth.blend",
+   "load": "rigged: load as its own GLB and drive the joints (pivotsFromGLTF + ROBOT_MANIFEST in showroom/bartender.js). Do NOT merge into the static cantina set (that is why room is not \"cantina\").",
+   "textures": {
+    "cantina_dj_booth_atlas": 1024
+   },
+   "emissive_driven": "cantina_glow_teal",
+   "previews": [
+    "cantina_dj_booth_preview_front.png",
+    "cantina_dj_booth_preview_3q.png",
+    "cantina_dj_booth_preview_with_dex.png",
+    "cantina_dj_booth_preview_with_dex_dj.png"
+   ],
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     3.1,
+     0,
+     1.15
+    ],
+    "rot_y_deg": -90,
+    "note": "corner opposite the bar beside the door, counter facing into the room (showroom.js mirrors X: BOOTH x -3.1, ry +90)"
+   },
+   "credits": "original procedural geometry (Clay, Blender 4.3); textures ambientCG CC0 (see CREDITS_cantina.md)",
+   "revision": "v4",
+   "nonmanifold_edges": {
+    "lod0": 0,
+    "lod1": 0
+   },
+   "height_m": 2.562,
+   "v3_changes": "riser top now exactly y 0.25 (Dex root) - no sink; post flanges seated on it; lod1 keeps small closed parts whole",
+   "v4_changes": "screen centre raised 0.10 m (2.08 -> 2.18), brass pipe posts/elbows extended to match; joints unchanged. At 7 m (eye 1.6) Dex headphone top 1.73 m vs frame bottom 1.80 m: 0.071 m gap, ~9 px clear in cantina_review_booth_dex_7m.png"
+  }
+ ],
+ "rigged_note": "Animated cantina characters/props (skinned, rigid weights, identity rest rotations; joint names = ROBOT_MANIFEST). Kept out of builds[]/skipped[] so the loft shelf and the static cantina merge do not pick them up. v3: Quinn FIX list (reach, closed shells, smooth bands, Tapper head 1.3x) + Nova Dex column/collar; review renders cantina_review_*.png, cantina_robot_bartender_review_bar_*.png, cantina_robots_lod1_silhouettes.png."
 }

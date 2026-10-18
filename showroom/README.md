@@ -60,3 +60,98 @@ u-values on the cove strip (index 0 = entry corner (4,1.5), clockwise):
 - One controller only: stick forward/back moves, a strong left/right flick (> 0.8) snap-turns, trigger teleports.
 - Exiting VR mid-move or mid-aim now clears the vignette, teleport marker and aim state.
 - Pit gap marker is a single thin gold threshold line.
+
+## Cantina guestbook (2026-10-17)
+
+- An open book on the bar top (cantina-local 2.02, bar top, 4.35). It shows the latest 6 notes on its CanvasTexture. It costs no draws of its own: it rides in the robots SkinnedMesh, whose shared map is the guestbook canvas (robot vertices sample a white texel at a constant uv).
+- **Desktop/phone:** click or tap the book to open the modal (`#gb-modal`). Name is up to 40 chars, message up to 280. Everything is rendered with `textContent` or canvas `fillText`, never as HTML. Esc or a click outside closes it. `?guestbook` opens it on load.
+- **VR:** point at the book and pull the trigger, within 3.5 m, to toggle a floating read view (+1 draw while open). The read view shows a "Sign on your phone or computer" URL.
+- **Storage:** `GuestbookStore` interface (`guestbook.js`). `LocalGuestbookStore` keeps notes in `localStorage['ff-guestbook']` with a 20 s soft rate limit. It is labelled "Local preview: notes are only saved on this device." `RemoteGuestbookStore({listUrl, addUrl, format:'json'|'csv'})` is a stub for a real backend.
+
+## Robot bartender (2026-10-17)
+
+- `bartender.js` → `createRobotBatch()`: ONE SkinnedMesh with one shared material and rigid skinning. It holds the bartender (brass/teal), Dex (graphite/copper/violet with headphones), the DJ counter, decks, platters and the crossfader, plus the guestbook. Each robot has its own root bone. No shadows.
+- The bartender stands in the aisle at cantina-local (3.0, 0, 3.7) and faces the room. He has no collider, so the aisle stays walkable.
+- **Behaviour:** idle sway. When the player is in the cantina within 7 m, he turns, waves 3 times, beckons, then lowers his arm. He re-arms only after the player leaves (7.5 m hysteresis); no timer.
+- **Swap for Clay's models:** `ROBOT_MANIFEST` lists the pivot names the behaviour code drives (root, torso, head, arm, forearm, armL, forearmL, antenna; booth: platters[], crossfader). `pivotsFromGLTF(scene, manifest)` returns the same pivot map from a GLB whose nodes use those names.
+
+## Builds shelf: grab / force pull / inspect (2026-10-17)
+
+- **VR:**
+  - Grip within 0.25 m of a build grabs it.
+  - Pointing the ray at a build shows a 1-draw teal outline box and hides the other ray.
+  - Trigger (or grip) while pointing force-pulls it: it eases to the hand over 0.6 s with a slight float and a spin.
+  - While held it follows the controller. On release it floats back to its exact shelf slot over 0.8 s.
+  - No teleport while aiming at a build, the guestbook or the DJ booth.
+- **Desktop/phone:** click or tap a build to pull it to a lit inspect pose in front of the camera. Drag to rotate it. Click away or press Esc to send it back.
+- **Low/XR merge:** the build's vertex range in its merged batch is zeroed while held. A 1-draw vertex-colour copy is shown in the hand. Both rays hide while holding. Holding is local only and never written to the shared state.
+
+## DJ booth: Dex (2026-10-17)
+
+- **Placement:** the cantina corner opposite the bar, beside the door, at cantina-local (-3.1, 0, 1.15), facing +x into the room. It has a collider.
+  - Deck A is on the visitors' left and deck B on their right, with the 2-channel mixer and a horizontal crossfader in the middle.
+  - Dex stands on a riser behind the decks. The wide screen sits behind him.
+- **Draws:** the screen and one additive "glow" draw. The glow draw holds Clay's cove fan, the teleport ring, the wash cone and 2 deck spots, with a per-vertex fixture id. Dex, the counter and the platters are in the shared robots draw. The one PointLight is the booth wash: a dim warm work light when idle, show-driven when a show runs.
+- **Audio** (`dj-config.js`):
+  - `SETS` lists Dex's rendered files in `audio/`. `.ogg` is preferred, with `.mp3` as the fallback. The MP3 offset is **mix time = currentTime − 0.025 s**.
+  - `AUDIO_URL` (stream) defaults to `null`. Without cue sidecars, an analyser onset estimate drives the beat.
+  - Playback goes through a THREE.PositionalAudio at the booth (linear rolloff, ref 1.5 m, max 18 m). It starts only from a gesture: the panel ▶, a tap or click on the decks or screen, or the VR trigger on the decks.
+  - The panel volume slider controls the level.
+- **Sync:**
+  - `*.cues.json` uses Dex's binary-search beat snippet, re-synced on `seeked` and on jumps over 1 s.
+  - The screen shows DEX, LIVE/READY/OFFLINE, the track and artist, local BPM (8-beat window), `bar N of M` (per track), track i/n, and time.
+  - It also shows a waveform overview built from `audio/*.peaks.json`: an RMS envelope pre-computed with ffmpeg. Transition zones are shaded teal, the breakdown violet, and there are track ticks and a playhead.
+  - The footer carries the exact README credit text.
+  - On beats the screen, the booth trims and the antenna pulse, stronger on downbeats.
+  - The platters spin at 33⅓ rpm while playing. The crossfader slides across each transition.
+  - Dex nods on the beat, with the analyser level scaling the nod.
+- **Light show** (`dj.js` `LightShow`): Dex's `.lights.json`, v1 and v2.
+  - **Groups:** cove / wash / spot / all.
+  - **fx:** color, fade, pulse, chase, sweep, blackout_soft.
+  - **rate:** beat = 1 beat, half = half a bar, bar = the downbeat grid, 2bar. The loader turns the rate into timing from `beats[]` / `downbeats[]`.
+  - **Safety:** the flash rate is capped at `min(DJ_CONFIG.SAFETY.maxFlashHz, safety.max_strobe_hz)`, 3 Hz. Faster rates are halved until legal. The spots are fixed downlights onto the decks and never aim at visitors or the camera.
+  - **v2:** per-fixture `move` cues and `projector_cues` are parsed and ignored for now. Moving heads, projectors and no-go come next pass.
+  - **Cove:** CoveScenes has no arbitrary-colour API, so `cove-scenes.js` is untouched. The show overlays the strip output after `fx.render()` while it runs, and tints the cantina cove fan with the cove mean (approximate: it multiplies the fan's teal gradient).
+  - **Palette:** one swappable place, `DJ_CONFIG.PALETTE`, for Nova's colours. It overrides the file palette by name.
+- **Inputs:** one `ShowInput` interface.
+  - `FileShowInput(json, clock)` follows the audio clock, or a free-running clock with a synthetic grid at `json.bpm || 120` when nothing plays.
+  - `LiveShowInput(DJ_CONFIG.LIGHTSHOW_WS)` is a stub WebSocket. Each message is a cue in the same shape, `{cues:[...]}`, `{palette}` or `{type:'clock', t}`. It is off by default.
+- **Extension hooks (inert):** `show.register(group, fn)` is for future fixtures. A `mover` group keeps pan/tilt/speed/beam. `ProjectorSurface` takes a video or canvas texture. There are no fixtures yet.
+- **Panel → "DJ booth (Dex)":** set picker, ▶/■, volume, Load show (file picker or URL, default `shows/demo.lights.json`), ▶/■ show, Live (WS stub), status and credits.
+- **Requests:** the lit "Request a song" button on the counter front opens a placeholder form on desktop and phone. On VR it shows a notice on the screen. Nothing is sent or stored (`PlaceholderRequestStore`): "Requests coming soon".
+- **Demo show:** `shows/demo.lights.json` is 32 s at 120 BPM in Dex's format, using every fx.
+
+### Lights cue schema (Dex v1, still valid inside v2)
+
+```json
+{ "version": 1, "groups": ["cove","wash","spot"], "palette": {"name": "#hex"}, "safety": {"max_strobe_hz": 3.0},
+  "bpm": 120,
+  "cues": [ { "t": 0.0, "group": "cove|wash|spot|all", "fx": "color|pulse|chase|sweep|fade|blackout_soft",
+              "color": "palette name or #hex", "intensity": 0.0, "dur_s": 8.0, "rate": "beat|half|bar|2bar", "dir": "lr|rl|center" } ] }
+```
+
+`bpm` is our optional extension for the free-running clock. v2 files add `fixture` / `move` cues and `projector_cues`, which this pass ignores.
+
+### LIGHTS_SPEC v0.2 sec. 6 binding (Hugo)
+
+- **Frames:** `FileShowInput` applies `rooms.<room>.to_scene` to every fixture mount, target, no-go box and occluder (`input.scene`), and negates pan in mirrored rooms.
+  - Hall `{translate:[-2,0,1.5]}`: scene = spec + translate, in hall world coordinates.
+  - Cantina `{mirror_x:true}`: x_scene = −x_spec, in cantina-local coordinates. Cantina world = `toCantinaWorld(lx, lz) = [5.15 + lz, 12 − lx]`.
+  - Files without `to_scene` fall back to these sec. 6.0 values (`DEFAULT_TO_SCENE`, flagged `fromFile:false`). Dex's 16:10 v2 files don't carry it yet.
+  - This is data only: nothing renders movers, no-go or occluders this pass.
+- **Projector:** entries are read from top-level `projector_cues[]` (`projector`, `surface`, `content {kind, color, pattern, src, tint}`, `intensity`, `dur_s`, `mask`). They are no longer read from `cues[]` with `group:'projector'`/`media`.
+  - A registered `ProjectorSurface` (key `surface` or `projector:surface`) gets `setContent()`. Video plays its `src`. Colour and pattern give a flat tint for now, with `mask.intensity` applied. Pattern drawing comes next pass.
+  - No surfaces are registered yet.
+- **Ceiling at diy_proto_1** (spec [3.3, –, 5.6] → cantina-local (−3.3, 5.6), world (10.75, 15.3)): raycast vault height **2.775 m**. A rib underside sits at 2.65–2.69 m within 0.1–0.2 m. That is below the 3.0 m that sec. 6.1 requires. The vault reaches 3.0 m only at |x| ≲ 2.5.
+
+
+## 2026-10-17 pass: Dex lights v0.4, Clay's rigged models, v8 QA fixes
+- **Lights v0.4:** `rooms.<room>.to_scene` is read from the file (the sec. 6.0 default is only a guard; the status line names the source). Move cues are counted and skipped. `projector_cues` are parsed with `mask` kept as data (`normMask`, intensity ≤ 0.4); there is no projector surface yet. A seek re-syncs the beat index on `seeked` and fires no beats while the element is seeking.
+- **Rigged cantina (`rigged.js`):** Clay's Tapper, Dex and DJ booth (manifest `rigged[]`, room `cantina_rigged`) plus the guestbook are re-packed into ONE SkinnedMesh per LOD (2048 runtime atlas, 21 bones). The original GLB scenes are never drawn: they are puppets that run the clips, and their joint rotations are copied to the batch each frame. Their meshes are never frozen or merged. lod1 is used in XR, `?low` and on touch devices. The booth screen uses Clay's `dj-screen` mesh. The placeholders stay if loading fails.
+- Tapper stands at cantina-local (3.0, 0, 3.7) to clear the orange porthole at 7 m. Dex is at booth-local (0, 0.25, −0.45). Deck A is on the crowd's left.
+- **Bartender:** greets once per visit. He re-arms only after you leave the 7 m zone (7.5 m hysteresis). There is no timer.
+- **Guestbook:** limits count graphemes (`Intl.Segmenter`), so ZWJ emoji stay whole. Inputs are 16 px (no iOS zoom).
+- **Inspect (desktop/phone):** drag rotates the build and never the view. Joystick and tap-to-walk are blocked while inspecting. Tapping off the build's visible meshes sends it back. A build flying home no longer eats taps.
+- **Held builds (XR):** `clampHeld` keeps the held position inside the walkable area (+5 cm) and off the builds shelf.
+- **Music:** room gain is `exp(−d/0.9)` over the walking distance out of the cantina door (passage mid ≈ 0.35, hall door ≈ 0.02, hall 0). It is applied on top of the positional falloff.
+- **Low/XR merge:** FrontSide plain batches in the cantina and passage merge into the DoubleSide batch (2 fewer objects).

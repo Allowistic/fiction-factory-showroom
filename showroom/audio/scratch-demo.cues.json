@@ -1,0 +1,286 @@
+{
+  "title": "Scratch demo \u2014 2026-10-17 (Dex)",
+  "duration_s": 58.827,
+  "license": "Original, cleared for public use (Fiction Factory)",
+  "credits": [
+    "Fully synthesized by Dex on 2026-10-17. No commercial recordings used.",
+    "Drums, bass, Em7 horn stab, vinyl noise, and 'ahhh' tone: original synthesis (numpy/scipy).",
+    "Voice calls (check it out / fresh / yeah / come on): espeak-ng TTS output; program is GPLv3, audio output free to use.",
+    "License: Original, cleared for public use (Fiction Factory)."
+  ],
+  "tracks": [
+    {
+      "start_s": 0.0,
+      "end_s": 58.827,
+      "artist": "Dex",
+      "title": "Beastie-style scratch demo (synthesized)",
+      "bpm": 98.0,
+      "license": "Original, cleared for public use (Fiction Factory)",
+      "source_url": ""
+    }
+  ],
+  "tempo": [
+    {
+      "start_s": 0.0,
+      "bpm": 98.0
+    }
+  ],
+  "beats": [
+    0.0,
+    0.612,
+    1.224,
+    1.837,
+    2.449,
+    3.061,
+    3.673,
+    4.286,
+    4.898,
+    5.51,
+    6.122,
+    6.735,
+    7.347,
+    7.959,
+    8.571,
+    9.184,
+    9.796,
+    10.408,
+    11.02,
+    11.633,
+    12.245,
+    12.857,
+    13.469,
+    14.082,
+    14.694,
+    15.306,
+    15.918,
+    16.531,
+    17.143,
+    17.755,
+    18.367,
+    18.98,
+    19.592,
+    20.204,
+    20.816,
+    21.429,
+    22.041,
+    22.653,
+    23.265,
+    23.878,
+    24.49,
+    25.102,
+    25.714,
+    26.327,
+    26.939,
+    27.551,
+    28.163,
+    28.776,
+    29.388,
+    30.0,
+    30.612,
+    31.224,
+    31.837,
+    32.449,
+    33.061,
+    33.673,
+    34.286,
+    34.898,
+    35.51,
+    36.122,
+    36.735,
+    37.347,
+    37.959,
+    38.571,
+    39.184,
+    39.796,
+    40.408,
+    41.02,
+    41.633,
+    42.245,
+    42.857,
+    43.469,
+    44.082,
+    44.694,
+    45.306,
+    45.918,
+    46.531,
+    47.143,
+    47.755,
+    48.367,
+    48.98,
+    49.592,
+    50.204,
+    50.816,
+    51.429,
+    52.041,
+    52.653,
+    53.265,
+    53.878,
+    54.49,
+    55.102,
+    55.714,
+    56.327,
+    56.939,
+    57.551,
+    58.163,
+    58.776
+  ],
+  "downbeats": [
+    0.0,
+    2.449,
+    4.898,
+    7.347,
+    9.796,
+    12.245,
+    14.694,
+    17.143,
+    19.592,
+    22.041,
+    24.49,
+    26.939,
+    29.388,
+    31.837,
+    34.286,
+    36.735,
+    39.184,
+    41.633,
+    44.082,
+    46.531,
+    48.98,
+    51.429,
+    53.878,
+    56.327,
+    58.776
+  ],
+  "events": [
+    {
+      "t": 4.9,
+      "type": "scratch",
+      "label": "Call-and-response: voice call bar, scratch answer bar (x4)"
+    },
+    {
+      "t": 7.35,
+      "type": "scratch",
+      "label": "baby scratch"
+    },
+    {
+      "t": 12.24,
+      "type": "scratch",
+      "label": "forward cuts + drags"
+    },
+    {
+      "t": 17.14,
+      "type": "scratch",
+      "label": "chirps"
+    },
+    {
+      "t": 22.04,
+      "type": "scratch",
+      "label": "tears"
+    },
+    {
+      "t": 23.27,
+      "type": "scratch",
+      "label": "2-click flares"
+    },
+    {
+      "t": 24.49,
+      "type": "scratch",
+      "label": "Cut showcase: crabs and flares"
+    },
+    {
+      "t": 24.49,
+      "type": "scratch",
+      "label": "crabs"
+    },
+    {
+      "t": 26.94,
+      "type": "scratch",
+      "label": "1-click flares"
+    },
+    {
+      "t": 28.78,
+      "type": "scratch",
+      "label": "chirps"
+    },
+    {
+      "t": 29.39,
+      "type": "breakdown",
+      "label": "Breakdown: horn stab hit, drums thin out, snare roll build"
+    },
+    {
+      "t": 29.39,
+      "type": "scratch",
+      "label": "horn stab hit (breakdown)"
+    },
+    {
+      "t": 30.0,
+      "type": "scratch",
+      "label": "slow reverse drag of the stab"
+    },
+    {
+      "t": 31.84,
+      "type": "scratch",
+      "label": "baby scratch (stab)"
+    },
+    {
+      "t": 34.29,
+      "type": "scratch",
+      "label": "Big transformer section"
+    },
+    {
+      "t": 34.9,
+      "type": "scratch",
+      "label": "transformer"
+    },
+    {
+      "t": 36.73,
+      "type": "scratch",
+      "label": "transformer"
+    },
+    {
+      "t": 39.18,
+      "type": "scratch",
+      "label": "transformer"
+    },
+    {
+      "t": 41.63,
+      "type": "scratch",
+      "label": "transformer"
+    },
+    {
+      "t": 42.86,
+      "type": "scratch",
+      "label": "2-click flares"
+    },
+    {
+      "t": 44.08,
+      "type": "scratch",
+      "label": "transformer"
+    },
+    {
+      "t": 46.53,
+      "type": "scratch",
+      "label": "transformer"
+    },
+    {
+      "t": 47.76,
+      "type": "scratch",
+      "label": "crabs"
+    },
+    {
+      "t": 48.98,
+      "type": "scratch",
+      "label": "baby scratch"
+    },
+    {
+      "t": 53.27,
+      "type": "scratch",
+      "label": "chirps"
+    },
+    {
+      "t": 53.88,
+      "type": "scratch",
+      "label": "final horn stab"
+    }
+  ]
+}

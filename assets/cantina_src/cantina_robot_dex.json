@@ -1,0 +1,109 @@
+{
+ "file": "cantina_robot_dex.glb",
+ "name": "Robot DJ Dex: skinned rigid rig, joints named per ROBOT_MANIFEST (root/torso/head/armR/foreR/armL/foreL/antenna), identity rest rotations, leather jacket, brass headphones, teal eyes + level meter",
+ "pivots": {
+  "root": "root",
+  "torso": "torso",
+  "head": "head",
+  "arm": "armR",
+  "forearm": "foreR",
+  "armL": "armL",
+  "forearmL": "foreL",
+  "antenna": "antenna"
+ },
+ "scale": 1.0,
+ "lod1": "cantina_robot_dex_lod1.glb",
+ "tris": 4260,
+ "tris_lod1": 2810,
+ "bytes": 185640,
+ "bytes_lod1": 180164,
+ "draws": 2,
+ "materials": [
+  "cantina_robot_dex_atlas",
+  "cantina_glow_teal"
+ ],
+ "joints": {
+  "root": {
+   "pos_gltf": [
+    0.0,
+    0.0,
+    -0.0
+   ],
+   "parent": null
+  },
+  "torso": {
+   "pos_gltf": [
+    0.0,
+    0.68,
+    -0.0
+   ],
+   "parent": "root"
+  },
+  "head": {
+   "pos_gltf": [
+    0.0,
+    1.18,
+    -0.0
+   ],
+   "parent": "torso"
+  },
+  "antenna": {
+   "pos_gltf": [
+    0.0,
+    1.4,
+    -0.07
+   ],
+   "parent": "head"
+  },
+  "armR": {
+   "pos_gltf": [
+    -0.25,
+    1.04,
+    -0.0
+   ],
+   "parent": "torso"
+  },
+  "foreR": {
+   "pos_gltf": [
+    -0.26,
+    0.77,
+    -0.0
+   ],
+   "parent": "armR"
+  },
+  "armL": {
+   "pos_gltf": [
+    0.25,
+    1.04,
+    -0.0
+   ],
+   "parent": "torso"
+  },
+  "foreL": {
+   "pos_gltf": [
+    0.26,
+    0.77,
+    -0.0
+   ],
+   "parent": "armL"
+  }
+ },
+ "height_m": 1.478,
+ "width_m": 0.651,
+ "depth_m": 0.386,
+ "nonmanifold_edges": {
+  "lod0": 0,
+  "lod1": 0
+ },
+ "clips": [
+  "hands_on_decks",
+  "idle_nod",
+  "scratch_R",
+  "wave"
+ ],
+ "unlit_baked": true,
+ "room": "cantina",
+ "method": "procedural + CC0 PBR bake, skinned rigid rig",
+ "date": "2026-10-17T16:47:06-07:00",
+ "source": "/workspace/loft-xr/assets/cantina_src/cantina_robot_dex.blend"
+}

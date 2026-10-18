@@ -1,0 +1,4090 @@
+{
+ "version": 2,
+ "title": "Scratch demo \u2014 2026-10-17 (Dex)",
+ "beat_grid": "scratch-demo.cues.json",
+ "groups": [
+  "cove",
+  "wash",
+  "spot"
+ ],
+ "palette": {
+  "void": "#0a0a12",
+  "slate": "#3a4450",
+  "steel": "#6b7c8a",
+  "amber": "#c49a6c",
+  "copper": "#b87333",
+  "teal": "#3d8b8b",
+  "indigo": "#4b5e9b",
+  "violet": "#7a5ea8",
+  "rose": "#a85e7a",
+  "warm_white": "#e8dcc8",
+  "cool_white": "#c8d4e0",
+  "deep_blue": "#1a2744"
+ },
+ "palette_note": "Neutral placeholders. Nova will supply real Fiction Factory show colors.",
+ "safety": {
+  "max_strobe_hz": 3.0,
+  "spots_audience_aim": false,
+  "note": "No strobes faster than 3 Hz. Spots never aim at the audience (deck/booth only).",
+  "enforce": "driver",
+  "watchdog_ms": 1500,
+  "on_signal_loss": "fade_dark_then_home",
+  "global_max_speed_dps": 180,
+  "diy_max_speed_dps": 90,
+  "nogo_cone_margin_deg": 2.0,
+  "no_lasers": true
+ },
+ "output": {
+  "artnet": {
+   "host": "10.0.0.50",
+   "universe_base": 0,
+   "note": "placeholder host from the spec example"
+  },
+  "osc_beat_bus": {
+   "port": 9137
+  },
+  "webxr": {
+   "clock": "audio.currentTime",
+   "grid": "scratch-demo.cues.json"
+  }
+ },
+ "rooms": {
+  "hall": {
+   "min": [
+    -6.0,
+    0.0,
+    0.0
+   ],
+   "max": [
+    6.0,
+    4.2,
+    9.0
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.0 (spec frame)",
+   "to_scene": {
+    "translate": [
+     -2,
+     0,
+     1.5
+    ]
+   },
+   "note": "Spec frame: 12 W x 9 D x 4.2 m box, builds wall at z=9 (spans x 0.2..4.2). Scene = spec + translate. The L notch (x -6..-2, z 0..2.5) is wall in the scene and is not modeled here. No DJ booth in the hall."
+  },
+  "cantina": {
+   "min": [
+    -4.0,
+    0.0,
+    0.0
+   ],
+   "max": [
+    4.0,
+    3.2,
+    6.5
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.0 (spec frame)",
+   "to_scene": {
+    "mirror_x": true
+   },
+   "note": "8 W x 6.5 D x 3.2 m, origin = door, +Z into room. Scene = x mirrored (negate x and pan on export). Vault h(x)=3.2-0.036x^2 (spec v0.3 \u00a76.1) is modeled flat at 3.2 m for ray-casting (conservative: rays run farther). Dex's DJ booth is here at spec (3.1, 1.15) = scene-local (-3.1, 1.15)."
+  }
+ },
+ "fixtures": [
+  {
+   "id": "hall_spot_L",
+   "type": "mini_spot_11ch",
+   "group": "spot",
+   "room": "hall",
+   "mount": {
+    "pos": [
+     0.0,
+     3.9,
+     7.5
+    ],
+    "rot_deg": [
+     180,
+     0,
+     0
+    ],
+    "style": "truss_hang"
+   },
+   "pan": {
+    "range_deg": 540,
+    "min": -270,
+    "max": 270,
+    "home": -60.0
+   },
+   "tilt": {
+    "range_deg": 270,
+    "min": -135,
+    "max": 135,
+    "home": 110
+   },
+   "limits": {
+    "max_speed_dps": 120,
+    "max_accel_dps2": 360
+   },
+   "dmx": {
+    "universe": 0,
+    "address": 1,
+    "profile": "mini_spot_11ch"
+   },
+   "beam_deg": 12,
+   "pivot_offset_m": 0.24,
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.4 mount, \u00a76.11 dmx",
+   "home_note": "recomputed for the v0.2 mount (spec \u00a76.3: tilt 110, pan at nearest ceiling/upper wall); also the show start, end, move.home and watchdog pose"
+  },
+  {
+   "id": "hall_spot_R",
+   "type": "mini_spot_11ch",
+   "group": "spot",
+   "room": "hall",
+   "mount": {
+    "pos": [
+     4.4,
+     3.9,
+     7.5
+    ],
+    "rot_deg": [
+     180,
+     0,
+     0
+    ],
+    "style": "truss_hang"
+   },
+   "pan": {
+    "range_deg": 540,
+    "min": -270,
+    "max": 270,
+    "home": -115.7
+   },
+   "tilt": {
+    "range_deg": 270,
+    "min": -135,
+    "max": 135,
+    "home": 110
+   },
+   "limits": {
+    "max_speed_dps": 120,
+    "max_accel_dps2": 360
+   },
+   "dmx": {
+    "universe": 0,
+    "address": 21,
+    "profile": "mini_spot_11ch"
+   },
+   "beam_deg": 12,
+   "pivot_offset_m": 0.24,
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.4 mount, \u00a76.11 dmx",
+   "home_note": "recomputed for the v0.2 mount (spec \u00a76.3: tilt 110, pan at nearest ceiling/upper wall); also the show start, end, move.home and watchdog pose"
+  },
+  {
+   "id": "hall_spot_far_L",
+   "type": "mini_spot_11ch",
+   "group": "spot",
+   "room": "hall",
+   "mount": {
+    "pos": [
+     -4.0,
+     3.9,
+     8.5
+    ],
+    "rot_deg": [
+     180,
+     0,
+     0
+    ],
+    "style": "truss_hang"
+   },
+   "pan": {
+    "range_deg": 540,
+    "min": -270,
+    "max": 270,
+    "home": -15.0
+   },
+   "tilt": {
+    "range_deg": 270,
+    "min": -135,
+    "max": 135,
+    "home": 110
+   },
+   "limits": {
+    "max_speed_dps": 120,
+    "max_accel_dps2": 360
+   },
+   "dmx": {
+    "universe": 0,
+    "address": 41,
+    "profile": "mini_spot_11ch"
+   },
+   "beam_deg": 12,
+   "pivot_offset_m": 0.24,
+   "source": "Dex v2.0 mount kept per LIGHTS_SPEC v0.2-v0.4 \u00a76.4; \u00a76.11 dmx",
+   "home_note": "spec \u00a76.3 confirmed park pose; also the show start, end, move.home and watchdog pose"
+  },
+  {
+   "id": "hall_spot_far_R",
+   "type": "mini_spot_11ch",
+   "group": "spot",
+   "room": "hall",
+   "mount": {
+    "pos": [
+     5.2,
+     3.9,
+     8.5
+    ],
+    "rot_deg": [
+     180,
+     0,
+     0
+    ],
+    "style": "truss_hang"
+   },
+   "pan": {
+    "range_deg": 540,
+    "min": -270,
+    "max": 270,
+    "home": -112.4
+   },
+   "tilt": {
+    "range_deg": 270,
+    "min": -135,
+    "max": 135,
+    "home": 110
+   },
+   "limits": {
+    "max_speed_dps": 120,
+    "max_accel_dps2": 360
+   },
+   "dmx": {
+    "universe": 0,
+    "address": 61,
+    "profile": "mini_spot_11ch"
+   },
+   "beam_deg": 12,
+   "pivot_offset_m": 0.24,
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.4 mount, \u00a76.11 dmx",
+   "home_note": "recomputed for the v0.2 mount (spec \u00a76.3: tilt 110, pan at nearest ceiling/upper wall); also the show start, end, move.home and watchdog pose"
+  },
+  {
+   "id": "hall_wash_L",
+   "type": "wash_13ch",
+   "group": "wash",
+   "room": "hall",
+   "mount": {
+    "pos": [
+     -3.0,
+     3.9,
+     3.5
+    ],
+    "rot_deg": [
+     180,
+     0,
+     0
+    ],
+    "style": "truss_hang"
+   },
+   "pan": {
+    "range_deg": 540,
+    "min": -270,
+    "max": 270,
+    "home": 48.4
+   },
+   "tilt": {
+    "range_deg": 270,
+    "min": -135,
+    "max": 135,
+    "home": 110
+   },
+   "limits": {
+    "max_speed_dps": 100,
+    "max_accel_dps2": 300
+   },
+   "dmx": {
+    "universe": 0,
+    "address": 101,
+    "profile": "wash_13ch"
+   },
+   "beam_deg": 25,
+   "pivot_offset_m": 0.26,
+   "source": "Dex v2.0 mount kept per LIGHTS_SPEC v0.2-v0.4 \u00a76.4; \u00a76.11 dmx",
+   "home_note": "spec \u00a76.3 confirmed park pose; also the show start, end, move.home and watchdog pose"
+  },
+  {
+   "id": "hall_wash_R",
+   "type": "wash_13ch",
+   "group": "wash",
+   "room": "hall",
+   "mount": {
+    "pos": [
+     3.0,
+     3.9,
+     3.5
+    ],
+    "rot_deg": [
+     180,
+     0,
+     0
+    ],
+    "style": "truss_hang"
+   },
+   "pan": {
+    "range_deg": 540,
+    "min": -270,
+    "max": 270,
+    "home": -168.4
+   },
+   "tilt": {
+    "range_deg": 270,
+    "min": -135,
+    "max": 135,
+    "home": 110
+   },
+   "limits": {
+    "max_speed_dps": 100,
+    "max_accel_dps2": 300
+   },
+   "dmx": {
+    "universe": 0,
+    "address": 121,
+    "profile": "wash_13ch"
+   },
+   "beam_deg": 25,
+   "pivot_offset_m": 0.26,
+   "source": "Dex v2.0 mount kept per LIGHTS_SPEC v0.2-v0.4 \u00a76.4; \u00a76.11 dmx",
+   "home_note": "spec \u00a76.3 confirmed park pose; also the show start, end, move.home and watchdog pose"
+  },
+  {
+   "id": "cantina_spot_L",
+   "type": "mini_spot_11ch",
+   "group": "spot",
+   "room": "cantina",
+   "mount": {
+    "pos": [
+     -2.5,
+     2.85,
+     5.6
+    ],
+    "rot_deg": [
+     180,
+     0,
+     0
+    ],
+    "style": "ceiling"
+   },
+   "pan": {
+    "range_deg": 540,
+    "min": -270,
+    "max": 270,
+    "home": -12.0
+   },
+   "tilt": {
+    "range_deg": 270,
+    "min": -135,
+    "max": 135,
+    "home": 110
+   },
+   "limits": {
+    "max_speed_dps": 120,
+    "max_accel_dps2": 360
+   },
+   "dmx": {
+    "universe": 1,
+    "address": 1,
+    "profile": "mini_spot_11ch"
+   },
+   "beam_deg": 12,
+   "pivot_offset_m": 0.24,
+   "source": "LIGHTS_SPEC v0.4 \u00a76.1 mount (y 2.85 v0.3, z 5.6 v0.4, rib clearance); \u00a76.11 dmx",
+   "home_note": "spec \u00a76.3 confirmed park pose; also the show start, end, move.home and watchdog pose"
+  },
+  {
+   "id": "cantina_spot_R",
+   "type": "mini_spot_11ch",
+   "group": "spot",
+   "room": "cantina",
+   "mount": {
+    "pos": [
+     2.5,
+     2.85,
+     5.6
+    ],
+    "rot_deg": [
+     180,
+     0,
+     0
+    ],
+    "style": "ceiling"
+   },
+   "pan": {
+    "range_deg": 540,
+    "min": -270,
+    "max": 270,
+    "home": -108.0
+   },
+   "tilt": {
+    "range_deg": 270,
+    "min": -135,
+    "max": 135,
+    "home": 110
+   },
+   "limits": {
+    "max_speed_dps": 120,
+    "max_accel_dps2": 360
+   },
+   "dmx": {
+    "universe": 1,
+    "address": 21,
+    "profile": "mini_spot_11ch"
+   },
+   "beam_deg": 12,
+   "pivot_offset_m": 0.24,
+   "source": "LIGHTS_SPEC v0.4 \u00a76.1 mount (y 2.85 v0.3, z 5.6 v0.4, rib clearance); \u00a76.11 dmx",
+   "home_note": "spec \u00a76.3 confirmed park pose; also the show start, end, move.home and watchdog pose"
+  },
+  {
+   "id": "cantina_wash",
+   "type": "wash_13ch",
+   "group": "wash",
+   "room": "cantina",
+   "mount": {
+    "pos": [
+     0.0,
+     2.9,
+     2.0
+    ],
+    "rot_deg": [
+     180,
+     0,
+     0
+    ],
+    "style": "ceiling"
+   },
+   "pan": {
+    "range_deg": 540,
+    "min": -270,
+    "max": 270,
+    "home": 120.0
+   },
+   "tilt": {
+    "range_deg": 270,
+    "min": -135,
+    "max": 135,
+    "home": 110
+   },
+   "limits": {
+    "max_speed_dps": 100,
+    "max_accel_dps2": 300
+   },
+   "dmx": {
+    "universe": 1,
+    "address": 101,
+    "profile": "wash_13ch"
+   },
+   "beam_deg": 25,
+   "pivot_offset_m": 0.26,
+   "source": "LIGHTS_SPEC v0.1 \u00a71C pose; LIGHTS_SPEC v0.2-v0.4 \u00a76.11 dmx",
+   "home_note": "spec \u00a76.3 confirmed park pose; also the show start, end, move.home and watchdog pose"
+  },
+  {
+   "id": "diy_proto_1",
+   "type": "diy_sts3215",
+   "group": "spot",
+   "room": "cantina",
+   "mount": {
+    "pos": [
+     2.0,
+     2.9,
+     4.8
+    ],
+    "rot_deg": [
+     180,
+     0,
+     0
+    ],
+    "style": "ceiling"
+   },
+   "pan": {
+    "range_deg": 270,
+    "min": -135,
+    "max": 135,
+    "home": 90.0
+   },
+   "tilt": {
+    "range_deg": 180,
+    "min": -90,
+    "max": 90,
+    "home": 90.0,
+    "mech_stop_deg": 92
+   },
+   "limits": {
+    "max_speed_dps": 90,
+    "max_accel_dps2": 180
+   },
+   "dmx": {
+    "universe": 1,
+    "address": 201,
+    "profile": "diy_8ch"
+   },
+   "beam_deg": 20,
+   "pivot_offset_m": 0.18,
+   "bench_only": true,
+   "source": "LIGHTS_SPEC v0.3/v0.4 \u00a76.1 pose [2.0,2.9,4.8] (vault 3.056 m there), \u00a76.3 park pan 90 / tilt 90 + mech stops \u00b192, \u00a76.11 dmx",
+   "home_note": "spec \u00a76.3 confirmed park pose; also the show start, end, move.home and watchdog pose"
+  },
+  {
+   "id": "hall_proj",
+   "type": "projector_standard",
+   "group": "projector",
+   "room": "hall",
+   "mount": {
+    "pos": [
+     2.2,
+     3.6,
+     4.0
+    ],
+    "style": "ceiling_plate"
+   },
+   "tr": 1.5,
+   "aspect": "16:9",
+   "lumens": 3000,
+   "res": [
+    1920,
+    1080
+   ],
+   "pitch_deg": 4.6,
+   "pitch_note": "downward, from mount -> aim (atan(0.4/5.0)); keystone negligible",
+   "lens_offset_v": 0.0,
+   "lens_drop_m": 0.0,
+   "aim": [
+    2.2,
+    3.2,
+    9.0
+   ],
+   "dmx": null,
+   "control": "video_out",
+   "surfaces": {
+    "builds_wall": {
+     "center": [
+      2.2,
+      3.2,
+      9.0
+     ],
+     "normal": [
+      0,
+      0,
+      -1
+     ],
+     "width_m": 4.0
+    }
+   },
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.4 (mount, aim; builds wall x 0.2..4.2)"
+  },
+  {
+   "id": "cantina_proj",
+   "type": "projector_short_throw",
+   "group": "projector",
+   "room": "cantina",
+   "mount": {
+    "pos": [
+     0.0,
+     3.0,
+     4.0
+    ],
+    "style": "ceiling_inverted"
+   },
+   "tr": 0.5,
+   "aspect": "16:9",
+   "lumens": 3000,
+   "res": [
+    1920,
+    1080
+   ],
+   "pitch_deg": 0,
+   "lens_offset_v": 1.0,
+   "lens_drop_m": 0.05,
+   "aim": [
+    0.0,
+    1.76,
+    6.115
+   ],
+   "aim_note": "informational (level mount, lens offset)",
+   "dmx": null,
+   "control": "video_out",
+   "surfaces": {
+    "ent_center": {
+     "center": [
+      0.0,
+      1.76,
+      6.115
+     ],
+     "normal": [
+      0,
+      0,
+      -1
+     ],
+     "width_m": 4.07
+    }
+   },
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.5 (level inverted mount, pitch 0, lens_offset_v 1.0); lens_drop_m 0.05 = dex_assumption (lens 5 cm under the plate, gives the spec's 0.57-2.95 m image)"
+  }
+ ],
+ "profiles": {
+  "mini_spot_9ch": [
+   "pan",
+   "tilt",
+   "color_wheel",
+   "gobo",
+   "strobe",
+   "dimmer",
+   "speed",
+   "auto",
+   "reset"
+  ],
+  "mini_spot_11ch": [
+   "pan",
+   "pan_fine",
+   "tilt",
+   "tilt_fine",
+   "speed",
+   "dimmer",
+   "strobe",
+   "color_wheel",
+   "gobo",
+   "auto",
+   "reset"
+  ],
+  "wash_13ch": [
+   "pan",
+   "pan_fine",
+   "tilt",
+   "tilt_fine",
+   "speed",
+   "dimmer",
+   "strobe",
+   "red",
+   "green",
+   "blue",
+   "white",
+   "color_macro",
+   "reset"
+  ],
+  "diy_8ch": [
+   "pan",
+   "pan_fine",
+   "tilt",
+   "tilt_fine",
+   "dimmer",
+   "red",
+   "green",
+   "blue"
+  ]
+ },
+ "targets": {
+  "builds_wall": {
+   "room": "hall",
+   "pos": [
+    2.2,
+    3.4,
+    9.0
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.2"
+  },
+  "builds_wall_L": {
+   "room": "hall",
+   "pos": [
+    0.8,
+    3.4,
+    9.0
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.2"
+  },
+  "builds_wall_R": {
+   "room": "hall",
+   "pos": [
+    3.6,
+    3.4,
+    9.0
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.2"
+  },
+  "cove_L": {
+   "room": "hall",
+   "pos": [
+    -6.0,
+    3.9,
+    6.0
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.2"
+  },
+  "cove_R": {
+   "room": "hall",
+   "pos": [
+    6.0,
+    3.9,
+    6.0
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.2"
+  },
+  "cove_back": {
+   "room": "hall",
+   "pos": [
+    0.0,
+    3.9,
+    0.0
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.2"
+  },
+  "mirror_ball": {
+   "room": "hall",
+   "pos": [
+    0.0,
+    4.0,
+    4.5
+   ],
+   "decorative": true,
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.2: not in the scene, decorative only"
+  },
+  "dj_booth": {
+   "room": "cantina",
+   "pos": [
+    3.1,
+    1.0,
+    1.15
+   ],
+   "decorative": true,
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.0/.12 item 3: Dex's DJ booth (inside cantina_dj_booth), projector/decorative only"
+  },
+  "ent_center": {
+   "room": "cantina",
+   "pos": [
+    0.0,
+    1.4,
+    6.3
+   ],
+   "projector_only": true,
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.6: projector-only"
+  },
+  "ent_center_L": {
+   "room": "cantina",
+   "pos": [
+    -1.5,
+    2.35,
+    6.115
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.6"
+  },
+  "ent_center_R": {
+   "room": "cantina",
+   "pos": [
+    1.5,
+    2.35,
+    6.115
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.6"
+  },
+  "ent_center_top": {
+   "room": "cantina",
+   "pos": [
+    0.0,
+    2.4,
+    6.115
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.6"
+  },
+  "ent_wall_above": {
+   "room": "cantina",
+   "pos": [
+    0.0,
+    2.85,
+    6.5
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.6"
+  },
+  "ent_center_L_hi": {
+   "room": "cantina",
+   "pos": [
+    -1.5,
+    2.5,
+    6.115
+   ],
+   "source": "dex_assumption: cabinet top band; the spec's y 2.35 targets are mostly unreachable once the 8-12 deg cone rim is checked against cantina_ent_front"
+  },
+  "ent_center_R_hi": {
+   "room": "cantina",
+   "pos": [
+    1.5,
+    2.5,
+    6.115
+   ],
+   "source": "dex_assumption: see ent_center_L_hi"
+  },
+  "wall_far_L": {
+   "room": "cantina",
+   "pos": [
+    -3.0,
+    2.6,
+    6.5
+   ],
+   "source": "dex_assumption: far wall beside the cabinet, above 2.1"
+  },
+  "wall_far_R": {
+   "room": "cantina",
+   "pos": [
+    3.0,
+    2.6,
+    6.5
+   ],
+   "source": "dex_assumption"
+  },
+  "wall_R_upper": {
+   "room": "cantina",
+   "pos": [
+    4.0,
+    2.45,
+    4.8
+   ],
+   "source": "dex_assumption: right wall band (v0.3 DIY park direction)"
+  },
+  "wall_R_corner": {
+   "room": "cantina",
+   "pos": [
+    4.0,
+    2.5,
+    6.2
+   ],
+   "source": "dex_assumption"
+  },
+  "wall_R_mid": {
+   "room": "cantina",
+   "pos": [
+    4.0,
+    2.6,
+    4.8
+   ],
+   "source": "dex_assumption: right wall just under the v0.3 DIY park ray"
+  },
+  "ribs_L": {
+   "room": "cantina",
+   "pos": [
+    -4.0,
+    2.8,
+    3.6
+   ],
+   "source": "dex_assumption: brass ribs, cantina stand-in for the cove"
+  },
+  "ribs_R": {
+   "room": "cantina",
+   "pos": [
+    4.0,
+    2.8,
+    3.6
+   ],
+   "source": "dex_assumption"
+  }
+ },
+ "nogo": [
+  {
+   "id": "hall_audience",
+   "room": "hall",
+   "shape": "box",
+   "min": [
+    -6,
+    0.0,
+    0.0
+   ],
+   "max": [
+    6,
+    2.1,
+    6.5
+   ],
+   "applies": [
+    "spot",
+    "wash"
+   ],
+   "source": "LIGHTS_SPEC v0.1",
+   "policy": "dim_and_clamp"
+  },
+  {
+   "id": "hall_far_L",
+   "room": "hall",
+   "shape": "box",
+   "min": [
+    -6,
+    0.0,
+    6.5
+   ],
+   "max": [
+    -1.2,
+    2.1,
+    9.0
+   ],
+   "applies": [
+    "spot",
+    "wash"
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.2 (Dex box adopted)",
+   "policy": "dim_and_clamp"
+  },
+  {
+   "id": "hall_far_R",
+   "room": "hall",
+   "shape": "box",
+   "min": [
+    1.2,
+    0.0,
+    6.5
+   ],
+   "max": [
+    6,
+    2.1,
+    9.0
+   ],
+   "applies": [
+    "spot",
+    "wash"
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.2 (Dex box adopted)",
+   "policy": "dim_and_clamp"
+  },
+  {
+   "id": "hall_booth_front",
+   "room": "hall",
+   "shape": "box",
+   "min": [
+    -1.2,
+    0.0,
+    6.5
+   ],
+   "max": [
+    1.2,
+    2.1,
+    7.4
+   ],
+   "applies": [
+    "spot",
+    "wash"
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.2 (Dex box adopted)",
+   "policy": "dim_and_clamp"
+  },
+  {
+   "id": "hall_booth_rear",
+   "room": "hall",
+   "shape": "box",
+   "min": [
+    -1.2,
+    -0.35,
+    7.4
+   ],
+   "max": [
+    1.2,
+    2.1,
+    9.0
+   ],
+   "applies": [
+    "spot",
+    "wash"
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.2 (closes the old booth pocket)",
+   "policy": "dim_and_clamp"
+  },
+  {
+   "id": "hall_pit",
+   "room": "hall",
+   "shape": "box",
+   "min": [
+    -5.3,
+    -0.35,
+    3.4
+   ],
+   "max": [
+    -1.3,
+    2.1,
+    7.4
+   ],
+   "applies": [
+    "spot",
+    "wash"
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.2",
+   "policy": "dim_and_clamp"
+  },
+  {
+   "id": "hall_vestibule",
+   "room": "hall",
+   "shape": "box",
+   "min": [
+    -1.5,
+    0.0,
+    -3.0
+   ],
+   "max": [
+    1.5,
+    2.1,
+    0.0
+   ],
+   "applies": [
+    "spot",
+    "wash"
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.2 (beyond the z=0 opening)",
+   "policy": "dim_and_clamp"
+  },
+  {
+   "id": "cantina_standing",
+   "room": "cantina",
+   "shape": "box",
+   "min": [
+    -1.5,
+    0.0,
+    1.8
+   ],
+   "max": [
+    1.5,
+    2.1,
+    4.6
+   ],
+   "applies": [
+    "spot"
+   ],
+   "source": "LIGHTS_SPEC v0.1",
+   "policy": "dim_and_clamp"
+  },
+  {
+   "id": "cantina_bar",
+   "room": "cantina",
+   "shape": "box",
+   "min": [
+    -4,
+    0.0,
+    1.0
+   ],
+   "max": [
+    -1.2,
+    2.1,
+    5.3
+   ],
+   "applies": [
+    "spot"
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.2 (Dex box adopted)",
+   "policy": "dim_and_clamp"
+  },
+  {
+   "id": "cantina_entry",
+   "room": "cantina",
+   "shape": "box",
+   "min": [
+    -1.5,
+    0.0,
+    0.0
+   ],
+   "max": [
+    1.5,
+    2.1,
+    1.8
+   ],
+   "applies": [
+    "spot"
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.2 (Dex box adopted)",
+   "policy": "dim_and_clamp"
+  },
+  {
+   "id": "cantina_booth_box",
+   "room": "cantina",
+   "shape": "box",
+   "min": [
+    0.6,
+    0.0,
+    2.0
+   ],
+   "max": [
+    4.0,
+    2.1,
+    5.6
+   ],
+   "applies": [
+    "spot"
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.2 (supersedes the cantina_booth cylinder, dropped)",
+   "policy": "dim_and_clamp"
+  },
+  {
+   "id": "cantina_dj_booth",
+   "room": "cantina",
+   "shape": "box",
+   "min": [
+    1.5,
+    0.0,
+    0.0
+   ],
+   "max": [
+    4.0,
+    2.1,
+    2.0
+   ],
+   "applies": [
+    "spot"
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.2",
+   "policy": "dim_and_clamp"
+  },
+  {
+   "id": "cantina_ent_front",
+   "room": "cantina",
+   "shape": "box",
+   "min": [
+    -4.0,
+    0.0,
+    4.6
+   ],
+   "max": [
+    4.0,
+    2.1,
+    6.5
+   ],
+   "applies": [
+    "spot"
+   ],
+   "source": "LIGHTS_SPEC v0.2-v0.4 \u00a76.6",
+   "policy": "dim_and_clamp"
+  }
+ ],
+ "occluders": [
+  {
+   "id": "ent_center_cabinet",
+   "room": "cantina",
+   "shape": "box",
+   "min": [
+    -2.035,
+    0.38,
+    6.115
+   ],
+   "max": [
+    2.035,
+    2.55,
+    6.485
+   ],
+   "opaque": true,
+   "source": "spec",
+   "source_note": "LIGHTS_SPEC v0.2-v0.4 \u00a76.7 (SHOWROOM_SPEC extents)"
+  }
+ ],
+ "cues": [
+  {
+   "t": 0.0,
+   "group": "all",
+   "fx": "fade",
+   "color": "deep_blue",
+   "intensity": 0.4,
+   "dur_s": 4.9
+  },
+  {
+   "t": 0.0,
+   "group": "cove",
+   "fx": "chase",
+   "color": "amber",
+   "intensity": 0.5,
+   "dur_s": 58.827,
+   "rate": "bar",
+   "dir": "lr"
+  },
+  {
+   "t": 0.0,
+   "group": "wash",
+   "fx": "pulse",
+   "color": "cool_white",
+   "intensity": 0.35,
+   "dur_s": 58.827,
+   "rate": "bar"
+  },
+  {
+   "t": 0.0,
+   "group": "spot",
+   "fixture": "hall_spot_L",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 1.224,
+   "move": {
+    "mode": "sweep",
+    "pan_deg": [
+     -60.0,
+     14.8
+    ],
+    "tilt_deg": [
+     110,
+     110.0
+    ],
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ease": "sine",
+    "start_beat": 0,
+    "beats": 2.0
+   },
+   "rate": "2bar",
+   "dir": "lr",
+   "label": "slow sweep"
+  },
+  {
+   "t": 0.0,
+   "group": "spot",
+   "fixture": "hall_spot_R",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 2.449,
+   "move": {
+    "mode": "sweep",
+    "pan_deg": [
+     -115.7,
+     -40.9
+    ],
+    "tilt_deg": [
+     110,
+     110.0
+    ],
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ease": "sine",
+    "start_beat": 0,
+    "beats": 4.0
+   },
+   "rate": "2bar",
+   "dir": "lr",
+   "label": "slow sweep"
+  },
+  {
+   "t": 0.0,
+   "group": "spot",
+   "fixture": "hall_spot_far_L",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 2.449,
+   "move": {
+    "mode": "sweep",
+    "pan_deg": [
+     -15.0,
+     59.8
+    ],
+    "tilt_deg": [
+     110,
+     110.0
+    ],
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ease": "sine",
+    "start_beat": 0,
+    "beats": 4.0
+   },
+   "rate": "2bar",
+   "dir": "lr",
+   "label": "slow sweep"
+  },
+  {
+   "t": 0.0,
+   "group": "spot",
+   "fixture": "hall_spot_far_R",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 2.449,
+   "move": {
+    "mode": "sweep",
+    "pan_deg": [
+     -112.4,
+     -37.6
+    ],
+    "tilt_deg": [
+     110,
+     110.0
+    ],
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ease": "sine",
+    "start_beat": 0,
+    "beats": 4.0
+   },
+   "rate": "2bar",
+   "dir": "lr",
+   "label": "slow sweep"
+  },
+  {
+   "t": 0.0,
+   "group": "wash",
+   "fixture": "hall_wash_L",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 1.224,
+   "move": {
+    "mode": "sweep",
+    "pan_deg": [
+     48.4,
+     110.7
+    ],
+    "tilt_deg": [
+     110,
+     110.0
+    ],
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ease": "sine",
+    "start_beat": 0,
+    "beats": 2.0
+   },
+   "rate": "2bar",
+   "dir": "lr",
+   "label": "slow sweep"
+  },
+  {
+   "t": 0.0,
+   "group": "wash",
+   "fixture": "hall_wash_R",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 2.449,
+   "move": {
+    "mode": "sweep",
+    "pan_deg": [
+     -168.4,
+     -106.1
+    ],
+    "tilt_deg": [
+     110,
+     110.0
+    ],
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ease": "sine",
+    "start_beat": 0,
+    "beats": 4.0
+   },
+   "rate": "2bar",
+   "dir": "lr",
+   "label": "slow sweep"
+  },
+  {
+   "t": 0.0,
+   "group": "spot",
+   "fixture": "cantina_spot_L",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 1.224,
+   "move": {
+    "mode": "sweep",
+    "pan_deg": [
+     -12.0,
+     62.8
+    ],
+    "tilt_deg": [
+     110,
+     110.0
+    ],
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ease": "sine",
+    "start_beat": 0,
+    "beats": 2.0
+   },
+   "rate": "2bar",
+   "dir": "lr",
+   "label": "slow sweep"
+  },
+  {
+   "t": 0.0,
+   "group": "spot",
+   "fixture": "cantina_spot_R",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 2.449,
+   "move": {
+    "mode": "sweep",
+    "pan_deg": [
+     -108.0,
+     -33.2
+    ],
+    "tilt_deg": [
+     110,
+     110.0
+    ],
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ease": "sine",
+    "start_beat": 0,
+    "beats": 4.0
+   },
+   "rate": "2bar",
+   "dir": "lr",
+   "label": "slow sweep"
+  },
+  {
+   "t": 0.0,
+   "group": "wash",
+   "fixture": "cantina_wash",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 3.673,
+   "move": {
+    "mode": "sweep",
+    "pan_deg": [
+     120.0,
+     182.3
+    ],
+    "tilt_deg": [
+     110,
+     110.0
+    ],
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ease": "sine",
+    "start_beat": 0,
+    "beats": 6.0
+   },
+   "rate": "2bar",
+   "dir": "lr",
+   "label": "slow sweep"
+  },
+  {
+   "t": 0.0,
+   "group": "spot",
+   "fixture": "diy_proto_1",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 2.449,
+   "move": {
+    "mode": "sweep",
+    "pan_deg": [
+     90.0,
+     130.0
+    ],
+    "tilt_deg": [
+     90.0,
+     90.0
+    ],
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ease": "sine",
+    "start_beat": 0,
+    "beats": 4.0
+   },
+   "rate": "2bar",
+   "dir": "lr",
+   "label": "slow sweep"
+  },
+  {
+   "t": 1.908,
+   "group": "wash",
+   "fixture": "hall_wash_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 2.99,
+   "move": {
+    "mode": "aim",
+    "target": "cove_L",
+    "resolved": {
+     "pan_deg": 230.194,
+     "tilt_deg": 93.809
+    },
+    "dur_s": 2.99,
+    "ease": "in_out"
+   },
+   "label": "aim cove_L"
+  },
+  {
+   "t": 2.038,
+   "group": "spot",
+   "fixture": "hall_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 2.86,
+   "move": {
+    "mode": "aim",
+    "target": "builds_wall_L",
+    "resolved": {
+     "pan_deg": 151.928,
+     "tilt_deg": 81.304
+    },
+    "dur_s": 2.86,
+    "ease": "in_out"
+   },
+   "label": "aim builds_wall_L"
+  },
+  {
+   "t": 3.348,
+   "group": "wash",
+   "fixture": "hall_wash_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 1.55,
+   "move": {
+    "mode": "aim",
+    "target": "cove_R",
+    "resolved": {
+     "pan_deg": -230.194,
+     "tilt_deg": 93.809
+    },
+    "dur_s": 1.55,
+    "ease": "in_out"
+   },
+   "label": "aim cove_R"
+  },
+  {
+   "t": 3.588,
+   "group": "spot",
+   "fixture": "cantina_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 1.01,
+   "move": {
+    "mode": "abs",
+    "pan_deg": 111.0,
+    "tilt_deg": 90.0,
+    "dur_s": 1.01,
+    "ease": "in_out"
+   },
+   "label": "reposition (lift over no-go)"
+  },
+  {
+   "t": 4.138,
+   "group": "spot",
+   "fixture": "hall_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.76,
+   "move": {
+    "mode": "aim",
+    "target": "builds_wall_R",
+    "resolved": {
+     "pan_deg": -151.928,
+     "tilt_deg": 81.304
+    },
+    "dur_s": 0.76,
+    "ease": "in_out"
+   },
+   "label": "aim builds_wall_R"
+  },
+  {
+   "t": 4.258,
+   "group": "spot",
+   "fixture": "hall_spot_far_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.64,
+   "move": {
+    "mode": "aim",
+    "target": "builds_wall_R",
+    "resolved": {
+     "pan_deg": -107.354,
+     "tilt_deg": 81.184
+    },
+    "dur_s": 0.64,
+    "ease": "in_out"
+   },
+   "label": "aim builds_wall_R"
+  },
+  {
+   "t": 4.298,
+   "group": "spot",
+   "fixture": "cantina_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.6,
+   "move": {
+    "mode": "aim",
+    "target": "ent_center_R_hi",
+    "resolved": {
+     "pan_deg": -117.248,
+     "tilt_deg": 84.415
+    },
+    "dur_s": 0.6,
+    "ease": "in_out"
+   },
+   "label": "aim ent_center_R_hi"
+  },
+  {
+   "t": 4.318,
+   "group": "spot",
+   "fixture": "hall_spot_far_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.58,
+   "move": {
+    "mode": "aim",
+    "target": "cove_L",
+    "resolved": {
+     "pan_deg": -38.66,
+     "tilt_deg": 94.287
+    },
+    "dur_s": 0.58,
+    "ease": "in_out"
+   },
+   "label": "aim cove_L"
+  },
+  {
+   "t": 4.358,
+   "group": "wash",
+   "fixture": "cantina_wash",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 0.54,
+   "move": {
+    "mode": "aim",
+    "target": "ent_wall_above",
+    "resolved": {
+     "pan_deg": 180.0,
+     "tilt_deg": 92.672
+    },
+    "dur_s": 0.54,
+    "ease": "in_out"
+   },
+   "label": "aim ent_wall_above"
+  },
+  {
+   "t": 4.588,
+   "group": "spot",
+   "fixture": "diy_proto_1",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.31,
+   "move": {
+    "mode": "aim",
+    "target": "wall_R_mid",
+    "resolved": {
+     "pan_deg": 90.0,
+     "tilt_deg": 86.566
+    },
+    "dur_s": 0.31,
+    "ease": "in_out"
+   },
+   "label": "aim wall_R_mid"
+  },
+  {
+   "t": 4.598,
+   "group": "spot",
+   "fixture": "cantina_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.3,
+   "move": {
+    "mode": "aim",
+    "target": "ent_center_L_hi",
+    "resolved": {
+     "pan_deg": 117.248,
+     "tilt_deg": 84.415
+    },
+    "dur_s": 0.3,
+    "ease": "in_out"
+   },
+   "label": "aim ent_center_L_hi"
+  },
+  {
+   "t": 4.9,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 6.836,
+   "group": "spot",
+   "fixture": "hall_spot_far_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.35,
+   "move": {
+    "mode": "abs",
+    "pan_deg": -99.0,
+    "tilt_deg": 90.0,
+    "dur_s": 0.35,
+    "ease": "in_out"
+   },
+   "label": "reposition (lift over no-go)"
+  },
+  {
+   "t": 7.186,
+   "group": "spot",
+   "fixture": "hall_spot_far_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.32,
+   "move": {
+    "mode": "abs",
+    "pan_deg": -92.0,
+    "tilt_deg": 93.0,
+    "dur_s": 0.32,
+    "ease": "in_out"
+   },
+   "label": "reposition (lift over no-go)"
+  },
+  {
+   "t": 7.35,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 7.506,
+   "group": "spot",
+   "fixture": "hall_spot_far_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 2.29,
+   "move": {
+    "mode": "aim",
+    "target": "cove_R",
+    "resolved": {
+     "pan_deg": 17.745,
+     "tilt_deg": 95.224
+    },
+    "dur_s": 2.29,
+    "ease": "in_out"
+   },
+   "label": "aim cove_R"
+  },
+  {
+   "t": 9.176,
+   "group": "spot",
+   "fixture": "hall_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.62,
+   "move": {
+    "mode": "aim",
+    "target": "builds_wall",
+    "resolved": {
+     "pan_deg": 124.287,
+     "tilt_deg": 84.423
+    },
+    "dur_s": 0.62,
+    "ease": "in_out"
+   },
+   "label": "aim builds_wall"
+  },
+  {
+   "t": 9.176,
+   "group": "spot",
+   "fixture": "hall_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.62,
+   "move": {
+    "mode": "aim",
+    "target": "builds_wall",
+    "resolved": {
+     "pan_deg": -124.287,
+     "tilt_deg": 84.423
+    },
+    "dur_s": 0.62,
+    "ease": "in_out"
+   },
+   "label": "aim builds_wall"
+  },
+  {
+   "t": 9.406,
+   "group": "spot",
+   "fixture": "cantina_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.39,
+   "move": {
+    "mode": "aim",
+    "target": "ent_wall_above",
+    "resolved": {
+     "pan_deg": 109.799,
+     "tilt_deg": 95.161
+    },
+    "dur_s": 0.39,
+    "ease": "in_out"
+   },
+   "label": "aim ent_wall_above"
+  },
+  {
+   "t": 9.406,
+   "group": "spot",
+   "fixture": "cantina_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.39,
+   "move": {
+    "mode": "aim",
+    "target": "ent_wall_above",
+    "resolved": {
+     "pan_deg": -109.799,
+     "tilt_deg": 95.161
+    },
+    "dur_s": 0.39,
+    "ease": "in_out"
+   },
+   "label": "aim ent_wall_above"
+  },
+  {
+   "t": 9.476,
+   "group": "wash",
+   "fixture": "cantina_wash",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 0.32,
+   "move": {
+    "mode": "aim",
+    "target": "ent_center_top",
+    "resolved": {
+     "pan_deg": 180.0,
+     "tilt_deg": 86.662
+    },
+    "dur_s": 0.32,
+    "ease": "in_out"
+   },
+   "label": "aim ent_center_top"
+  },
+  {
+   "t": 10.514,
+   "group": "spot",
+   "fixture": "hall_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 1.97,
+   "move": {
+    "mode": "abs",
+    "pan_deg": 30.0,
+    "tilt_deg": 91.0,
+    "dur_s": 1.97,
+    "ease": "in_out"
+   },
+   "label": "reposition (lift over no-go)"
+  },
+  {
+   "t": 11.074,
+   "group": "spot",
+   "fixture": "hall_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.62,
+   "move": {
+    "mode": "abs",
+    "pan_deg": -97.0,
+    "tilt_deg": 92.0,
+    "dur_s": 0.62,
+    "ease": "in_out"
+   },
+   "label": "reposition (lift over no-go)"
+  },
+  {
+   "t": 11.694,
+   "group": "spot",
+   "fixture": "hall_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 3.0,
+   "move": {
+    "mode": "aim",
+    "target": "cove_R",
+    "resolved": {
+     "pan_deg": 46.848,
+     "tilt_deg": 96.245
+    },
+    "dur_s": 3.0,
+    "ease": "in_out"
+   },
+   "label": "aim cove_R"
+  },
+  {
+   "t": 12.24,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 12.484,
+   "group": "spot",
+   "fixture": "hall_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 2.21,
+   "move": {
+    "mode": "aim",
+    "target": "cove_L",
+    "resolved": {
+     "pan_deg": -75.964,
+     "tilt_deg": 92.222
+    },
+    "dur_s": 2.21,
+    "ease": "in_out"
+   },
+   "label": "aim cove_L"
+  },
+  {
+   "t": 13.354,
+   "group": "spot",
+   "fixture": "hall_spot_far_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 1.34,
+   "move": {
+    "mode": "aim",
+    "target": "cove_back",
+    "resolved": {
+     "pan_deg": 25.201,
+     "tilt_deg": 91.463
+    },
+    "dur_s": 1.34,
+    "ease": "in_out"
+   },
+   "label": "aim cove_back"
+  },
+  {
+   "t": 13.664,
+   "group": "spot",
+   "fixture": "hall_spot_far_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 1.03,
+   "move": {
+    "mode": "aim",
+    "target": "cove_back",
+    "resolved": {
+     "pan_deg": -31.457,
+     "tilt_deg": 91.38
+    },
+    "dur_s": 1.03,
+    "ease": "in_out"
+   },
+   "label": "aim cove_back"
+  },
+  {
+   "t": 14.114,
+   "group": "wash",
+   "fixture": "cantina_wash",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 0.58,
+   "move": {
+    "mode": "aim",
+    "target": "ent_center_L",
+    "resolved": {
+     "pan_deg": 200.028,
+     "tilt_deg": 86.212
+    },
+    "dur_s": 0.58,
+    "ease": "in_out"
+   },
+   "label": "aim ent_center_L"
+  },
+  {
+   "t": 14.304,
+   "group": "spot",
+   "fixture": "cantina_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.39,
+   "move": {
+    "mode": "aim",
+    "target": "ent_center_L_hi",
+    "resolved": {
+     "pan_deg": 117.248,
+     "tilt_deg": 84.415
+    },
+    "dur_s": 0.39,
+    "ease": "in_out"
+   },
+   "label": "aim ent_center_L_hi"
+  },
+  {
+   "t": 14.304,
+   "group": "spot",
+   "fixture": "cantina_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.39,
+   "move": {
+    "mode": "aim",
+    "target": "ent_center_R_hi",
+    "resolved": {
+     "pan_deg": -117.248,
+     "tilt_deg": 84.415
+    },
+    "dur_s": 0.39,
+    "ease": "in_out"
+   },
+   "label": "aim ent_center_R_hi"
+  },
+  {
+   "t": 16.232,
+   "group": "spot",
+   "fixture": "hall_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 3.36,
+   "move": {
+    "mode": "aim",
+    "target": "builds_wall_R",
+    "resolved": {
+     "pan_deg": 208.072,
+     "tilt_deg": 81.304
+    },
+    "dur_s": 3.36,
+    "ease": "in_out"
+   },
+   "label": "aim builds_wall_R"
+  },
+  {
+   "t": 16.832,
+   "group": "spot",
+   "fixture": "hall_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 2.76,
+   "move": {
+    "mode": "aim",
+    "target": "builds_wall_L",
+    "resolved": {
+     "pan_deg": -208.072,
+     "tilt_deg": 81.304
+    },
+    "dur_s": 2.76,
+    "ease": "in_out"
+   },
+   "label": "aim builds_wall_L"
+  },
+  {
+   "t": 17.14,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 17.672,
+   "group": "spot",
+   "fixture": "cantina_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 1.92,
+   "move": {
+    "mode": "aim",
+    "target": "wall_far_L",
+    "resolved": {
+     "pan_deg": 209.055,
+     "tilt_deg": 89.444
+    },
+    "dur_s": 1.92,
+    "ease": "in_out"
+   },
+   "label": "aim wall_far_L"
+  },
+  {
+   "t": 17.672,
+   "group": "spot",
+   "fixture": "cantina_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 1.92,
+   "move": {
+    "mode": "aim",
+    "target": "wall_far_R",
+    "resolved": {
+     "pan_deg": -209.055,
+     "tilt_deg": 89.444
+    },
+    "dur_s": 1.92,
+    "ease": "in_out"
+   },
+   "label": "aim wall_far_R"
+  },
+  {
+   "t": 18.582,
+   "group": "wash",
+   "fixture": "cantina_wash",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 1.01,
+   "move": {
+    "mode": "aim",
+    "target": "ent_center_R",
+    "resolved": {
+     "pan_deg": 159.972,
+     "tilt_deg": 86.212
+    },
+    "dur_s": 1.01,
+    "ease": "in_out"
+   },
+   "label": "aim ent_center_R"
+  },
+  {
+   "t": 22.04,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 22.57,
+   "group": "spot",
+   "fixture": "cantina_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 1.92,
+   "move": {
+    "mode": "aim",
+    "target": "ent_center_L_hi",
+    "resolved": {
+     "pan_deg": 117.248,
+     "tilt_deg": 84.415
+    },
+    "dur_s": 1.92,
+    "ease": "in_out"
+   },
+   "label": "aim ent_center_L_hi"
+  },
+  {
+   "t": 22.57,
+   "group": "spot",
+   "fixture": "cantina_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 1.92,
+   "move": {
+    "mode": "aim",
+    "target": "ent_center_R_hi",
+    "resolved": {
+     "pan_deg": -117.248,
+     "tilt_deg": 84.415
+    },
+    "dur_s": 1.92,
+    "ease": "in_out"
+   },
+   "label": "aim ent_center_R_hi"
+  },
+  {
+   "t": 23.15,
+   "group": "spot",
+   "fixture": "hall_spot_far_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 1.34,
+   "move": {
+    "mode": "aim",
+    "target": "cove_L",
+    "resolved": {
+     "pan_deg": -38.66,
+     "tilt_deg": 94.287
+    },
+    "dur_s": 1.34,
+    "ease": "in_out"
+   },
+   "label": "aim cove_L"
+  },
+  {
+   "t": 23.27,
+   "group": "cove",
+   "fx": "sweep",
+   "color": "copper",
+   "intensity": 0.8,
+   "dur_s": 1.2,
+   "dir": "center"
+  },
+  {
+   "t": 23.27,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 23.46,
+   "group": "spot",
+   "fixture": "hall_spot_far_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 1.03,
+   "move": {
+    "mode": "aim",
+    "target": "cove_R",
+    "resolved": {
+     "pan_deg": 17.745,
+     "tilt_deg": 95.224
+    },
+    "dur_s": 1.03,
+    "ease": "in_out"
+   },
+   "label": "aim cove_R"
+  },
+  {
+   "t": 23.91,
+   "group": "wash",
+   "fixture": "cantina_wash",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 0.58,
+   "move": {
+    "mode": "aim",
+    "target": "ent_wall_above",
+    "resolved": {
+     "pan_deg": 180.0,
+     "tilt_deg": 92.672
+    },
+    "dur_s": 0.58,
+    "ease": "in_out"
+   },
+   "label": "aim ent_wall_above"
+  },
+  {
+   "t": 24.49,
+   "group": "cove",
+   "fx": "sweep",
+   "color": "copper",
+   "intensity": 0.8,
+   "dur_s": 1.2,
+   "dir": "center"
+  },
+  {
+   "t": 24.49,
+   "group": "cove",
+   "fx": "sweep",
+   "color": "copper",
+   "intensity": 0.8,
+   "dur_s": 1.2,
+   "dir": "center"
+  },
+  {
+   "t": 24.49,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 24.49,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 25.229,
+   "group": "wash",
+   "fixture": "cantina_wash",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 1.71,
+   "move": {
+    "mode": "aim",
+    "target": "ribs_L",
+    "resolved": {
+     "pan_deg": 248.199,
+     "tilt_deg": 92.127
+    },
+    "dur_s": 1.71,
+    "ease": "in_out"
+   },
+   "label": "aim ribs_L"
+  },
+  {
+   "t": 26.319,
+   "group": "spot",
+   "fixture": "hall_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.62,
+   "move": {
+    "mode": "aim",
+    "target": "builds_wall",
+    "resolved": {
+     "pan_deg": -235.713,
+     "tilt_deg": 84.423
+    },
+    "dur_s": 0.62,
+    "ease": "in_out"
+   },
+   "label": "aim builds_wall"
+  },
+  {
+   "t": 26.319,
+   "group": "spot",
+   "fixture": "hall_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.62,
+   "move": {
+    "mode": "aim",
+    "target": "builds_wall",
+    "resolved": {
+     "pan_deg": 235.713,
+     "tilt_deg": 84.423
+    },
+    "dur_s": 0.62,
+    "ease": "in_out"
+   },
+   "label": "aim builds_wall"
+  },
+  {
+   "t": 26.549,
+   "group": "spot",
+   "fixture": "cantina_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.39,
+   "move": {
+    "mode": "aim",
+    "target": "ent_wall_above",
+    "resolved": {
+     "pan_deg": 109.799,
+     "tilt_deg": 95.161
+    },
+    "dur_s": 0.39,
+    "ease": "in_out"
+   },
+   "label": "aim ent_wall_above"
+  },
+  {
+   "t": 26.549,
+   "group": "spot",
+   "fixture": "cantina_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.39,
+   "move": {
+    "mode": "aim",
+    "target": "ent_wall_above",
+    "resolved": {
+     "pan_deg": -109.799,
+     "tilt_deg": 95.161
+    },
+    "dur_s": 0.39,
+    "ease": "in_out"
+   },
+   "label": "aim ent_wall_above"
+  },
+  {
+   "t": 26.94,
+   "group": "cove",
+   "fx": "sweep",
+   "color": "copper",
+   "intensity": 0.8,
+   "dur_s": 1.2,
+   "dir": "center"
+  },
+  {
+   "t": 26.94,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 26.942,
+   "group": "spot",
+   "fixture": "hall_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 3.67,
+   "move": {
+    "mode": "abs",
+    "pan_deg": -60.0,
+    "tilt_deg": 110,
+    "dur_s": 3.67,
+    "ease": "in_out"
+   },
+   "label": "reposition"
+  },
+  {
+   "t": 26.956,
+   "group": "spot",
+   "fixture": "hall_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 7.33,
+   "move": {
+    "mode": "abs",
+    "pan_deg": -115.7,
+    "tilt_deg": 110,
+    "dur_s": 7.33,
+    "ease": "in_out"
+   },
+   "label": "reposition"
+  },
+  {
+   "t": 27.28,
+   "group": "spot",
+   "fixture": "hall_spot_far_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 2.72,
+   "move": {
+    "mode": "abs",
+    "pan_deg": -112.4,
+    "tilt_deg": 110,
+    "dur_s": 2.72,
+    "ease": "in_out"
+   },
+   "label": "reposition"
+  },
+  {
+   "t": 27.287,
+   "group": "wash",
+   "fixture": "hall_wash_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 4.55,
+   "move": {
+    "mode": "abs",
+    "pan_deg": 48.4,
+    "tilt_deg": 110,
+    "dur_s": 4.55,
+    "ease": "in_out"
+   },
+   "label": "reposition"
+  },
+  {
+   "t": 27.402,
+   "group": "wash",
+   "fixture": "cantina_wash",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 3.21,
+   "move": {
+    "mode": "abs",
+    "pan_deg": 120.0,
+    "tilt_deg": 110,
+    "dur_s": 3.21,
+    "ease": "in_out"
+   },
+   "label": "reposition"
+  },
+  {
+   "t": 27.46,
+   "group": "spot",
+   "fixture": "cantina_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 2.54,
+   "move": {
+    "mode": "abs",
+    "pan_deg": -12.0,
+    "tilt_deg": 110,
+    "dur_s": 2.54,
+    "ease": "in_out"
+   },
+   "label": "reposition"
+  },
+  {
+   "t": 27.838,
+   "group": "wash",
+   "fixture": "hall_wash_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 1.55,
+   "move": {
+    "mode": "abs",
+    "pan_deg": -168.4,
+    "tilt_deg": 110,
+    "dur_s": 1.55,
+    "ease": "in_out"
+   },
+   "label": "reposition"
+  },
+  {
+   "t": 28.78,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 28.808,
+   "group": "spot",
+   "fixture": "hall_spot_far_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.58,
+   "move": {
+    "mode": "abs",
+    "pan_deg": -15.0,
+    "tilt_deg": 110,
+    "dur_s": 0.58,
+    "ease": "in_out"
+   },
+   "label": "reposition"
+  },
+  {
+   "t": 28.928,
+   "group": "spot",
+   "fixture": "cantina_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.46,
+   "move": {
+    "mode": "abs",
+    "pan_deg": -108.0,
+    "tilt_deg": 110,
+    "dur_s": 0.46,
+    "ease": "in_out"
+   },
+   "label": "reposition"
+  },
+  {
+   "t": 29.078,
+   "group": "spot",
+   "fixture": "diy_proto_1",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.31,
+   "move": {
+    "mode": "abs",
+    "pan_deg": 90.0,
+    "tilt_deg": 90.0,
+    "dur_s": 0.31,
+    "ease": "in_out"
+   },
+   "label": "reposition"
+  },
+  {
+   "t": 29.388,
+   "group": "spot",
+   "fixture": "hall_spot_far_L",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 2.449,
+   "move": {
+    "mode": "sweep",
+    "pan_deg": [
+     -15.0,
+     59.8
+    ],
+    "tilt_deg": [
+     110,
+     110.0
+    ],
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ease": "sine",
+    "start_beat": 48,
+    "beats": 4.0
+   },
+   "rate": "2bar",
+   "dir": "lr",
+   "label": "slow sweep"
+  },
+  {
+   "t": 29.388,
+   "group": "wash",
+   "fixture": "hall_wash_R",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 2.449,
+   "move": {
+    "mode": "sweep",
+    "pan_deg": [
+     -168.4,
+     -106.1
+    ],
+    "tilt_deg": [
+     110,
+     110.0
+    ],
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ease": "sine",
+    "start_beat": 48,
+    "beats": 4.0
+   },
+   "rate": "2bar",
+   "dir": "lr",
+   "label": "slow sweep"
+  },
+  {
+   "t": 29.388,
+   "group": "spot",
+   "fixture": "cantina_spot_R",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 2.449,
+   "move": {
+    "mode": "sweep",
+    "pan_deg": [
+     -108.0,
+     -33.2
+    ],
+    "tilt_deg": [
+     110,
+     110.0
+    ],
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ease": "sine",
+    "start_beat": 48,
+    "beats": 4.0
+   },
+   "rate": "2bar",
+   "dir": "lr",
+   "label": "slow sweep"
+  },
+  {
+   "t": 29.388,
+   "group": "spot",
+   "fixture": "diy_proto_1",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 4.898,
+   "move": {
+    "mode": "sweep",
+    "pan_deg": [
+     90.0,
+     130.0
+    ],
+    "tilt_deg": [
+     90.0,
+     90.0
+    ],
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ease": "sine",
+    "start_beat": 48,
+    "beats": 8.0
+   },
+   "rate": "2bar",
+   "dir": "lr",
+   "label": "slow sweep"
+  },
+  {
+   "t": 29.39,
+   "group": "all",
+   "fx": "fade",
+   "color": "void",
+   "intensity": 0.18,
+   "dur_s": 4.9
+  },
+  {
+   "t": 29.39,
+   "group": "cove",
+   "fx": "chase",
+   "color": "violet",
+   "intensity": 0.35,
+   "dur_s": 4.9,
+   "rate": "2bar",
+   "dir": "center"
+  },
+  {
+   "t": 29.39,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 30.0,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 30.0,
+   "group": "spot",
+   "fixture": "hall_spot_far_R",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 1.224,
+   "move": {
+    "mode": "sweep",
+    "pan_deg": [
+     -112.4,
+     -37.6
+    ],
+    "tilt_deg": [
+     110,
+     110.0
+    ],
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ease": "sine",
+    "start_beat": 49,
+    "beats": 2.0
+   },
+   "rate": "2bar",
+   "dir": "lr",
+   "label": "slow sweep"
+  },
+  {
+   "t": 30.058,
+   "group": "spot",
+   "fixture": "cantina_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 4.84,
+   "move": {
+    "mode": "abs",
+    "pan_deg": -244.201,
+    "tilt_deg": 95.161,
+    "dur_s": 4.84,
+    "ease": "in_out"
+   },
+   "label": "reposition"
+  },
+  {
+   "t": 30.959,
+   "group": "wash",
+   "fixture": "cantina_wash",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 7.0,
+   "move": {
+    "mode": "abs",
+    "pan_deg": -160.0,
+    "tilt_deg": 92.672,
+    "dur_s": 7.0,
+    "ease": "in_out"
+   },
+   "label": "reposition"
+  },
+  {
+   "t": 31.616,
+   "group": "spot",
+   "fixture": "hall_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 2.67,
+   "move": {
+    "mode": "abs",
+    "pan_deg": -188.072,
+    "tilt_deg": 81.304,
+    "dur_s": 2.67,
+    "ease": "in_out"
+   },
+   "label": "reposition"
+  },
+  {
+   "t": 31.84,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 31.862,
+   "group": "wash",
+   "fixture": "hall_wash_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 4.26,
+   "move": {
+    "mode": "abs",
+    "pan_deg": -121.80600000000001,
+    "tilt_deg": 93.809,
+    "dur_s": 4.26,
+    "ease": "in_out"
+   },
+   "label": "reposition"
+  },
+  {
+   "t": 32.936,
+   "group": "wash",
+   "fixture": "hall_wash_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 1.35,
+   "move": {
+    "mode": "abs",
+    "pan_deg": -222.194,
+    "tilt_deg": 93.809,
+    "dur_s": 1.35,
+    "ease": "in_out"
+   },
+   "label": "reposition"
+  },
+  {
+   "t": 32.966,
+   "group": "spot",
+   "fixture": "hall_spot_far_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 1.32,
+   "move": {
+    "mode": "abs",
+    "pan_deg": 25.745,
+    "tilt_deg": 95.224,
+    "dur_s": 1.32,
+    "ease": "in_out"
+   },
+   "label": "reposition"
+  },
+  {
+   "t": 33.816,
+   "group": "spot",
+   "fixture": "hall_spot_far_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.47,
+   "move": {
+    "mode": "abs",
+    "pan_deg": -26.659999999999997,
+    "tilt_deg": 94.287,
+    "dur_s": 0.47,
+    "ease": "in_out"
+   },
+   "label": "reposition"
+  },
+  {
+   "t": 33.826,
+   "group": "spot",
+   "fixture": "cantina_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.46,
+   "move": {
+    "mode": "abs",
+    "pan_deg": -103.799,
+    "tilt_deg": 95.161,
+    "dur_s": 0.46,
+    "ease": "in_out"
+   },
+   "label": "reposition"
+  },
+  {
+   "t": 34.286,
+   "group": "spot",
+   "fixture": "hall_spot_L",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 13.469,
+   "move": {
+    "mode": "circle",
+    "center": [
+     -208.072,
+     81.304
+    ],
+    "radius_deg": 20,
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ramp_beats": 2.0,
+    "start_beat": 56,
+    "beats": 22.0,
+    "dir": "cw"
+   },
+   "rate": "bar",
+   "dir": "center",
+   "label": "circle around builds_wall_L"
+  },
+  {
+   "t": 34.286,
+   "group": "spot",
+   "fixture": "hall_spot_far_L",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 13.469,
+   "move": {
+    "mode": "circle",
+    "center": [
+     -38.66,
+     94.287
+    ],
+    "radius_deg": 12,
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ramp_beats": 2.0,
+    "start_beat": 56,
+    "beats": 22.0,
+    "dir": "cw"
+   },
+   "rate": "bar",
+   "dir": "center",
+   "label": "circle around cove_L"
+  },
+  {
+   "t": 34.286,
+   "group": "spot",
+   "fixture": "hall_spot_far_R",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 11.02,
+   "move": {
+    "mode": "circle",
+    "center": [
+     17.745,
+     95.224
+    ],
+    "radius_deg": 8,
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ramp_beats": 2.0,
+    "start_beat": 56,
+    "beats": 18.0,
+    "dir": "cw"
+   },
+   "rate": "bar",
+   "dir": "center",
+   "label": "circle around cove_R"
+  },
+  {
+   "t": 34.286,
+   "group": "wash",
+   "fixture": "hall_wash_R",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 13.469,
+   "move": {
+    "mode": "circle",
+    "center": [
+     -230.194,
+     93.809
+    ],
+    "radius_deg": 8,
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ramp_beats": 2.0,
+    "start_beat": 56,
+    "beats": 22.0,
+    "dir": "cw"
+   },
+   "rate": "bar",
+   "dir": "center",
+   "label": "circle around cove_R"
+  },
+  {
+   "t": 34.286,
+   "group": "spot",
+   "fixture": "cantina_spot_R",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 13.469,
+   "move": {
+    "mode": "circle",
+    "center": [
+     -109.799,
+     95.161
+    ],
+    "radius_deg": 6,
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ramp_beats": 2.0,
+    "start_beat": 56,
+    "beats": 22.0,
+    "dir": "cw"
+   },
+   "rate": "bar",
+   "dir": "center",
+   "label": "circle around ent_wall_above"
+  },
+  {
+   "t": 34.286,
+   "group": "spot",
+   "fixture": "diy_proto_1",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 12.245,
+   "move": {
+    "mode": "sweep",
+    "pan_deg": [
+     90.0,
+     130.0
+    ],
+    "tilt_deg": [
+     90.0,
+     90.0
+    ],
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ease": "sine",
+    "start_beat": 56,
+    "beats": 20.0
+   },
+   "rate": "2bar",
+   "dir": "lr",
+   "label": "slow sweep"
+  },
+  {
+   "t": 34.29,
+   "group": "cove",
+   "fx": "sweep",
+   "color": "copper",
+   "intensity": 0.8,
+   "dur_s": 1.2,
+   "dir": "center"
+  },
+  {
+   "t": 34.29,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 34.87,
+   "group": "spot",
+   "fixture": "hall_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.64,
+   "move": {
+    "mode": "abs",
+    "pan_deg": -131.928,
+    "tilt_deg": 81.304,
+    "dur_s": 0.64,
+    "ease": "in_out"
+   },
+   "label": "reposition"
+  },
+  {
+   "t": 34.898,
+   "group": "spot",
+   "fixture": "cantina_spot_L",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 13.469,
+   "move": {
+    "mode": "circle",
+    "center": [
+     -250.201,
+     95.161
+    ],
+    "radius_deg": 6,
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ramp_beats": 2.0,
+    "start_beat": 57,
+    "beats": 22.0,
+    "dir": "cw"
+   },
+   "rate": "bar",
+   "dir": "center",
+   "label": "circle around ent_wall_above"
+  },
+  {
+   "t": 34.9,
+   "group": "cove",
+   "fx": "sweep",
+   "color": "copper",
+   "intensity": 0.8,
+   "dur_s": 1.2,
+   "dir": "center"
+  },
+  {
+   "t": 34.9,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 35.51,
+   "group": "spot",
+   "fixture": "hall_spot_R",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 11.021,
+   "move": {
+    "mode": "circle",
+    "center": [
+     -151.928,
+     81.304
+    ],
+    "radius_deg": 20,
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ramp_beats": 2.0,
+    "start_beat": 58,
+    "beats": 18.0,
+    "dir": "cw"
+   },
+   "rate": "bar",
+   "dir": "center",
+   "label": "circle around builds_wall_R"
+  },
+  {
+   "t": 36.122,
+   "group": "wash",
+   "fixture": "hall_wash_L",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 11.021,
+   "move": {
+    "mode": "circle",
+    "center": [
+     -129.806,
+     93.809
+    ],
+    "radius_deg": 8,
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ramp_beats": 2.0,
+    "start_beat": 59,
+    "beats": 18.0,
+    "dir": "cw"
+   },
+   "rate": "bar",
+   "dir": "center",
+   "label": "circle around cove_L"
+  },
+  {
+   "t": 36.73,
+   "group": "cove",
+   "fx": "sweep",
+   "color": "copper",
+   "intensity": 0.8,
+   "dur_s": 1.2,
+   "dir": "center"
+  },
+  {
+   "t": 36.73,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 37.959,
+   "group": "wash",
+   "fixture": "cantina_wash",
+   "fx": "sweep",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 8.572,
+   "move": {
+    "mode": "circle",
+    "center": [
+     -180.0,
+     92.672
+    ],
+    "radius_deg": 20,
+    "sync": "beat",
+    "beats_per_cycle": 4,
+    "ramp_beats": 2.0,
+    "start_beat": 62,
+    "beats": 14.0,
+    "dir": "cw"
+   },
+   "rate": "bar",
+   "dir": "center",
+   "label": "circle around ent_wall_above"
+  },
+  {
+   "t": 39.18,
+   "group": "cove",
+   "fx": "sweep",
+   "color": "copper",
+   "intensity": 0.8,
+   "dur_s": 1.2,
+   "dir": "center"
+  },
+  {
+   "t": 39.18,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 41.63,
+   "group": "cove",
+   "fx": "sweep",
+   "color": "copper",
+   "intensity": 0.8,
+   "dur_s": 1.2,
+   "dir": "center"
+  },
+  {
+   "t": 41.63,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 42.86,
+   "group": "cove",
+   "fx": "sweep",
+   "color": "copper",
+   "intensity": 0.8,
+   "dur_s": 1.2,
+   "dir": "center"
+  },
+  {
+   "t": 42.86,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 44.08,
+   "group": "cove",
+   "fx": "sweep",
+   "color": "copper",
+   "intensity": 0.8,
+   "dur_s": 1.2,
+   "dir": "center"
+  },
+  {
+   "t": 44.08,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 46.01,
+   "group": "spot",
+   "fixture": "hall_spot_far_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 2.56,
+   "move": {
+    "mode": "abs",
+    "pan_deg": -97.0,
+    "tilt_deg": 93.0,
+    "dur_s": 2.56,
+    "ease": "in_out"
+   },
+   "label": "reposition (lift over no-go)"
+  },
+  {
+   "t": 46.53,
+   "group": "cove",
+   "fx": "sweep",
+   "color": "copper",
+   "intensity": 0.8,
+   "dur_s": 1.2,
+   "dir": "center"
+  },
+  {
+   "t": 46.53,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 47.76,
+   "group": "cove",
+   "fx": "sweep",
+   "color": "copper",
+   "intensity": 0.8,
+   "dur_s": 1.2,
+   "dir": "center"
+  },
+  {
+   "t": 47.76,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 48.4,
+   "group": "wash",
+   "fixture": "cantina_wash",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 0.58,
+   "move": {
+    "mode": "aim",
+    "target": "ent_wall_above",
+    "resolved": {
+     "pan_deg": -180.0,
+     "tilt_deg": 92.672
+    },
+    "dur_s": 0.58,
+    "ease": "in_out"
+   },
+   "label": "aim ent_wall_above"
+  },
+  {
+   "t": 48.45,
+   "group": "spot",
+   "fixture": "hall_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.53,
+   "move": {
+    "mode": "aim",
+    "target": "builds_wall_L",
+    "resolved": {
+     "pan_deg": -208.072,
+     "tilt_deg": 81.304
+    },
+    "dur_s": 0.53,
+    "ease": "in_out"
+   },
+   "label": "aim builds_wall_L"
+  },
+  {
+   "t": 48.45,
+   "group": "spot",
+   "fixture": "hall_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.53,
+   "move": {
+    "mode": "aim",
+    "target": "builds_wall_R",
+    "resolved": {
+     "pan_deg": -151.928,
+     "tilt_deg": 81.304
+    },
+    "dur_s": 0.53,
+    "ease": "in_out"
+   },
+   "label": "aim builds_wall_R"
+  },
+  {
+   "t": 48.54,
+   "group": "spot",
+   "fixture": "cantina_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.44,
+   "move": {
+    "mode": "aim",
+    "target": "ent_center_R_hi",
+    "resolved": {
+     "pan_deg": -117.248,
+     "tilt_deg": 84.415
+    },
+    "dur_s": 0.44,
+    "ease": "in_out"
+   },
+   "label": "aim ent_center_R_hi"
+  },
+  {
+   "t": 48.57,
+   "group": "spot",
+   "fixture": "hall_spot_far_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.41,
+   "move": {
+    "mode": "aim",
+    "target": "cove_L",
+    "resolved": {
+     "pan_deg": -38.66,
+     "tilt_deg": 94.287
+    },
+    "dur_s": 0.41,
+    "ease": "in_out"
+   },
+   "label": "aim cove_L"
+  },
+  {
+   "t": 48.57,
+   "group": "spot",
+   "fixture": "hall_spot_far_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.41,
+   "move": {
+    "mode": "aim",
+    "target": "builds_wall_R",
+    "resolved": {
+     "pan_deg": -107.354,
+     "tilt_deg": 81.184
+    },
+    "dur_s": 0.41,
+    "ease": "in_out"
+   },
+   "label": "aim builds_wall_R"
+  },
+  {
+   "t": 48.59,
+   "group": "spot",
+   "fixture": "cantina_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.39,
+   "move": {
+    "mode": "aim",
+    "target": "ent_center_L_hi",
+    "resolved": {
+     "pan_deg": -242.752,
+     "tilt_deg": 84.415
+    },
+    "dur_s": 0.39,
+    "ease": "in_out"
+   },
+   "label": "aim ent_center_L_hi"
+  },
+  {
+   "t": 48.61,
+   "group": "wash",
+   "fixture": "hall_wash_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 0.37,
+   "move": {
+    "mode": "aim",
+    "target": "cove_L",
+    "resolved": {
+     "pan_deg": -129.806,
+     "tilt_deg": 93.809
+    },
+    "dur_s": 0.37,
+    "ease": "in_out"
+   },
+   "label": "aim cove_L"
+  },
+  {
+   "t": 48.61,
+   "group": "wash",
+   "fixture": "hall_wash_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 0.37,
+   "move": {
+    "mode": "aim",
+    "target": "cove_R",
+    "resolved": {
+     "pan_deg": -230.194,
+     "tilt_deg": 93.809
+    },
+    "dur_s": 0.37,
+    "ease": "in_out"
+   },
+   "label": "aim cove_R"
+  },
+  {
+   "t": 48.67,
+   "group": "spot",
+   "fixture": "diy_proto_1",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.31,
+   "move": {
+    "mode": "aim",
+    "target": "wall_R_mid",
+    "resolved": {
+     "pan_deg": 90.0,
+     "tilt_deg": 86.566
+    },
+    "dur_s": 0.31,
+    "ease": "in_out"
+   },
+   "label": "aim wall_R_mid"
+  },
+  {
+   "t": 48.98,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 49.719,
+   "group": "wash",
+   "fixture": "cantina_wash",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.55,
+   "dur_s": 1.71,
+   "move": {
+    "mode": "aim",
+    "target": "ribs_R",
+    "resolved": {
+     "pan_deg": -248.199,
+     "tilt_deg": 92.127
+    },
+    "dur_s": 1.71,
+    "ease": "in_out"
+   },
+   "label": "aim ribs_R"
+  },
+  {
+   "t": 50.809,
+   "group": "spot",
+   "fixture": "hall_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.62,
+   "move": {
+    "mode": "aim",
+    "target": "builds_wall",
+    "resolved": {
+     "pan_deg": -235.713,
+     "tilt_deg": 84.423
+    },
+    "dur_s": 0.62,
+    "ease": "in_out"
+   },
+   "label": "aim builds_wall"
+  },
+  {
+   "t": 50.809,
+   "group": "spot",
+   "fixture": "hall_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.62,
+   "move": {
+    "mode": "aim",
+    "target": "builds_wall",
+    "resolved": {
+     "pan_deg": -124.287,
+     "tilt_deg": 84.423
+    },
+    "dur_s": 0.62,
+    "ease": "in_out"
+   },
+   "label": "aim builds_wall"
+  },
+  {
+   "t": 51.039,
+   "group": "spot",
+   "fixture": "cantina_spot_L",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.39,
+   "move": {
+    "mode": "aim",
+    "target": "ent_wall_above",
+    "resolved": {
+     "pan_deg": -250.201,
+     "tilt_deg": 95.161
+    },
+    "dur_s": 0.39,
+    "ease": "in_out"
+   },
+   "label": "aim ent_wall_above"
+  },
+  {
+   "t": 51.039,
+   "group": "spot",
+   "fixture": "cantina_spot_R",
+   "fx": "color",
+   "color": "cool_white",
+   "intensity": 0.8,
+   "dur_s": 0.39,
+   "move": {
+    "mode": "aim",
+    "target": "ent_wall_above",
+    "resolved": {
+     "pan_deg": -109.799,
+     "tilt_deg": 95.161
+    },
+    "dur_s": 0.39,
+    "ease": "in_out"
+   },
+   "label": "aim ent_wall_above"
+  },
+  {
+   "t": 53.27,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 53.88,
+   "group": "spot",
+   "fx": "pulse",
+   "color": "warm_white",
+   "intensity": 0.9,
+   "dur_s": 0.35,
+   "rate": "beat"
+  },
+  {
+   "t": 54.827,
+   "group": "all",
+   "fx": "blackout_soft",
+   "color": "void",
+   "intensity": 0.0,
+   "dur_s": 4.0
+  },
+  {
+   "t": 54.827,
+   "group": "spot",
+   "fixture": "hall_spot_L",
+   "fx": "fade",
+   "color": "void",
+   "intensity": 0.0,
+   "dur_s": 11.72,
+   "move": {
+    "mode": "home",
+    "speed_dps": 30,
+    "dur_s": 11.72,
+    "ease": "in_out"
+   },
+   "label": "home (dark, <=30 deg/s)"
+  },
+  {
+   "t": 54.827,
+   "group": "spot",
+   "fixture": "hall_spot_R",
+   "fx": "fade",
+   "color": "void",
+   "intensity": 0.0,
+   "dur_s": 2.0,
+   "move": {
+    "mode": "home",
+    "speed_dps": 30,
+    "dur_s": 2.0,
+    "ease": "in_out"
+   },
+   "label": "home (dark, <=30 deg/s)"
+  },
+  {
+   "t": 54.827,
+   "group": "spot",
+   "fixture": "hall_spot_far_L",
+   "fx": "fade",
+   "color": "void",
+   "intensity": 0.0,
+   "dur_s": 2.0,
+   "move": {
+    "mode": "home",
+    "speed_dps": 30,
+    "dur_s": 2.0,
+    "ease": "in_out"
+   },
+   "label": "home (dark, <=30 deg/s)"
+  },
+  {
+   "t": 54.827,
+   "group": "spot",
+   "fixture": "hall_spot_far_R",
+   "fx": "fade",
+   "color": "void",
+   "intensity": 0.0,
+   "dur_s": 2.0,
+   "move": {
+    "mode": "home",
+    "speed_dps": 30,
+    "dur_s": 2.0,
+    "ease": "in_out"
+   },
+   "label": "home (dark, <=30 deg/s)"
+  },
+  {
+   "t": 54.827,
+   "group": "wash",
+   "fixture": "hall_wash_L",
+   "fx": "fade",
+   "color": "void",
+   "intensity": 0.0,
+   "dur_s": 11.89,
+   "move": {
+    "mode": "home",
+    "speed_dps": 30,
+    "dur_s": 11.89,
+    "ease": "in_out"
+   },
+   "label": "home (dark, <=30 deg/s)"
+  },
+  {
+   "t": 54.827,
+   "group": "wash",
+   "fixture": "hall_wash_R",
+   "fx": "fade",
+   "color": "void",
+   "intensity": 0.0,
+   "dur_s": 4.12,
+   "move": {
+    "mode": "home",
+    "speed_dps": 30,
+    "dur_s": 4.12,
+    "ease": "in_out"
+   },
+   "label": "home (dark, <=30 deg/s)"
+  },
+  {
+   "t": 54.827,
+   "group": "spot",
+   "fixture": "cantina_spot_L",
+   "fx": "fade",
+   "color": "void",
+   "intensity": 0.0,
+   "dur_s": 15.89,
+   "move": {
+    "mode": "home",
+    "speed_dps": 30,
+    "dur_s": 15.89,
+    "ease": "in_out"
+   },
+   "label": "home (dark, <=30 deg/s)"
+  },
+  {
+   "t": 54.827,
+   "group": "spot",
+   "fixture": "cantina_spot_R",
+   "fx": "fade",
+   "color": "void",
+   "intensity": 0.0,
+   "dur_s": 2.0,
+   "move": {
+    "mode": "home",
+    "speed_dps": 30,
+    "dur_s": 2.0,
+    "ease": "in_out"
+   },
+   "label": "home (dark, <=30 deg/s)"
+  },
+  {
+   "t": 54.827,
+   "group": "wash",
+   "fixture": "cantina_wash",
+   "fx": "fade",
+   "color": "void",
+   "intensity": 0.0,
+   "dur_s": 24.55,
+   "move": {
+    "mode": "home",
+    "speed_dps": 30,
+    "dur_s": 24.55,
+    "ease": "in_out"
+   },
+   "label": "home (dark, <=30 deg/s)"
+  },
+  {
+   "t": 54.827,
+   "group": "spot",
+   "fixture": "diy_proto_1",
+   "fx": "fade",
+   "color": "void",
+   "intensity": 0.0,
+   "dur_s": 2.0,
+   "move": {
+    "mode": "home",
+    "speed_dps": 30,
+    "dur_s": 2.0,
+    "ease": "in_out"
+   },
+   "label": "home (dark, <=30 deg/s)"
+  }
+ ],
+ "projector_cues": [
+  {
+   "t": 0.0,
+   "type": "projector",
+   "projector": "hall_proj",
+   "surface": "builds_wall",
+   "content": {
+    "kind": "video",
+    "src": "placeholder://dex/scratch-hands-cam.mp4"
+   },
+   "intensity": 0.5,
+   "fade_s": 2.0,
+   "sync": "none",
+   "label": "hands cam",
+   "dur_s": 29.39
+  },
+  {
+   "t": 0.0,
+   "type": "projector",
+   "projector": "cantina_proj",
+   "surface": "ent_center",
+   "content": {
+    "kind": "pattern",
+    "pattern": "scope",
+    "color": "amber"
+   },
+   "intensity": 0.45,
+   "fade_s": 2.0,
+   "sync": "beat",
+   "mask": {
+    "below_m": 2.1,
+    "intensity": 0.4
+   },
+   "beats_per_cycle": 1,
+   "label": "waveform scope",
+   "dur_s": 29.39
+  },
+  {
+   "t": 29.39,
+   "type": "projector",
+   "projector": "hall_proj",
+   "surface": "builds_wall",
+   "content": {
+    "kind": "color",
+    "color": "deep_blue"
+   },
+   "intensity": 0.25,
+   "fade_s": 1.0,
+   "sync": "none",
+   "label": "breakdown",
+   "dur_s": 4.9
+  },
+  {
+   "t": 29.39,
+   "type": "projector",
+   "projector": "cantina_proj",
+   "surface": "ent_center",
+   "content": {
+    "kind": "color",
+    "color": "deep_blue"
+   },
+   "intensity": 0.25,
+   "fade_s": 1.0,
+   "sync": "none",
+   "mask": {
+    "below_m": 2.1,
+    "intensity": 0.4
+   },
+   "label": "breakdown",
+   "dur_s": 4.9
+  },
+  {
+   "t": 34.29,
+   "type": "projector",
+   "projector": "hall_proj",
+   "surface": "builds_wall",
+   "content": {
+    "kind": "pattern",
+    "pattern": "bars",
+    "color": "warm_white"
+   },
+   "intensity": 0.55,
+   "fade_s": 0.5,
+   "sync": "beat",
+   "beats_per_cycle": 1,
+   "label": "transformer section",
+   "dur_s": 14.69
+  },
+  {
+   "t": 34.29,
+   "type": "projector",
+   "projector": "cantina_proj",
+   "surface": "ent_center",
+   "content": {
+    "kind": "pattern",
+    "pattern": "bars",
+    "color": "warm_white"
+   },
+   "intensity": 0.5,
+   "fade_s": 0.5,
+   "sync": "beat",
+   "mask": {
+    "below_m": 2.1,
+    "intensity": 0.4
+   },
+   "beats_per_cycle": 1,
+   "label": "transformer section",
+   "dur_s": 14.69
+  },
+  {
+   "t": 48.98,
+   "type": "projector",
+   "projector": "hall_proj",
+   "surface": "builds_wall",
+   "content": {
+    "kind": "video",
+    "src": "placeholder://dex/scratch-hands-cam.mp4"
+   },
+   "intensity": 0.5,
+   "fade_s": 1.0,
+   "sync": "none",
+   "label": "hands cam",
+   "dur_s": 5.847
+  },
+  {
+   "t": 48.98,
+   "type": "projector",
+   "projector": "cantina_proj",
+   "surface": "ent_center",
+   "content": {
+    "kind": "pattern",
+    "pattern": "scope",
+    "color": "amber"
+   },
+   "intensity": 0.45,
+   "fade_s": 1.0,
+   "sync": "beat",
+   "mask": {
+    "below_m": 2.1,
+    "intensity": 0.4
+   },
+   "beats_per_cycle": 1,
+   "label": "scope",
+   "dur_s": 5.847
+  },
+  {
+   "t": 54.827,
+   "type": "projector",
+   "projector": "hall_proj",
+   "surface": "builds_wall",
+   "content": {
+    "kind": "color",
+    "color": "void"
+   },
+   "intensity": 0.0,
+   "fade_s": 4.0,
+   "sync": "none",
+   "label": "end",
+   "dur_s": 4.0
+  },
+  {
+   "t": 54.827,
+   "type": "projector",
+   "projector": "cantina_proj",
+   "surface": "ent_center",
+   "content": {
+    "kind": "color",
+    "color": "void"
+   },
+   "intensity": 0.0,
+   "fade_s": 4.0,
+   "sync": "none",
+   "mask": {
+    "below_m": 2.1,
+    "intensity": 0.4
+   },
+   "label": "end",
+   "dur_s": 4.0
+  }
+ ],
+ "projector_cue_note": "Schema ratified in LIGHTS_SPEC v0.2 \u00a76.8: separate top-level array (v1 players never see it); a later cue on the same projector replaces the earlier one; optional mask {below_m, intensity<=0.4}.",
+ "spec": "LIGHTS_SPEC v0.4 (2026-10-17), section 6 normative",
+ "assumptions": [
+  "LIGHTS_SPEC v0.4 section 6 is normative (v0.3 moved diy_proto_1 and set cantina spot y 2.85; v0.4 moved the cantina spots to z 5.6); values tagged 'LIGHTS_SPEC v0.2 \u00a76.x' come from it. Everything tagged dex_assumption is Dex's.",
+  "Authoring frame = spec frame (rooms.*.to_scene converts to the built scene: hall translate [-2,0,1.5], cantina mirror_x, negate pan on export).",
+  "Rooms modeled as boxes; the hall L notch is not modeled. A ray that leaves the hall through z=0 inside the vestibule zone counts as a hit on hall_vestibule (zone boundaries are inclusive).",
+  "Projector light is exempt from spot/wash no-go zones (spec \u00a76.5); faces are protected by the \u00a76.8 content mask, which every cantina_proj cue carries.",
+  "cantina_proj lens sits 0.05 m under the plate (lens_drop_m); image center = lens height - lens_offset_v * H/2, giving 0.57-2.95 m as in \u00a76.5.",
+  "Added cantina targets ent_center_L_hi / R_hi (y 2.5), wall_far_L / R and wall_R_upper / wall_R_corner: with the cone checked, most spec cabinet targets at y 2.35-2.4 are blocked by cantina_ent_front, and diy_proto_1 (tilt max 90 deg) cannot point up at them; it works the right-wall / far-wall band.",
+  "Rate 'half' = half bar (2 beats), consistent with the v1 README ('beat' is the fastest rate)."
+ ],
+ "generated_by": "tools/make_lights_v2.py from v1/scratch-demo.lights.json"
+}

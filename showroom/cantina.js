@@ -73,6 +73,9 @@ export function buildCantina(THREE, merge, M, opts = {}) {
       const x1 = flat - 0.1, len = Math.hypot(xo - x1, (xo - x1) * 0.6 / (hw - flat)), g = new THREE.PlaneGeometry(len, D - 1.3, 8, 1); g.rotateX(Math.PI / 2); g.rotateZ(-sx * Math.atan2(0.6, hw - flat)); g.translate(sx * (xo + x1) / 2, (yo + H) / 2 - 0.03, D / 2);
       const pa = g.attributes.position; const c = new Float32Array(pa.count * 3); for (let i = 0; i < pa.count; i++) { const t = (Math.abs(pa.getX(i)) - x1) / (xo - x1); const k = Math.pow(Math.max(0, t), 3) * 0.32; c[i * 3] = 0.18 * k; c[i * 3 + 1] = 0.84 * k; c[i * 3 + 2] = 0.77 * k; } // brightest at the lip (outer edge)
       g.setAttribute('color', new THREE.BufferAttribute(c, 3)); g.deleteAttribute('normal'); g.deleteAttribute('uv'); fan.push(g); }
+    { // teleport target ring (2 x 2 m standing zone) rides in the same additive draw: colour = teal x 0.55 (was its own transparent mesh)
+      const rg = new THREE.RingGeometry(0.95, 1.0, 48).rotateX(-Math.PI / 2).translate(C.stand[0], 0.008, C.stand[1]); rg.deleteAttribute('normal'); rg.deleteAttribute('uv');
+      const tc = new THREE.Color(0x2fd6c4).multiplyScalar(0.55), n = rg.attributes.position.count, c = new Float32Array(n * 3); for (let i = 0; i < n; i++) c.set([tc.r, tc.g, tc.b], i * 3); rg.setAttribute('color', new THREE.BufferAttribute(c, 3)); fan.push(rg); }
     grp.add(Object.assign(new THREE.Mesh(merge(fan), new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide, forceSinglePass: true, toneMapped: false })), { name: 'cantina-cove-glow', renderOrder: 2 })); }
   // ---- placeholders until Clay's files land (labeled) ----
   const ph = opts.placeholders = {}; const S0 = B.solid, G0 = B.glow; B.solid = []; B.glow = []; // placeholders built apart so they can be dropped when Clay's files load
@@ -100,12 +103,11 @@ export function buildCantina(THREE, merge, M, opts = {}) {
   const lg = LBL.map(([, x, y, z], i) => { const g = new THREE.PlaneGeometry(1.1, 0.07); const uv = g.attributes.uv; for (let k = 0; k < uv.count; k++) uv.setY(k, 1 - (i + 1 - uv.getY(k)) / LBL.length); g.rotateY(Math.PI); g.translate(x, y, z); return g; }); // face the door (-Z)
   const labels = new THREE.Mesh(merge(lg), new THREE.MeshBasicMaterial({ map: lt, transparent: true, depthWrite: false })); grp.add(labels);
   // teleport target: 2 x 2 m ring in the standing zone
-  const ring = new THREE.Mesh(new THREE.RingGeometry(0.95, 1.0, 48).rotateX(-Math.PI / 2).translate(C.stand[0], 0.008, C.stand[1]), new THREE.MeshBasicMaterial({ color: 0x2fd6c4, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }));
-  grp.add(ring);
+  // (the ring itself is merged into the cove-glow draw above)
   // light: ~20% ambient, bar underside amber, back-bar teal, entertainment glow, booth pendant
   const hemi = new THREE.HemisphereLight(0x8a8090, 0x4a3420, 0.9); grp.add(hemi);
   const lights = [[0xffa040, 2.2, 3.5, 2.2, 0.35, 3.3], [0x2fd6c4, 1.6, 3.0, 3.4, 1.6, 3.2], [0xffc890, 2.4, 4.0, 0, 1.6, 5.4], [0xffd09a, 1.8, 2.6, -2.6, 1.7, 3.6]]
     .map(([c, I, d, x, y, z]) => { const L = new THREE.PointLight(c, I, d, 1.6); L.position.set(x, y, z); grp.add(L); return L; });
   for (const o of [entPh, phMesh, labels]) o.traverse(m => m.userData.noMerge = true); // never baked into static batches: they get swapped out at runtime
-  return { group: grp, solidMesh, labels, ring, hemi, lights, hideEntPlaceholder: () => { entPh.visible = false; entPh.userData.noMerge = true; }, hidePlaceholders: () => { for (const o of [entPh, phMesh, labels]) { o.visible = false; o.traverse(m => m.userData.noMerge = true); } } };
+  return { group: grp, solidMesh, labels, ring: null, hemi, lights, hideEntPlaceholder: () => { entPh.visible = false; entPh.userData.noMerge = true; }, hidePlaceholders: () => { for (const o of [entPh, phMesh, labels]) { o.visible = false; o.traverse(m => m.userData.noMerge = true); } } };
 }

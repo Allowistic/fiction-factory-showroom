@@ -1,0 +1,98 @@
+{
+ "tapper_vs_bar": {
+  "idle": {
+   "forearm+hand_lowest_z_m": 0.891,
+   "forearm+hand_highest_z_m": 1.191,
+   "min_gap_hand_to_bar_or_backbar_m": 0.346,
+   "mesh_overlaps_with_bar": 0
+  },
+  "turn_to_player": {
+   "forearm+hand_lowest_z_m": 0.729,
+   "forearm+hand_highest_z_m": 1.186,
+   "min_gap_hand_to_bar_or_backbar_m": 0.245,
+   "mesh_overlaps_with_bar": 0
+  },
+  "wave": {
+   "forearm+hand_lowest_z_m": 0.729,
+   "forearm+hand_highest_z_m": 2.039,
+   "min_gap_hand_to_bar_or_backbar_m": 0.465,
+   "mesh_overlaps_with_bar": 0
+  },
+  "beckon": {
+   "forearm+hand_lowest_z_m": 0.724,
+   "forearm+hand_highest_z_m": 1.701,
+   "min_gap_hand_to_bar_or_backbar_m": 0.12,
+   "mesh_overlaps_with_bar": 0
+  }
+ },
+ "dex_reach": {
+  "hands_on_decks": {
+   "foreR": {
+    "target": [
+     -0.48,
+     1.09,
+     0.02
+    ],
+    "closest_hand_vertex": [
+     -0.391,
+     1.106,
+     -0.032
+    ],
+    "gap_m": 0.104,
+    "closest_to_rim_m": 0.006
+   },
+   "foreL": {
+    "target": [
+     0.48,
+     1.09,
+     0.02
+    ],
+    "closest_hand_vertex": [
+     0.391,
+     1.106,
+     -0.032
+    ],
+    "gap_m": 0.104,
+    "closest_to_rim_m": 0.006
+   },
+   "mesh_overlaps_with_booth": 266
+  },
+  "scratch_R": {
+   "foreR": {
+    "target": [
+     -0.48,
+     1.09,
+     0.02
+    ],
+    "closest_hand_vertex": [
+     -0.39,
+     1.108,
+     0.002
+    ],
+    "gap_m": 0.093,
+    "closest_to_rim_m": 0.002
+   },
+   "foreL": {
+    "target": [
+     0,
+     1.075,
+     0.15
+    ],
+    "closest_hand_vertex": [
+     -0.032,
+     1.103,
+     0.151
+    ],
+    "gap_m": 0.042
+   },
+   "mesh_overlaps_with_booth": 229
+  }
+ },
+ "heights_m": {
+  "tapper": 1.968,
+  "dex_model": 1.48,
+  "dex_top_on_riser_world": 1.73,
+  "booth_incl_screen": 2.462,
+  "bar_top": 1.05
+ }
+}

@@ -7,6 +7,11 @@ import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { HALL, VEST, COVE, BUILDS_WALL as BW, GATHER, PIT, WINDOW, NOOK, PLINTHS, SPAWNS, GROUP_SPOTS, MAX_USERS, coveSegments, covePerimeter, DOOR, PASSAGE, CANTINA, toCantinaWorld } from './layout.js';
 import { buildPassage, buildCantina } from './cantina.js';
+import { createGuestbook, LocalGuestbookStore } from './guestbook.js';
+import { createRobotBatch, createBartender } from './bartender.js';
+import { createDJBooth } from './dj.js';
+import { loadRigged } from './rigged.js';
+import { DJ_CONFIG } from './dj-config.js';
 import { createState } from './state.js';
 import { PAL, vcBuilder, hifi, loungeChair, sunburst, macrame, lavaLamp, x1c, prints, banquette } from './props.js';
 import { createXRPanel } from '../panel-xr.js';
@@ -220,9 +225,11 @@ const fx = globalThis.CoveScenes.create(N);
 fx.params.sunset.window = U.windowMid; fx.params.beat.origin = U.buildsMid; fx.params.focus.bench = [U.builds[0], U.builds[1]];
 fx.params.ambient.kelvin = 2700;
 const clock = new THREE.Clock();
+let coveHook = null; // DJ light show: tints the CoveScenes output (CoveScenes has no arbitrary-colour API; cove-scenes.js untouched)
 function engineRender(t) { const s = store.get();
   if (s.scene === 'solid' && s.solid) { for (let i = 0; i < N; i++) { colors[i * 3] = s.solid[0]; colors[i * 3 + 1] = s.solid[1]; colors[i * 3 + 2] = s.solid[2]; } }
   else fx.render(t, colors, {});
+  coveHook?.(colors, N);
   const b = s.brightness; if (b !== 1) for (let i = 0; i < colors.length; i++) colors[i] *= b; }
 store.subscribe(p => { if ('scene' in p && p.scene !== 'solid') fx.setScene(p.scene, clock.getElapsedTime()); });
 fx.setScene('ambient', 0);
@@ -324,7 +331,7 @@ if (FULL_BRACKETS) loader.load(ASSETS + 'bracket/crest-bracket.glb', g => { g.sc
 else { const m = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.03, 0.03).translate(0, 0, 0.015), new THREE.MeshLambertMaterial({ color: 0xbbbbbb })); m.updateMatrixWorld(); instanceInto([m], brackets); }
 
 // ---------- builds wall: walnut slats, dark alcove, floating tiers, under-shelf wash, Clay's builds-opt ----------
-const shelf = new THREE.Group(); hall.add(shelf);
+const shelf = new THREE.Group(); hall.add(shelf); const buildHolders = []; // grab/inspect registry (one per shelf slot)
 const BWW = BW.x1 - BW.x0, BCX = (BW.x0 + BW.x1) / 2;
 { const al = new THREE.PlaneGeometry(BWW - 0.6, BW.relief.bottom + BW.relief.h + 0.15 - BW.tiers[0] + 0.25).translate(BCX, (BW.tiers[0] - 0.25 + BW.relief.bottom + BW.relief.h + 0.15) / 2, BW.z - 0.003); al.rotateY(0);
   const alc = new THREE.Mesh(al, M.alcove); alc.rotation.y = Math.PI; alc.position.set(2 * BCX, 0, 2 * BW.z - 0.006); hall.add(alc);
@@ -466,13 +473,14 @@ async function loadCantinaPieces(entries, base) {
   const [full, lod] = await Promise.all([buildCantSet(entries, base, false), buildCantSet(entries, base, true)]);
   for (const k of ['full', 'lod1']) if (cantSets[k]) cantina.remove(cantSets[k]);
   cantSets.full = full; cantSets.lod1 = lod; cantina.add(full, lod);
-  ledStrip = null; hookLedStrip(full); hookLedStrip(lod); cant.hidePlaceholders?.(); applyCantSet();
+  ledStrip = null; hookLedStrip(full); hookLedStrip(lod); cant.hidePlaceholders?.(); applyCantSet(); placeOnBar?.();
   cantInfo = `clay ${entries.length} files · ${full.userData.draws}/${lod.userData.draws} draws · ${Math.round(full.userData.tris)}/${Math.round(lod.userData.tris)} tris`;
   window.LOFT && (window.LOFT.cantSets = cantSets); status(true);
 }
+var riggedResolve = null; const riggedEntries = new Promise(r => { riggedResolve = r; }); var rigLod = null; // Clay's rigged cantina models (manifest rigged[], room cantina_rigged)
 async function loadBuilds() {
   let list = [], base = ASSETS + 'builds/', cantExtra = [];
-  for (const dir of [ASSETS + 'builds-opt/', ASSETS + 'builds/']) { try { const r = await fetch(dir + 'manifest.json', { cache: 'no-store' }); if (r.ok) { const j = await r.json(); list = Array.isArray(j) ? j : (j.builds || j.items || []); base = dir; cantExtra = Array.isArray(j) ? [] : (j.skipped || []).filter(e => e.room === 'cantina'); if (list.length) break; } } catch (e) {} }
+  for (const dir of [ASSETS + 'builds-opt/', ASSETS + 'builds/']) { try { const r = await fetch(dir + 'manifest.json', { cache: 'no-store' }); if (r.ok) { const j = await r.json(); list = Array.isArray(j) ? j : (j.builds || j.items || []); base = dir; cantExtra = Array.isArray(j) ? [] : (j.skipped || []).filter(e => e.room === 'cantina'); if (!Array.isArray(j) && Array.isArray(j.rigged)) riggedResolve({ list: j.rigged.filter(e => e.room === 'cantina_rigged'), base: dir }); if (list.length) break; } } catch (e) {} }
   const isHope = e => /hope/i.test((e.file || '') + (e.name || '')); const isCant = e => e.room === 'cantina' || /entertain|ent[_-]?center|led[_-]?strip|cantina/i.test((e.file || '') + ' ' + (e.name || ''));
   loadCantinaPieces([...list.filter(isCant), ...cantExtra], base); list = list.filter(e => !isCant(e));
   const neonE = list.find(e => e.overlay_of || /neon/i.test(e.file || '')); list = list.filter(e => e !== neonE); const sign = list.find(isHope), items = list.filter(e => !isHope(e));
@@ -480,7 +488,7 @@ async function loadBuilds() {
   let loaded = 0;
   const fit = (o0, e, maxW, maxH, maxD) => { const o = mergeByMaterial(o0); o.scale.setScalar(e.scale || 1); const s = new THREE.Box3().setFromObject(o).getSize(new THREE.Vector3());
     const thin = s.y < 0.03, hgt = thin ? s.z : s.y, dep = thin ? s.y : s.z; o.scale.multiplyScalar(Math.min(2.5, maxW / Math.max(s.x, 1e-6), maxH / Math.max(hgt, 1e-6), maxD / Math.max(dep, 1e-6))); return standUp(o); };
-  items.slice(0, slots.length).forEach((e, i) => { const holder = new THREE.Group(); holder.position.set(...slots[i]); holder.rotation.y = Math.PI; shelf.add(holder);
+  items.slice(0, slots.length).forEach((e, i) => { const holder = new THREE.Group(); holder.position.set(...slots[i]); holder.rotation.y = Math.PI; shelf.add(holder); holder.name = 'build:' + (e.file || i); buildHolders.push({ holder, e, slot: i });
     const file = e.file; if (!file) return; const lf = e.lod1 || null;
     loader.load(url(low && lf ? lf : file), g => {
       if (!low && lf) { const lod = new THREE.LOD(); lod.autoUpdate = !lowNow; lod.addLevel(fit(g.scene, e, 0.6, 0.42, 0.26), 0); holder.add(lod); lodObjs.push(lod);
@@ -553,7 +561,7 @@ placePanel(); xrPanel.onRecenter = () => { const xc = renderer.xr.getCamera(), p
   xrPanel.group.position.copy(p).addScaledVector(d, 0.8).setY(p.y - 0.25); xrPanel.group.lookAt(p.x, p.y - 0.25, p.z); };
 
 // ---------- perf: low mode + static batching (B3 restorable) ----------
-let lowNow = low, merged = null; // merged = { originals: [], batches: [] }
+const mergeSlots = new Map(); let lowNow = low, merged = null; // merged = { originals: [], batches: [] }
 function staticMerge() {
   if (merged) unmerge();
   const skip = new Set([pixels, ledRibbon, bracketGroup, xrPanel.group, rig]);
@@ -563,29 +571,33 @@ function staticMerge() {
   scene.updateMatrixWorld(true); const groups = new Map();
   scene.traverse(o => { if (!o.isMesh || o.isInstancedMesh || Array.isArray(o.material) || !visible(o)) return; const m = o.material;
     if (m.transparent || m.isShaderMaterial || o.renderOrder || o.userData.noMerge) return;
-    const g = o.geometry, attrs = Object.keys(g.attributes).filter(a => a !== 'color').sort().join(',');
-    const plain = (m.isMeshStandardMaterial || m.isMeshLambertMaterial) && !m.map && !m.normalMap && !m.roughnessMap && !m.alphaMap && !m.emissiveMap;
-    const root = rootOf(o), key = root.uuid + '|' + (plain ? 'vc' + m.side : m.uuid) + '|' + attrs + '|' + (g.index ? 1 : 0);
-    if (!groups.has(key)) groups.set(key, { plain, mat: m, items: [], root }); groups.get(key).items.push(o); });
+    const g = o.geometry;
+    const plainB = m.isMeshBasicMaterial && !m.map && !m.alphaMap && !m.vertexAlphas; // unlit glow strips: one vertex-colour basic batch per room
+    const plain = plainB || ((m.isMeshStandardMaterial || m.isMeshLambertMaterial) && !m.map && !m.normalMap && !m.alphaMap && !m.emissiveMap); /* low/XR merge drops roughnessMap (plaster grain): walls + vault share one batch */
+    const attrs = Object.keys(g.attributes).filter(a => a !== 'color' && !(plain && a === 'uv')).sort().join(','); // plain batches drop uv, and mix indexed/non-indexed (see below) -> fewer batches
+    const root = rootOf(o), side = plain && !plainB && m.side === THREE.FrontSide && (root === cantina || root === passage) ? THREE.DoubleSide : m.side; // cantina + passage: front-side and double-side plain batches share one DoubleSide draw (XR budget: -2 stereo draws per room)
+    const key = root.uuid + '|' + (plainB ? 'vb' + m.side + (m.toneMapped ? 't' : 'n') : plain ? 'vc' + side : m.uuid) + '|' + attrs + '|' + (plain ? 'x' : g.index ? 1 : 0);
+    if (!groups.has(key)) groups.set(key, { plain, plainB, mat: m, side, items: [], root }); groups.get(key).items.push(o); });
   const vcMats = [0, 1, 2].map(side => new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.6, side }));
   merged = { originals: [], batches: [] };
   for (const G of groups.values()) { if (G.items.length < 2) continue;
-    const inv = new THREE.Matrix4().copy(G.root.matrixWorld).invert(); const gs = G.items.map(o => { const g = o.geometry.clone(); g.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv, o.matrixWorld)); for (const a of Object.keys(g.attributes)) if (!['position', 'normal', 'uv', 'color'].includes(a)) g.deleteAttribute(a);
+    const inv = new THREE.Matrix4().copy(G.root.matrixWorld).invert(); const mixed = G.plain && new Set(G.items.map(o => !!o.geometry.index)).size > 1; const gs = G.items.map(o => { const g = mixed && o.geometry.index ? o.geometry.toNonIndexed() : o.geometry.clone(); g.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv, o.matrixWorld)); for (const a of Object.keys(g.attributes)) if (!['position', 'normal', 'uv', 'color'].includes(a)) g.deleteAttribute(a);
       if (G.plain) { const c = o.material.color, n = g.attributes.position.count, pv = g.attributes.color, arr = new Float32Array(n * 3);
         for (let i = 0; i < n; i++) { arr[i * 3] = c.r * (pv ? pv.getX(i) : 1); arr[i * 3 + 1] = c.g * (pv ? pv.getY(i) : 1); arr[i * 3 + 2] = c.b * (pv ? pv.getZ(i) : 1); }
         g.setAttribute('color', new THREE.BufferAttribute(arr, 3)); if (g.attributes.uv) g.deleteAttribute('uv'); } else if (g.attributes.color) g.deleteAttribute('color');
       return g; });
     let mg; try { mg = mergeGeometries(gs); } catch (e) { mg = null; } if (!mg) continue;
-    const mesh = new THREE.Mesh(mg, G.plain ? vcMats[G.mat.side] : G.mat); mesh.userData.batch = true; G.root.add(mesh); merged.batches.push(mesh);
+    const mesh = new THREE.Mesh(mg, G.plainB ? new THREE.MeshBasicMaterial({ vertexColors: true, side: G.mat.side, toneMapped: G.mat.toneMapped }) : G.plain ? vcMats[G.side] : G.mat); mesh.userData.batch = true; G.root.add(mesh); merged.batches.push(mesh);
+    { let off = 0; G.items.forEach((o, j) => { const n = gs[j].attributes.position.count; mergeSlots.set(o, { batch: mesh, start: off, count: n }); off += n; }); } // per-original vertex range (grab hides one build's slot)
     G.items.forEach(o => { o.visible = false; merged.originals.push(o); }); } // hide, don't remove -> restorable
   console.info(`staticMerge: ${merged.originals.length} meshes -> ${merged.batches.length}`);
 }
-function unmerge() { if (!merged) return; merged.batches.forEach(m => { m.removeFromParent(); m.geometry.dispose(); }); merged.originals.forEach(o => o.visible = true); merged = null;
+function unmerge() { if (!merged) return; mergeSlots.clear(); merged.batches.forEach(m => { m.removeFromParent(); m.geometry.dispose(); }); merged.originals.forEach(o => o.visible = true); merged = null;
   for (const l of lodObjs) l.levels.forEach(v => v.object.visible = true); } // B3
 let mergeT = 0; const scheduleMerge = (ms = 1200) => { clearTimeout(mergeT); mergeT = setTimeout(() => { if (lowNow) { staticMerge(); status(true); } }, ms); };
 THREE.DefaultLoadingManager.onLoad = () => scheduleMerge(); THREE.DefaultLoadingManager.onProgress = () => scheduleMerge();
 const PIX = Q.has('pixels'); // F3: desktop uses the LED ribbon too (90k tris saved); ?pixels brings back the per-pixel strip
-function setLow(on) { const was = lowNow; lowNow = on; for (const l of lodObjs) l.autoUpdate = !on; /* renderer auto-updates LODs: in low/XR that re-showed full builds over the merged lod1 batch near the wall */ washSet[120].visible = !on; washSet[48].visible = on; applyCantSet(); pixels.visible = !on && PIX; ledRibbon.visible = on || !PIX; bracketGroup.visible = !on;
+function setLow(on) { const was = lowNow; lowNow = on; for (const l of lodObjs) l.autoUpdate = !on; /* renderer auto-updates LODs: in low/XR that re-showed full builds over the merged lod1 batch near the wall */ washSet[120].visible = !on; washSet[48].visible = on; applyCantSet(); rigLod?.(); pixels.visible = !on && PIX; ledRibbon.visible = on || !PIX; bracketGroup.visible = !on;
   ringMesh.visible = store.get().labels || renderer.xr.isPresenting;
   applySignSet(); if (on && !was) scheduleMerge(0); if (!on && was) unmerge(); applyNeonMode(); statusFrames = 2; } // B6: refresh status right after the transition
 setLow(low); if (low) scheduleMerge(0);
@@ -646,7 +658,7 @@ const SOLIDS = [
   [NOOK.x0, NOOK.x0 + 0.5, NOOK.z0 + 0.35, NOOK.z1 - 0.35],                                     // hi-fi
   [NOOK.x1 - 0.75, NOOK.x1, NOOK.z0, NOOK.z0 + 0.85], [NOOK.x1 - 0.75, NOOK.x1, NOOK.z1 - 0.85, NOOK.z1], // lounge chairs
   [BW.x0, BW.x1, BW.z - BW.depth, BW.z],                                                         // builds shelves
-  cw(1.5, 2.55, 1.19, 5.21), cw(3.48, 3.98, 2.65, 5.95), cw(-4, -0.8, 2.2, 5.4), cw(-2.05, 2.05, 6.02, 6.5), // cantina bar, back bar, booth, ent center
+  cw(1.5, 2.55, 1.19, 5.21), cw(3.48, 3.98, 2.65, 5.95), cw(-4, -0.8, 2.2, 5.4), cw(-2.05, 2.05, 6.02, 6.5), cw(-3.95, -2.8, 0.35, 1.95), // cantina bar, back bar, booth, ent center, DJ booth
 ];
 const inSolid = (x, z) => SOLIDS.some(([x0, x1, z0, z1]) => x > x0 - RAD && x < x1 + RAD && z > z0 - RAD && z < z1 + RAD);
 const walkable = (x, z) => WALK_RECTS.some(([x0, x1, z0, z1]) => x >= x0 && x <= x1 && z >= z0 && z <= z1) && !inSolid(x, z);
@@ -672,6 +684,7 @@ function walkUpdate() {
   else if (walk.on && look.on) camera.position.set(walk.x, walk.eyeY, walk.z);
 }
 function walkStep(dt) {
+  if (GRAB.held?.mode === 'inspect') { walk.goal = null; return; } // T1: joystick / WASD / tap-to-walk are blocked while a build is in inspect
   let mx = walk.joy[0], mz = walk.joy[1]; // joystick: x = strafe right, y = forward
   const k = walk.keys; if (k.has('KeyW') || k.has('ArrowUp')) mz += 1; if (k.has('KeyS') || k.has('ArrowDown')) mz -= 1; if (k.has('KeyD') || k.has('ArrowRight')) mx += 1; if (k.has('KeyA') || k.has('ArrowLeft')) mx -= 1;
   const len = Math.hypot(mx, mz);
@@ -710,9 +723,9 @@ let floorMeshes = null; const getFloors = () => floorMeshes ||= (() => { const o
 renderer.domElement.addEventListener('pointerdown', e => { canvasTouches.add(e.pointerId); if (canvasTouches.size > 1) { multi = true; drag.id = null; return; } }, true); // 2+ fingers on the view: ignore (no pinch rotate)
 addEventListener('pointerup', e => { canvasTouches.delete(e.pointerId); if (!canvasTouches.size) multi = false; }, true); addEventListener('pointercancel', e => { canvasTouches.delete(e.pointerId); if (!canvasTouches.size) multi = false; }, true);
 renderer.domElement.addEventListener('pointerdown', e => { if (multi || !(walk.on || look.on) || drag.id != null) return; Object.assign(drag, { id: e.pointerId, x: e.clientX, y: e.clientY, x0: e.clientX, y0: e.clientY, t0: performance.now() }); });
-addEventListener('pointermove', e => { if (e.pointerId !== drag.id || multi) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag.x = e.clientX; drag.y = e.clientY;
+addEventListener('pointermove', e => { if (e.pointerId !== drag.id || multi) return; if (GRAB.held?.mode === 'inspect') { drag.x = e.clientX; drag.y = e.clientY; return; } /* T1: the drag rotates the build, not the view */ const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag.x = e.clientX; drag.y = e.clientY;
   if (look.on) look.yawOff += dx * 0.005; else if (walk.on) { walk.yaw += dx * 0.005; walk.pitch = Math.max(-1.2, Math.min(1.2, walk.pitch + dy * 0.004)); } });
-addEventListener('pointerup', e => { if (e.pointerId !== drag.id) return; drag.id = null;
+addEventListener('pointerup', e => { if (e.pointerId !== drag.id) return; drag.id = null; if (e.__ffConsumed) return; /* guestbook / DJ / build tap */
   if (!walk.on || Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 10 || performance.now() - drag.t0 > 600) return;
   _ray.setFromCamera(new THREE.Vector2(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1), camera);
   const hits = _ray.intersectObjects(getFloors(), false).filter(h => h.object.visible || h.object.parent?.visible); const fh = hits[0]; // the real floor meshes (hall, pit, passage, cantina)
@@ -744,6 +757,8 @@ function snapTurn(h, a) { rig.updateMatrixWorld(true); _hl.copy(h).applyMatrix4(
 function aimTarget(c) { _m4.identity().extractRotation(c.matrixWorld); _rr.ray.origin.setFromMatrixPosition(c.matrixWorld); _rr.ray.direction.set(0, 0, -1).applyMatrix4(_m4); _rr.far = 12;
   const ph = xrPanel.group.visible ? _rr.intersectObject(xrPanel.group, true)[0] : null; const fh = _rr.intersectObjects(getFloors(), false).filter(h => h.face && h.face.normal.y > 0.5)[0];
   if (!fh || (ph && ph.distance < fh.distance)) return { ok: false, dist: ph ? ph.distance : 3, panel: !!ph };
+  { const pb = pickBuild(_rr.ray, fh.distance), gh = cantina.visible ? _rr.intersectObjects([gb.mesh, ...dj.pickables], false)[0] : null; // no teleport while aiming at a build or the guestbook
+    if (pb || (gh && gh.distance < fh.distance)) return { ok: false, dist: pb ? pb.d : gh.distance, panel: true }; }
   let x = fh.point.x, z = fh.point.z; const spot = GROUP_SPOTS.find(g => Math.hypot(g.x - x, g.z - z) < 0.45); if (spot) { x = spot.x; z = spot.z; } // snap to a group-spot ring
   return { ok: walkable(x, z), x, z, y: floorAt(x, z), dist: fh.distance }; }
 function xrLocomotion() {
@@ -751,7 +766,7 @@ function xrLocomotion() {
   let mx = 0, my = 0, tx = 0, aiming = null, single = false; const pads = [];
   for (const c of xrCtl) { const src = c.userData.src, gp = src?.gamepad; if (!gp) continue; const ax = gp.axes, sx = ax.length >= 4 ? ax[2] : ax[0] || 0, sy = ax.length >= 4 ? ax[3] : ax[1] || 0;
     pads.push({ hand: src.handedness, sx, sy });
-    if (gp.buttons[0]?.pressed) aiming ||= c; }
+    if (gp.buttons[0]?.pressed && !c.userData.claim) aiming ||= c; } // claim: trigger is being used on a build / the guestbook
   const moveHand = comfort.lefty ? 'right' : 'left', turnHand = comfort.lefty ? 'left' : 'right';
   if (pads.length === 1) { const p0 = pads[0]; my = p0.sy; tx = Math.abs(p0.sx) > 0.8 ? p0.sx : 0; single = true; } // one controller: fwd/back moves, strong flick turns
   else for (const p0 of pads) { if (p0.hand === moveHand) { mx = p0.sx; my = p0.sy; } else if (p0.hand === turnHand) tx = p0.sx; }
@@ -774,11 +789,182 @@ function xrLocomotion() {
   else if (XRM.aim) { const { c, t } = XRM.aim; XRM.aim = null; tpMarker.visible = false; const ln = ctlRay(c); if (ln) { ln.scale.z = 3; ln.material.color.set(0xffffff); } if (t.ok) rigTeleport(h, t.x, t.z); }
   // budget: marker hides the idle ray; vignette replaces both rays while moving
   XRM.moveAmt += (((moving || turning) && comfort.vignette ? 1 : 0) - XRM.moveAmt) * (1 - Math.exp(-dt * 10)); vignette.visible = XRM.moveAmt > 0.02; vignette.material.opacity = XRM.moveAmt * 0.75;
-  for (const c of xrCtl) { const ln = ctlRay(c); if (ln) ln.visible = !vignette.visible && (!aiming || c === aiming); }
+  for (const c of xrCtl) { const ln = ctlRay(c); if (ln) ln.visible = !vignette.visible && !GRAB.held && (!aiming || c === aiming) && (!GRAB.hl.visible || c === GRAB.hlCtl); } // budget: highlight box hides the other ray; holding hides both
 }
 function resetXRLoco() { XRM.aim = null; XRM.armed = true; XRM.moveAmt = 0; XRM.lastT = performance.now(); tpMarker.visible = false; vignette.visible = false; vignette.material.opacity = 0;
   for (const c of xrCtl) { const ln = ctlRay(c); if (ln) { ln.scale.z = 3; ln.material.color.set(0xffffff); ln.visible = true; } } }
 renderer.xr.addEventListener('sessionstart', resetXRLoco);
+// ---------- cantina: guestbook on the bar + robot bartender ----------
+const SIGN_URL = location.origin + location.pathname + '?guestbook';
+const gb = createGuestbook(THREE, { store: new LocalGuestbookStore(), signUrl: SIGN_URL });
+gb.mesh.position.set(2.02, 1.052, 4.35); gb.mesh.rotation.y = -Math.PI / 2; cantina.add(gb.mesh); // bar top, page tops toward the bartender, readable from the room side
+gb.readView.mesh.position.set(1.7, 1.55, 4.35); gb.readView.mesh.rotation.y = -Math.PI / 2; cantina.add(gb.readView.mesh); // XR read view floats above the book, facing the room
+// one SkinnedMesh (1 draw, one shared material) holds the bartender, Dex and the DJ booth hardware (counter, decks, platters, mixer, crossfader). Placeholders until Clay's models (manifest names in bartender.js).
+let bookRoot = null; const robots = createRobotBatch(THREE); robots.setWhiteUV(gb.WHITE_UV); const btBones = robots.robot('bartender', 'bartender'), dexBones = robots.robot('dex', 'dex', { headphones: true }), boothBones = robots.booth('booth');
+const bookBones = robots.prop('book', gb.mesh.geometry, 0xd8ccb8, 0.3); // the guestbook rides in the robots draw (its canvas is the shared map)
+const robotsMesh = robots.finalize({ map: gb.tex }); cantina.add(robotsMesh);
+bookRoot = bookBones.root; bookRoot.position.copy(gb.mesh.position); bookRoot.rotation.copy(gb.mesh.rotation); gb.mesh.visible = false; /* gb.mesh stays as the invisible pick proxy */
+// Tapper's station: z 3.7 (was 3.3). Quinn: at 7 m his head stacked under the back bar's orange porthole (z ~3.2) like a halo; 0.4 m toward the
+// guestbook (bar top z 4.35) clears it and keeps the book in front of him.
+const TAPPER = { x: 3.0, z: 3.7 };
+const bot = createBartender(THREE, btBones, robotsMesh); bot.place(TAPPER.x, 0, TAPPER.z); bot.setHome(-Math.PI / 2); // in the bartender aisle (bar back x 2.55 .. back bar x 3.48), facing the room
+// DJ booth: cantina corner opposite the bar, beside the door (cantina-local x -3.1, z 1.15), counter facing +x into the room; Dex behind the decks on a riser
+const BOOTH = { x: -3.1, z: 1.15, ry: Math.PI / 2 };
+boothBones.booth.position.set(BOOTH.x, 0, BOOTH.z); boothBones.booth.rotation.y = BOOTH.ry;
+dexBones.root.position.set(BOOTH.x - 0.45, 0.25, BOOTH.z); dexBones.root.rotation.y = BOOTH.ry; dexBones.root.userData.y0 = 0.25;
+const djRig = { dex: { root: dexBones.root, torso: dexBones.torso, head: dexBones.head, arm: dexBones.armR, forearm: dexBones.foreR, armL: dexBones.armL, forearmL: dexBones.foreL, antenna: dexBones.antenna },
+    booth: { platters: [boothBones.platterA, boothBones.platterB], crossfader: boothBones.xfader }, pulse: robotsMesh.material.userData.uPulse, dexPuppet: null };
+const dj = createDJBooth(THREE, { camera, signUrl: location.origin + location.pathname, rig: djRig });
+dj.group.position.set(BOOTH.x, 0, BOOTH.z); dj.group.rotation.y = BOOTH.ry; cantina.add(dj.group);
+coveHook = (c, n) => dj.coveOverlay(c, n);
+// Clay's rigged Tapper / Dex / booth: replace the placeholder batch completely once they load (placeholders stay if they fail).
+// One SkinnedMesh per LOD (+ the booth screen) => same 2 cantina draws as the placeholders. lod1 in XR / ?low and on touch devices.
+let rigged = null;
+riggedEntries.then(async ({ list, base }) => { const R = await loadRigged(THREE, { loader, base, entries: list, gb });
+  R.bones.booth.booth.position.set(BOOTH.x, 0, BOOTH.z); R.bones.booth.booth.rotation.y = BOOTH.ry; // deck A (platterA, -X booth-local) stays on the crowd's left
+  const dexSpot = R.entries.dex.placement?.pos || [0, 0.25, -0.45], dp = new THREE.Vector3(...dexSpot).applyAxisAngle(new THREE.Vector3(0, 1, 0), BOOTH.ry); // booth-local -> cantina
+  R.bones.dex.root.position.set(BOOTH.x + dp.x, dexSpot[1], BOOTH.z + dp.z); R.bones.dex.root.rotation.y = BOOTH.ry; R.bones.dex.root.userData.y0 = dexSpot[1];
+  R.bones.book.root.position.copy(gb.mesh.position); R.bones.book.root.rotation.copy(gb.mesh.rotation);
+  bot.rebind(R.bones.bartender, R.meshFull, R.puppets.bartender); bot.place(TAPPER.x, 0, TAPPER.z);
+  Object.assign(djRig, { dex: R.bones.dex, booth: { platters: [R.bones.booth.platterA, R.bones.booth.platterB], crossfader: R.bones.booth.xfader }, pulse: R.uPulse, dexPuppet: R.puppets.dex });
+  dj.adoptScreen(R.screenGeo); bookRoot = R.bones.book.root;
+  cantina.remove(robotsMesh); robotsMesh.geometry.dispose(); robotsMesh.material.dispose(); // placeholders gone (0 draws, no skinning cost)
+  cantina.add(R.meshFull, R.meshLod); rigged = R; rigLod = () => { const lo = lowNow || IS_TOUCH_UI; R.meshFull.visible = !lo; R.meshLod.visible = lo; }; rigLod();
+  window.LOFT && (window.LOFT.rigged = R, window.LOFT.robots = R.meshFull); console.info(R.info); status(true);
+}).catch(e => console.info('rigged cantina models not loaded, placeholders kept:', e.message));
+{ // panel: DJ booth (Dex) - set, play/stop, volume, light show (file / URL / live), credits
+  const pb = document.getElementById('panel-body'), help = document.getElementById('panel-help'); if (pb) { const d = document.createElement('details'); d.id = 'dj-panel';
+    d.innerHTML = `<summary><small>DJ booth (Dex)</small></summary>
+    <label>Set <select id="dj-set"></select></label>
+    <div style="display:flex;gap:6px;align-items:center"><button id="dj-play">▶ Play</button><button id="dj-stop">■ Stop</button><label style="flex:1">Vol <input id="dj-vol" type="range" min="0" max="1" step="0.05" value="0.8" style="width:90px"></label></div>
+    <small>Light show (Dex .lights.json)</small>
+    <div style="display:flex;gap:6px;flex-wrap:wrap"><input id="dj-show-file" type="file" accept=".json,application/json" style="max-width:190px"><input id="dj-show-url" placeholder="shows/demo.lights.json" style="width:150px"><button id="dj-show-load">Load show</button></div>
+    <div style="display:flex;gap:6px"><button id="dj-show-play">▶ Show</button><button id="dj-show-stop">■ Show</button><button id="dj-live" title="LIGHTSHOW_WS (stub)">Live</button></div>
+    <small id="dj-status" style="opacity:.8"></small><small id="dj-credit" style="opacity:.65;font-size:10px;line-height:1.25"></small>`;
+    pb.insertBefore(d, help || null); const $ = id => d.querySelector('#' + id); let pending = null;
+    for (const st of DJ_CONFIG.SETS) { const o = document.createElement('option'); o.value = st.id; o.textContent = st.label; $('dj-set').append(o); }
+    const status = m => { $('dj-status').textContent = m; }; const credit = () => { $('dj-credit').textContent = dj.state.set ? dj.state.set.credit : ''; }; credit();
+    $('dj-set').onchange = async e => { await dj.selectSet(e.target.value); credit(); status('Ready: ' + dj.state.set.label); };
+    $('dj-play').onclick = async () => { await dj.play(); status(dj.audio.playing ? `Playing ${dj.state.set.label} (${dj.audio.kind}${dj.audio.offset ? ', -' + Math.round(dj.audio.offset * 1000) + ' ms MP3 offset' : ''}) · ${dj.state.showInfo || 'no lights'}` : 'Could not start audio'); credit(); };
+    $('dj-stop').onclick = () => { dj.stop(); status('Stopped'); }; $('dj-vol').oninput = e => dj.audio.setVolume(+e.target.value);
+    const loadJSON = async () => { const f = $('dj-show-file').files[0]; if (f) return { json: JSON.parse(await f.text()), name: f.name }; const u = $('dj-show-url').value.trim() || 'shows/demo.lights.json'; const r = await fetch(u); if (!r.ok) throw new Error(u + ' ' + r.status); return { json: await r.json(), name: u }; };
+    $('dj-show-load').onclick = async () => { try { pending = await loadJSON(); if (!Array.isArray(pending.json.cues)) throw new Error('no cues[]'); status(`Loaded ${pending.name}: ${pending.json.cues.length} cues`); } catch (e) { pending = null; status('Show load failed: ' + e.message); } };
+    $('dj-show-play').onclick = async () => { try { if (!pending) pending = await loadJSON(); dj.playShow(pending.json, pending.name); status(`Show ${pending.name} on ${dj.audio.playing ? 'the audio clock' : 'a free-running clock'}`); } catch (e) { status('Show: ' + e.message); } };
+    $('dj-show-stop').onclick = () => { dj.stopShow(); status('Show stopped'); }; $('dj-live').onclick = () => status('Live input: ' + dj.playLive()); } }
+// cantina additive glows in ONE draw: Clay's cove fan + the teleport ring + the booth's fake fixtures (wash cone, 2 deck spots). Per-vertex 'fix' picks a uniform colour.
+const coveFan = cantina.getObjectByName('cantina-cove-glow'), _cm = [0, 0, 0], uCove = new THREE.Vector3(1, 1, 1);
+if (coveFan) { const fg = coveFan.geometry.index ? coveFan.geometry.toNonIndexed() : coveFan.geometry.clone(); dj.group.updateMatrix();
+  const cgeo = dj.fixtures.geometry.clone().applyMatrix4(dj.group.matrix), nF = fg.attributes.position.count, nC = cgeo.attributes.position.count;
+  const pos = new Float32Array((nF + nC) * 3), col = new Float32Array((nF + nC) * 3), fix = new Float32Array(nF + nC);
+  pos.set(fg.attributes.position.array, 0); pos.set(cgeo.attributes.position.array, nF * 3); col.set(fg.attributes.color.array, 0); fix.fill(3, 0, nF);
+  for (let i = 0; i < nC; i++) { const f = cgeo.attributes.fade.array[i]; col.set([f, f, f], (nF + i) * 3); fix[nF + i] = cgeo.attributes.fix.array[i]; }
+  const g2 = new THREE.BufferGeometry(); g2.setAttribute('position', new THREE.BufferAttribute(pos, 3)); g2.setAttribute('color', new THREE.BufferAttribute(col, 3)); g2.setAttribute('fix', new THREE.BufferAttribute(fix, 1));
+  const uCol = { value: [...dj.fixtures.material.uniforms.uCol.value, uCove] }; // the dj's 3 fixture colours (live references) + the cove tint
+  const glow = new THREE.Mesh(g2, new THREE.ShaderMaterial({ uniforms: { uCol }, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide, forceSinglePass: true,
+    vertexShader: 'attribute float fix; attribute vec3 color; uniform vec3 uCol[4]; varying vec3 vC; void main(){ int i=int(fix+0.5); vec3 c = i==0?uCol[0]:(i==1?uCol[1]:(i==2?uCol[2]:uCol[3])); vC = color*c; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }',
+    fragmentShader: 'varying vec3 vC; void main(){ gl_FragColor = vec4(vC, 1.); }' }));
+  glow.name = 'cantina-glow+fixtures'; glow.renderOrder = 2; glow.userData.noMerge = true; cantina.add(glow); coveFan.visible = false; coveFan.userData.noMerge = true; dj.fixtures.userData.merged = true; dj.fixtures.visible = false; }
+function tintCantinaCove() { const m = dj.coveMean(_cm); if (!m) { uCove.set(1, 1, 1); return; } const mx = Math.max(1e-3, ...m); uCove.set(m[0] / mx, m[1] / mx, m[2] / mx).multiplyScalar(0.35 + 1.6 * mx); } // approximate: multiplies the fan's teal gradient
+if (Q.has('guestbook')) setTimeout(() => gb.openModal(), 600);
+function placeOnBar() { // drop the book onto the real bar-top height once Clay's pieces are in (downward ray)
+  if (!cantSets.full) return; const r = new THREE.Raycaster(cantina.localToWorld(new THREE.Vector3(2.02, 2, 4.35)), new THREE.Vector3(0, -1, 0)); r.far = 1.5;
+  const h = r.intersectObject(cantSets.full, true)[0]; if (h) gb.mesh.position.y = cantina.worldToLocal(h.point.clone()).y + 0.002; bookRoot?.position.copy(gb.mesh.position); }
+const _pw = new THREE.Vector3();
+function playerWorld() { const c = renderer.xr.isPresenting ? renderer.xr.getCamera() : camera; return _pw.setFromMatrixPosition(c.matrixWorld); }
+let botLast = performance.now();
+function updateBartender() { const now = performance.now(); const dt = bot.fixedDt ?? Math.min(0.1, (now - botLast) / 1000); botLast = now; // always ticked (cheap maths) so it re-arms after the player leaves; it only renders when the cantina is visible
+  bot.update(dt, roomNow.startsWith('cantina') ? playerWorld() : null); dj.update(dt); rigged?.syncBook(); tintCantinaCove(); dj.audio.setRoomGain(musicGain(playerWorld())); }
+// D1: Dex's music is the cantina's. Walking distance from the cantina doorway (5.15, 12): passage leg B (+X), leg A (+Z), then the hall door (3.05, 10.5).
+// gain = exp(-d / 0.9): ~0.19 at the passage turn (1.5 m), ~0.02 at the hall door (3.6 m), < 0.01 a metre into the hall.
+function musicGain(p) { const [dx, dz] = CANTINA.origin, [tx, tz] = PASSAGE.turn; let d;
+  if (p.x >= dx - 0.05) d = 0; else if (p.x >= tx + PASSAGE.w / 2 && Math.abs(p.z - tz) < PASSAGE.w) d = dx - p.x; else if (p.z > HALL.z1) d = (dx - tx) + Math.max(0, tz - p.z);
+  else d = (dx - tx) + (tz - HALL.z1) + Math.hypot(p.x - DOOR.x, p.z - HALL.z1);
+  return d <= 0 ? 1 : Math.max(0, Math.exp(-d / 0.9)); }
+
+// ---------- builds: grab / force pull (VR), click-to-inspect (desktop/phone). Local only: never written to the shared state. ----------
+const GRAB = { held: null, hl: null, hlCtl: null, boxes: new Map(), inspectRot: new THREE.Quaternion(), light: null };
+GRAB.hl = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(1, 1, 1)), new THREE.LineBasicMaterial({ color: 0x7ff0e2, transparent: true, opacity: 0.9, toneMapped: false }));
+GRAB.hl.visible = false; GRAB.hl.userData.noMerge = true; scene.add(GRAB.hl);
+if (!/OculusBrowser|Quest|Pico/i.test(navigator.userAgent)) { GRAB.light = new THREE.PointLight(0xfff0dc, 0, 2.5, 1.5); scene.add(GRAB.light); } // desktop/phone inspect key light (intensity 0 until used)
+const _bb = new THREE.Box3(), _v = new THREE.Vector3(), _q = new THREE.Quaternion(), _q2 = new THREE.Quaternion(), _s = new THREE.Vector3(), _mm = new THREE.Matrix4(), _ray2 = new THREE.Raycaster();
+function buildBox(b) { if (GRAB.held?.b === b) return null; let bx = GRAB.boxes.get(b); if (!bx) { b.holder.updateMatrixWorld(true); bx = new THREE.Box3().setFromObject(b.holder); if (bx.isEmpty()) return null; GRAB.boxes.set(b, bx); } return bx; }
+function pickBuild(ray, far = 8) { let best = null, bd = far; if (!hall.visible) return null;
+  for (const b of buildHolders) { const bx = buildBox(b); if (!bx) continue; const p = ray.intersectBox(bx, _v); if (p) { const d = p.distanceTo(ray.origin); if (d < bd) { bd = d; best = b; } } } return best ? { b: best, d: bd } : null; }
+function nearBuild(p, r = 0.25) { let best = null, bd = r; for (const b of buildHolders) { const bx = buildBox(b); if (!bx) continue; const d = bx.distanceToPoint(p); if (d < bd) { bd = d; best = b; } } return best; }
+function setSlotHidden(b, hide) { // merged (low/XR): hide that build's vertex range in its batch and show its own meshes; desktop: nothing merged
+  b.holder.traverse(o => { const ms = mergeSlots.get(o); if (!ms) return; const pa = ms.batch.geometry.attributes.position, a = pa.array, i0 = ms.start * 3, i1 = (ms.start + ms.count) * 3;
+    if (hide) { ms.saved ||= a.slice(i0, i1); a.fill(0, i0, i1); } else if (ms.saved) { a.set(ms.saved, i0); ms.saved = null; }
+    pa.needsUpdate = true; });
+  if (hide) { const px = heldCopy(b); if (px) px.visible = true; } else if (b.proxy) b.proxy.visible = false; }
+function heldCopy(b) { // one-draw unmerged copy of a merged build (vertex colours like the batch), built on first grab
+  if (b.proxy) return b.proxy; const h = b.holder; h.updateMatrixWorld(true); const inv = new THREE.Matrix4().copy(h.matrixWorld).invert(), gs = []; let side = 0;
+  h.traverse(o => { if (!mergeSlots.has(o)) return; let g = o.geometry.index ? o.geometry.toNonIndexed() : o.geometry.clone(); const c = new THREE.Color().copy(o.material.color || new THREE.Color(1, 1, 1)); side = Math.max(side, o.material.side);
+    const keep = new THREE.BufferGeometry(); keep.setAttribute('position', g.attributes.position); if (g.attributes.normal) keep.setAttribute('normal', g.attributes.normal); else { keep.computeVertexNormals(); }
+    const n = keep.attributes.position.count, col = new Float32Array(n * 3); for (let i = 0; i < n; i++) col.set([c.r, c.g, c.b], i * 3); keep.setAttribute('color', new THREE.BufferAttribute(col, 3));
+    keep.applyMatrix4(_mm.multiplyMatrices(inv, o.matrixWorld)); gs.push(keep); });
+  if (!gs.length) return null; const m = new THREE.Mesh(mergeGeometries(gs), new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.55, metalness: 0.15, side }));
+  m.userData.noMerge = true; m.visible = false; m.frustumCulled = false; h.add(m); return (b.proxy = m); }
+function startHold(b, mode, ctl) { if (GRAB.held) return; const h = b.holder; b.home = { parent: h.parent, pos: h.position.clone(), quat: h.quaternion.clone(), scale: h.scale.clone() };
+  setSlotHidden(b, true); scene.attach(h); GRAB.held = { b, mode, ctl, phase: 'pull', t: 0, from: { pos: h.position.clone(), quat: h.quaternion.clone() }, dur: mode === 'grip-near' ? 0.18 : 0.6, grabOff: null };
+  GRAB.inspectRot.identity(); GRAB.hl.visible = false; if (ctl) ctl.userData.claim = true; if (mode === 'inspect') { GRAB.ctlWas = controls.enabled; controls.enabled = false; if (GRAB.light) GRAB.light.intensity = 2.2; } }
+function releaseHold() { const H = GRAB.held; if (!H || H.phase === 'return') return; H.phase = 'return'; H.t = 0; H.from = { pos: H.b.holder.position.clone(), quat: H.b.holder.quaternion.clone() }; }
+function endHold() { const H = GRAB.held; const b = H.b, h = b.holder; b.home.parent.add(h); h.position.copy(b.home.pos); h.quaternion.copy(b.home.quat); h.scale.copy(b.home.scale); // exact shelf slot
+  setSlotHidden(b, false); if (H.ctl) H.ctl.userData.claim = false; if (H.mode === 'inspect') { controls.enabled = GRAB.ctlWas; if (GRAB.light) GRAB.light.intensity = 0; } GRAB.boxes.delete(b); GRAB.held = null; }
+function holdTarget(H, outPos, outQuat) { // where the held build wants to be this frame
+  if (H.mode === 'inspect') { camera.updateMatrixWorld(); const f = _v.set(0, 0, -1).applyQuaternion(camera.quaternion); outPos.copy(camera.position).addScaledVector(f, 0.75); outPos.y -= 0.05;
+    outQuat.copy(camera.quaternion).multiply(_q2.setFromAxisAngle(_s.set(0, 1, 0), Math.PI)).multiply(GRAB.inspectRot); if (GRAB.light) GRAB.light.position.copy(camera.position).addScaledVector(f, 0.3).add(_s.set(0.25, 0.3, 0)); return; }
+  const c = H.ctl; c.updateMatrixWorld(); if (H.mode === 'grip-near' && H.grabOff) { _mm.multiplyMatrices(c.matrixWorld, H.grabOff); _mm.decompose(outPos, outQuat, _s); if (H.phase === 'held') clampHeld(outPos); return; }
+  outPos.set(0, 0, -0.14).applyMatrix4(c.matrixWorld); c.getWorldQuaternion(outQuat); clampHeld(outPos); }
+// X2: a held build (VR) stays out of the walls and the tall builds shelf: its centre keeps >= 0.2 m from a wall / 0.15 m from the shelf.
+// If the hand target is inside, the build stops at the last free point on the line from the head to the hand (binary search).
+const HELD_TALL = [[BW.x0, BW.x1, BW.z - BW.depth, BW.z]], _hh = new THREE.Vector3();
+const heldFree = (x, z) => WALK_RECTS.some(([x0, x1, z0, z1]) => x >= x0 - 0.05 && x <= x1 + 0.05 && z >= z0 - 0.05 && z <= z1 + 0.05) && !HELD_TALL.some(([x0, x1, z0, z1]) => x > x0 - 0.15 && x < x1 + 0.15 && z > z0 - 0.15 && z < z1 + 0.15);
+function clampHeld(p) { if (heldFree(p.x, p.z)) return false; const xc = renderer.xr.isPresenting ? renderer.xr.getCamera() : camera; _hh.setFromMatrixPosition(xc.matrixWorld); if (!heldFree(_hh.x, _hh.z)) return false;
+  let lo = 0, hi = 1; for (let i = 0; i < 12; i++) { const m = (lo + hi) / 2; if (heldFree(_hh.x + (p.x - _hh.x) * m, _hh.z + (p.z - _hh.z) * m)) lo = m; else hi = m; }
+  p.x = _hh.x + (p.x - _hh.x) * lo; p.z = _hh.z + (p.z - _hh.z) * lo; return true; }
+const _tp = new THREE.Vector3(), _tq = new THREE.Quaternion();
+function updateHold(dt) { const H = GRAB.held; if (!H) return; const h = H.b.holder; H.t += dt;
+  if (H.phase === 'pull') { holdTarget(H, _tp, _tq); const u = Math.min(1, H.t / H.dur), e = u * u * (3 - 2 * u);
+    h.position.lerpVectors(H.from.pos, _tp, e); h.position.y += Math.sin(u * Math.PI) * (H.dur > 0.3 ? 0.08 : 0); // slight float
+    h.quaternion.slerpQuaternions(H.from.quat, _tq, e); if (H.dur > 0.3) h.quaternion.multiply(_q.setFromAxisAngle(_s.set(0, 1, 0), (1 - e) * Math.PI * 2)); // spin in
+    if (u >= 1) { H.phase = 'held'; if (H.mode === 'grip-near') { H.ctl.updateMatrixWorld(); H.grabOff = new THREE.Matrix4().copy(H.ctl.matrixWorld).invert().multiply(h.matrixWorld.clone().compose(h.position, h.quaternion, h.scale)); } } }
+  else if (H.phase === 'held') { holdTarget(H, _tp, _tq); h.position.lerp(_tp, 1 - Math.exp(-dt * 20)); h.quaternion.slerp(_tq, 1 - Math.exp(-dt * 20)); }
+  else if (H.phase === 'return') { const b = H.b, hp = b.home.parent; hp.updateMatrixWorld(); _mm.compose(b.home.pos, b.home.quat, b.home.scale).premultiply(hp.matrixWorld); _mm.decompose(_tp, _tq, _s);
+    const u = Math.min(1, H.t / 0.8), e = u * u * (3 - 2 * u); h.position.lerpVectors(H.from.pos, _tp, e); h.position.y += Math.sin(u * Math.PI) * 0.06; h.quaternion.slerpQuaternions(H.from.quat, _tq, e); if (u >= 1) endHold(); } }
+// VR: grip near = grab; point + trigger (or grip) = force pull; release = float back. Pointing highlights the build (1 line box, hides the other ray).
+function xrGrab(dt) { if (!renderer.xr.isPresenting) { if (GRAB.held && GRAB.held.mode !== 'inspect') endHold(); GRAB.hl.visible = false; return; }
+  let hlSet = false;
+  for (const c of xrCtl) { const gp = c.userData.src?.gamepad; if (!gp) continue; const trig = !!gp.buttons[0]?.pressed, grip = !!gp.buttons[1]?.pressed, pt = c.userData.prevT, pg = c.userData.prevG; c.userData.prevT = trig; c.userData.prevG = grip;
+    const H = GRAB.held;
+    if (H && H.ctl === c) { const btn = H.btn === 'grip' ? grip : trig; if (!btn) { releaseHold(); c.userData.claim = trig; } continue; }
+    if (!trig && c.userData.claim && !(H && H.ctl === c)) c.userData.claim = false; // trigger released after a guestbook/build click
+    _m4.identity().extractRotation(c.matrixWorld); _ray2.ray.origin.setFromMatrixPosition(c.matrixWorld); _ray2.ray.direction.set(0, 0, -1).applyMatrix4(_m4);
+    const pick = H ? null : pickBuild(_ray2.ray), near = H ? null : nearBuild(_ray2.ray.origin);
+    if (pick && !hlSet) { const bx = buildBox(pick.b); bx.getCenter(GRAB.hl.position); bx.getSize(GRAB.hl.scale).multiplyScalar(1.06); GRAB.hlCtl = c; hlSet = true; const ln = ctlRay(c); if (ln) { ln.scale.z = pick.d; ln.material.color.set(0x7ff0e2); c.userData.tint = true; } }
+    if ((pick || near) && trig && !pt) c.userData.claim = true; // trigger started on a build: not a teleport
+    if (!pick && c.userData.tint) { c.userData.tint = false; const ln = ctlRay(c); if (ln && XRM.aim?.c !== c) { ln.scale.z = 3; ln.material.color.set(0xffffff); } }
+    if (!H && grip && !pg && near) { startHold(near, 'grip-near', c); GRAB.held.btn = 'grip'; continue; }
+    if (!H && ((trig && !pt) || (grip && !pg)) && pick) { startHold(pick.b, 'pull', c); GRAB.held.btn = trig && !pt ? 'trigger' : 'grip'; continue; } }
+  GRAB.hl.visible = hlSet && !GRAB.held; if (!hlSet) GRAB.hlCtl = null; }
+// XR select on the guestbook toggles its read view
+for (const c of xrCtl) c.addEventListener('selectstart', () => { if (!renderer.xr.isPresenting || !cantina.visible) return; _m4.identity().extractRotation(c.matrixWorld); _ray2.ray.origin.setFromMatrixPosition(c.matrixWorld); _ray2.ray.direction.set(0, 0, -1).applyMatrix4(_m4);
+  const hit = _ray2.intersectObjects([gb.mesh, gb.readView.mesh, ...dj.pickables], false)[0]; if (!hit) return; c.userData.claim = true; if (dj.onSelect(hit.object, true)) return; if (hit.distance > 3.5 && !gb.readView.mesh.visible) return; /* read view opens within 3.5 m of the book (keeps the door view in budget) */ gb.readView.mesh.visible = !gb.readView.mesh.visible; if (gb.readView.mesh.visible) gb.refresh(); });
+// desktop / phone: tap the guestbook -> modal; tap a build -> inspect; drag rotates it; tap away / Esc returns it
+const tapD = { id: null, x: 0, y: 0, t: 0, rot: false };
+const inspecting = () => GRAB.held?.mode === 'inspect' && GRAB.held.phase !== 'return'; // a build flying back to its slot no longer eats taps
+addEventListener('pointerdown', e => { if (e.target !== renderer.domElement || renderer.xr.isPresenting) return; Object.assign(tapD, { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now(), lx: e.clientX, ly: e.clientY });
+  if (inspecting()) { e.stopPropagation(); } }, true);
+addEventListener('pointermove', e => { if (e.pointerId !== tapD.id || !inspecting()) return; const dx = e.clientX - tapD.lx, dy = e.clientY - tapD.ly; tapD.lx = e.clientX; tapD.ly = e.clientY;
+  GRAB.inspectRot.premultiply(_q.setFromAxisAngle(_s.set(0, 1, 0), dx * 0.01)).premultiply(_q2.setFromAxisAngle(_s.set(1, 0, 0), dy * 0.01)); e.stopPropagation(); }, true);
+/* pointerup is never stopped (OrbitControls must see it or it stays in 'rotate'); consumed taps are flagged for the walk handler instead */
+addEventListener('pointerup', e => { if (e.pointerId !== tapD.id) return; tapD.id = null; const tap = Math.hypot(e.clientX - tapD.x, e.clientY - tapD.y) < 10 && performance.now() - tapD.t < 900;
+  if (inspecting()) { e.__ffConsumed = true; if (tap) { _ray2.setFromCamera(new THREE.Vector2(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1), camera);
+      const hb = GRAB.held.b.holder; if (!_ray2.intersectObject(hb, true).some(h => { for (let o = h.object; o && o !== hb.parent; o = o.parent) if (!o.visible) return false; return true; })) releaseHold(); } return; } // T1: tap off the build's meshes releases (the bbox covered most of a phone screen)
+  if (!tap || gb.modalOpen || dj.requestOpen) return; _ray2.setFromCamera(new THREE.Vector2(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1), camera);
+  if (cantina.visible) { const dh = _ray2.intersectObjects(dj.pickables, false)[0], bh = _ray2.intersectObject(gb.mesh, false)[0];
+    if (dh && (!bh || dh.distance < bh.distance)) { e.__ffConsumed = true; dj.onSelect(dh.object, false); return; } if (bh) { e.__ffConsumed = true; gb.openModal(); return; } }
+  const pk = pickBuild(_ray2.ray, 12); if (pk) { e.__ffConsumed = true; startHold(pk.b, 'inspect', null); } }, true);
+addEventListener('keydown', e => { if (e.key === 'Escape' && GRAB.held?.mode === 'inspect') releaseHold(); });
 function setWalk(on) { walk.on = on; joy.style.display = on && IS_TOUCH && !renderer.xr.isPresenting ? 'block' : 'none'; controls.enabled = !on && !look.on; if (on) { walk.syncFromCamera(); showHint(); } }
 renderer.xr.addEventListener('sessionstart', () => { joy.style.display = 'none'; walk.joy = [0, 0]; walk.goal = null; });
 
@@ -794,7 +980,7 @@ function writeStatus() { overlay.status(`N=${N} px · cove ${P.toFixed(2)} m · 
 
 window.LOFT = { scene, renderer, rig, camera, controls, setLow: on => setLow(on), get lodObjs() { return lodObjs; }, rooms: { hall, passage, cantina }, get room() { return roomNow; }, get ledStrip() { return ledStrip; }, N, perimeter: P, U, store, api, setView, spawns: SPAWNS, groupSpots: GROUP_SPOTS, MAX_USERS, net,
   get lowNow() { return lowNow; }, get reliefSize() { return reliefSize; }, get drawCalls() { return drawCalls; }, layout: { HALL, VEST, COVE, BW, GATHER, PIT, WINDOW, NOOK, PLINTHS } };
-applyPreset('dusk'); setView('hall'); setWalk(walk.on); if (!walk.on) walk.syncFromCamera(); window.LOFT.walk = walk; window.LOFT.walkable = walkable; window.LOFT.xrm = { XRM, tpMarker, vignette, xrCtl, nearestFree, comfort: comfortApi };
+applyPreset('dusk'); setView('hall'); setWalk(walk.on); if (!walk.on) walk.syncFromCamera(); window.LOFT.walk = walk; window.LOFT.gb = gb; window.LOFT.bot = bot; window.LOFT.dj = dj; window.LOFT.robots = robotsMesh; window.LOFT.grab = { GRAB, buildHolders, startHold, releaseHold, pickBuild, mergeSlots, clampHeld }; window.LOFT.musicGain = musicGain; window.LOFT.walkable = walkable; window.LOFT.xrm = { XRM, tpMarker, vignette, xrCtl, nearestFree, comfort: comfortApi };
 
 // P2: the TV iframe is a plain fixed-position element warped onto the screen's projected corners (matrix3d homography), so it sits above the canvas
 // only over the screen rect and receives clicks (CSS3DRenderer's perspective tree did not hit-test). Hidden in XR (no DOM) -> atlas snapshot shows.
@@ -818,7 +1004,7 @@ window.LOFT.tv = { url: TV.url, get frame() { return tvCss?.element; } };
 // ---------- loop ----------
 const avg = new Float32Array(3); let frame = 0;
 renderer.setAnimationLoop(() => {
-  const t = clock.getElapsedTime(); walkUpdate(); xrLocomotion(); applyLook();
+  const t = clock.getElapsedTime(); walkUpdate(); { const nowG = performance.now(), dtG = Math.min(0.1, (nowG - (GRAB.last ?? nowG)) / 1000); GRAB.last = nowG; xrGrab(dtG); updateHold(dtG); } xrLocomotion(); updateBartender(); applyLook();
   if (!renderer.xr.isPresenting && !look.on && !walk.on) controls.update();
   engineRender(t);
   const d = tex.image.data, step = N / TW; avg.fill(0); let wn = 0; const i0 = Math.floor(U.window[0] * N), i1 = Math.floor(U.window[1] * N);

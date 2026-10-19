@@ -10,6 +10,7 @@ import { buildPassage, buildCantina, uOwlLift } from './cantina.js';
 import { createGuestbook, LocalGuestbookStore } from './guestbook.js';
 import { createRobotBatch, createBartender } from './bartender.js';
 import { createDJBooth } from './dj.js';
+import { createPortal } from './portal.js';
 import { loadRigged } from './rigged.js';
 import { createDexSet, dexTargetsFromJoints, DEX_TARGETS } from './dex-set.js';
 import { DJ_CONFIG } from './dj-config.js';
@@ -198,6 +199,7 @@ for (const seg of [120, 48]) { const gs = [];
 // ---------- passage + cantina (separate groups for room culling) ----------
 const passage = buildPassage(THREE, mergeGeometries, M); scene.add(passage);
 const cant = buildCantina(THREE, mergeGeometries, M); const cantina = cant.group; scene.add(cantina);
+const portal = createPortal(THREE, mergeGeometries, { go: leaveVia }); cantina.add(portal.mesh, portal.pick); // teleporter to Land Yacht Hangar (portal.js)
 const ROOMS = [hall, passage, cantina];
 let roomNow = 'hall', cullOverride = null; // 'all' for plan view
 const _cp = new THREE.Vector3(), _cd = new THREE.Vector3();
@@ -805,7 +807,7 @@ function snapTurn(h, a) { rig.updateMatrixWorld(true); _hl.copy(h).applyMatrix4(
 function aimTarget(c) { _m4.identity().extractRotation(c.matrixWorld); _rr.ray.origin.setFromMatrixPosition(c.matrixWorld); _rr.ray.direction.set(0, 0, -1).applyMatrix4(_m4); _rr.far = 12;
   const ph = xrPanel.group.visible ? _rr.intersectObject(xrPanel.group, true)[0] : null; const fh = _rr.intersectObjects(getFloors(), false).filter(h => h.face && h.face.normal.y > 0.5)[0];
   if (!fh || (ph && ph.distance < fh.distance)) return { ok: false, dist: ph ? ph.distance : 3, panel: !!ph };
-  { const pb = pickBuild(_rr.ray, fh.distance), gh = cantina.visible ? _rr.intersectObjects([gb.mesh, ...dj.pickables], false)[0] : null; // no teleport while aiming at a build or the guestbook
+  { const pb = pickBuild(_rr.ray, fh.distance), gh = cantina.visible ? _rr.intersectObjects([gb.mesh, ...dj.pickables, portal.pick], false)[0] : null; // no teleport while aiming at a build or the guestbook
     if (pb || (gh && gh.distance < fh.distance)) return { ok: false, dist: pb ? pb.d : gh.distance, panel: true }; }
   let x = fh.point.x, z = fh.point.z; const spot = GROUP_SPOTS.find(g => Math.hypot(g.x - x, g.z - z) < 0.45); if (spot) { x = spot.x; z = spot.z; } // snap to a group-spot ring
   return { ok: walkable(x, z), x, z, y: floorAt(x, z), dist: fh.distance }; }
@@ -926,7 +928,20 @@ function placeOnBar() { // drop the book onto the real bar-top height once Clay'
 const _pw = new THREE.Vector3();
 function playerWorld() { const c = renderer.xr.isPresenting ? renderer.xr.getCamera() : camera; return _pw.setFromMatrixPosition(c.matrixWorld); }
 let botLast = performance.now();
+// ---- teleporter to Land Yacht Hangar: dwell HUD + fade on desktop / phone; in XR the session ends first, then the page navigates ----
+const _pl = new THREE.Vector3();
+const pHud = document.createElement('div'), pFade = document.createElement('div'); pHud.id = 'portal-hud'; pFade.id = 'portal-fade';
+pHud.style.cssText = 'position:fixed;left:50%;bottom:24%;transform:translateX(-50%);padding:8px 16px;border-radius:18px;background:rgba(28,16,36,.88);color:#ffd1e6;border:1px solid #ff7fb6;font:600 15px system-ui,sans-serif;pointer-events:none;opacity:0;transition:opacity .2s;z-index:30;white-space:nowrap';
+pFade.style.cssText = 'position:fixed;inset:0;background:#ffe3f0;pointer-events:none;opacity:0;transition:opacity .45s;z-index:29';
+document.body.append(pFade, pHud);
+let pHudTxt = '';
+function portalHud(c) { const leaving = portal.state.leaving, txt = leaving ? 'Teleporting to Land Yacht Hangar\u2026' : c > 0.02 ? 'Hold still \u2014 teleporting to Land Yacht Hangar' : '';
+  if (txt !== pHudTxt) { pHudTxt = txt; pHud.textContent = txt; pHud.style.opacity = txt && !renderer.xr.isPresenting ? 1 : 0; } pFade.style.opacity = leaving ? 1 : 0; }
+function leaveVia(url) { const s = renderer.xr.getSession(), nav = () => location.assign(url); portalHud(1);
+  if (s) s.end().catch(() => {}).finally(() => setTimeout(nav, 60)); else setTimeout(nav, 480); }
+addEventListener('pageshow', e => { if (e.persisted) { portal.reset(); portalHud(0); } }); // back button from the hangar: stay put until you step off the pad
 function updateBartender() { const now = performance.now(); const dt = bot.fixedDt ?? Math.min(0.1, (now - botLast) / 1000); botLast = now; // always ticked (cheap maths) so it re-arms after the player leaves; it only renders when the cantina is visible
+  portalHud(portal.update(dt, now / 1000, roomNow === 'cantina' ? cantina.worldToLocal(_pl.copy(playerWorld())) : null));
   bot.update(dt, roomNow.startsWith('cantina') ? playerWorld() : null); dj.update(dt); rigged?.syncBook(); tintCantinaCove(); dj.audio.setRoomGain(musicGain(playerWorld())); }
 // D1: Dex's music is the cantina's. Walking distance from the cantina doorway (5.15, 12): passage leg B (+X), leg A (+Z), then the hall door (3.05, 10.5).
 // gain = exp(-d / 0.9): ~0.19 at the passage turn (1.5 m), ~0.02 at the hall door (3.6 m), < 0.01 a metre into the hall.
@@ -1002,7 +1017,8 @@ function xrGrab(dt) { if (!renderer.xr.isPresenting) { if (GRAB.held && GRAB.hel
   GRAB.hl.visible = hlSet && !GRAB.held; if (!hlSet) GRAB.hlCtl = null; }
 // XR select on the guestbook toggles its read view
 for (const c of xrCtl) c.addEventListener('selectstart', () => { if (!renderer.xr.isPresenting || !cantina.visible) return; _m4.identity().extractRotation(c.matrixWorld); _ray2.ray.origin.setFromMatrixPosition(c.matrixWorld); _ray2.ray.direction.set(0, 0, -1).applyMatrix4(_m4);
-  const hit = _ray2.intersectObjects([gb.mesh, gb.readView.mesh, ...dj.pickables], false)[0]; if (!hit) return; c.userData.claim = true; if (dj.onSelect(hit.object, true)) return; if (hit.distance > 3.5 && !gb.readView.mesh.visible) return; /* read view opens within 3.5 m of the book (keeps the door view in budget) */ if (gb.readView.next()) gb.refresh(); }); // closed -> notes -> music credits -> closed
+  const hit = _ray2.intersectObjects([gb.mesh, gb.readView.mesh, ...dj.pickables, portal.pick], false)[0]; if (!hit) return; c.userData.claim = true;
+  if (hit.object === portal.pick) { if (roomNow === 'cantina' && hit.distance < 8) portal.jump(); return; } /* trigger on the teleporter arch */ if (dj.onSelect(hit.object, true)) return; if (hit.distance > 3.5 && !gb.readView.mesh.visible) return; /* read view opens within 3.5 m of the book (keeps the door view in budget) */ if (gb.readView.next()) gb.refresh(); }); // closed -> notes -> music credits -> closed
 // desktop / phone: tap the guestbook -> modal; tap a build -> inspect; drag rotates it; tap away / Esc returns it
 const tapD = { id: null, x: 0, y: 0, t: 0, rot: false };
 const inspecting = () => GRAB.held?.mode === 'inspect' && GRAB.held.phase !== 'return'; // a build flying back to its slot no longer eats taps
@@ -1016,6 +1032,8 @@ addEventListener('pointerup', e => { if (e.pointerId !== tapD.id) return; tapD.i
       const hb = GRAB.held.b.holder; if (!_ray2.intersectObject(hb, true).some(h => { for (let o = h.object; o && o !== hb.parent; o = o.parent) if (!o.visible) return false; return true; })) releaseHold(); } return; } // T1: tap off the build's meshes releases (the bbox covered most of a phone screen)
   if (!tap || gb.modalOpen || dj.requestOpen) return; _ray2.setFromCamera(new THREE.Vector2(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1), camera);
   if (cantina.visible) { const dh = _ray2.intersectObjects(dj.pickables, false)[0], bh = _ray2.intersectObject(gb.mesh, false)[0];
+    const ph = roomNow === 'cantina' ? _ray2.intersectObject(portal.pick, false)[0] : null; // tap the teleporter arch / sign -> Land Yacht Hangar
+    if (ph && (!dh || ph.distance < dh.distance) && (!bh || ph.distance < bh.distance)) { e.__ffConsumed = true; portal.jump(); return; }
     if (dh && (!bh || dh.distance < bh.distance)) { e.__ffConsumed = true; dj.onSelect(dh.object, false); return; } if (bh) { e.__ffConsumed = true; gb.openModal(); return; } }
   const pk = pickBuild(_ray2.ray, 12); if (pk) { e.__ffConsumed = true; startHold(pk.b, 'inspect', null); } }, true);
 addEventListener('keydown', e => { if (e.key === 'Escape' && GRAB.held?.mode === 'inspect') releaseHold(); });

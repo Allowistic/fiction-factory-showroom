@@ -1,6 +1,7 @@
 // Cantina + dogleg passage (Mira SHOWROOM_SPEC cantina section). Procedural shell; Clay's pieces load from builds-opt when present.
 import { DOOR, PASSAGE, CANTINA, HALL } from './layout.js';
 import { PAL, vcBuilder } from './props.js';
+import { portalFrame } from './portal.js';
 
 // Owl Cove Tiki Nest room light. Scoped to the cantina group: its lights only render while the cantina is visible,
 // and the hall is never visible at the same time (cull()), so the hall is unchanged. No point lights here: the booth's
@@ -95,6 +96,7 @@ export function buildCantina(THREE, merge, M, opts = {}) {
     walls.push(wallQuad(THREE, a[0], a[1], b[0], b[1], 0, H - 0.6)); }
   grp.add(new THREE.Mesh(merge(walls), M.cwall));
   airlock(THREE, B, spand, 0, 0, 0); grp.add(new THREE.Mesh(merge(spand), M.cwall));
+  portalFrame(THREE, B); // teleporter arch to Land Yacht Hangar, left of the door (portal.js); rides the merged solid/glow draws
   // floor + ribbed hull: walls stop at 2.6 m, hull ribs arch up to 3.2 m; dark ceiling skin follows a 3-facet vault
   const shape = new THREE.Shape(P.map(([x, z]) => new THREE.Vector2(x, -z)));
   const fl = new THREE.ShapeGeometry(shape).rotateX(-Math.PI / 2); { const p = fl.attributes.position, uv = fl.attributes.uv; for (let i = 0; i < p.count; i++) uv.setXY(i, p.getX(i) / 1.2, p.getZ(i) / 1.2); }

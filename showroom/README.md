@@ -68,6 +68,15 @@ u-values on the cove strip (index 0 = entry corner (4,1.5), clockwise):
 - **VR:** point at the book and pull the trigger, within 3.5 m, to toggle a floating read view (+1 draw while open). The read view shows a "Sign on your phone or computer" URL.
 - **Storage:** `GuestbookStore` interface (`guestbook.js`). `LocalGuestbookStore` keeps notes in `localStorage['ff-guestbook']` with a 20 s soft rate limit. It is labelled "Local preview: notes are only saved on this device." `RemoteGuestbookStore({listUrl, addUrl, format:'json'|'csv'})` is a stub for a real backend.
 
+## Teleporter to Land Yacht Hangar (2026-10-19)
+
+- A brass arch with pink seal lights on the cantina's entry wall, left of the door as you walk in (between the door and the bar end), with a "LAND YACHT HANGAR" sign and a glowing floor pad. The arch shows a moving window onto the hangar's dunes: pink dusk, two moons, three dune layers sliding at different speeds.
+- **Where it goes:** `PORTAL.url` in `portal.js`, currently https://cd8522d0ff60.cookiejar.lol/ (Land Yacht Hangar's live Cookiejar site). Position, size, pad radius and dwell time are in the same object.
+- **Desktop/phone:** stand on the pad for 1.5 s (the ring fills and a "Hold still" chip shows), or click/tap the arch or sign to go straight away. Stepping off cancels. The screen fades, then the page navigates.
+- **VR:** step or teleport onto the pad and hold for 1.5 s, or point at the arch and pull the trigger (within 8 m). The VR session ends first, then the page navigates; press Enter VR again on the hangar. Aiming at the arch never starts a floor teleport.
+- **Back button:** if the browser restores the page with you on the pad, it waits until you step off before it re-arms.
+- **Cost:** the frame rides the cantina's merged solid/glow draws; window + sign + pad are one ShaderMaterial mesh (+1 draw, cantina only, never merged). The pick proxy is an invisible box.
+
 ## Robot bartender (2026-10-17)
 
 - `bartender.js` → `createRobotBatch()`: ONE SkinnedMesh with one shared material and rigid skinning. It holds the bartender (brass/teal), Dex (graphite/copper/violet with headphones), the DJ counter, decks, platters and the crossfader, plus the guestbook. Each robot has its own root bone. No shadows.

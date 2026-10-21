@@ -11,6 +11,7 @@ import { createGuestbook, LocalGuestbookStore } from './guestbook.js';
 import { createRobotBatch, createBartender } from './bartender.js';
 import { createDJBooth } from './dj.js';
 import { createPortal } from './portal.js';
+import { BEAM } from './beam.js';
 import { loadRigged } from './rigged.js';
 import { DJ_CONFIG } from './dj-config.js';
 import { createState } from './state.js';
@@ -198,7 +199,7 @@ for (const seg of [120, 48]) { const gs = [];
 // ---------- passage + cantina (separate groups for room culling) ----------
 const passage = buildPassage(THREE, mergeGeometries, M); scene.add(passage);
 const cant = buildCantina(THREE, mergeGeometries, M); const cantina = cant.group; scene.add(cantina);
-const portal = createPortal(THREE, mergeGeometries, { go: leaveVia }); cantina.add(portal.mesh, portal.pick); // teleporter to Land Yacht Hangar (portal.js)
+const portal = createPortal(THREE, mergeGeometries, { go: leaveVia, isXR: () => renderer.xr.isPresenting }); cantina.add(portal.mesh, portal.pick, portal.beam.mesh); // teleporter to Land Yacht Hangar (portal.js) + transporter beam (beam.js)
 const ROOMS = [hall, passage, cantina];
 let roomNow = 'hall', cullOverride = null; // 'all' for plan view
 const _cp = new THREE.Vector3(), _cd = new THREE.Vector3();
@@ -878,13 +879,17 @@ let botLast = performance.now();
 const _pl = new THREE.Vector3();
 const pHud = document.createElement('div'), pFade = document.createElement('div'); pHud.id = 'portal-hud'; pFade.id = 'portal-fade';
 pHud.style.cssText = 'position:fixed;left:50%;bottom:24%;transform:translateX(-50%);padding:8px 16px;border-radius:18px;background:rgba(28,16,36,.88);color:#ffd1e6;border:1px solid #ff7fb6;font:600 15px system-ui,sans-serif;pointer-events:none;opacity:0;transition:opacity .2s;z-index:30;white-space:nowrap';
-pFade.style.cssText = 'position:fixed;inset:0;background:#ffe3f0;pointer-events:none;opacity:0;transition:opacity .45s;z-index:29';
+pFade.style.cssText = 'position:fixed;inset:0;background:' + (portal.beam.on ? BEAM.fadeColor : '#ffe3f0') + ';pointer-events:none;opacity:0;transition:opacity ' + (portal.beam.on ? BEAM.fade : 0.45) + 's;z-index:29';
 document.body.append(pFade, pHud);
 let pHudTxt = '';
-function portalHud(c) { const leaving = portal.state.leaving, txt = leaving ? 'Teleporting to Land Yacht Hangar\u2026' : c > 0.02 ? 'Hold still \u2014 teleporting to Land Yacht Hangar' : '';
-  if (txt !== pHudTxt) { pHudTxt = txt; pHud.textContent = txt; pHud.style.opacity = txt && !renderer.xr.isPresenting ? 1 : 0; } pFade.style.opacity = leaving ? 1 : 0; }
-function leaveVia(url) { const s = renderer.xr.getSession(), nav = () => location.assign(url); portalHud(1);
-  if (s) s.end().catch(() => {}).finally(() => setTimeout(nav, 60)); else setTimeout(nav, 480); }
+function portalHud(c) { const leaving = portal.state.leaving, txt = leaving ? (portal.beam.on ? 'Energizing \u2014 beaming to Land Yacht Hangar\u2026' : 'Teleporting to Land Yacht Hangar\u2026') : c > 0.02 ? 'Hold still \u2014 teleporting to Land Yacht Hangar' : '';
+  if (txt !== pHudTxt) { pHudTxt = txt; pHud.textContent = txt; pHud.style.opacity = txt && !renderer.xr.isPresenting ? 1 : 0; } pFade.style.opacity = leaving && portal.state.fading ? 1 : 0; }
+// wait = seconds of transporter beam-out (portal.js / beam.js); 0 when the beam is off. In XR the beam plays around you, then the session ends.
+function leaveVia(url, wait = 0) { const s = renderer.xr.getSession(), nav = () => location.assign(url); portalHud(1);
+  if (s) setTimeout(() => s.end().catch(() => {}).finally(() => setTimeout(nav, 60)), wait * 1000); else setTimeout(nav, Math.max(480, wait * 1000)); }
+// the beam's sound needs a user gesture once (any tap / click / key / VR trigger unlocks it; the tap on the arch itself counts)
+for (const ev of ['pointerup', 'keydown', 'touchend']) addEventListener(ev, () => portal.unlock(), { passive: true });
+for (const c of xrCtl) c.addEventListener('selectstart', () => portal.unlock());
 addEventListener('pageshow', e => { if (e.persisted) { portal.reset(); portalHud(0); } }); // back button from the hangar: stay put until you step off the pad
 function updateBartender() { const now = performance.now(); const dt = bot.fixedDt ?? Math.min(0.1, (now - botLast) / 1000); botLast = now; // always ticked (cheap maths) so it re-arms after the player leaves; it only renders when the cantina is visible
   portalHud(portal.update(dt, now / 1000, roomNow === 'cantina' ? cantina.worldToLocal(_pl.copy(playerWorld())) : null));
@@ -998,7 +1003,7 @@ function writeStatus() { overlay.status(`N=${N} px · cove ${P.toFixed(2)} m · 
 
 window.LOFT = { scene, renderer, rig, camera, controls, setLow: on => setLow(on), get lodObjs() { return lodObjs; }, rooms: { hall, passage, cantina }, get room() { return roomNow; }, get ledStrip() { return ledStrip; }, N, perimeter: P, U, store, api, setView, spawns: SPAWNS, groupSpots: GROUP_SPOTS, MAX_USERS, net,
   get lowNow() { return lowNow; }, get reliefSize() { return reliefSize; }, get drawCalls() { return drawCalls; }, layout: { HALL, VEST, COVE, BW, GATHER, PIT, WINDOW, NOOK, PLINTHS } };
-applyPreset('dusk'); setView('hall'); setWalk(walk.on); if (!walk.on) walk.syncFromCamera(); window.LOFT.walk = walk; window.LOFT.gb = gb; window.LOFT.bot = bot; window.LOFT.dj = dj; window.LOFT.robots = robotsMesh; window.LOFT.grab = { GRAB, buildHolders, startHold, releaseHold, pickBuild, mergeSlots, clampHeld }; window.LOFT.musicGain = musicGain; window.LOFT.walkable = walkable; window.LOFT.xrm = { XRM, tpMarker, vignette, xrCtl, nearestFree, comfort: comfortApi };
+applyPreset('dusk'); setView('hall'); setWalk(walk.on); if (!walk.on) walk.syncFromCamera(); window.LOFT.walk = walk; window.LOFT.gb = gb; window.LOFT.bot = bot; window.LOFT.dj = dj; window.LOFT.robots = robotsMesh; window.LOFT.grab = { GRAB, buildHolders, startHold, releaseHold, pickBuild, mergeSlots, clampHeld }; window.LOFT.musicGain = musicGain; window.LOFT.portal = portal; window.LOFT.walkable = walkable; window.LOFT.xrm = { XRM, tpMarker, vignette, xrCtl, nearestFree, comfort: comfortApi };
 
 // P2: the TV iframe is a plain fixed-position element warped onto the screen's projected corners (matrix3d homography), so it sits above the canvas
 // only over the screen rect and receives clicks (CSS3DRenderer's perspective tree did not hit-test). Hidden in XR (no DOM) -> atlas snapshot shows.

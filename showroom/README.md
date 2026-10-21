@@ -93,6 +93,7 @@ Nova's direction: a classic segmented spectrum styled like a 70s hi-fi LED meter
 - **VR:** step or teleport onto the pad and hold for 1.5 s, or point at the arch and pull the trigger (within 8 m). The VR session ends first, then the page navigates; press Enter VR again on the hangar. Aiming at the arch never starts a floor teleport.
 - **Back button:** if the browser restores the page with you on the pad, it waits until you step off before it re-arms.
 - **Cost:** the frame rides the cantina's merged solid/glow draws; window + sign + pad are one ShaderMaterial mesh (+1 draw, cantina only, never merged). The pick proxy is an invisible box.
+- **Transporter beam QA:** open performance and behaviour checks for the beam (`beam.js`) are in `QA_TELEPORTER_BEAM.md`, addressed to Penny. Not yet measured on a GPU or a Quest.
 
 ## Robot bartender (2026-10-17)
 

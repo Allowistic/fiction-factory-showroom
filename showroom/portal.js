@@ -4,6 +4,7 @@
 // Costs: the brass frame + pink seal lights ride in the cantina's merged solid/glow draws (0 draws); the window, the sign and the floor pad
 // are ONE ShaderMaterial mesh (+1 draw, cantina only, never merged). An invisible box is the pick proxy (arch + sign).
 import { PAL } from './props.js';
+import { BEAM, createBeam, createBeamSound } from './beam.js'; // transporter beam-out (beam.js): +1 draw only while it is lit
 
 export const PORTAL = {
   url: 'https://cd8522d0ff60.cookiejar.lol/', // Land Yacht Hangar (Cookiejar, the approved live build)
@@ -64,8 +65,9 @@ void main() {
 
 function withKind(THREE, g, k) { g = g.index ? g.toNonIndexed() : g; const n = g.attributes.position.count; g.setAttribute('kind', new THREE.BufferAttribute(new Float32Array(n).fill(k), 1)); if (g.attributes.normal) g.deleteAttribute('normal'); return g; }
 
-// the live part: window + sign + pad (1 draw), pick proxy, dwell logic. `go(url)` is called once when the jump starts.
-export function createPortal(THREE, merge, { go }) {
+// the live part: window + sign + pad (1 draw), pick proxy, dwell logic, transporter beam (beam.js).
+// `go(url, wait)` is called once when the jump starts; leave after `wait` seconds (the beam-out; 0 when the beam is off). isXR() picks the VR timing.
+export function createPortal(THREE, merge, { go, isXR = () => false }) {
   const { x, w, h, pad, r } = PORTAL, rr = w / 2, spring = h - rr;
   const sh = new THREE.Shape(); sh.moveTo(-rr, 0); sh.lineTo(rr, 0); sh.lineTo(rr, spring); sh.absarc(0, spring, rr, 0, Math.PI, false); sh.lineTo(-rr, 0);
   const win = new THREE.ShapeGeometry(sh, 16); { const p = win.attributes.position, uv = win.attributes.uv; for (let i = 0; i < p.count; i++) uv.setXY(i, (p.getX(i) + rr) / w, p.getY(i) / h); }
@@ -78,17 +80,25 @@ export function createPortal(THREE, merge, { go }) {
   mesh.name = 'portal-land-yacht'; mesh.renderOrder = 2; mesh.userData.noMerge = true;
   const pick = new THREE.Mesh(new THREE.BoxGeometry(w + 0.3, h + 0.55, 0.3).translate(x, (h + 0.55) / 2, 0.15), new THREE.MeshBasicMaterial());
   pick.visible = false; pick.name = 'portal-pick'; pick.userData.noMerge = true;
-  const st = { charge: 0, armed: true, leaving: false };
-  function jump() { if (st.leaving) return; st.leaving = true; st.armed = false; st.charge = 1; mat.uniforms.uCharge.value = 1; go(PORTAL.url); }
+  const beam = createBeam(THREE), sound = createBeamSound(); beam.setAt(pad[0], pad[1]);
+  const st = { charge: 0, armed: true, leaving: false, leaveT: 0, energize: 0, from: 0, fading: false };
+  function jump() { if (st.leaving) return; st.leaving = true; st.armed = false; st.charge = 1; mat.uniforms.uCharge.value = 1;
+    st.leaveT = 0; st.t0 = performance.now(); st.from = beam.level; st.energize = beam.on ? (isXR() ? BEAM.xrEnergize : BEAM.energize) : 0; st.fading = !beam.on;
+    go(PORTAL.url + (beam.on && BEAM.arrive ? '#beamin' : ''), st.energize); }
   // p = player position in cantina-local metres (x, z) or null when not in the cantina; dt in seconds. Returns charge 0..1.
+  // Beam: shimmers up to BEAM.charge on the pad while the ring fills; on the jump it centres on the player (a tap from across the room
+  // beams you from where you stand), rises to full over most of the beam-out, and the screen whites out for the last BEAM.fade seconds.
   function update(dt, t, p) {
-    mat.uniforms.uTime.value = t; if (st.leaving) return 1;
+    mat.uniforms.uTime.value = t; beam.tick(t);
+    if (st.leaving) { st.leaveT = (performance.now() - st.t0) / 1000; if (p) beam.setAt(p.x, p.z);
+      const e = st.energize, u = e > 0 ? Math.min(1, st.leaveT / (e * 0.7)) : 1; sound.set(beam.set(st.from + (1 - st.from) * u * u * (3 - 2 * u)));
+      st.fading = st.leaveT >= e - (isXR() ? 0 : BEAM.fade); return 1; }
     const d = p ? Math.hypot(p.x - pad[0], p.z - pad[1]) : Infinity;
     if (!st.armed) { if (d > r + PORTAL.rearm) st.armed = true; st.charge = 0; }
     else if (d < r) { st.charge = Math.min(1, st.charge + dt / PORTAL.dwell); if (st.charge >= 1) jump(); }
     else st.charge = Math.max(0, st.charge - dt * 2);
-    mat.uniforms.uCharge.value = st.charge; return st.charge;
+    mat.uniforms.uCharge.value = st.charge; if (!st.leaving) { beam.setAt(pad[0], pad[1]); sound.set(beam.set(st.charge * BEAM.charge)); } return st.charge;
   }
-  function reset() { st.leaving = false; st.armed = false; st.charge = 0; mat.uniforms.uCharge.value = 0; } // back button / bfcache: wait until the player steps off
-  return { mesh, pick, update, jump, reset, state: st, url: PORTAL.url };
+  function reset() { st.leaving = false; st.armed = false; st.charge = 0; st.leaveT = 0; st.fading = false; mat.uniforms.uCharge.value = 0; beam.set(0); sound.set(0); } // back button / bfcache: wait until the player steps off
+  return { mesh, pick, beam, sound, unlock: sound.unlock, update, jump, reset, state: st, url: PORTAL.url };
 }

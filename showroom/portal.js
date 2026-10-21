@@ -7,7 +7,7 @@ import { PAL } from './props.js';
 import { BEAM, createBeam, createBeamSound } from './beam.js'; // transporter beam-out (beam.js): +1 draw only while it is lit
 
 export const PORTAL = {
-  url: 'https://cd8522d0ff60.cookiejar.lol/', // Land Yacht Hangar (Cookiejar, the approved live build)
+  url: '../hangar/', // Land Yacht Hangar, hosted in this repo under /hangar/
   label: 'LAND YACHT HANGAR', sub: 'step on the pad or tap the arch',
   x: 1.95, w: 0.9, h: 2.0,        // arch on the entry wall (z = 0): centre x, opening width / height
   pad: [1.95, 0.6], r: 0.42,      // floor pad centre (cantina-local x, z) and trigger radius

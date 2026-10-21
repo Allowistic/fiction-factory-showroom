@@ -12,7 +12,7 @@ def bar():
         a=-A+2*A*(i+0.5)/9; arc(R,a-0.005,a+0.005,1,R-0.07,R-0.03,0.15,0.98,'brass')
     arc(R,-A,A,20,R+0.1,R+0.13,0.2,0.23,'brass')
     arc(R,-A,A,20,R-0.075,R-0.06,0.10,0.12,('cantina_glow_amber',AMBER,3))
-    arc(R,-A,A,20,R+0.02,R+0.03,1.0,1.012,('cantina_glow_teal',TEAL,2.5))  # teal rim on bar front lip
+    arc(R,-A,A,20,R+0.02,R+0.03,1.0,1.012,('cantina_glow_edge_amber',(0.806952,0.351533,0.068478),2.633))  # amber (#e8a04a) rim on bar front lip (was teal; Jules, Oct 18)
 def backbar():
     box((0,0,0.45),(3.2,0.45,0.9),'walnut'); box((0,0.02,0.92),(3.3,0.5,0.04),'brass')
     box((0,0.22,1.65),(3.2,0.06,1.4),'walnut')

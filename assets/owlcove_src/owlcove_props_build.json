@@ -1,0 +1,62 @@
+{
+ "sign": {
+  "tris": 6212,
+  "tris_lod1": 2626,
+  "bytes": 340440,
+  "bytes_lod1": 327348,
+  "draws_glb": 2,
+  "materials": [
+   "owlcove_neon_amber",
+   "owlcove_props_atlas"
+  ],
+  "nonmanifold_edges": {
+   "lod0": 0,
+   "lod1": 0
+  },
+  "bbox_gltf_m": {
+   "x": [
+    -0.81,
+    0.81
+   ],
+   "y_up": [
+    0.0,
+    0.741
+   ],
+   "z_fwd": [
+    -0.097,
+    0.036
+   ]
+  },
+  "standoffs": 41
+ },
+ "lantern": {
+  "tris": 1776,
+  "tris_lod1": 1232,
+  "bytes": 328844,
+  "bytes_lod1": 326060,
+  "draws_glb": 2,
+  "materials": [
+   "owlcove_glow_amber",
+   "owlcove_props_atlas"
+  ],
+  "nonmanifold_edges": {
+   "lod0": 0,
+   "lod1": 0
+  },
+  "bbox_gltf_m": {
+   "x": [
+    -0.198,
+    0.204
+   ],
+   "y_up": [
+    -0.771,
+    0.0
+   ],
+   "z_fwd": [
+    -0.194,
+    0.202
+   ]
+  },
+  "spikes": 38
+ }
+}

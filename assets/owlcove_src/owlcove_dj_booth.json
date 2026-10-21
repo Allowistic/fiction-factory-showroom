@@ -1,0 +1,75 @@
+{
+ "file": "owlcove_dj_booth.glb",
+ "lod1": "owlcove_dj_booth_lod1.glb",
+ "tris": 7508,
+ "tris_lod1": 2896,
+ "bytes": 272088,
+ "bytes_lod1": 252588,
+ "draws": 4,
+ "materials": [
+  "owlcove_dj_booth_atlas",
+  "owlcove_dj_screen",
+  "owlcove_glow_amber",
+  "owlcove_glow_indigo"
+ ],
+ "joints": {
+  "booth": {
+   "pos_gltf": [
+    0.0,
+    0.0,
+    -0.0
+   ]
+  },
+  "platterA": {
+   "pos_gltf": [
+    -0.48,
+    1.07,
+    0.02
+   ]
+  },
+  "platterB": {
+   "pos_gltf": [
+    0.48,
+    1.07,
+    0.02
+   ]
+  },
+  "xfader": {
+   "pos_gltf": [
+    0.0,
+    1.075,
+    0.15
+   ]
+  }
+ },
+ "nonmanifold_edges": {
+  "lod0": 0,
+  "lod1": 0
+ },
+ "screen": {
+  "node": "dj-screen",
+  "material": "owlcove_dj_screen",
+  "arc_centre_booth_local": [
+   0,
+   0.6
+  ],
+  "radius_m": 1.4,
+  "arc_deg": 100.0,
+  "arc_length_m": 2.443,
+  "height_m": 0.9000000000000001,
+  "y_range": [
+   1.3,
+   2.2
+  ],
+  "apex_z": -0.8,
+  "aspect_along_surface": 2.715,
+  "segments": 32,
+  "faces": "concave side toward the crowd (+z)",
+  "uv": "u 0..1 left->right along the arc as the crowd sees it (u=0 at x=-1.072), v 0..1 bottom->top",
+  "placeholder": "owlcove_dj_screen_placeholder.jpg"
+ },
+ "deck_yaw_deg": {
+  "A": 15.95,
+  "B": -15.95
+ }
+}

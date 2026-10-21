@@ -1,0 +1,22 @@
+{
+  "id": "hope_relief",
+  "out": "/workspace/loft-xr/assets/builds/hope_relief.glb",
+  "target_tris": 32000,
+  "orient": "flat_face",
+  "name": "HOPE Relief Sign",
+  "description": "HOPE skull-and-antlers relief sign (v4.8.7 release), 36\u00d734 in",
+  "source": "/workspace/hope/clay/HOPE_relief_v4_8p7_release.stl",
+  "parts": [
+    {
+      "path": "/workspace/hope/clay/HOPE_relief_v4_8p7_release.stl",
+      "name": "Relief",
+      "color": [
+        0.93,
+        0.9,
+        0.82
+      ],
+      "roughness": 0.7
+    }
+  ],
+  "stl_unit_mm": 25.4
+}

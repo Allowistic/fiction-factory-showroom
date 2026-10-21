@@ -1,0 +1,21 @@
+{
+  "id": "bini_fillet_clipped",
+  "out": "/workspace/loft-xr/assets/builds/bini_fillet_clipped.glb",
+  "target_tris": 4000,
+  "orient": "as_is",
+  "name": "Bini Corner Fillet",
+  "description": "Marcos Bini corner cove fillet, clipped solid, square ends",
+  "source": "/workspace/campbell-creek/bini-fillets/v3_clipped/bini_fillet_B_clip_onend.stl",
+  "parts": [
+    {
+      "path": "/workspace/campbell-creek/bini-fillets/v3_clipped/bini_fillet_B_clip_onend.stl",
+      "name": "Fillet",
+      "color": [
+        0.95,
+        0.95,
+        0.94
+      ],
+      "roughness": 0.7
+    }
+  ]
+}

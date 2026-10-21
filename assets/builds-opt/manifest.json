@@ -371,11 +371,12 @@
    "placement": {
     "frame": "cantina-local glTF (door origin, +Z into room)",
     "pos": [
-     3.6,
+     -3.6,
      0,
      2.0
     ],
-    "rot_y_deg": 0
+    "rot_y_deg": 0,
+    "note": "Moved off the Owl Cove bandshell (was Clay +3.6, inside the shell). Clay -3.6 is showroom +3.6, behind the door end of the bar."
    }
   },
   {
@@ -1463,5 +1464,397 @@
    "v4_changes": "screen centre raised 0.10 m (2.08 -> 2.18), brass pipe posts/elbows extended to match; joints unchanged. At 7 m (eye 1.6) Dex headphone top 1.73 m vs frame bottom 1.80 m: 0.071 m gap, ~9 px clear in cantina_review_booth_dex_7m.png"
   }
  ],
- "rigged_note": "Animated cantina characters/props (skinned, rigid weights, identity rest rotations; joint names = ROBOT_MANIFEST). Kept out of builds[]/skipped[] so the loft shelf and the static cantina merge do not pick them up. v3: Quinn FIX list (reach, closed shells, smooth bands, Tapper head 1.3x) + Nova Dex column/collar; review renders cantina_review_*.png, cantina_robot_bartender_review_bar_*.png, cantina_robots_lod1_silhouettes.png."
+ "rigged_note": "Animated cantina characters/props (skinned, rigid weights, identity rest rotations; joint names = ROBOT_MANIFEST). Kept out of builds[]/skipped[] so the loft shelf and the static cantina merge do not pick them up. v3: Quinn FIX list (reach, closed shells, smooth bands, Tapper head 1.3x) + Nova Dex column/collar; review renders cantina_review_*.png, cantina_robot_bartender_review_bar_*.png, cantina_robots_lod1_silhouettes.png.",
+ "owlcove": [
+  {
+   "file": "owlcove_neon_sign.glb",
+   "lod1": "owlcove_neon_sign_lod1.glb",
+   "name": "Owl Cove neon sign: \"Owl Cove.\" single-stroke script + NIGHT OWLS monoline caps, amber tube, charred-wood backer, 41 standoffs, one wire run, brass drop rods to the vault, owl-eye mark in the C",
+   "scale": 1.0,
+   "dims_mm": {
+    "x": 1620,
+    "y": 741,
+    "z": 133
+   },
+   "tris": 6212,
+   "tris_lod1": 2626,
+   "bytes": 292868,
+   "bytes_lod1": 279776,
+   "draws": 2,
+   "materials": [
+    "owlcove_neon_amber",
+    "owlcove_props_atlas"
+   ],
+   "unlit_baked": true,
+   "room": "cantina",
+   "method": "procedural (Hershey single-stroke fonts) + CC0 PBR bake",
+   "date": "2026-10-18T11:34:44-07:00",
+   "origin": "bottom centre of the backer; the rods reach 0.741 m up (vault height at the bar wall = 2.79 m)",
+   "tubes": "one mesh (owlcove_neon_tubes, material owlcove_neon_amber, untextured emissive); glow halo baked into the flat backer card in owlcove_props_atlas",
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     -3.25,
+     2.05,
+     4.3
+    ],
+    "rot_y_deg": 90
+   },
+   "note": "Behind the bar, above the back-bar shelf (top 2.53), centred on it, 0.23 m in front of the back bar; bottom 2.05 clears Tapper's head (1.97). Shares owlcove_props_atlas with the lantern."
+  },
+  {
+   "file": "owlcove_lantern.glb",
+   "lod1": "owlcove_lantern_lod1.glb",
+   "name": "Owl Cove lantern: rattan pufferfish-style globe, 38 spikes, brass cap/canopy, warm amber glow (baked)",
+   "scale": 1.0,
+   "dims_mm": {
+    "x": 402,
+    "y": 771,
+    "z": 396
+   },
+   "tris": 1776,
+   "tris_lod1": 1232,
+   "bytes": 281272,
+   "bytes_lod1": 278488,
+   "draws": 2,
+   "materials": [
+    "owlcove_glow_amber",
+    "owlcove_props_atlas"
+   ],
+   "unlit_baked": true,
+   "room": "cantina",
+   "method": "procedural + CC0 PBR bake (ambientCG Wicker002)",
+   "date": "2026-10-18T11:34:44-07:00",
+   "origin": "ceiling attach point (top of canopy); hangs 0.771 m",
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     -2.02,
+     3.01,
+     3.0
+    ],
+    "rot_y_deg": 0
+   },
+   "instances": [
+    {
+     "pos": [
+      -2.02,
+      3.01,
+      1.8
+     ],
+     "rot_y_deg": 0
+    },
+    {
+     "pos": [
+      -2.02,
+      3.01,
+      3.0
+     ],
+     "rot_y_deg": 25
+    },
+    {
+     "pos": [
+      -2.02,
+      3.01,
+      4.2
+     ],
+     "rot_y_deg": 50
+    }
+   ],
+   "note": "One model, instanced 3x over the bar; each hangs from a hull rib (z 1.8 / 3.0 / 4.2, rib underside ~3.01). Globe spans y 2.24-2.60, above standing head height. If the loader ignores instances[], add two more entries with these positions."
+  },
+  {
+   "file": "owlcove_dj_booth.glb",
+   "lod1": "owlcove_dj_booth_lod1.glb",
+   "tris": 6320,
+   "tris_lod1": 2836,
+   "bytes": 264916,
+   "bytes_lod1": 256184,
+   "draws": 4,
+   "materials": [
+    "owlcove_dj_booth_atlas",
+    "owlcove_dj_screen",
+    "owlcove_glow_amber",
+    "owlcove_glow_indigo"
+   ],
+   "joints": {
+    "booth": {
+     "pos_gltf": [
+      0.0,
+      0.0,
+      -0.0
+     ]
+    },
+    "platterA": {
+     "pos_gltf": [
+      -0.48,
+      1.07,
+      0.02
+     ]
+    },
+    "platterB": {
+     "pos_gltf": [
+      0.48,
+      1.07,
+      0.02
+     ]
+    },
+    "xfader": {
+     "pos_gltf": [
+      0.0,
+      1.075,
+      0.15
+     ]
+    }
+   },
+   "nonmanifold_edges": {
+    "lod0": 0,
+    "lod1": 0
+   },
+   "screen": {
+    "node": "dj-screen",
+    "material": "owlcove_dj_screen",
+    "arc_centre_booth_local": [
+     0,
+     0.6
+    ],
+    "radius_m": 1.4,
+    "arc_deg": 100.0,
+    "arc_length_m": 2.443,
+    "height_m": 0.9000000000000001,
+    "y_range": [
+     1.3,
+     2.2
+    ],
+    "apex_z": -0.8,
+    "aspect_along_surface": 2.715,
+    "segments": 32,
+    "faces": "concave side toward the crowd (+z)",
+    "uv": "u 0..1 left->right along the arc as the crowd sees it (u=0 at x=-1.072), v 0..1 bottom->top",
+    "placeholder": "owlcove_dj_screen_placeholder.jpg"
+   },
+   "deck_yaw_deg": {
+    "A": 15.95,
+    "B": -15.95
+   },
+   "name": "Owl Cove bandshell DJ booth: concave walnut/rattan counter with brass edge band, curved 100-deg walnut bandshell with indigo cove strip, curved dj-screen, reused decks + mixer (A at -X = crowd's left), Dex riser, request plaque, amber kick light",
+   "scale": 1.0,
+   "room": "cantina_rigged",
+   "unlit_baked": true,
+   "skinned": true,
+   "date": "2026-10-18T11:34:44-07:00",
+   "method": "procedural + CC0 PBR bake",
+   "pivots": {
+    "root": "booth",
+    "platters": [
+     "platterA",
+     "platterB"
+    ],
+    "crossfader": "xfader"
+   },
+   "positions_file": "owlcove_booth_positions.json",
+   "placement": {
+    "frame": "cantina-local glTF (door origin, +Z into room)",
+    "pos": [
+     3.0,
+     0,
+     1.2
+    ],
+    "rot_y_deg": -90,
+    "showroom_cantina_local": {
+     "pos": [
+      -3.0,
+      0,
+      1.2
+     ],
+     "rotation_y_deg": 90
+    },
+    "note": "Moved from (3.1, 0, 1.15): the 2.2 m bandshell does not fit there (0.3 cm at the door chamfer). At (3.0, 1.2): 0 mesh overlaps; 4.6 cm to the corner seating, 6.3 cm to the door wall, 15 cm to the back wall."
+   },
+   "dex": {
+    "pos_booth_local": [
+     0,
+     0.25,
+     -0.45
+    ],
+    "reach": "yes: same platter/xfader positions as the cantina booth, so dex_ik.py gives identical poses (fingertip error <= 0.4 mm)",
+    "poses": {
+     "note": "targets: inner rim point of each platter on its z=0.02 centreline (x = +-0.328) (platter centre (+-0.48,1.07,0.02), r 0.152) and the xfader cap top (0,1.086,0.15); torso (0.04,0,0)",
+     "torso": [
+      0.04,
+      0,
+      0
+     ],
+     "hands_on_decks": {
+      "R": {
+       "arm": [
+        0.1224,
+        0.2846,
+        -1.0205
+       ],
+       "fore": [
+        -1.6223,
+        0,
+        0
+       ],
+       "tip": [
+        -0.328,
+        1.1014,
+        0.02
+       ],
+       "err_mm": 0.4,
+       "elbow": [
+        -0.476,
+        1.148,
+        -0.392
+       ]
+      },
+      "L": {
+       "arm": [
+        0.1224,
+        -0.2846,
+        1.0205
+       ],
+       "fore": [
+        -1.6223,
+        0,
+        0
+       ],
+       "tip": [
+        0.328,
+        1.1014,
+        0.02
+       ],
+       "err_mm": 0.4,
+       "elbow": [
+        0.476,
+        1.148,
+        -0.392
+       ]
+      }
+     },
+     "scratch_R": {
+      "R_fwd": {
+       "arm": [
+        0.0482,
+        0.3847,
+        -1.0201
+       ],
+       "fore": [
+        -1.4827,
+        0,
+        0
+       ],
+       "tip": [
+        -0.328,
+        1.1014,
+        0.0551
+       ],
+       "err_mm": 0.4,
+       "elbow": [
+        -0.468,
+        1.15,
+        -0.359
+       ]
+      },
+      "R_back": {
+       "arm": [
+        0.1956,
+        0.1847,
+        -1.0051
+       ],
+       "fore": [
+        -1.7529,
+        0,
+        0
+       ],
+       "tip": [
+        -0.328,
+        1.1014,
+        -0.015
+       ],
+       "err_mm": 0.4,
+       "elbow": [
+        -0.479,
+        1.147,
+        -0.426
+       ]
+      },
+      "L_xfader": {
+       "arm": [
+        -0.4966,
+        0.4196,
+        -0.7982
+       ],
+       "fore": [
+        -0.7456,
+        0,
+        0
+       ],
+       "tip": [
+        -0.0,
+        1.1101,
+        0.15
+       ],
+       "err_mm": 0.1,
+       "elbow": [
+        0.08,
+        1.148,
+        -0.281
+       ]
+      },
+      "L_xfader_left": {
+       "arm": [
+        -0.6702,
+        0.3182,
+        -0.6948
+       ],
+       "fore": [
+        -0.604,
+        0,
+        0
+       ],
+       "tip": [
+        -0.04,
+        1.1101,
+        0.15
+       ],
+       "err_mm": 0.1,
+       "elbow": [
+        0.093,
+        1.147,
+        -0.268
+       ]
+      },
+      "L_xfader_right": {
+       "arm": [
+        -0.3988,
+        0.4699,
+        -0.8531
+       ],
+       "fore": [
+        -0.8514,
+        0,
+        0
+       ],
+       "tip": [
+        0.04,
+        1.1101,
+        0.15
+       ],
+       "err_mm": 0.1,
+       "elbow": [
+        0.075,
+        1.148,
+        -0.287
+       ]
+      }
+     }
+    }
+   },
+   "runtime": "Swap for cantina_dj_booth in rigged.js (KEY /dj_booth/ matches the first rigged[] entry): insert this entry ahead of cantina_dj_booth in rigged[] (or drop the old one). dj-config.js VISUALIZER.ASPECT -> 2.715 (arc length 2.443 m / 0.9 m). dj.js pick proxy dj-decks (0, 1.06, 0.02) and dj-request (0.55, 0.62, 0.3) still match (the plaque is now turned to the counter arc). showroom/dex-set.js DEX_TARGETS stay valid (identical platter/xfader numbers).",
+   "conflict": "cantina_prop_lights (floor lamp, Clay (3.6, 0, 2.0)) sits inside the new bandshell. Proposed move: Clay (-3.6, 0, 2.0) (behind the door end of the bar)."
+  }
+ ],
+ "owlcove_note": "Owl Cove Tiki Nest (Nova brief, Oct 17). Kept in its own array so nothing live changes until Jules swaps it in. Draw delta, merged as planned: 0. Sign + lantern use one atlas material (owlcove_props_atlas = +1 cell in the clay-atlas, 10 of 15 used) plus untextured emissives owlcove_neon_amber / owlcove_glow_amber (white cell, vertex colour), so they join the existing clay-atlas draw. The booth replaces cantina_dj_booth inside the rigged SkinnedMesh batch (its glows join the batch) and dj-screen stays the one screen draw. Room stays 24/25. Standalone (unmerged) cost for comparison: sign 2 + lantern 2 (instanced) + booth 0 (replaces the old booth's draws) = +4 -> 28/25. To go live: copy sign and lantern into skipped[] (room \"cantina\") and put the booth first in rigged[]. Teal only on the robots' eyes in these pieces (the existing cantina_bar teal edge strip and the old booth's teal kick light are outside this job). Previews: owlcove_preview.png, owlcove_neon_sign_preview_front_night.png, owlcove_neon_sign_preview_3q.png, owlcove_lantern_preview.png, owlcove_review_bar_night.png, owlcove_dj_booth_preview_{front,3q,top,dex_decks}.png. Old booth v3/v4 backed up in ../backup_booth_v3/."
 }

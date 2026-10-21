@@ -5,12 +5,13 @@ import { VRButton } from 'three/addons/webxr/VRButton.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { HALL, VEST, COVE, BUILDS_WALL as BW, GATHER, PIT, WINDOW, NOOK, PLINTHS, SPAWNS, GROUP_SPOTS, MAX_USERS, coveSegments, covePerimeter, DOOR, PASSAGE, CANTINA, toCantinaWorld } from './layout.js';
-import { buildPassage, buildCantina } from './cantina.js';
+import { HALL, VEST, COVE, BUILDS_WALL as BW, GATHER, PIT, WINDOW, NOOK, PLINTHS, SPAWNS, GROUP_SPOTS, MAX_USERS, coveSegments, covePerimeter, DOOR, PASSAGE, CANTINA, toCantinaWorld, roomLabel } from './layout.js';
+import { buildPassage, buildCantina, uOwlLift } from './cantina.js';
 import { createGuestbook, LocalGuestbookStore } from './guestbook.js';
 import { createRobotBatch, createBartender } from './bartender.js';
 import { createDJBooth } from './dj.js';
 import { loadRigged } from './rigged.js';
+import { createDexSet, dexTargetsFromJoints, DEX_TARGETS } from './dex-set.js';
 import { DJ_CONFIG } from './dj-config.js';
 import { createState } from './state.js';
 import { PAL, vcBuilder, hifi, loungeChair, sunburst, macrame, lavaLamp, x1c, prints, banquette } from './props.js';
@@ -408,7 +409,7 @@ const CANT_PLACE = [ // [regex on file, [x, y, z] cantina-local, ry]; first matc
   [/^cantina_stools/, [2.25 - 0.81, 0, 3.0], -Math.PI / 2], // Clay: bar transform + local z +0.81
   [/^cantina_booth/, [-2.45, 0, 3.0], Math.atan2(2.45, 3.3)], // opening (+Z) turned toward the ent center
   [/cargo_A_stacked/, [-3.35, 0, 1.0], 0.3], [/cargo_A/, [3.3, 0, 0.75], -0.2], [/containers_B/, [3.45, 0, 5.55], -Math.PI / 2],
-  [/containers_D/, [-3.4, 0, 5.4], 0], [/prop_lights/, [-3.55, 0, 1.9], 0],
+  [/containers_D/, [-3.4, 0, 5.4], 0], [/prop_lights/, [3.6, 0, 2.0], 0], // fallback only: showroom image of Clay (-3.6, 0, 2.0); manifest placement wins
   [/jar_A/, [2.3, 1.05, 2.0], 0], [/jar_C/, [2.3, 1.05, 3.9], 0], [/pot_large/, [2.3, 1.05, 4.4], -Math.PI / 2], [/menu/, [2.3, 1.05, 2.5], -Math.PI / 2], [/food/, [2.3, 1.05, 3.3], 0],
 ];
 const cantSets = { full: null, lod1: null }; let cantSig = '';
@@ -422,26 +423,50 @@ const tvImg = new Promise(res => { const im = new Image(); im.onload = () => res
 async function buildCantSet(entries, base, useLod) {
   const scenes = await Promise.all(entries.map(e => loadGLB(base + ((useLod && e.lod1) || e.file) + '?v=' + encodeURIComponent(e.date || e.bytes || ''))));
   const tmp = new THREE.Group(); cantina.add(tmp); tmp.updateMatrixWorld(true); let fallback = 0;
-  entries.forEach((e, i) => { const s = scenes[i]; if (!s) return; const P = CANT_PLACE.find(([re]) => re.test(e.file)); const w = new THREE.Group(); s.scale.setScalar(e.scale || 1); w.add(s);
-    const mp = e.placement && Array.isArray(e.placement.pos) ? e.placement : null; // Clay's manifest placement wins (door origin, +Z in); mirror X so the bar is on the LEFT
-    if (mp) { w.position.set(-mp.pos[0], mp.pos[1] || 0, mp.pos[2]); w.rotation.y = -THREE.MathUtils.degToRad(mp.rot_y_deg || 0); } // back bar: front +Z -> rot -90 faces -X, into the room
-    else if (P) { w.position.set(...P[1]); w.rotation.y = P[2]; } else { const k = fallback++; w.position.set(k % 2 ? -3.3 : 3.3, 0, 1.2 + (k >> 1) * 0.8); w.rotation.y = k % 2 ? Math.PI / 2 : -Math.PI / 2; }
-    w.userData.file = e.file; tmp.add(w); });
+  entries.forEach((e, i) => { const s = scenes[i]; if (!s) return; const P = CANT_PLACE.find(([re]) => re.test(e.file)); s.scale.setScalar(e.scale || 1);
+    const spots = Array.isArray(e.instances) && e.instances.length ? e.instances : [null]; // lantern: 3 manifest instances, one model (z 1.8/3.0/4.2, rot 0/25/50)
+    spots.forEach(spot => { const node = spots.length > 1 ? s.clone(true) : s; const w = new THREE.Group(); w.add(node);
+      const mp = (spot && Array.isArray(spot.pos) ? spot : null) || (e.placement && Array.isArray(e.placement.pos) ? e.placement : null); // Clay's manifest placement wins (door origin, +Z in); mirror X so the bar is on the LEFT
+      if (mp) { w.position.set(-mp.pos[0], mp.pos[1] || 0, mp.pos[2]); w.rotation.y = -THREE.MathUtils.degToRad(mp.rot_y_deg || 0); } // back bar / sign: front +Z -> rot -90 faces -X, into the room. Sign manifest (-3.25, 2.05, 4.3) rot 90
+      else if (P) { w.position.set(...P[1]); w.rotation.y = P[2]; } else { const k = fallback++; w.position.set(k % 2 ? -3.3 : 3.3, 0, 1.2 + (k >> 1) * 0.8); w.rotation.y = k % 2 ? Math.PI / 2 : -Math.PI / 2; }
+      w.userData.file = e.file; tmp.add(w); }); });
   tmp.updateMatrixWorld(true); const inv = new THREE.Matrix4().copy(tmp.matrixWorld).invert();
   const groups = new Map(); // material name -> { mat, geoms }
-  tmp.traverse(m => { if (!m.isMesh) return; for (const [gi, mat] of (Array.isArray(m.material) ? m.material : [m.material]).entries()) {
+  const barLip = []; const barLipCol = new THREE.Color('#e8a04a'); // cantina_bar atlas lip -> existing amber batch (lod0 and lod1 both build here)
+  tmp.traverse(m => { if (!m.isMesh) return; let file = ''; for (let p = m; p && p !== tmp; p = p.parent) if (p.userData.file) { file = p.userData.file; break; }
+    for (const [gi, mat] of (Array.isArray(m.material) ? m.material : [m.material]).entries()) {
+    // bar front edge only (node still named glow_teal; material cantina_glow_edge_*). Not the ent-center led_strip, not the hall.
+    if (/^cantina_bar/.test(file) && /glow_teal|glow_edge/i.test((m.name || '') + ' ' + (mat.name || ''))) { mat.color?.set('#e8a04a'); mat.emissive?.set('#e8a04a'); mat.map = mat.emissiveMap = null; mat.vertexColors = false; mat.userData.flatVc = 1; if (!Array.isArray(m.material)) m.geometry.deleteAttribute('color'); }
     let g = m.geometry.clone(); if (Array.isArray(m.material)) { const gr = g.groups[gi]; g = g.index ? g.toNonIndexed() : g; const s = gr ? gr.start : 0, c = gr ? gr.count : g.attributes.position.count; const ng = new THREE.BufferGeometry(); for (const [k, a] of Object.entries(g.attributes)) ng.setAttribute(k, new THREE.BufferAttribute(a.array.slice(s * a.itemSize, (s + c) * a.itemSize), a.itemSize)); g = ng; }
+    // Front lip is atlas texels, not a glow material: every UV u in [0.975, 1.0]. Split before the world matrix.
+    if (/^cantina_bar/.test(file) && g.attributes.position && g.attributes.uv) {
+      const src = g.index ? g.toNonIndexed() : g, pos = src.attributes.position, uv = src.attributes.uv, keepI = [], lipI = [];
+      for (let i = 0; i + 2 < pos.count; i += 3) { let lip = true; for (let k = 0; k < 3 && lip; k++) { const u = uv.getX(i + k); if (!(u >= 0.975 && u <= 1.0)) lip = false; } (lip ? lipI : keepI).push(i, i + 1, i + 2); }
+      if (lipI.length) { const pick = idx => { const ng = new THREE.BufferGeometry(); for (const [k, a] of Object.entries(src.attributes)) { const arr = new a.array.constructor(idx.length * a.itemSize); for (let j = 0; j < idx.length; j++) arr.set(a.array.subarray(idx[j] * a.itemSize, (idx[j] + 1) * a.itemSize), j * a.itemSize); ng.setAttribute(k, new THREE.BufferAttribute(arr, a.itemSize)); } return ng; };
+        const lipG = pick(lipI); lipG.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv, m.matrixWorld)); for (const k of Object.keys(lipG.attributes)) if (k !== 'position' && k !== 'normal') lipG.deleteAttribute(k); if (!lipG.attributes.normal) lipG.computeVertexNormals();
+        const ncol = lipG.attributes.position.count, cc = new Float32Array(ncol * 3); for (let i = 0; i < ncol; i++) { cc[i * 3] = barLipCol.r; cc[i * 3 + 1] = barLipCol.g; cc[i * 3 + 2] = barLipCol.b; } lipG.setAttribute('color', new THREE.BufferAttribute(cc, 3)); barLip.push(lipG);
+        if (!keepI.length) continue; g = pick(keepI); } }
     g.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv, m.matrixWorld)); if (g.index) g = g.toNonIndexed();
-    for (const k of Object.keys(g.attributes)) if (k !== 'position' && k !== 'uv') g.deleteAttribute(k);
+    const keepN = /owlcove_(neon|glow)_amber/.test(mat.name || ''); // amber stays a plain mesh (normals kept) so XR staticMerge can fold it
+    for (const k of Object.keys(g.attributes)) if (k !== 'position' && k !== 'uv' && !(keepN && k === 'normal')) g.deleteAttribute(k);
     if (!g.attributes.uv) g.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(g.attributes.position.count * 2), 2));
     const key = /led_strip/i.test(mat.name + ' ' + m.name) ? 'led_strip' : (mat.name || mat.uuid); if (!groups.has(key)) groups.set(key, { mat, geoms: [] }); groups.get(key).geoms.push(g); } });
   cantina.remove(tmp);
   const out = new THREE.Group(); out.name = useLod ? 'cantina-clay-lod1' : 'cantina-clay'; let tris = 0;
+  // owlcove_neon_amber + owlcove_glow_amber: one unlit mesh (vertex colour), not the tone-mapped clay atlas. Sign + lantern atlas share owlcove_props_atlas and stay in groups so they pack into clay-atlas.
+  const amberGeoms = [];
+  for (const [key, G] of [...groups]) if (/owlcove_(neon|glow)_amber/.test(key)) {
+    const src = (G.mat.emissive && G.mat.emissive.getHex()) ? G.mat.emissive : (G.mat.color || new THREE.Color(1, 0.52, 0.16));
+    const col = src.clone().multiplyScalar(G.mat.emissiveIntensity > 0 ? G.mat.emissiveIntensity : 1);
+    for (const g of G.geoms) { if (g.attributes.uv) g.deleteAttribute('uv'); if (!g.attributes.normal) g.computeVertexNormals(); const n = g.attributes.position.count, cc = new Float32Array(n * 3);
+      for (let i = 0; i < n; i++) { cc[i * 3] = col.r; cc[i * 3 + 1] = col.g; cc[i * 3 + 2] = col.b; } g.setAttribute('color', new THREE.BufferAttribute(cc, 3)); amberGeoms.push(g); }
+    groups.delete(key); }
+  if (barLip.length) amberGeoms.push(...barLip); // same unlit mesh, no extra draw
   // runtime atlas: every baked texture -> one 2048 canvas (4x4 grid of 512 cells, big maps get 2x2 blocks, one white cell for the untextured glows) => 1 draw (+ led_strip)
   for (const [, G] of groups) if (G.mat.map) { const t = G.mat.map; t.updateMatrix(); if (!t.matrix.equals(new THREE.Matrix3())) for (const g of G.geoms) { const uv = g.attributes.uv, v = new THREE.Vector2(); for (let i = 0; i < uv.count; i++) { v.fromBufferAttribute(uv, i).applyMatrix3(t.matrix); uv.setXY(i, v.x, v.y); } } } // bake KHR_texture_transform
   const inUnit = geoms => geoms.every(g => { const a = g.attributes.uv.array; for (let i = 0; i < a.length; i++) if (a[i] < -0.002 || a[i] > 1.002) return false; return true; });
   const texs = [], solo = [];
-  for (const [key, G] of groups) { if (key === 'led_strip') { solo.push([key, G]); continue; } if (G.mat.map && !inUnit(G.geoms)) { solo.push([key, G]); continue; } if (G.mat.map && !texs.includes(G.mat.map)) texs.push(G.mat.map); }
+  for (const [key, G] of groups) { if (key === 'led_strip') { solo.push([key, G]); continue; } if (G.mat.map && !inUnit(G.geoms)) { if (/owlcove_props_atlas/.test(key)) { for (const g of G.geoms) { const a = g.attributes.uv; for (let i = 0; i < a.count; i++) a.setXY(i, Math.min(1, Math.max(0, a.getX(i))), Math.min(1, Math.max(0, a.getY(i)))); } } else { solo.push([key, G]); continue; } } if (G.mat.map && !texs.includes(G.mat.map)) texs.push(G.mat.map); }
   const A = 2048, C = 512, free = Array(16).fill(true); free[15] = false; const slot = new Map(); // tex -> [x, y, w]
   texs.sort((p, q) => (q.image?.width || 0) - (p.image?.width || 0));
   texs.forEach((t, i) => { const left = texs.length - i - 1, nfree = free.filter(Boolean).length; let placed = false;
@@ -464,8 +489,11 @@ async function buildCantSet(entries, base, useLod) {
   for (const [key, { mat, geoms }] of solo) { const mg = geoms.length > 1 ? mergeGeometries(geoms) : geoms[0]; if (!mg) continue; tris += mg.attributes.position.count / 3;
     const col = mat.map ? new THREE.Color(1, 1, 1) : (mat.emissive && mat.emissive.getHex() ? mat.emissive.clone() : mat.color ? mat.color.clone() : new THREE.Color(1, 1, 1));
     const mesh = new THREE.Mesh(mg, new THREE.MeshBasicMaterial({ map: mat.map || null, color: col, side: mat.side })); mesh.name = key; out.add(mesh); }
+  if (amberGeoms.length) { let mg = null; try { mg = amberGeoms.length > 1 ? mergeGeometries(amberGeoms) : amberGeoms[0]; } catch (e) { mg = null; }
+    const addAmber = g => { const m = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: true, toneMapped: false })); m.name = 'owlcove-amber'; out.add(m); return m; };
+    if (mg) { tris += mg.attributes.position.count / 3; addAmber(mg); } else amberGeoms.forEach(g => { tris += g.attributes.position.count / 3; addAmber(g); }); } // no noMerge: XR staticMerge folds these into the cantina unlit batch
   out.userData.atlas = `${slot.size} maps packed, ${solo.length} solo`;
-  out.userData.tris = tris; out.userData.draws = out.children.length; out.traverse(o => o.userData.noMerge = true); return out;
+  out.userData.tris = tris; out.userData.draws = out.children.length; out.traverse(o => { if (o.name !== 'owlcove-amber') o.userData.noMerge = true; }); return out;
 }
 async function loadCantinaPieces(entries, base) {
   entries = entries.filter(e => e.file); if (!entries.length) return;
@@ -475,12 +503,21 @@ async function loadCantinaPieces(entries, base) {
   cantSets.full = full; cantSets.lod1 = lod; cantina.add(full, lod);
   ledStrip = null; hookLedStrip(full); hookLedStrip(lod); cant.hidePlaceholders?.(); applyCantSet(); placeOnBar?.();
   cantInfo = `clay ${entries.length} files · ${full.userData.draws}/${lod.userData.draws} draws · ${Math.round(full.userData.tris)}/${Math.round(lod.userData.tris)} tris`;
-  window.LOFT && (window.LOFT.cantSets = cantSets); status(true);
+  window.LOFT && (window.LOFT.cantSets = cantSets); status(true); if (lowNow) scheduleMerge(0); // pieces land after the loader's onLoad timer; rebatch so the amber mesh joins the unlit draw
 }
 var riggedResolve = null; const riggedEntries = new Promise(r => { riggedResolve = r; }); var rigLod = null; // Clay's rigged cantina models (manifest rigged[], room cantina_rigged)
 async function loadBuilds() {
   let list = [], base = ASSETS + 'builds/', cantExtra = [];
-  for (const dir of [ASSETS + 'builds-opt/', ASSETS + 'builds/']) { try { const r = await fetch(dir + 'manifest.json', { cache: 'no-store' }); if (r.ok) { const j = await r.json(); list = Array.isArray(j) ? j : (j.builds || j.items || []); base = dir; cantExtra = Array.isArray(j) ? [] : (j.skipped || []).filter(e => e.room === 'cantina'); if (!Array.isArray(j) && Array.isArray(j.rigged)) riggedResolve({ list: j.rigged.filter(e => e.room === 'cantina_rigged'), base: dir }); if (list.length) break; } } catch (e) {} }
+  for (const dir of [ASSETS + 'builds-opt/', ASSETS + 'builds/']) { try { const r = await fetch(dir + 'manifest.json', { cache: 'no-store' }); if (r.ok) { const j = await r.json(); list = Array.isArray(j) ? j : (j.builds || j.items || []); base = dir;
+    if (!Array.isArray(j)) {
+      const owl = Array.isArray(j.owlcove) ? j.owlcove : [];
+      cantExtra = (j.skipped || []).filter(e => e.room === 'cantina' && e.file); // sign + lantern are ready: load them (owlcove[] and/or skipped[])
+      const have = new Set(cantExtra.map(e => e.file));
+      for (const e of owl) if (e.room === 'cantina' && e.file && /owlcove_neon_sign|owlcove_lantern/.test(e.file) && !have.has(e.file)) cantExtra.push(e);
+      const owlBooth = owl.find(e => /owlcove_dj_booth/.test(e.file || ''));
+      if (Array.isArray(j.rigged)) { let rig = j.rigged.filter(e => e.room === 'cantina_rigged' && !(owlBooth && /dj_booth/.test(e.file || ''))); if (owlBooth) rig = [owlBooth, ...rig]; riggedResolve({ list: rig, base: dir }); }
+    }
+    if (list.length) break; } } catch (e) {} }
   const isHope = e => /hope/i.test((e.file || '') + (e.name || '')); const isCant = e => e.room === 'cantina' || /entertain|ent[_-]?center|led[_-]?strip|cantina/i.test((e.file || '') + ' ' + (e.name || ''));
   loadCantinaPieces([...list.filter(isCant), ...cantExtra], base); list = list.filter(e => !isCant(e));
   const neonE = list.find(e => e.overlay_of || /neon/i.test(e.file || '')); list = list.filter(e => e !== neonE); const sign = list.find(isHope), items = list.filter(e => !isHope(e));
@@ -544,7 +581,7 @@ const overlay = initOverlay(api, { N, P });
     const tg = document.createElement('button'); tg.id = 'panel-toggle'; tg.textContent = '☰'; tg.title = 'Show controls'; tg.setAttribute('aria-expanded', 'false'); tg.style.cssText = 'padding:2px 8px;margin-left:8px';
     const hd = document.createElement('div'); hd.style.cssText = 'display:flex;align-items:center;justify-content:space-between'; el.prepend(hd); hd.append(head, tg);
     tg.onclick = () => { const open = body.style.display === 'none'; body.style.display = open ? 'flex' : 'none'; tg.textContent = open ? '✕' : '☰'; tg.title = open ? 'Hide controls' : 'Show controls'; tg.setAttribute('aria-expanded', String(open)); }; }
-  const row = document.createElement('label'); row.innerHTML = `Go to <select id="go">${Object.keys(VIEWS).map(v => `<option>${v}</option>`).join('')}</select>`; const pb = el.querySelector('#panel-body'); pb.insertBefore(row, pb.firstChild); const help = document.createElement('small'); help.id = 'panel-help'; help.style.opacity = '.75'; help.textContent = IS_TOUCH_UI ? 'Stick: walk · drag: look · tap floor: walk there' : 'Drag: orbit · WASD / arrows: walk'; pb.append(help);
+  const row = document.createElement('label'); row.innerHTML = `Go to <select id="go">${Object.keys(VIEWS).map(v => `<option value="${v}">${roomLabel(v)}</option>`).join('')}</select>`; const pb = el.querySelector('#panel-body'); pb.insertBefore(row, pb.firstChild); const help = document.createElement('small'); help.id = 'panel-help'; help.style.opacity = '.75'; help.textContent = IS_TOUCH_UI ? 'Stick: walk · drag: look · tap floor: walk there' : 'Drag: orbit · WASD / arrows: walk'; pb.append(help);
   { const d = document.createElement('details'); d.id = 'comfort'; d.innerHTML = `<summary><small>Comfort (VR)</small></summary>
     <label>Turn <select id="cf-turn"><option value="snap30">snap 30°</option><option value="snap45">snap 45°</option><option value="smooth">smooth</option></select></label>
     <label>Move <select id="cf-move"><option value="smooth">smooth</option><option value="teleport">teleport only</option></select></label>
@@ -579,15 +616,17 @@ function staticMerge() {
     const key = root.uuid + '|' + (plainB ? 'vb' + m.side + (m.toneMapped ? 't' : 'n') : plain ? 'vc' + side : m.uuid) + '|' + attrs + '|' + (plain ? 'x' : g.index ? 1 : 0);
     if (!groups.has(key)) groups.set(key, { plain, plainB, mat: m, side, items: [], root }); groups.get(key).items.push(o); });
   const vcMats = [0, 1, 2].map(side => new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.6, side }));
+  const owlMats = []; // cantina root only: per-side vcMats clone + vColor*uOwlLift. hall/passage keep vcMats (no extra draws)
+  const owlMat = side => owlMats[side] ||= Object.assign(vcMats[side].clone(), { customProgramCacheKey: () => 'owlLift', onBeforeCompile: sh => { sh.uniforms.uOwlLift = uOwlLift; sh.fragmentShader = 'uniform float uOwlLift;\n' + sh.fragmentShader.replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\ntotalEmissiveRadiance += max(vColor.rgb, vec3(0.06, 0.045, 0.035)) * uOwlLift;'); } });
   merged = { originals: [], batches: [] };
   for (const G of groups.values()) { if (G.items.length < 2) continue;
     const inv = new THREE.Matrix4().copy(G.root.matrixWorld).invert(); const mixed = G.plain && new Set(G.items.map(o => !!o.geometry.index)).size > 1; const gs = G.items.map(o => { const g = mixed && o.geometry.index ? o.geometry.toNonIndexed() : o.geometry.clone(); g.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv, o.matrixWorld)); for (const a of Object.keys(g.attributes)) if (!['position', 'normal', 'uv', 'color'].includes(a)) g.deleteAttribute(a);
-      if (G.plain) { const c = o.material.color, n = g.attributes.position.count, pv = g.attributes.color, arr = new Float32Array(n * 3);
+      if (G.plain) { const c = o.material.color, n = g.attributes.position.count, pv = o.material.userData.flatVc ? null : g.attributes.color, arr = new Float32Array(n * 3); // flatVc: bar edge amber must not be multiplied by leftover teal vertex colour. Hall has no flatVc.
         for (let i = 0; i < n; i++) { arr[i * 3] = c.r * (pv ? pv.getX(i) : 1); arr[i * 3 + 1] = c.g * (pv ? pv.getY(i) : 1); arr[i * 3 + 2] = c.b * (pv ? pv.getZ(i) : 1); }
         g.setAttribute('color', new THREE.BufferAttribute(arr, 3)); if (g.attributes.uv) g.deleteAttribute('uv'); } else if (g.attributes.color) g.deleteAttribute('color');
       return g; });
     let mg; try { mg = mergeGeometries(gs); } catch (e) { mg = null; } if (!mg) continue;
-    const mesh = new THREE.Mesh(mg, G.plainB ? new THREE.MeshBasicMaterial({ vertexColors: true, side: G.mat.side, toneMapped: G.mat.toneMapped }) : G.plain ? vcMats[G.side] : G.mat); mesh.userData.batch = true; G.root.add(mesh); merged.batches.push(mesh);
+    const mesh = new THREE.Mesh(mg, G.plainB ? new THREE.MeshBasicMaterial({ vertexColors: true, side: G.mat.side, toneMapped: G.mat.toneMapped }) : G.plain ? (G.root === cantina ? owlMat(G.side) : vcMats[G.side]) : G.mat); mesh.userData.batch = true; G.root.add(mesh); merged.batches.push(mesh);
     { let off = 0; G.items.forEach((o, j) => { const n = gs[j].attributes.position.count; mergeSlots.set(o, { batch: mesh, start: off, count: n }); off += n; }); } // per-original vertex range (grab hides one build's slot)
     G.items.forEach(o => { o.visible = false; merged.originals.push(o); }); } // hide, don't remove -> restorable
   console.info(`staticMerge: ${merged.originals.length} meshes -> ${merged.batches.length}`);
@@ -648,6 +687,15 @@ const WALK_RECTS = (() => { const r = RAD, w2 = PASSAGE.w / 2, [tx, tz] = PASSAG
     [cx0 + r, cx0 + C.D - r, cz - C.W / 2 + r, cz + C.W / 2 - r],                              // cantina
   ]; })();
 // solid props: simple world-space boxes [x0, x1, z0, z1] (inflated by RAD when tested)
+// Owl Cove bandshell, showroom cantina-local. ry +90: booth +Z (toward the crowd) lands on cantina +X.
+const BOOTH = { x: -3.0, z: 1.2, ry: Math.PI / 2 };
+const _boothM = new THREE.Matrix4();
+function boothPoint(x, y, z, out = new THREE.Vector3()) { _boothM.makeRotationY(BOOTH.ry).setPosition(BOOTH.x, 0, BOOTH.z); return out.set(x, y, z).applyMatrix4(_boothM); }
+// owlcove_dj_booth.glb position accessors (lod1 is the slightly larger box). Old booth box removed.
+const BOOTH_LOCAL_AABB = { x0: -1.141, x1: 1.141, z0: -0.850, z1: 0.728 };
+function boothSolid() { let lx0 = Infinity, lx1 = -Infinity, lz0 = Infinity, lz1 = -Infinity; const p = new THREE.Vector3();
+  for (const x of [BOOTH_LOCAL_AABB.x0, BOOTH_LOCAL_AABB.x1]) for (const z of [BOOTH_LOCAL_AABB.z0, BOOTH_LOCAL_AABB.z1]) { boothPoint(x, 0, z, p); lx0 = Math.min(lx0, p.x); lx1 = Math.max(lx1, p.x); lz0 = Math.min(lz0, p.z); lz1 = Math.max(lz1, p.z); }
+  return cw(lx0, lx1, lz0, lz1); }
 const PR = PIT.size / 2 - 0.45, cw = (lx0, lx1, lz0, lz1) => { const C = CANTINA.origin; return [C[0] + lz0, C[0] + lz1, C[1] - lx1, C[1] - lx0]; }; // cantina-local box -> world
 const SOLIDS = [
   ...PLINTHS.map(p => [p.x - p.w / 2, p.x + p.w / 2, p.z - p.d / 2, p.z + p.d / 2]),
@@ -658,7 +706,7 @@ const SOLIDS = [
   [NOOK.x0, NOOK.x0 + 0.5, NOOK.z0 + 0.35, NOOK.z1 - 0.35],                                     // hi-fi
   [NOOK.x1 - 0.75, NOOK.x1, NOOK.z0, NOOK.z0 + 0.85], [NOOK.x1 - 0.75, NOOK.x1, NOOK.z1 - 0.85, NOOK.z1], // lounge chairs
   [BW.x0, BW.x1, BW.z - BW.depth, BW.z],                                                         // builds shelves
-  cw(1.5, 2.55, 1.19, 5.21), cw(3.48, 3.98, 2.65, 5.95), cw(-4, -0.8, 2.2, 5.4), cw(-2.05, 2.05, 6.02, 6.5), cw(-3.95, -2.8, 0.35, 1.95), // cantina bar, back bar, booth, ent center, DJ booth
+  cw(1.5, 2.55, 1.19, 5.21), cw(3.48, 3.98, 2.65, 5.95), cw(-4, -0.8, 2.2, 5.4), cw(-2.05, 2.05, 6.02, 6.5), boothSolid(), // cantina bar, back bar, seating booth, ent center, DJ bandshell
 ];
 const inSolid = (x, z) => SOLIDS.some(([x0, x1, z0, z1]) => x > x0 - RAD && x < x1 + RAD && z > z0 - RAD && z < z1 + RAD);
 const walkable = (x, z) => WALK_RECTS.some(([x0, x1, z0, z1]) => x >= x0 && x <= x1 && z >= z0 && z <= z1) && !inSolid(x, z);
@@ -719,7 +767,7 @@ function showHint() { let seen = false; try { seen = !!localStorage.getItem(hint
   hint.style.cssText = 'position:fixed;left:50%;top:38%;transform:translateX(-50%);padding:8px 14px;border-radius:16px;background:rgba(0,0,0,.55);color:#fff;font:14px system-ui;pointer-events:none;z-index:7;transition:opacity .6s;opacity:1';
   document.body.append(hint); setTimeout(hideHint, 4500); }
 addEventListener('pointerdown', hideHint, true);
-let floorMeshes = null; const getFloors = () => floorMeshes ||= (() => { const out = [], mats = new Set([M.floor, M.rug, M.deck]); scene.traverse(o => { if (o.isMesh && !o.userData.batch && mats.has(o.material)) out.push(o); }); return out; })();
+let floorMeshes = null; const getFloors = () => floorMeshes ||= (() => { const out = [], mats = new Set([M.floor, M.rug, M.deck, M.cdeck]); scene.traverse(o => { if (o.isMesh && !o.userData.batch && mats.has(o.material)) out.push(o); }); return out; })();
 renderer.domElement.addEventListener('pointerdown', e => { canvasTouches.add(e.pointerId); if (canvasTouches.size > 1) { multi = true; drag.id = null; return; } }, true); // 2+ fingers on the view: ignore (no pinch rotate)
 addEventListener('pointerup', e => { canvasTouches.delete(e.pointerId); if (!canvasTouches.size) multi = false; }, true); addEventListener('pointercancel', e => { canvasTouches.delete(e.pointerId); if (!canvasTouches.size) multi = false; }, true);
 renderer.domElement.addEventListener('pointerdown', e => { if (multi || !(walk.on || look.on) || drag.id != null) return; Object.assign(drag, { id: e.pointerId, x: e.clientX, y: e.clientY, x0: e.clientX, y0: e.clientY, t0: performance.now() }); });
@@ -808,25 +856,31 @@ bookRoot = bookBones.root; bookRoot.position.copy(gb.mesh.position); bookRoot.ro
 // guestbook (bar top z 4.35) clears it and keeps the book in front of him.
 const TAPPER = { x: 3.0, z: 3.7 };
 const bot = createBartender(THREE, btBones, robotsMesh); bot.place(TAPPER.x, 0, TAPPER.z); bot.setHome(-Math.PI / 2); // in the bartender aisle (bar back x 2.55 .. back bar x 3.48), facing the room
-// DJ booth: cantina corner opposite the bar, beside the door (cantina-local x -3.1, z 1.15), counter facing +x into the room; Dex behind the decks on a riser
-const BOOTH = { x: -3.1, z: 1.15, ry: Math.PI / 2 };
+// DJ booth: Owl Cove bandshell, cantina-local (-3.0, 0, 1.2), rot_y +90 (crowd / booth +Z -> cantina +X). Dex root is booth-local (0, 0.25, -0.45).
 boothBones.booth.position.set(BOOTH.x, 0, BOOTH.z); boothBones.booth.rotation.y = BOOTH.ry;
-dexBones.root.position.set(BOOTH.x - 0.45, 0.25, BOOTH.z); dexBones.root.rotation.y = BOOTH.ry; dexBones.root.userData.y0 = 0.25;
+{ const d0 = boothPoint(0, 0.25, -0.45); dexBones.root.position.set(d0.x, d0.y, d0.z); dexBones.root.rotation.y = BOOTH.ry; dexBones.root.userData.y0 = 0.25; }
 const djRig = { dex: { root: dexBones.root, torso: dexBones.torso, head: dexBones.head, arm: dexBones.armR, forearm: dexBones.foreR, armL: dexBones.armL, forearmL: dexBones.foreL, antenna: dexBones.antenna },
     booth: { platters: [boothBones.platterA, boothBones.platterB], crossfader: boothBones.xfader }, pulse: robotsMesh.material.userData.uPulse, dexPuppet: null };
 const dj = createDJBooth(THREE, { camera, signUrl: location.origin + location.pathname, rig: djRig });
 dj.group.position.set(BOOTH.x, 0, BOOTH.z); dj.group.rotation.y = BOOTH.ry; cantina.add(dj.group);
+// visualizer canvas: 512 wide in XR and on touch devices (perf budget), 1024 on desktop
+const djRes = () => { dj.setResolution(renderer.xr.isPresenting ? 'xr' : IS_TOUCH_UI ? 'touch' : 'desktop'); cant.setXR?.(renderer.xr.isPresenting); }; djRes(); renderer.xr.addEventListener('sessionstart', djRes); renderer.xr.addEventListener('sessionend', djRes);
 coveHook = (c, n) => dj.coveOverlay(c, n);
 // Clay's rigged Tapper / Dex / booth: replace the placeholder batch completely once they load (placeholders stay if they fail).
 // One SkinnedMesh per LOD (+ the booth screen) => same 2 cantina draws as the placeholders. lod1 in XR / ?low and on touch devices.
 let rigged = null;
 riggedEntries.then(async ({ list, base }) => { const R = await loadRigged(THREE, { loader, base, entries: list, gb });
   R.bones.booth.booth.position.set(BOOTH.x, 0, BOOTH.z); R.bones.booth.booth.rotation.y = BOOTH.ry; // deck A (platterA, -X booth-local) stays on the crowd's left
-  const dexSpot = R.entries.dex.placement?.pos || [0, 0.25, -0.45], dp = new THREE.Vector3(...dexSpot).applyAxisAngle(new THREE.Vector3(0, 1, 0), BOOTH.ry); // booth-local -> cantina
-  R.bones.dex.root.position.set(BOOTH.x + dp.x, dexSpot[1], BOOTH.z + dp.z); R.bones.dex.root.rotation.y = BOOTH.ry; R.bones.dex.root.userData.y0 = dexSpot[1];
+  const boothEnt = R.entries.booth, dexLocal = (boothEnt.dex && boothEnt.dex.pos_booth_local) || R.entries.dex.placement?.pos || [0, 0.25, -0.45];
+  const dp = boothPoint(dexLocal[0], dexLocal[1], dexLocal[2]); // same frame as the booth bone (BOOTH.ry), not a second yaw
+  R.bones.dex.root.position.set(dp.x, dp.y, dp.z); R.bones.dex.root.rotation.y = BOOTH.ry; R.bones.dex.root.userData.y0 = dexLocal[1];
   R.bones.book.root.position.copy(gb.mesh.position); R.bones.book.root.rotation.copy(gb.mesh.rotation);
   bot.rebind(R.bones.bartender, R.meshFull, R.puppets.bartender); bot.place(TAPPER.x, 0, TAPPER.z);
   Object.assign(djRig, { dex: R.bones.dex, booth: { platters: [R.bones.booth.platterA, R.bones.booth.platterB], crossfader: R.bones.booth.xfader }, pulse: R.uPulse, dexPuppet: R.puppets.dex });
+  try { djRig.dexSet = createDexSet(THREE, { puppet: R.puppets.dex, bones: R.bones.dex, targets: Object.assign({}, DEX_TARGETS, dexTargetsFromJoints(boothEnt.joints, dexLocal)) }); } catch (e) { console.warn('dex-set: ' + e.message); } // hands on platterA/B + xfader from the booth manifest joints
+  if (window.LOFT) window.LOFT.dexSet = djRig.dexSet || null; // QA handle
+  if (djRig.dexSet && DJ_CONFIG.DEX_TARGETS_URL) fetch(DJ_CONFIG.DEX_TARGETS_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { const t = j && (j.dex_targets || j.targets || j); if (!t) return; // Clay's booth positions -> re-bake Dex's reach
+    const keep = Object.fromEntries(Object.entries(t).filter(([k]) => k in djRig.dexSet.targets)); if (Object.keys(keep).length) { djRig.dexSet.setTargets(keep); console.info('dex-set targets from', DJ_CONFIG.DEX_TARGETS_URL, Object.keys(keep).join(',')); } }).catch(e => console.info('dex-set targets not loaded:', e.message));
   dj.adoptScreen(R.screenGeo); bookRoot = R.bones.book.root;
   cantina.remove(robotsMesh); robotsMesh.geometry.dispose(); robotsMesh.material.dispose(); // placeholders gone (0 draws, no skinning cost)
   cantina.add(R.meshFull, R.meshLod); rigged = R; rigLod = () => { const lo = lowNow || IS_TOUCH_UI; R.meshFull.visible = !lo; R.meshLod.visible = lo; }; rigLod();
@@ -865,7 +919,7 @@ if (coveFan) { const fg = coveFan.geometry.index ? coveFan.geometry.toNonIndexed
     fragmentShader: 'varying vec3 vC; void main(){ gl_FragColor = vec4(vC, 1.); }' }));
   glow.name = 'cantina-glow+fixtures'; glow.renderOrder = 2; glow.userData.noMerge = true; cantina.add(glow); coveFan.visible = false; coveFan.userData.noMerge = true; dj.fixtures.userData.merged = true; dj.fixtures.visible = false; }
 function tintCantinaCove() { const m = dj.coveMean(_cm); if (!m) { uCove.set(1, 1, 1); return; } const mx = Math.max(1e-3, ...m); uCove.set(m[0] / mx, m[1] / mx, m[2] / mx).multiplyScalar(0.35 + 1.6 * mx); } // approximate: multiplies the fan's teal gradient
-if (Q.has('guestbook')) setTimeout(() => gb.openModal(), 600);
+if (Q.has('guestbook') || Q.has('credits')) setTimeout(() => gb.openModal(Q.has('credits')), 600);
 function placeOnBar() { // drop the book onto the real bar-top height once Clay's pieces are in (downward ray)
   if (!cantSets.full) return; const r = new THREE.Raycaster(cantina.localToWorld(new THREE.Vector3(2.02, 2, 4.35)), new THREE.Vector3(0, -1, 0)); r.far = 1.5;
   const h = r.intersectObject(cantSets.full, true)[0]; if (h) gb.mesh.position.y = cantina.worldToLocal(h.point.clone()).y + 0.002; bookRoot?.position.copy(gb.mesh.position); }
@@ -904,7 +958,7 @@ function heldCopy(b) { // one-draw unmerged copy of a merged build (vertex colou
     keep.applyMatrix4(_mm.multiplyMatrices(inv, o.matrixWorld)); gs.push(keep); });
   if (!gs.length) return null; const m = new THREE.Mesh(mergeGeometries(gs), new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.55, metalness: 0.15, side }));
   m.userData.noMerge = true; m.visible = false; m.frustumCulled = false; h.add(m); return (b.proxy = m); }
-function startHold(b, mode, ctl) { if (GRAB.held) return; const h = b.holder; b.home = { parent: h.parent, pos: h.position.clone(), quat: h.quaternion.clone(), scale: h.scale.clone() };
+function startHold(b, mode, ctl) { if (GRAB.held) { if (GRAB.held.phase === 'return') endHold(); else return; } const h = b.holder; b.home = { parent: h.parent, pos: h.position.clone(), quat: h.quaternion.clone(), scale: h.scale.clone() };
   setSlotHidden(b, true); scene.attach(h); GRAB.held = { b, mode, ctl, phase: 'pull', t: 0, from: { pos: h.position.clone(), quat: h.quaternion.clone() }, dur: mode === 'grip-near' ? 0.18 : 0.6, grabOff: null };
   GRAB.inspectRot.identity(); GRAB.hl.visible = false; if (ctl) ctl.userData.claim = true; if (mode === 'inspect') { GRAB.ctlWas = controls.enabled; controls.enabled = false; if (GRAB.light) GRAB.light.intensity = 2.2; } }
 function releaseHold() { const H = GRAB.held; if (!H || H.phase === 'return') return; H.phase = 'return'; H.t = 0; H.from = { pos: H.b.holder.position.clone(), quat: H.b.holder.quaternion.clone() }; }
@@ -948,7 +1002,7 @@ function xrGrab(dt) { if (!renderer.xr.isPresenting) { if (GRAB.held && GRAB.hel
   GRAB.hl.visible = hlSet && !GRAB.held; if (!hlSet) GRAB.hlCtl = null; }
 // XR select on the guestbook toggles its read view
 for (const c of xrCtl) c.addEventListener('selectstart', () => { if (!renderer.xr.isPresenting || !cantina.visible) return; _m4.identity().extractRotation(c.matrixWorld); _ray2.ray.origin.setFromMatrixPosition(c.matrixWorld); _ray2.ray.direction.set(0, 0, -1).applyMatrix4(_m4);
-  const hit = _ray2.intersectObjects([gb.mesh, gb.readView.mesh, ...dj.pickables], false)[0]; if (!hit) return; c.userData.claim = true; if (dj.onSelect(hit.object, true)) return; if (hit.distance > 3.5 && !gb.readView.mesh.visible) return; /* read view opens within 3.5 m of the book (keeps the door view in budget) */ gb.readView.mesh.visible = !gb.readView.mesh.visible; if (gb.readView.mesh.visible) gb.refresh(); });
+  const hit = _ray2.intersectObjects([gb.mesh, gb.readView.mesh, ...dj.pickables], false)[0]; if (!hit) return; c.userData.claim = true; if (dj.onSelect(hit.object, true)) return; if (hit.distance > 3.5 && !gb.readView.mesh.visible) return; /* read view opens within 3.5 m of the book (keeps the door view in budget) */ if (gb.readView.next()) gb.refresh(); }); // closed -> notes -> music credits -> closed
 // desktop / phone: tap the guestbook -> modal; tap a build -> inspect; drag rotates it; tap away / Esc returns it
 const tapD = { id: null, x: 0, y: 0, t: 0, rot: false };
 const inspecting = () => GRAB.held?.mode === 'inspect' && GRAB.held.phase !== 'return'; // a build flying back to its slot no longer eats taps
@@ -976,11 +1030,11 @@ if (TESTROOM) { const g = mergeGeometries([new THREE.CapsuleGeometry(0.18, 0.9, 
 
 // ---------- status ----------
 function status(force) { if (force) statusFrames = 1; }
-function writeStatus() { overlay.status(`N=${N} px · cove ${P.toFixed(2)} m · u window ${U.window[0].toFixed(3)}–${U.window[1].toFixed(3)} · u builds ${U.builds[0].toFixed(3)}–${U.builds[1].toFixed(3)} · brackets ${brackets.length} (${bracketStatus}) · builds ${buildsInfo} · props ${propTris} tris · room ${roomNow} · cantina ${cantInfo} · draws ${drawCalls}${lowNow ? ' · LOW' : ''}${TESTROOM ? ' · TESTROOM' : ''}`); }
+function writeStatus() { overlay.status(`N=${N} px · cove ${P.toFixed(2)} m · u window ${U.window[0].toFixed(3)}–${U.window[1].toFixed(3)} · u builds ${U.builds[0].toFixed(3)}–${U.builds[1].toFixed(3)} · brackets ${brackets.length} (${bracketStatus}) · builds ${buildsInfo} · props ${propTris} tris · room ${roomLabel(roomNow)} · Owl Cove ${cantInfo} · draws ${drawCalls}${lowNow ? ' · LOW' : ''}${TESTROOM ? ' · TESTROOM' : ''}`); }
 
 window.LOFT = { scene, renderer, rig, camera, controls, setLow: on => setLow(on), get lodObjs() { return lodObjs; }, rooms: { hall, passage, cantina }, get room() { return roomNow; }, get ledStrip() { return ledStrip; }, N, perimeter: P, U, store, api, setView, spawns: SPAWNS, groupSpots: GROUP_SPOTS, MAX_USERS, net,
   get lowNow() { return lowNow; }, get reliefSize() { return reliefSize; }, get drawCalls() { return drawCalls; }, layout: { HALL, VEST, COVE, BW, GATHER, PIT, WINDOW, NOOK, PLINTHS } };
-applyPreset('dusk'); setView('hall'); setWalk(walk.on); if (!walk.on) walk.syncFromCamera(); window.LOFT.walk = walk; window.LOFT.gb = gb; window.LOFT.bot = bot; window.LOFT.dj = dj; window.LOFT.robots = robotsMesh; window.LOFT.grab = { GRAB, buildHolders, startHold, releaseHold, pickBuild, mergeSlots, clampHeld }; window.LOFT.musicGain = musicGain; window.LOFT.walkable = walkable; window.LOFT.xrm = { XRM, tpMarker, vignette, xrCtl, nearestFree, comfort: comfortApi };
+applyPreset('dusk'); setView('hall'); setWalk(walk.on); if (!walk.on) walk.syncFromCamera(); window.LOFT.walk = walk; window.LOFT.gb = gb; window.LOFT.bot = bot; window.LOFT.dj = dj; window.LOFT.raycasterCtor = THREE.Raycaster; window.LOFT.robots = robotsMesh; window.LOFT.grab = { GRAB, buildHolders, startHold, releaseHold, pickBuild, mergeSlots, clampHeld }; window.LOFT.musicGain = musicGain; window.LOFT.walkable = walkable; window.LOFT.xrm = { XRM, tpMarker, vignette, xrCtl, nearestFree, comfort: comfortApi };
 
 // P2: the TV iframe is a plain fixed-position element warped onto the screen's projected corners (matrix3d homography), so it sits above the canvas
 // only over the screen rect and receives clicks (CSS3DRenderer's perspective tree did not hit-test). Hidden in XR (no DOM) -> atlas snapshot shows.

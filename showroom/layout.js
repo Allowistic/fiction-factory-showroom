@@ -1,6 +1,9 @@
 // Showroom layout (Mira SHOWROOM_SPEC.md v1). Design sizes, meters. Origin = arrival point, +Z forward, +Y up.
 // Facing +Z, the viewer's LEFT is +X. Hall is an L: 12 x 9 bounding box with the front-right corner notched out.
 export const MAX_USERS = 5;
+// User-facing room names. Internal ids stay as they are ('cantina' in code, manifests, LIGHTS_SPEC room keys, file names); only what visitors read changes.
+export const ROOM_LABELS = { hall: 'Hall', vestibule: 'Vestibule', passage: 'Passage', cantina: 'Owl Cove Tiki Nest', builds: 'Builds', pit: 'Pit', exhibit: 'Exhibit', plan: 'Plan' };
+export const roomLabel = id => ROOM_LABELS[id] || (id.endsWith('-p') ? (ROOM_LABELS[id.slice(0, -2)] || id.slice(0, -2)) + ' (passage)' : id);
 export const HALL = { x0: -8, x1: 4, z0: 1.5, z1: 10.5, H: 4.2, notch: { x0: -8, x1: -4, z0: 1.5, z1: 4.0 } };
 export const VEST = { x0: -1.5, x1: 1.5, z0: -1.5, z1: 1.5, H: 2.6, opening: { x0: -1.0, x1: 1.0, h: 2.3 } };
 // cove polygon at the ceiling break, index 0 = entry corner, then clockwise seen from above (left wall -> builds wall -> window wall -> notch)

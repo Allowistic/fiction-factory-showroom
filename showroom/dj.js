@@ -1,8 +1,9 @@
 // Dex's DJ booth: audio (positional, after a user gesture), cue-grid sync (Dex's *.cues.json), light show (Dex's *.lights.json),
-// the booth screen (DEX / now playing / BPM / bar N of M / waveform with transition zones / credit footer), fake fixtures, requests placeholder.
+// the booth screen (Owl Cove LED spectrum + scope visualizer, visualizer.js; DEX / now playing / BPM header; credit footer), fake fixtures, requests placeholder.
 // Draws: screen 1 + fixture cones 1 (hidden while dark). Dex, the counter, platters and crossfader live in the shared robots SkinnedMesh (bartender.js).
 import { DJ_CONFIG } from './dj-config.js';
 import { cleanText, GuestbookStore } from './guestbook.js';
+import { LedVisualizer } from './visualizer.js';
 
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), frac = x => x - Math.floor(x);
 
@@ -142,7 +143,11 @@ class DJAudio {
   constructor(THREE, camera, anchor) { this.THREE = THREE; this.camera = camera; this.anchor = anchor; this.el = new Audio(); this.el.preload = 'none'; this.el.crossOrigin = 'anonymous'; this.vol = 0.8; this.room = 1; this.offset = 0; this.set = null; this.analyser = null; }
   ensureGraph() { if (this.pa) { this.pa.context.state === 'suspended' && this.pa.context.resume(); return; } const T = this.THREE; this.listener = new T.AudioListener(); this.camera.add(this.listener);
     this.pa = new T.PositionalAudio(this.listener); this.pa.setMediaElementSource(this.el); this.pa.setDistanceModel('linear'); this.pa.setRefDistance(1.5); this.pa.setMaxDistance(18); this.pa.setRolloffFactor(1); this.pa.setVolume(this.vol * this.room);
-    this.pa.position.set(0, 1.4, 0.3); this.anchor.add(this.pa); this.analyser = new T.AudioAnalyser(this.pa, 512); this.listener.context.resume(); }
+    this.pa.position.set(0, 1.4, 0.3); this.anchor.add(this.pa); this.analyser = new T.AudioAnalyser(this.pa, 512);
+    // visualizer tap: a side branch off the media-element source, BEFORE the panner / gain. The source -> panner -> gain -> listener path to the
+    // speakers is untouched (volume, room gain and the 18 m positional falloff still apply to what you hear); the screen shows the mix at full level.
+    const VZ = DJ_CONFIG.VISUALIZER, an = this.vizAnalyser = this.listener.context.createAnalyser(); an.fftSize = VZ.FFT; an.minDecibels = VZ.MIN_DB; an.maxDecibels = VZ.MAX_DB; an.smoothingTimeConstant = 0.2; this.pa.source.connect(an);
+    this.listener.context.resume(); }
   load(set) { this.set = set; if (DJ_CONFIG.AUDIO_URL) { this.el.src = DJ_CONFIG.AUDIO_URL; this.offset = 0; this.kind = 'stream'; return; }
     const ogg = set.ogg && this.el.canPlayType('audio/ogg; codecs="vorbis"'); this.el.src = ogg ? set.ogg : set.mp3; this.offset = ogg ? 0 : (set.mp3Offset || 0); this.kind = ogg ? 'ogg' : 'mp3'; }
   async play() { this.ensureGraph(); await this.el.play(); }
@@ -161,14 +166,16 @@ class DJAudio {
 export function createDJBooth(THREE, { camera, rig, signUrl = '' }) {
   const group = new THREE.Group(); group.name = 'dj-booth'; // booth-local: counter faces +Z, Dex behind at -Z
   // screen (1 draw): canvas 1024x512, wide, behind Dex
-  const cv = document.createElement('canvas'); cv.width = 1024; cv.height = 512; const g = cv.getContext('2d'); const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4;
-  const screen = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 0.7), new THREE.MeshBasicMaterial({ map: tex, toneMapped: false })); screen.position.set(0, 2.08, -0.66); screen.rotation.x = 0.06; /* above Dex, clear of the wall ribs, tipped slightly toward visitors */ screen.name = 'dj-screen'; screen.userData.noMerge = true; group.add(screen);
+  // screen canvas: Owl Cove visualizer (visualizer.js). Width per mode (DJ_CONFIG.VISUALIZER.WIDTH: XR / touch 512, desktop 1024), height = width / ASPECT.
+  const viz = new LedVisualizer(), makeTex = c => { const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t; };
+  let resMode = 'desktop', cv = document.createElement('canvas'); viz.layout(cv, DJ_CONFIG.VISUALIZER.WIDTH.desktop); let tex = makeTex(cv);
+  const screen = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 0.7), new THREE.MeshBasicMaterial({ map: tex, toneMapped: false })); screen.material.color.setScalar(DJ_CONFIG.VISUALIZER.SCREEN_GAIN); screen.position.set(0, 2.08, -0.66); screen.rotation.x = 0.06; /* above Dex, clear of the wall ribs, tipped slightly toward visitors */ screen.name = 'dj-screen'; screen.userData.noMerge = true; group.add(screen);
   // fixtures (1 draw): wash cone down the wall behind the booth + two downlight spots onto the decks. Fixed aim: never at visitors / the camera.
   const cones = []; const cone = (fix, top, bottom, rTop, rBot) => { const h = top.distanceTo(bottom), geo = new THREE.CylinderGeometry(rTop, rBot, h, 24, 1, true).toNonIndexed(); const n = geo.attributes.position.count, f = new Float32Array(n), a = new Float32Array(n);
       for (let i = 0; i < n; i++) { f[i] = fix; a[i] = geo.attributes.position.getY(i) > 0 ? 0.55 : 0.0; } geo.setAttribute('fix', new THREE.BufferAttribute(f, 1)); geo.setAttribute('fade', new THREE.BufferAttribute(a, 1));
       const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), top.clone().sub(bottom).normalize()); geo.applyQuaternion(q); geo.translate((top.x + bottom.x) / 2, (top.y + bottom.y) / 2, (top.z + bottom.z) / 2); cones.push(geo); };
   const V = (x, y, z) => new THREE.Vector3(x, y, z);
-  cone(0, V(0, 2.95, -0.4), V(0, 1.15, -0.62), 0.06, 0.85);           // wash: from the ceiling down the back wall (behind Dex)
+  cone(0, V(0, 2.95, 0.25), V(0, 1.1, 0.02), 0.05, 0.72);            // pool (Owl Cove): a very low warm amber pool onto the decks + Dex's hands, never the screen
   cone(1, V(-0.48, 2.95, -0.05), V(-0.48, 1.08, 0.02), 0.03, 0.2);  // spot A: straight down onto deck A
   cone(2, V(0.48, 2.95, -0.05), V(0.48, 1.08, 0.02), 0.03, 0.2);    // spot B: straight down onto deck B
   const cg = new THREE.BufferGeometry(); for (const k of ['position', 'fix', 'fade']) { const arrs = cones.map(c => c.attributes[k].array), out = new Float32Array(arrs.reduce((s, a) => s + a.length, 0)); let o = 0; for (const a of arrs) { out.set(a, o); o += a.length; } cg.setAttribute(k, new THREE.BufferAttribute(out, cones[0].attributes[k].itemSize)); }
@@ -177,7 +184,8 @@ export function createDJBooth(THREE, { camera, rig, signUrl = '' }) {
     vertexShader: 'attribute float fix; attribute float fade; uniform vec3 uCol[3]; varying vec3 vC; void main(){ int i=int(fix+0.5); vec3 c = i==0?uCol[0]:(i==1?uCol[1]:uCol[2]); vC = c*fade; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }',
     fragmentShader: 'varying vec3 vC; void main(){ gl_FragColor = vec4(vC, 1.); }' });
   const fixtures = new THREE.Mesh(cg, coneMat); fixtures.name = 'dj-fixtures'; fixtures.userData.noMerge = true; fixtures.visible = false; fixtures.renderOrder = 3; group.add(fixtures);
-  const washLight = new THREE.PointLight(0xffffff, 0, 5, 1.6); washLight.position.set(0, 2.3, 0.6); group.add(washLight); // the one real light (booth wash); 0 when dark
+  const washLight = new THREE.PointLight(0xe8a04a, 0.9, 3.2, 1.6); washLight.position.set(0, 1.85, 0.3); group.add(washLight); // the room's one real-time light: warm amber pool over the decks / hands (Owl Cove)
+  const POOL = DJ_CONFIG.BOOTH_POOL, poolLin = (() => { const c = new THREE.Color(POOL.color); return [c.r, c.g, c.b]; })();
   // pick proxies (invisible, raycast only)
   const proxy = (name, w, h, d, x, y, z) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), new THREE.MeshBasicMaterial()); m.visible = false; m.name = name; m.position.set(x, y, z); m.userData.noMerge = true; group.add(m); return m; };
   const pickDecks = proxy('dj-decks', 1.5, 0.2, 0.5, 0, 1.06, 0.02), pickReq = proxy('dj-request', 0.3, 0.2, 0.08, 0.55, 0.62, 0.3), pickScreen = screen;
@@ -203,29 +211,20 @@ export function createDJBooth(THREE, { camera, rig, signUrl = '' }) {
   function stopShow() { st.showFree = null; show.stop(); }
   function playLive(url = DJ_CONFIG.LIGHTSHOW_WS) { if (!url) return 'LIGHTSHOW_WS not set'; const inp = new LiveShowInput(url); show.play(inp, st.grid && audio.playing ? st.grid : null); return inp.status; }
 
-  // ---- screen ----
-  let lastDraw = -1; const COLW = 1024;
-  function wrapText(text, w) { const out = []; let line = ''; for (const word of String(text).split(/\s+/)) { const t = line ? line + ' ' + word : word; if (g.measureText(t).width > w && line) { out.push(line); line = word; } else line = t; } if (line) out.push(line); return out; }
-  function fmt(s) { s = Math.max(0, Math.floor(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
-  function draw(force = false) { if (!force && st.clock - lastDraw < 0.2) return; lastDraw = st.clock; const t = audio.t, G = st.grid;
-    g.fillStyle = '#0d0c11'; g.fillRect(0, 0, 1024, 512); g.strokeStyle = '#3a3346'; g.lineWidth = 4; g.strokeRect(2, 2, 1020, 508); g.textBaseline = 'top';
-    g.fillStyle = '#9a7bff'; g.font = 'bold 92px ui-monospace, Menlo, monospace'; g.fillText('DEX', 30, 20); g.fillStyle = '#8f8a99'; g.font = '22px system-ui, sans-serif'; g.fillText('DJ · Fiction Factory Cantina', 34, 116);
-    const live = audio.playing; g.font = 'bold 26px system-ui'; g.fillStyle = live ? '#2fd6c4' : st.status === 'ready' ? '#c49a6c' : '#7a6f80'; const tag = live ? '● LIVE · ' + (audio.kind || '') : st.status === 'ready' ? 'READY' : 'OFFLINE'; g.fillText(tag, 994 - g.measureText(tag).width, 30);
-    if (!st.set) { g.fillStyle = '#d9cdb6'; g.font = 'italic 54px Georgia, serif'; g.fillText('Dex is offline', 30, 200); g.font = '24px system-ui'; g.fillStyle = '#8f8a99'; g.fillText('No set configured (DJ_CONFIG.SETS / AUDIO_URL).', 32, 280); }
-    else { const k = G?.trackAt(t), bar = G?.bar(t), bpm = G?.bpm(t);
-      g.fillStyle = '#efe4cf'; g.font = 'bold 40px system-ui'; g.fillText((k ? k.title : st.set.label).slice(0, 40), 30, 156); g.fillStyle = '#c49a6c'; g.font = '28px system-ui'; g.fillText(k ? k.artist : (live ? '' : 'Tap the decks (or ▶ in the panel) to play'), 30, 204);
-      g.fillStyle = '#d9cdb6'; g.font = '26px ui-monospace, Menlo, monospace'; const info = [bpm ? `BPM ${bpm.toFixed(1)}` : '', bar ? `bar ${bar.n} of ${bar.m}` : '', k ? `track ${k.i + 1}/${G.tracks.length}` : '', `${fmt(t)} / ${fmt(G?.duration || audio.el.duration || 0)}`].filter(Boolean).join('  ·  '); g.fillText(info, 30, 246);
-      // waveform overview (RMS peaks) with transition zones shaded and track boundaries
-      const x0 = 30, x1 = 994, y0 = 292, h = 92, D = G?.duration || st.peaks?.duration_s || 1, X = s => x0 + (x1 - x0) * clamp(s / D);
-      if (G) for (const [a, b, kind] of G.zones) { g.fillStyle = kind === 'breakdown' ? 'rgba(122,94,168,0.35)' : 'rgba(47,214,196,0.22)'; g.fillRect(X(a), y0, Math.max(3, X(b) - X(a)), h); }
-      if (st.peaks) { const r = st.peaks.rms, n = r.length, px = X(t); for (let i = 0; i < n; i++) { const x = x0 + (x1 - x0) * i / n, v = r[i] * h * 0.48; g.fillStyle = x < px ? '#9a7bff' : '#4a4458'; g.fillRect(x, y0 + h / 2 - v, Math.max(1, (x1 - x0) / n - 0.3), v * 2); } }
-      if (G) { g.fillStyle = '#c49a6c'; for (const k2 of G.tracks) g.fillRect(X(k2.start_s), y0 - 6, 2, 6); }
-      g.fillStyle = '#ffffff'; g.fillRect(X(t) - 1, y0 - 8, 3, h + 16);
-      const ne = G?.nextEvent(t); g.fillStyle = '#8f8a99'; g.font = '20px system-ui'; if (ne && live) g.fillText(`next: ${ne.type.replace(/_/g, ' ')} in ${fmt(ne.t - t)}`, 30, 392);
-      // credit footer (exact README text)
-      g.fillStyle = '#b6ab9a'; g.font = '15px system-ui'; wrapText(st.set.credit, 964).slice(0, 4).forEach((l, i) => g.fillText(l, 30, 420 + i * 19)); }
-    if (st.msg && st.clock < st.msgUntil) { g.fillStyle = 'rgba(20,18,26,0.94)'; g.fillRect(150, 150, 724, 200); g.strokeStyle = '#2fd6c4'; g.strokeRect(150, 150, 724, 200); g.fillStyle = '#efe4cf'; g.font = 'bold 36px system-ui'; const ls = wrapText(st.msg, 680); ls.slice(0, 4).forEach((l, i) => g.fillText(l, 172, 172 + i * 44)); }
-    tex.needsUpdate = true; }
+  // ---- screen: the visualizer (bars + scope move; header / footer text re-renders only when it changes) ----
+  let nextViz = 0, lastStep = null; st.vizFrames = 0;
+  const screenVisible = () => { for (let o = screen; o; o = o.parent) if (!o.visible) return false; return true; };
+  function setResolution(mode) { const w = DJ_CONFIG.VISUALIZER.WIDTH[mode] || DJ_CONFIG.VISUALIZER.WIDTH.desktop; resMode = mode; if (viz.W === w && viz.H === Math.round(w / DJ_CONFIG.VISUALIZER.ASPECT)) return;
+    cv = document.createElement('canvas'); viz.layout(cv, w); const old = tex; tex = makeTex(cv); screen.material.map = tex; screen.material.needsUpdate = true; old.dispose(); draw(true); }
+  function draw(force = false) { const VZ = DJ_CONFIG.VISUALIZER, live = audio.playing, per = 1 / (live ? VZ.FPS : VZ.IDLE_FPS);
+    if (!force) { if (st.clock < nextViz || !screenVisible()) return; nextViz = st.clock - nextViz > per ? st.clock + per : nextViz + per; } // average rate <= FPS
+    const dt = lastStep == null ? per : Math.min(0.25, Math.max(0, st.clock - lastStep)); lastStep = st.clock;
+    const t = audio.t, G = st.grid, k = G?.trackAt(t), bpm = G?.bpm(t), D = G?.duration || audio.el.duration || 0;
+    const VC = DJ_CONFIG.VISUALIZER; if (k && st.trackI !== k.i) { st.trackI = k.i; st.trackCreditUntil = live ? st.clock + VC.TRACK_CREDIT_S : 0; } // per-track artist + licence for ~6 s after a change
+    const showTrack = live && k && st.clock < (st.trackCreditUntil || 0);
+    const info = { status: live ? '● LIVE' : st.status === 'ready' ? 'READY' : 'OFFLINE', track: !st.set ? 'Dex is offline' : k ? k.title + (k.artist ? ' — ' + k.artist : '') : st.set.label,
+      bottom: showTrack ? `${k.artist}${k.license ? ' · ' + k.license : ''}` : VC.CREDIT_HINT, bottomStrong: !!showTrack, msg: st.msg && st.clock < st.msgUntil ? st.msg : null };
+    viz.step(dt, audio.vizAnalyser, live); viz.render(info); tex.needsUpdate = true; st.vizFrames++; }
 
   // ---- requests: placeholder modal (sends nowhere, stores nothing) / VR screen notice ----
   const reqStore = new PlaceholderRequestStore(); let modal = null;
@@ -255,7 +254,13 @@ export function createDJBooth(THREE, { camera, rig, signUrl = '' }) {
     else if (live && audio.analyser) { const e = audio.energy(), o = st.onset; o.avg += (e - o.avg) * 0.05; if (e > o.avg * 1.35 && e - o.prevE > 0.02 && st.clock - o.last > 0.3) { const iv = st.clock - o.last; if (iv < 1.2) o.per += (iv - o.per) * 0.2; o.last = st.clock; fired = 1; } o.prevE = e; } // stream: onset estimate
     st.lastT = t; if (fired) st.beatEnv = fired === 2 ? 1 : Math.max(st.beatEnv, 0.55); st.beatEnv *= Math.exp(-dt * 6);
     // Dex: head nod on the beat (amplitude from the analyser level), hands on the decks, platters spin, crossfader follows the transitions
-    if (D && P) { // Clay's Dex: clips only (deck poses solved by Clay's IK). Live: idle_nod (4 nods per clip) phase-locked to the beat grid, scratch_R
+    if (D && P && rig.dexSet) { // Motion God's Dex set (dex-set.js): body groove + arm layer, beat-locked on the bar grid; root bob / head look / fader hint in the module
+      const bpT = live && G ? G.bpm(t) : 0, beatS = 60 / (bpT || 120), k = live && G ? G.trackAt(t) : null;
+      const zone = live && G && G.zones.some(([a, b, kind]) => !kind && t >= a && t < b);
+      const scr = live && G && G.events.some(e => e.type === 'scratch' && t >= e.t && t < e.t + 8 * beatS); // scratch-demo 'scratch' events = build for 2 bars
+      const cut = live && G && G.events.some(e => e.type === 'bass_swap' && t >= e.t - 4 * beatS && t < e.t + 4 * beatS);
+      rig.dexSet.update(dt, { live, beat: live && G ? G.barPos(t) * 4 : null, bpm: bpT || (live ? 60 / st.onset.per : 120), build: !!(zone || scr), buildDeck: k && k.i % 2 ? 'B' : 'A', cut: !!cut }); }
+    else if (D && P) { // Clay's Dex: clips only (deck poses solved by Clay's IK). Live: idle_nod (4 nods per clip) phase-locked to the beat grid, scratch_R
       // through the transition zones; idle: slow idle_nod; the request button: one wave. The antenna (no clip track) still flicks on the beat.
       const zone = live && G && G.zones.some(([a, b, kind]) => !kind && t >= a && t < b), want = st.clock < (st.waveUntil || 0) ? 'wave' : zone ? 'scratch_R' : 'idle_nod';
       const a = P.play(want, { loop: want !== 'wave', fade: 0.3 }); if (a) { const lockBeat = live && G && want !== 'wave'; a.timeScale = lockBeat ? 0 : live || want === 'wave' ? 1 : 0.35;
@@ -270,22 +275,27 @@ export function createDJBooth(THREE, { camera, rig, signUrl = '' }) {
     if (Bo) { if (live) for (const p of Bo.platters) p.rotation.y -= dt * 3.49; // 33 1/3 rpm
       let xf = -1; if (G) { const k = G.trackAt(t); if (k) { const side = i => (i % 2 ? 1 : -1); xf = side(k.i); // deck A (left) plays even tracks, deck B odd
         const z = G.zones.find(([a, b, kind]) => !kind && t >= a && t < b); if (z && k.i > 0) { const u = clamp((t - z[0]) / (z[1] - z[0])); xf = side(k.i - 1) + (side(k.i) - side(k.i - 1)) * u; } } } // slide across the transition
-      Bo.crossfader.position.x += ((xf * 0.06) - Bo.crossfader.position.x) * (1 - Math.exp(-dt * 4)); }
+      Bo.crossfader.position.x += ((xf * 0.06) - Bo.crossfader.position.x) * (1 - Math.exp(-dt * 4));
+      if (rig.dexSet && rig.dexSet.fader != null) Bo.crossfader.position.x = rig.dexSet.fader; } // Dex's hand owns the knob while it holds it
     // lights
     const on = show.on && show.input; if (on) { const T = show.t, w = show.group('wash', T), s = show.group('spot', T); coveState = show.group('cove', T);
       LightShow.at(w, 0.5, fixCol[0]); LightShow.at(s, 0.25, fixCol[1]); LightShow.at(s, 0.75, fixCol[2]); show.tickExtras(T); } else { coveState = null; for (const c of fixCol) c.fill(0); if (live && st.beatEnv > 0.01) { fixCol[0][0] = 0.25 * st.beatEnv; fixCol[0][1] = 0.2 * st.beatEnv; fixCol[0][2] = 0.5 * st.beatEnv; } }
     let any = 0; for (let i = 0; i < 3; i++) { const c = fixCol[i], bo = 1 + st.beatEnv * (i ? 0.25 : 0.4); uCol.value[i].set(c[0] * bo, c[1] * bo, c[2] * bo); any = Math.max(any, c[0], c[1], c[2]); }
-    st.fixOn = any > 0.004; if (!fixtures.userData.merged) fixtures.visible = st.fixOn; washLight.color.setRGB(fixCol[0][0] + 1e-4, fixCol[0][1] + 1e-4, fixCol[0][2] + 1e-4).multiplyScalar(1 / Math.max(1e-3, Math.max(...fixCol[0]))); washLight.intensity = st.fixOn ? 3.0 * Math.max(...fixCol[0]) * (1 + st.beatEnv * 0.3) : 0; if (!st.fixOn) { washLight.color.setRGB(1, 0.72, 0.45); washLight.intensity = 0.9; } // idle: dim warm work light so the booth reads
-    screen.material.color.setScalar(live ? 0.82 + 0.18 * st.beatEnv : 0.85); // screen pulses on beats, stronger on downbeats
+    st.fixOn = any > 0.004; if (!fixtures.userData.merged) fixtures.visible = st.fixOn;
+    // Owl Cove pool: fixture 0 (the old cyan wash cone) is a constant, very low warm amber cone; the real light is a warm pool over the decks.
+    // It no longer follows the show's wash colour; only a gentle level change while playing (bounded, slow: no flashing).
+    { const lv = live ? POOL.cone * (1 + 0.25 * st.beatEnv) : POOL.cone * 0.6; uCol.value[0].set(poolLin[0] * lv, poolLin[1] * lv, poolLin[2] * lv); }
+    washLight.color.set(POOL.color); washLight.intensity = live ? POOL.light : POOL.lightIdle;
+    // (no screen-wide beat pulse any more: Nova's Owl Cove direction - only the bars move)
     if (rig.pulse) rig.pulse.value = live ? 0.55 + 0.9 * st.beatEnv : 0.6; // booth emissive trims pulse (shared robots material uniform)
     draw(); }
   // cove overlay: called by the showroom after CoveScenes.render() fills the strip (CoveScenes has no arbitrary-colour API, so the show tints its output)
   function coveOverlay(colors, N) { if (!coveState) return false; for (let i = 0; i < N; i++) { LightShow.at(coveState, i / N, _c); colors[i * 3] = _c[0]; colors[i * 3 + 1] = _c[1]; colors[i * 3 + 2] = _c[2]; } return true; }
   function coveMean(out) { if (!coveState) return null; out[0] = out[1] = out[2] = 0; for (let i = 0; i < 8; i++) { LightShow.at(coveState, (i + 0.5) / 8, _c); out[0] += _c[0] / 8; out[1] += _c[1] / 8; out[2] += _c[2] / 8; } return out; }
   // select from a ray hit (XR trigger, desktop click, phone tap). xr = true -> no HTML modal.
-  function onSelect(obj, xr) { if (obj === pickReq) { if (rig.dexPuppet) st.waveUntil = st.clock + (rig.dexPuppet.duration('wave') || 4); /* Dex waves at a request */ xr ? requestNotice() : (requestNotice(), openRequest()); return true; } if (obj === pickDecks || obj === pickScreen) { toggle(); return true; } return false; }
+  function onSelect(obj, xr) { if (obj === pickReq) { if (rig.dexSet) rig.dexSet.request(); else if (rig.dexPuppet) st.waveUntil = st.clock + (rig.dexPuppet.duration('wave') || 4); /* Dex waves at a request */ xr ? requestNotice() : (requestNotice(), openRequest()); return true; } if (obj === pickDecks || obj === pickScreen) { toggle(); return true; } return false; }
   // Clay's booth screen (`dj-screen`, booth-local geometry, 2:1 UV 0..1 as seen by visitors) replaces the placeholder plane: same mesh, material, pick.
   function adoptScreen(geo) { if (!geo) return false; const uv = geo.attributes.uv; if (uv) for (let i = 0; i < uv.count; i++) uv.setY(i, 1 - uv.getY(i)); /* glTF UV v runs top-down; the canvas texture is flipY */ screen.geometry.dispose(); screen.geometry = geo; screen.position.set(0, 0, 0); screen.rotation.set(0, 0, 0); screen.updateMatrix(); return true; }
   if (sets.length) selectSet(sets[0].id); else draw(true);
-  return { group, screen, adoptScreen, fixtures, washLight, audio, show, state: st, update, draw, coveOverlay, coveMean, onSelect, pickables: [pickDecks, pickReq, pickScreen], selectSet, play, stop, toggle, playShow, stopShow, playLive, openRequest, closeRequest, get requestOpen() { return !!modal; } };
+  return { group, screen, viz, setResolution, get screenCanvas() { return cv; }, adoptScreen, fixtures, washLight, audio, show, state: st, update, draw, coveOverlay, coveMean, onSelect, pickables: [pickDecks, pickReq, pickScreen], selectSet, play, stop, toggle, playShow, stopShow, playLive, openRequest, closeRequest, get requestOpen() { return !!modal; } };
 }

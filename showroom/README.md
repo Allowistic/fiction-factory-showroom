@@ -28,7 +28,24 @@ u-values on the cove strip (index 0 = entry corner (4,1.5), clockwise):
 - window wall 0.512–0.640 (mid 0.576)
 - builds wall section 0.238–0.357 (mid 0.298)
 
-## Cantina + room culling (Oct 2026)
+## Owl Cove Tiki Nest (2026-10-17)
+The room visitors used to see as "the Cantina" is now presented as **Owl Cove Tiki Nest**, a cozy night spot. Only user-facing text changed:
+- `layout.js` `ROOM_LABELS` / `roomLabel(id)`: the names visitors read (the "Go to" picker, the status line, the booth screen, the guestbook page heading). Internal ids stay `cantina` everywhere: code, file names (`cantina.js`, `cantina_*.glb`), manifest rooms (`cantina`, `cantina_rigged`), LIGHTS_SPEC room keys, `dj-screen` / `cantina_dj_screen`. Hugo's and Dex's files work unchanged.
+- The look (neon "Owl Cove · Night Owls" sign, tiki styling, the curved booth screen) comes from Nova / Clay / Motion God and is not in this pass.
+
+### Booth screen visualizer (`visualizer.js`)
+Nova's direction: a classic segmented spectrum styled like a 70s hi-fi LED meter. Hand-rolled Canvas2D (no third-party code, nothing vendored).
+- 32 log-spaced bars (40 Hz to 16 kHz), 18 LED segments each, amber `#e8a04a` warming to coral `#ff5a4a` toward the top, slow-falling peak caps (0.6 s hold, then 0.35 bar-heights/s).
+- A thin moon-white `#f3ead8` oscilloscope (un-triggered, so it drifts) across the upper third at 30 % opacity.
+- Dark indigo ground `#1b2340` (never black), faint unlit segments, scanlines and a glass vignette.
+- Ballistics: 70 ms attack, 380 ms release (exponential time constants). Flash guard: the mean bar level may rise at most 2.0 per second, and the screen material no longer pulses on beats.
+- Paused: calm idle. The bars settle to rest, the scope is a slow breathing line and the screen reads "tap the decks to play".
+- **Audio tap:** an `AnalyserNode` (fftSize 2048, -72..-20 dB) hangs off the booth `<audio>` element's `MediaElementSource` as a side branch, before the panner. The path to the speakers (source → panner → gain → listener) is unchanged, so the volume, room gain and the 18 m falloff still apply to what you hear; the screen shows the mix at full level wherever you stand.
+- **Cost:** the same `dj-screen` mesh and material (0 new draws). The canvas is 512 wide in XR and on touch devices, 1024 on desktop; height = width / `ASPECT`. Texture updates at 30 Hz while playing and 10 Hz when paused, and are skipped while the room is culled.
+- **Config:** everything is in `DJ_CONFIG.VISUALIZER` (`dj-config.js`): colours, bar count, segments, ballistics, FPS, canvas width. `ASPECT` is 2.0 for the flat placeholder; set it to the screen mesh's along-surface aspect (about 2.67 for Clay's curved `dj-screen`, 2.4 m along the arc × 0.9 m) so the layout doesn't stretch. Mapping is plain UV 0..1, so the curved mesh needs no code change.
+- QA captures: `qa/owl-cove/`.
+
+## Owl Cove Tiki Nest (the cantina room) + room culling (Oct 2026)
 - `cantina.js` builds the dogleg passage (1.2 m, round 2.2 m airlock arches) and the 8×6.5×3.2 m ribbed cantina, oriented with `CANTINA` in `layout.js` (`toCantinaWorld`).
 - Hall, passage and cantina are separate groups. `cull()` shows the room you're in; in the passage it shows the passage plus the room you're facing. The plan view shows everything.
 - Clay's pieces: manifest entries matching entertain/ent_center/led_strip/cantina (or `room:"cantina"`) load into the cantina. The ent center sits at local [0,0,6.3] facing the entry, and meshes named `led_strip` follow the current cove scene colour. The rest are labeled placeholders.
@@ -61,7 +78,7 @@ u-values on the cove strip (index 0 = entry corner (4,1.5), clockwise):
 - Exiting VR mid-move or mid-aim now clears the vignette, teleport marker and aim state.
 - Pit gap marker is a single thin gold threshold line.
 
-## Cantina guestbook (2026-10-17)
+## Owl Cove Tiki Nest guestbook (2026-10-17)
 
 - An open book on the bar top (cantina-local 2.02, bar top, 4.35). It shows the latest 6 notes on its CanvasTexture. It costs no draws of its own: it rides in the robots SkinnedMesh, whose shared map is the guestbook canvas (robot vertices sample a white texel at a constant uv).
 - **Desktop/phone:** click or tap the book to open the modal (`#gb-modal`). Name is up to 40 chars, message up to 280. Everything is rendered with `textContent` or canvas `fillText`, never as HTML. Esc or a click outside closes it. `?guestbook` opens it on load.
@@ -99,10 +116,9 @@ u-values on the cove strip (index 0 = entry corner (4,1.5), clockwise):
   - The panel volume slider controls the level.
 - **Sync:**
   - `*.cues.json` uses Dex's binary-search beat snippet, re-synced on `seeked` and on jumps over 1 s.
-  - The screen shows DEX, LIVE/READY/OFFLINE, the track and artist, local BPM (8-beat window), `bar N of M` (per track), track i/n, and time.
-  - It also shows a waveform overview built from `audio/*.peaks.json`: an RMS envelope pre-computed with ffmpeg. Transition zones are shaded teal, the breakdown violet, and there are track ticks and a playhead.
+  - The screen is the Owl Cove visualizer (see "Owl Cove Tiki Nest" below): LED spectrum + scope, with a header (DEX, LIVE/READY/OFFLINE, track — artist, local BPM, time) and a thin progress line. (The pre-Owl-Cove waveform overview from `audio/*.peaks.json` and the bar/track counters are retired from the screen; the peaks file is still loaded.)
   - The footer carries the exact README credit text.
-  - On beats the screen, the booth trims and the antenna pulse, stronger on downbeats.
+  - On beats the booth trims and the antenna pulse, stronger on downbeats. The screen itself no longer pulses (only the bars move).
   - The platters spin at 33⅓ rpm while playing. The crossfader slides across each transition.
   - Dex nods on the beat, with the analyser level scaling the nod.
 - **Light show** (`dj.js` `LightShow`): Dex's `.lights.json`, v1 and v2.

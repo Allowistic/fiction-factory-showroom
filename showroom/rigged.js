@@ -5,7 +5,7 @@
 // Clips play on the untouched GLB scenes ("puppets", never rendered) through an AnimationMixer; each frame the joint rotations are copied
 // onto the batch bones. Root tracks are dropped: placement / facing (turn toward the player) stay in code.
 //
-// Atlas (2048, flipY false): [0,0] guestbook canvas 1024x768 (copied again whenever gb.tex changes) + a white block for the teal glows,
+// Atlas (2048, flipY false): [0,0] guestbook canvas 1024x768 (copied again whenever gb.tex changes) + a white block for the glows,
 // [1024,0] Tapper atlas, [0,1024] Dex atlas, [1024,1024] booth atlas. Each Clay atlas is 1024; at 512 the atlas could be 1024x1536,
 // which saves GPU memory (about 21 MB -> 7 MB with mips) but no draws.
 export const RIG_JOINTS = { bartender: ['root', 'torso', 'head', 'antenna', 'armR', 'foreR', 'armL', 'foreL'], dex: ['root', 'torso', 'head', 'antenna', 'armR', 'foreR', 'armL', 'foreL'], booth: ['booth', 'platterA', 'platterB', 'xfader'] };
@@ -30,7 +30,7 @@ export async function loadRigged(THREE, { loader, base, entries, gb }) {
   const at = new THREE.CanvasTexture(cv); at.flipY = false; at.colorSpace = THREE.SRGBColorSpace; at.anisotropy = 4;
   let gbVer = -1; const syncBook = () => { if (!gb || gb.tex.version === gbVer) return; gbVer = gb.tex.version; g.clearRect(0, 0, 1024, 768); g.drawImage(gb.tex.image, 0, 0, 1024, 768); at.needsUpdate = true; }; syncBook();
   // ---- geometry: every skinned primitive -> rest-pose positions, uv into the atlas, colour, skin indices into the shared skeleton, emis ----
-  let uvOut = 0; const v = new THREE.Vector3();
+  let uvOut = 0; const v = new THREE.Vector3(), amber = new THREE.Color('#e8a04a');
   function pack(set) { const geos = []; let tris = 0;
     for (const k of names) { const sc = set[k].scene; sc.updateMatrixWorld(true);
       sc.traverse(m => { if (!m.isSkinnedMesh) return; m.skeleton.update(); const src = m.geometry, n = src.attributes.position.count, mat = m.material, glow = !mat.map, idx = src.index;
@@ -39,7 +39,8 @@ export async function loadRigged(THREE, { loader, base, entries, gb }) {
         const map = m.skeleton.bones.map(b => bones[k][b.name]?.userData.i ?? bones[k][RIG_JOINTS[k][0]].userData.i);
         for (let i = 0; i < n; i++) { v.fromBufferAttribute(src.attributes.position, i); m.applyBoneTransform(i, v); v.applyMatrix4(m.matrixWorld); pos.set([v.x, v.y, v.z], i * 3);
           if (glow) { uv[i * 2] = WHITE[0]; uv[i * 2 + 1] = WHITE[1]; } else { let u = src.attributes.uv.getX(i), w = src.attributes.uv.getY(i); if (u < -0.002 || u > 1.002 || w < -0.002 || w > 1.002) uvOut++; u = Math.min(1, Math.max(0, u)); w = Math.min(1, Math.max(0, w)); uv[i * 2] = (cx + u * 1024) / A; uv[i * 2 + 1] = (cy + w * 1024) / A; }
-          col.set([c.r, c.g, c.b], i * 3); em[i] = e; for (let q = 0; q < 4; q++) { si[i * 4 + q] = map[src.attributes.skinIndex.getComponent(i, q)]; sw[i * 4 + q] = src.attributes.skinWeight.getComponent(i, q); } }
+          let cr = c.r, cg = c.g, cb = c.b; if (cg > 1.5 * cr && cb > 1.5 * cr && cg > 0.15 && !(v.y > 1.2)) { cr = amber.r; cg = amber.g; cb = amber.b; } // teal/cyan glows + booth trims -> amber; robot eyes are the clusters above y 1.2
+          col.set([cr, cg, cb], i * 3); em[i] = e; for (let q = 0; q < 4; q++) { si[i * 4 + q] = map[src.attributes.skinIndex.getComponent(i, q)]; sw[i * 4 + q] = src.attributes.skinWeight.getComponent(i, q); } }
         let gg = new THREE.BufferGeometry(); gg.setAttribute('position', new THREE.BufferAttribute(pos, 3)); gg.setAttribute('uv', new THREE.BufferAttribute(uv, 2)); gg.setAttribute('color', new THREE.BufferAttribute(col, 3));
         gg.setAttribute('skinIndex', new THREE.BufferAttribute(si, 4)); gg.setAttribute('skinWeight', new THREE.BufferAttribute(sw, 4)); gg.setAttribute('emis', new THREE.BufferAttribute(em, 1)); if (idx) gg.setIndex(idx.clone()); gg = gg.index ? gg.toNonIndexed() : gg;
         tris += gg.attributes.position.count / 3; geos.push(gg); }); }
@@ -51,12 +52,12 @@ export async function loadRigged(THREE, { loader, base, entries, gb }) {
     out.userData.tris = Math.round(tris); return out; }
   const uPulse = { value: 1 }, mat = new THREE.MeshBasicMaterial({ map: at, vertexColors: true }); mat.name = 'cantina_rigged_atlas'; mat.userData.uPulse = uPulse;
   mat.onBeforeCompile = sh => { sh.uniforms.uPulse = uPulse; sh.vertexShader = 'attribute float emis;\nvarying float vEmis;\n' + sh.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\nvEmis = emis;');
-    sh.fragmentShader = 'uniform float uPulse;\nvarying float vEmis;\n' + sh.fragmentShader.replace('#include <color_fragment>', '#include <color_fragment>\nif (vEmis < 0.0) diffuseColor.rgb *= uPulse;'); }; // booth teal trims pulse on the beat
+    sh.fragmentShader = 'uniform float uPulse;\nvarying float vEmis;\n' + sh.fragmentShader.replace('#include <color_fragment>', '#include <color_fragment>\nif (vEmis < 0.0) diffuseColor.rgb *= uPulse;'); }; // booth trims pulse on the beat (amber)
   const holder = new THREE.Group(); holder.name = 'rigged-bones'; for (const r of roots) holder.add(r); holder.updateMatrixWorld(true); const skeleton = new THREE.Skeleton(list);
   const mk = (geo, name) => { const m = new THREE.SkinnedMesh(geo, mat); m.name = name; m.frustumCulled = false; m.castShadow = m.receiveShadow = false; m.userData.noMerge = true; m.bind(skeleton, new THREE.Matrix4()); return m; };
   const meshFull = mk(pack(G), 'rigged-robots'), meshLod = mk(pack(L), 'rigged-robots-lod1'); meshFull.add(holder); // bones live under the full mesh; the lod1 mesh shares the same skeleton
   // ---- screen quad for dj.js (booth-local) ----
-  let screenGeo = null; G.booth.scene.traverse(m => { if (m.isMesh && !m.isSkinnedMesh && (m.name === 'dj-screen' || m.material?.name === 'cantina_dj_screen')) { m.updateMatrixWorld(true); screenGeo = m.geometry.clone().applyMatrix4(m.matrixWorld); } });
+  let screenGeo = null; G.booth.scene.traverse(m => { const matName = m.material?.name || ''; if (m.isMesh && !m.isSkinnedMesh && (m.name === 'dj-screen' || matName === 'cantina_dj_screen' || matName === 'owlcove_dj_screen')) { m.updateMatrixWorld(true); screenGeo = m.geometry.clone().applyMatrix4(m.matrixWorld); } });
   if (!screenGeo) warn.push('dj-screen missing');
   // ---- clip puppets ----
   const puppets = {}; for (const k of ['bartender', 'dex']) { const sc = G[k].scene, mixer = new THREE.AnimationMixer(sc), actions = {};

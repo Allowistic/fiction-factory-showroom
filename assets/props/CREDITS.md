@@ -54,3 +54,7 @@ License: Original, cleared for public use (Fiction Factory).
 ### Booth robots / hardware
 
 The bartender, Dex, and the booth counter/decks/mixer are procedural placeholders written for the showroom (original, no third-party assets). Clay's models replace them later.
+
+## Owl Cove Tiki Nest booth screen visualizer (showroom/visualizer.js)
+Original code written for this project (hand-rolled Canvas2D LED spectrum + oscilloscope, Web Audio `AnalyserNode`). No third-party visualizer library is vendored or loaded, so no extra licence applies. Look per Nova's direction (2026-10-17).
+

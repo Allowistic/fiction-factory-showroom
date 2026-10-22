@@ -1,0 +1,1 @@
+Built from Allowistic/land-yacht-hangar fix/penny-v10 (28a6d01, PR #2); vite build --base=./

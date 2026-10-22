@@ -1,4 +1,4 @@
-// Robot bartender: procedural low-poly, brass + teal, ONE SkinnedMesh (1 draw), rigid-skinned to 8 bones, no shadows.
+// Robot bartender: procedural low-poly, brass + amber, teal eyes, ONE SkinnedMesh (1 draw), rigid-skinned to 8 bones, no shadows.
 // Idle sway; when the player comes within ~7 m in the cantina it turns to them, waves 3x, then beckons ("come here"). Re-arms only after the player leaves the ~7 m trigger zone (no timer).
 // Robots + DJ booth hardware: procedural placeholders in ONE SkinnedMesh (1 draw for the bartender, Dex, the booth counter, platters and crossfader).
 // Rigid skinning; each robot / the booth has its own root bone, so placement = root bone transform. No shadows.
@@ -34,12 +34,12 @@ export function createRobotBatch(THREE) {
     // bind pose: robot faces +Z, origin on the floor; right arm on -X
     bone('root', null, 0, 0, 0); bone('torso', 'root', 0, 0.68, 0); bone('head', 'torso', 0, 0.5, 0);
     bone('armR', 'torso', -0.25, 0.36, 0); bone('foreR', 'armR', 0, -0.27, 0); bone('armL', 'torso', 0.25, 0.36, 0); bone('foreL', 'armL', 0, -0.27, 0); bone('antenna', 'head', 0, 0.16, 0);
-  // base + column (root): hover plinth with a teal under-ring
-  pt(C(0.2, 0.24, 0.1, 16), 'root', DARK, 0, 0, 0, 0, 0, 0.05, 0); pt(new THREE.TorusGeometry(0.215, 0.012, 6, 24), 'root', TEAL, 1.2, Math.PI / 2, 0, 0, 0, 0.11, 0);
+  // base + column (root): hover plinth with a dim brass under-ring
+  pt(C(0.2, 0.24, 0.1, 16), 'root', DARK, 0, 0, 0, 0, 0, 0.05, 0); pt(new THREE.TorusGeometry(0.215, 0.012, 6, 24), 'root', 0x8a6a3a, 0.15, Math.PI / 2, 0, 0, 0, 0.11, 0);
   pt(C(0.07, 0.09, 0.58, 10), 'root', STEEL, 0, 0, 0, 0, 0, 0.39, 0);
-  // torso: faceted brass barrel, ivory shirt-front plate, teal chest light, brass shoulders
+  // torso: faceted brass barrel, ivory shirt-front plate, amber chest light, brass shoulders
   pt(C(0.2, 0.17, 0.46, 8), 'torso', BRASS, 0, 0, Math.PI / 8, 0, 0, 0.91, 0); pt(Bx(0.18, 0.26, 0.04), 'torso', IVORY, 0, 0, 0, 0, 0, 0.94, 0.17);
-  pt(C(0.025, 0.025, 0.012, 10), 'torso', TEAL, 1.5, Math.PI / 2, 0, 0, 0, 0.99, 0.195); pt(Bx(0.1, 0.03, 0.02), 'torso', DARK, 0, 0, 0, 0, 0, 1.06, 0.192); // bow tie
+  pt(C(0.025, 0.025, 0.012, 10), 'torso', 0xe8a04a, 1.5, Math.PI / 2, 0, 0, 0, 0.99, 0.195); pt(Bx(0.1, 0.03, 0.02), 'torso', DARK, 0, 0, 0, 0, 0, 1.06, 0.192); // bow tie
   pt(C(0.21, 0.2, 0.04, 8), 'torso', DARK, 0, 0, Math.PI / 8, 0, 0, 1.15, 0);
   for (const sx of [-1, 1]) pt(S(0.06), 'torso', BRASS, 0, 0, 0, 0, sx * 0.25, 1.04, 0);
   // head: brass dome-capped drum, dark visor, teal eyes, antenna
@@ -61,7 +61,7 @@ export function createRobotBatch(THREE) {
     const CH = 0x24211f, TOP = 0x3a3633, BR = 0xb8873e, DK = 0x121114, AL = 0x8f9096, TE = 0x2fd6c4, VI = 0x9a7bff;
     pt(Bx(1.3, 0.25, 0.5), 'booth', 0x1c1a1d, 0, 0, 0, 0, 0, 0.125, -0.5); pt(Bx(1.3, 0.012, 0.012), 'booth', VI, -0.9, 0, 0, 0, 0, 0.24, -0.245); // DJ riser (Dex stands on it) + violet nosing light
     pt(Bx(1.5, 0.96, 0.55), 'booth', CH, 0, 0, 0, 0, 0, 0.48, 0); pt(Bx(1.56, 0.04, 0.6), 'booth', TOP, 0, 0, 0, 0, 0, 0.98, 0); // counter + top
-    pt(Bx(1.52, 0.02, 0.012), 'booth', BR, 0.15, 0, 0, 0, 0, 0.9, 0.282); pt(Bx(1.52, 0.012, 0.012), 'booth', TE, -1.3, 0, 0, 0, 0, 0.07, 0.28); // brass rail + teal kick light
+    pt(Bx(1.52, 0.02, 0.012), 'booth', BR, 0.15, 0, 0, 0, 0, 0.9, 0.282); pt(Bx(1.52, 0.012, 0.012), 'booth', 0xe8a04a, -1.3, 0, 0, 0, 0, 0.07, 0.28); // brass rail + amber kick light
     for (const sx of [-1, 1]) pt(Bx(0.02, 0.8, 0.012), 'booth', BR, 0.1, 0, 0, 0, sx * 0.62, 0.48, 0.282); // brass pilasters
     pt(Bx(0.22, 0.12, 0.016), 'booth', TE, -1.6, 0, 0, 0, 0.55, 0.62, 0.283); pt(Bx(0.24, 0.14, 0.01), 'booth', DK, 0, 0, 0, 0, 0.55, 0.62, 0.279); // 'Request a song' button (lit)
     for (const [d, sx] of [['A', -1], ['B', 1]]) { const x = sx * 0.48;

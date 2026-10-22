@@ -429,8 +429,10 @@ async function buildCantSet(entries, base, useLod) {
   entries.forEach((e, i) => { const s = scenes[i]; if (!s) return; const P = CANT_PLACE.find(([re]) => re.test(e.file)); s.scale.setScalar(e.scale || 1);
     const spots = Array.isArray(e.instances) && e.instances.length ? e.instances : [null]; // lantern: 3 manifest instances, one model (z 1.8/3.0/4.2, rot 0/25/50)
     spots.forEach(spot => { const node = spots.length > 1 ? s.clone(true) : s; const w = new THREE.Group(); w.add(node);
+      if (spot && typeof spot.scale === 'number') w.scale.setScalar(spot.scale);
       const mp = (spot && Array.isArray(spot.pos) ? spot : null) || (e.placement && Array.isArray(e.placement.pos) ? e.placement : null); // Clay's manifest placement wins (door origin, +Z in); mirror X so the bar is on the LEFT
-      if (mp) { w.position.set(-mp.pos[0], mp.pos[1] || 0, mp.pos[2]); w.rotation.y = -THREE.MathUtils.degToRad(mp.rot_y_deg || 0); } // back bar / sign: front +Z -> rot -90 faces -X, into the room. Sign manifest (-3.25, 2.05, 4.3) rot 90
+      // owlcove lantern at manifest z 3.0 overlaps the sign's O from the bar; 0.3 m lower in z (2.7) moves it left of the bar.
+      if (mp) { const z = /owlcove_lantern/.test(e.file) && spot && Array.isArray(spot.pos) && Math.abs(spot.pos[2] - 3) <= 0.01 ? 2.7 : mp.pos[2]; w.position.set(-mp.pos[0], mp.pos[1] || 0, z); w.rotation.y = -THREE.MathUtils.degToRad(mp.rot_y_deg || 0); } // back bar / sign: front +Z -> rot -90 faces -X, into the room. Sign manifest (-3.25, 2.05, 4.3) rot 90
       else if (P) { w.position.set(...P[1]); w.rotation.y = P[2]; } else { const k = fallback++; w.position.set(k % 2 ? -3.3 : 3.3, 0, 1.2 + (k >> 1) * 0.8); w.rotation.y = k % 2 ? Math.PI / 2 : -Math.PI / 2; }
       w.userData.file = e.file; tmp.add(w); }); });
   tmp.updateMatrixWorld(true); const inv = new THREE.Matrix4().copy(tmp.matrixWorld).invert();
@@ -450,8 +452,10 @@ async function buildCantSet(entries, base, useLod) {
         const ncol = lipG.attributes.position.count, cc = new Float32Array(ncol * 3); for (let i = 0; i < ncol; i++) { cc[i * 3] = barLipCol.r; cc[i * 3 + 1] = barLipCol.g; cc[i * 3 + 2] = barLipCol.b; } lipG.setAttribute('color', new THREE.BufferAttribute(cc, 3)); barLip.push(lipG);
         if (!keepI.length) continue; g = pick(keepI); } }
     g.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv, m.matrixWorld)); if (g.index) g = g.toNonIndexed();
+    // Back-bar porthole overlaps the neon sign; +0.30 z moves it 0.3 m right from the bar.
+    if (/^cantina_back_bar/.test(file)) { if (g.index) g = g.toNonIndexed(); const p = g.attributes.position; for (let i = 0; i + 2 < p.count; i += 3) { let hit = true; for (let k = 0; k < 3 && hit; k++) if (!(p.getX(i + k) >= 3.72 && Math.hypot(p.getY(i + k) - 2.30, p.getZ(i + k) - 5.44) < 0.30)) hit = false; if (hit) for (let k = 0; k < 3; k++) p.setZ(i + k, p.getZ(i + k) + 0.30); } }
     const keepN = /owlcove_(neon|glow)_amber/.test(mat.name || ''); // amber stays a plain mesh (normals kept) so XR staticMerge can fold it
-    for (const k of Object.keys(g.attributes)) if (k !== 'position' && k !== 'uv' && !(keepN && k === 'normal')) g.deleteAttribute(k);
+    for (const k of Object.keys(g.attributes)) if (k !== 'position' && k !== 'uv' && !(keepN && (k === 'normal' || k === 'color'))) g.deleteAttribute(k);
     if (!g.attributes.uv) g.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(g.attributes.position.count * 2), 2));
     const key = /led_strip/i.test(mat.name + ' ' + m.name) ? 'led_strip' : (mat.name || mat.uuid); if (!groups.has(key)) groups.set(key, { mat, geoms: [] }); groups.get(key).geoms.push(g); } });
   cantina.remove(tmp);
@@ -460,9 +464,11 @@ async function buildCantSet(entries, base, useLod) {
   const amberGeoms = [];
   for (const [key, G] of [...groups]) if (/owlcove_(neon|glow)_amber/.test(key)) {
     const src = (G.mat.emissive && G.mat.emissive.getHex()) ? G.mat.emissive : (G.mat.color || new THREE.Color(1, 0.52, 0.16));
-    const col = src.clone().multiplyScalar(G.mat.emissiveIntensity > 0 ? G.mat.emissiveIntensity : 1);
-    for (const g of G.geoms) { if (g.attributes.uv) g.deleteAttribute('uv'); if (!g.attributes.normal) g.computeVertexNormals(); const n = g.attributes.position.count, cc = new Float32Array(n * 3);
-      for (let i = 0; i < n; i++) { cc[i * 3] = col.r; cc[i * 3 + 1] = col.g; cc[i * 3 + 2] = col.b; } g.setAttribute('color', new THREE.BufferAttribute(cc, 3)); amberGeoms.push(g); }
+    const scale = G.mat.emissiveIntensity > 0 ? G.mat.emissiveIntensity : 1, col = src.clone().multiplyScalar(scale);
+    for (const g of G.geoms) { if (g.attributes.uv) g.deleteAttribute('uv'); if (!g.attributes.normal) g.computeVertexNormals();
+      if (g.attributes.color) { const c = g.attributes.color, n = c.count, cc = new Float32Array(n * 3); for (let i = 0; i < n; i++) { cc[i * 3] = c.getX(i) * scale; cc[i * 3 + 1] = c.getY(i) * scale; cc[i * 3 + 2] = c.getZ(i) * scale; } g.setAttribute('color', new THREE.BufferAttribute(cc, 3)); }
+      else { const n = g.attributes.position.count, cc = new Float32Array(n * 3); for (let i = 0; i < n; i++) { cc[i * 3] = col.r; cc[i * 3 + 1] = col.g; cc[i * 3 + 2] = col.b; } g.setAttribute('color', new THREE.BufferAttribute(cc, 3)); }
+      amberGeoms.push(g); }
     groups.delete(key); }
   if (barLip.length) amberGeoms.push(...barLip); // same unlit mesh, no extra draw
   // runtime atlas: every baked texture -> one 2048 canvas (4x4 grid of 512 cells, big maps get 2x2 blocks, one white cell for the untextured glows) => 1 draw (+ led_strip)
@@ -718,7 +724,7 @@ function nearestFree(x, z) { // escape: push out of a solid prop / wall to the n
   for (let d = 0.05; d <= 3; d += 0.05) for (let k = 0; k < 16; k++) { const a = k / 16 * Math.PI * 2, px = x + Math.cos(a) * d, pz = z + Math.sin(a) * d; if (walkable(px, pz)) return [px, pz]; }
   return [SPAWNS[0].x, SPAWNS[0].z]; }
 const PH = PIT.size / 2, floorAt = (x, z) => (Math.abs(x - PIT.cx) < PH && Math.abs(z - PIT.cz) < PH ? PIT_Y : 0); // only the pit steps down
-walk = { on: IS_TOUCH && !Q.has('orbit'), x: 0, z: 0, eyeY: EYE, yaw: 0, pitch: 0, joy: [0, 0], goal: null, keys: new Set(), last: performance.now(),
+walk = { on: !Q.has('orbit'), x: 0, z: 0, eyeY: EYE, yaw: 0, pitch: 0, joy: [0, 0], goal: null, keys: new Set(), last: performance.now(),
   syncFromCamera() { camera.updateMatrixWorld(); const f = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
     this.yaw = Math.atan2(-f.x, -f.z); this.pitch = Math.max(-1.2, Math.min(1.2, Math.asin(f.y))); this.goal = null;
     let [x, z] = nearestFree(camera.position.x, camera.position.z); this.x = x; this.z = z; this.eyeY = floorAt(x, z) + EYE; } };
@@ -737,7 +743,7 @@ function walkUpdate() {
 function walkStep(dt) {
   if (GRAB.held?.mode === 'inspect') { walk.goal = null; return; } // T1: joystick / WASD / tap-to-walk are blocked while a build is in inspect
   let mx = walk.joy[0], mz = walk.joy[1]; // joystick: x = strafe right, y = forward
-  const k = walk.keys; if (k.has('KeyW') || k.has('ArrowUp')) mz += 1; if (k.has('KeyS') || k.has('ArrowDown')) mz -= 1; if (k.has('KeyD') || k.has('ArrowRight')) mx += 1; if (k.has('KeyA') || k.has('ArrowLeft')) mx -= 1;
+  const k = walk.keys; if (k.has('KeyW') || k.has('ArrowUp')) mz += 1; if (k.has('KeyS') || k.has('ArrowDown')) mz -= 1; if (k.has('KeyD') || (!walk.on && k.has('ArrowRight'))) mx += 1; if (k.has('KeyA') || (!walk.on && k.has('ArrowLeft'))) mx -= 1; if (walk.on && k.has('ArrowLeft')) walk.yaw += 2.0 * dt; if (walk.on && k.has('ArrowRight')) walk.yaw -= 2.0 * dt;
   const len = Math.hypot(mx, mz);
   if (len > 0.01) { walk.goal = null; if (!walk.on) { walk.syncFromCamera(); } // desktop WASD: move the orbit pivot with the camera
     const f = heading(), r = new THREE.Vector3(-f.z, 0, f.x), sc = Math.min(1, len) / len * WALK_V * dt; const dx = (f.x * mz + r.x * mx) * sc, dz = (f.z * mz + r.z * mx) * sc;
@@ -775,7 +781,7 @@ renderer.domElement.addEventListener('pointerdown', e => { canvasTouches.add(e.p
 addEventListener('pointerup', e => { canvasTouches.delete(e.pointerId); if (!canvasTouches.size) multi = false; }, true); addEventListener('pointercancel', e => { canvasTouches.delete(e.pointerId); if (!canvasTouches.size) multi = false; }, true);
 renderer.domElement.addEventListener('pointerdown', e => { if (multi || !(walk.on || look.on) || drag.id != null) return; Object.assign(drag, { id: e.pointerId, x: e.clientX, y: e.clientY, x0: e.clientX, y0: e.clientY, t0: performance.now() }); });
 addEventListener('pointermove', e => { if (e.pointerId !== drag.id || multi) return; if (GRAB.held?.mode === 'inspect') { drag.x = e.clientX; drag.y = e.clientY; return; } /* T1: the drag rotates the build, not the view */ const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag.x = e.clientX; drag.y = e.clientY;
-  if (look.on) look.yawOff += dx * 0.005; else if (walk.on) { walk.yaw += dx * 0.005; walk.pitch = Math.max(-1.2, Math.min(1.2, walk.pitch + dy * 0.004)); } });
+  if (look.on) look.yawOff += dx * 0.005; else if (walk.on) { { const ms = e.pointerType === 'mouse' ? -1 : 1; walk.yaw += ms * dx * 0.005; walk.pitch = Math.max(-1.2, Math.min(1.2, walk.pitch + ms * dy * 0.004)); } } });
 addEventListener('pointerup', e => { if (e.pointerId !== drag.id) return; drag.id = null; if (e.__ffConsumed) return; /* guestbook / DJ / build tap */
   if (!walk.on || Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 10 || performance.now() - drag.t0 > 600) return;
   _ray.setFromCamera(new THREE.Vector2(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1), camera);
@@ -1032,9 +1038,9 @@ addEventListener('pointerdown', e => { if (e.target !== renderer.domElement || r
 addEventListener('pointermove', e => { if (e.pointerId !== tapD.id || !inspecting()) return; const dx = e.clientX - tapD.lx, dy = e.clientY - tapD.ly; tapD.lx = e.clientX; tapD.ly = e.clientY;
   GRAB.inspectRot.premultiply(_q.setFromAxisAngle(_s.set(0, 1, 0), dx * 0.01)).premultiply(_q2.setFromAxisAngle(_s.set(1, 0, 0), dy * 0.01)); e.stopPropagation(); }, true);
 /* pointerup is never stopped (OrbitControls must see it or it stays in 'rotate'); consumed taps are flagged for the walk handler instead */
-addEventListener('pointerup', e => { if (e.pointerId !== tapD.id) return; tapD.id = null; const tap = Math.hypot(e.clientX - tapD.x, e.clientY - tapD.y) < 10 && performance.now() - tapD.t < 900;
+addEventListener('pointerup', e => { if (e.pointerId !== tapD.id) return; tapD.id = null; const tap = Math.hypot(e.clientX - tapD.x, e.clientY - tapD.y) < 10 && performance.now() - tapD.t < 1500;
   if (inspecting()) { e.__ffConsumed = true; if (tap) { _ray2.setFromCamera(new THREE.Vector2(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1), camera);
-      const hb = GRAB.held.b.holder; if (!_ray2.intersectObject(hb, true).some(h => { for (let o = h.object; o && o !== hb.parent; o = o.parent) if (!o.visible) return false; return true; })) releaseHold(); } return; } // T1: tap off the build's meshes releases (the bbox covered most of a phone screen)
+      const hb = GRAB.held.b.holder; if (!_ray2.intersectObject(hb, true).some(h => { for (let o = h.object; o && o !== hb.parent; o = o.parent) if (!o.visible) return false; return true; })) { const was = GRAB.held?.b; releaseHold(); const pk = pickBuild(_ray2.ray, 12); if (pk && pk.b !== was) { e.__ffConsumed = true; startHold(pk.b, 'inspect', null); } } } return; } // T1: tap off the build's meshes releases (the bbox covered most of a phone screen)
   if (!tap || gb.modalOpen || dj.requestOpen) return; _ray2.setFromCamera(new THREE.Vector2(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1), camera);
   if (cantina.visible) { const dh = _ray2.intersectObjects(dj.pickables, false)[0], bh = _ray2.intersectObject(gb.mesh, false)[0];
     const ph = roomNow === 'cantina' ? _ray2.intersectObject(portal.pick, false)[0] : null; // tap the teleporter arch / sign -> Land Yacht Hangar

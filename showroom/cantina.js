@@ -125,7 +125,7 @@ export function buildCantina(THREE, merge, M, opts = {}) {
       const multi = Array.isArray(n.material), mats = multi ? n.material : [n.material]; let dirty = false;
       for (let i = 0; i < mats.length; i++) {
         let m = mats[i];
-        if (!m?.isMeshStandardMaterial || m === M.cdeck || m === M.cwall || m === M.chull) continue;
+        if (!m?.isMeshStandardMaterial || m.vertexColors === true || m === M.cdeck || m === M.cwall || m === M.chull) continue;
         if (hallMats.has(m)) { let c = clones.get(m); if (!c) { c = m.clone(); clones.set(m, c); } mats[i] = m = c; dirty = true; }
         if (seen.has(m)) continue;
         seen.add(m);

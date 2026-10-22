@@ -28,9 +28,24 @@ export function portalFrame(THREE, B) {
 
 function signTex(THREE) {
   const c = document.createElement('canvas'); c.width = 1024; c.height = 224; const g = c.getContext('2d');
-  g.fillStyle = '#1c1024'; g.fillRect(0, 0, 1024, 224); g.strokeStyle = '#ff7fb6'; g.lineWidth = 6; g.strokeRect(10, 10, 1004, 204);
-  g.textAlign = 'center'; g.fillStyle = '#ffd1e6'; g.font = 'bold 92px system-ui, sans-serif'; g.fillText(PORTAL.label, 512, 118);
-  g.fillStyle = '#8ff5cf'; g.font = '44px system-ui, sans-serif'; g.fillText('teleporter \u2192 ' + PORTAL.sub, 512, 186);
+  const wood = g.createLinearGradient(0, 0, 0, 224);
+  wood.addColorStop(0, '#6b3f1f'); wood.addColorStop(1, '#4a2a14');
+  g.fillStyle = wood; g.fillRect(0, 0, 1024, 224);
+  g.strokeStyle = '#2c160c'; g.lineWidth = 1.5;
+  for (let i = 0; i < 14; i++) {
+    const y0 = 22 + i * (180 / 13);
+    g.beginPath();
+    for (let x = 16; x <= 1008; x += 4) {
+      const y = y0 + Math.sin(x * 0.02 + i * 1.7) * 1.5 + Math.sin(x * 0.007 + i * 0.9) * 0.6;
+      if (x === 16) g.moveTo(x, y); else g.lineTo(x, y);
+    }
+    g.stroke();
+  }
+  g.strokeStyle = '#d9a95b'; g.lineWidth = 8; g.beginPath(); g.roundRect(10, 10, 1004, 204, 18); g.stroke();
+  g.textAlign = 'center'; g.fillStyle = '#fbe7c0'; g.font = 'bold 92px system-ui, sans-serif';
+  g.shadowColor = 'rgba(0,0,0,0.5)'; g.shadowBlur = 6; g.fillText(PORTAL.label, 512, 118);
+  g.shadowColor = 'transparent'; g.shadowBlur = 0;
+  g.fillStyle = '#ffc46b'; g.font = '44px system-ui, sans-serif'; g.fillText('teleporter \u2192 ' + PORTAL.sub, 512, 186);
   const t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t; // no colour-space decode: the shader writes display values straight out (toneMapped: false), so the canvas colours land as painted
 }
 

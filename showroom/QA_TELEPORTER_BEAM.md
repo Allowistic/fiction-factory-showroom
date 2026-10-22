@@ -36,7 +36,7 @@ That number only says the beam is not free. It is **not** a GPU measurement and 
 
 - Standing on the pad: the ring fills over 1.5 s, the beam shimmers up to about half, then rises to full on the jump. Stepping off cancels and the beam goes out.
 - Clicking or tapping the arch from across the room: the beam centres on you, not the pad.
-- Standing next to the pad (not on it) does nothing.
+- Standing next to the pad (not on it) does nothing. The trigger radius is 0.42 m from the pad centre (`PORTAL.r` in portal.js); re-arming needs you to step 0.3 m beyond that.
 - `?beam=0`: the old plain pink fade, no beam, no sound, and no `#beamin` added to the destination URL.
 - Reduced motion (OS setting, `prefers-reduced-motion: reduce`): sparkles, streaks and the sweep slow right down. Brightness and the white-out still happen; flag it if you think that is too much.
 - Sound: silent until the page has had a tap, click or key, then plays only while the beam is lit.

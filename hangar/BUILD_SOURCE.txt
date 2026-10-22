@@ -1,1 +1,1 @@
-Built from Allowistic/land-yacht-hangar feature/beam-in-arrival (0e5b8f4) + back link; vite build --base=./
+Built from Allowistic/land-yacht-hangar fix/penny-v10 (e567271, PR #2); vite build --base=./

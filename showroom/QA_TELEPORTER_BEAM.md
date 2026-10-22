@@ -1,10 +1,10 @@
 # Teleporter beam: QA notes for Penny
 
-Penny, please put the Star Trek transporter beam on the cantina teleporter through a desktop/browser QA pass before PR #1 is merged. The main open question is performance: the only measurement so far came from a machine with no GPU, so we do not yet know what the beam really costs on real hardware. Please report what you find (and any fixes) on this branch or as PR comments. Do not merge or deploy.
+Penny, please put the Star Trek transporter beam on the cantina teleporter through a desktop/browser QA pass before draft PR #2 is merged. The main open question is performance: the only measurement so far came from a machine with no GPU, so we do not yet know what the beam really costs on real hardware. Please report what you find (and any fixes) on this branch or as PR comments. Do not merge or deploy.
 
-- **PR:** [fiction-factory-showroom #1](https://github.com/Allowistic/fiction-factory-showroom/pull/1), branch `feature/cantina-teleporter-beam-fx`
+- **PR:** [fiction-factory-showroom #2](https://github.com/Allowistic/fiction-factory-showroom/pull/2) (draft), branch `feature/hangar-integration` (built on PR #1 `feature/cantina-teleporter-beam-fx`)
 - **Code:** `showroom/beam.js` (beam mesh, shader, sound), `showroom/portal.js` (dwell, jump, beam timing), `showroom/showroom.js` (white-out fade, HUD, leave)
-- **Cross-repo:** the arrival beam (`#beamin`) lives in [land-yacht-hangar #1](https://github.com/Allowistic/land-yacht-hangar/pull/1), `src/beam.js` and `src/beamin.js`. That PR also carries the phone joystick update.
+- **Hangar:** now hosted in this repo at `/hangar/`, built from land-yacht-hangar branch `fix/penny-v10` ([land-yacht-hangar PR #2](https://github.com/Allowistic/land-yacht-hangar/pull/2)). The arrival beam (`#beamin`) comes from that build (`src/beam.js` and `src/beamin.js`). That branch also carries the phone joystick update.
 - **Written:** 2026-10-21, by Miles, at Vincent's request
 
 ## What we know about performance
@@ -41,7 +41,7 @@ That number only says the beam is not free. It is **not** a GPU measurement and 
 - Reduced motion (OS setting, `prefers-reduced-motion: reduce`): sparkles, streaks and the sweep slow right down. Brightness and the white-out still happen; flag it if you think that is too much.
 - Sound: silent until the page has had a tap, click or key, then plays only while the beam is lit.
 - Back button from the hangar: you stay put and the pad does not fire again until you step off.
-- Departure URL: with the beam on it ends in `#beamin`. The live Hangar on Cookiejar does not have the arrival beam yet (that needs land-yacht-hangar #1 merged and a Cookiejar redeploy), so for now check that the extra hash is harmless there.
+- Departure URL: with the beam on it ends in `#beamin`. When k ≠ 1 the destination is `../hangar/?beam=<k>#beamin` (the level, up to 2 decimals); at the default (`k = 1`) it is `../hangar/#beamin` with no beam query. The hangar is hosted in this repo at `/hangar/`, so check the arrival beam there.
 
 ## Optimizations to try if it is heavy
 

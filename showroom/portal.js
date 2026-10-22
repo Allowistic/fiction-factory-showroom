@@ -4,7 +4,7 @@
 // Costs: the brass frame + pink seal lights ride in the cantina's merged solid/glow draws (0 draws); the window, the sign and the floor pad
 // are ONE ShaderMaterial mesh (+1 draw, cantina only, never merged). An invisible box is the pick proxy (arch + sign).
 import { PAL } from './props.js';
-import { BEAM, createBeam, createBeamSound } from './beam.js'; // transporter beam-out (beam.js): +1 draw only while it is lit
+import { BEAM, beamSettings, createBeam, createBeamSound } from './beam.js'; // transporter beam-out (beam.js): +1 draw only while it is lit
 
 export const PORTAL = {
   url: '../hangar/', // Land Yacht Hangar, hosted in this repo under /hangar/
@@ -84,7 +84,9 @@ export function createPortal(THREE, merge, { go, isXR = () => false }) {
   const st = { charge: 0, armed: true, leaving: false, leaveT: 0, energize: 0, from: 0, fading: false };
   function jump() { if (st.leaving) return; st.leaving = true; st.armed = false; st.charge = 1; mat.uniforms.uCharge.value = 1;
     st.leaveT = 0; st.t0 = performance.now(); st.from = beam.level; st.energize = beam.on ? (isXR() ? BEAM.xrEnergize : BEAM.energize) : 0; st.fading = !beam.on;
-    go(PORTAL.url + (beam.on && BEAM.arrive ? '#beamin' : ''), st.energize); }
+    const k = beamSettings().k, arrive = beam.on && BEAM.arrive;
+    const beamQ = arrive && k !== 1 ? (PORTAL.url.includes('?') ? '&' : '?') + 'beam=' + k.toFixed(2).replace(/\.?0+$/, '') : '';
+    go(PORTAL.url + beamQ + (arrive ? '#beamin' : ''), st.energize); }
   // p = player position in cantina-local metres (x, z) or null when not in the cantina; dt in seconds. Returns charge 0..1.
   // Beam: shimmers up to BEAM.charge on the pad while the ring fills; on the jump it centres on the player (a tap from across the room
   // beams you from where you stand), rises to full over most of the beam-out, and the screen whites out for the last BEAM.fade seconds.
